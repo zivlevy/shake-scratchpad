@@ -1,0 +1,59 @@
+service cloud.firestore {
+
+
+// Check if the request is authenticated
+function isAuthenticated() {
+  return request.auth != null;
+}
+
+  match /databases/{database}/documents {
+  // admin functions
+    function isSKAdmin() {
+  		return exists(/databases/$(database)/documents/sk-admins/$(request.auth.uid)) ;
+		}
+
+	// org functions
+    function isOrgAdmin(org) {
+  		return get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).data.isAdmin == true ;
+		}
+
+		function isOrgEditor(org) {
+  		return  get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).data.isEditor == true ;
+      
+		}
+
+    function isOrgViewer(org) {
+  		return get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).data.isViewer == true;
+		}
+
+		// THE FULL DATABASE
+    match /{document=**} {
+      allow read, write : if false;//isSKAdmin() ;
+    }
+
+    // ORG
+    match /org {
+      match /{orgId}{
+      		allow read : if true;
+   				allow write : if isOrgAdmin(orgId)  ;
+
+          match /publicData/{allPublicData=**}{
+          		allow read : if true  ;
+              allow write: if isOrgAdmin(orgId)
+          }
+
+          match /users/{user} {
+          		allow read : if true;
+              allow write : if isOrgAdmin(orgId);
+          }
+
+          match /documents/{docs=**} {
+            // allow read : if isOrgViewer(orgId) || isOrgCreator(orgId) || isOrgAdmin(orgId)
+            allow read : if isOrgAdmin(orgId);
+          }
+  		}
+    }
+	}
+
+}
+
