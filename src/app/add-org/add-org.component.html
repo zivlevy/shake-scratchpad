@@ -1,0 +1,35 @@
+
+
+<div class="wrapper">
+
+  <img src="../../../assets/img/shake-logo.png" id="logo">
+  <form [formGroup]="orgForm" (ngSubmit)="addOrg()">
+
+    <h3>Add Organization</h3>
+
+
+    <div class="form-group">
+
+      <label for="orgname">Name</label>
+      <input class="form-control" type="text" id="orgname"
+             formControlName="orgname" required>
+
+      <div *ngIf="orgname.invalid && orgname.touched">
+        name must be between 4 and 12 chars with no space
+      </div>
+    </div>
+
+    <div class="form-group">
+
+      <label for="org-statement">Desctiption</label>
+      <input class="form-control" type="text" id="org-statement"
+             formControlName="org-statement">
+    </div>
+
+    <button class="btn btn-success" type="submit" [disabled]="!orgForm.valid">Submit</button>
+
+
+  </form>
+
+</div>
+
