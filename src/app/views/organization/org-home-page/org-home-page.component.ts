@@ -18,7 +18,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
   rtl = false;
   isAuthenticated = false;
   currentUser: OrgUser = null;
-
+  currentOrg:string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private route: ActivatedRoute,
@@ -26,6 +26,11 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
               private orgService: OrgService,
               private authService: AuthService) {
 
+
+
+  }
+
+  ngOnInit() {
     // get user info
     this.orgService.getOrgUser$()
       .takeUntil(this.destroy$)
@@ -34,9 +39,13 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
         this.currentUser = orgUser;
       });
 
-  }
+    // get current org
+    this.orgService.getCurrentOrg$()
+      .takeUntil(this.destroy$)
+      .subscribe(org => {
+        this.currentOrg = org;
+      });
 
-  ngOnInit() {
     // get user authentication
     this.authService.isAuth$()
       .takeUntil(this.destroy$)
@@ -48,7 +57,6 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
     this.orgService.getOrgPublicData$()
       .takeUntil(this.destroy$)
       .subscribe(orgData => {
-        console.log(orgData);
         if (orgData) {
           this.logo = orgData.logo;
           this.name = orgData.name;
@@ -70,12 +78,17 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
   logout() {
     const orgId = this.route.snapshot.params['id'];
     this.authService.logout();
+    this.router.navigate([`org/${this.currentOrg}`]);
   }
 
   join() {
     this.orgService.joinToOrg();
   }
 
+  gotoAdmin() {
+    // this.router.navigate([`org/${this.currentOrg}/admin`]);
+    this.router.navigate([`org/${this.currentOrg}/admin`]);
+  }
 
   ngOnDestroy() {
     console.log('unsub =======');

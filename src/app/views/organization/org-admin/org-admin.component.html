@@ -1,0 +1,12 @@
+
+<div class="wrapper">
+  <h3>Ugly list of users - just for tests</h3>
+  <div *ngFor="let user of users | async">
+    <sk-org-admin-user-item [user]="user"
+                            (userChanged)="userChanged($event)"
+                            (userDelete)="userDeleted($event)">
+
+    </sk-org-admin-user-item>
+  </div>
+
+</div>

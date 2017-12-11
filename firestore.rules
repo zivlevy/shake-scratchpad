@@ -12,24 +12,16 @@ function isAuthenticated() {
   		return exists(/databases/$(database)/documents/sk-admins/$(request.auth.uid)) ;
 		}
 
-	// org functions
-    function isOrgAdmin(org) {
-  		return get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).data.isAdmin == true ;
-		}
-
-		function isOrgEditor(org) {
-  		return  get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).data.isEditor == true ;
-      
-		}
-
-    function isOrgViewer(org) {
-  		return get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).data.isViewer == true;
-		}
+	
     
-          function isOrgExists(org) {
-    				return  exists(/databases/$(database)/documents/org/ttttt)
-    			}
-
+    function isOrgExists(org) {
+    		return  exists(/databases/$(database)/documents/org/$(org)/publicData/info)
+    }
+    
+    function getRole(role,org) {
+        return get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).data.roles[role] == true ||
+        get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).roles[role] == true
+    }
 		// THE FULL DATABASE
     match /{document=**} {
       allow read, write : if false;//isSKAdmin() ;
@@ -45,23 +37,26 @@ function isAuthenticated() {
       match /{orgId}{
 
       		allow read : if true;
-   				allow write : if isOrgAdmin(orgId)  ;
+   				allow write : if getRole('admin')  ;
 
           match /publicData/{allPublicData=**}{
           		allow read : if true  ;
-              allow write: if isOrgAdmin(orgId)
+              allow write: if getRole('admin');
           }
 
           match /users/{user=**} {
           		allow read : if true;
-              allow write : if exists(/databases/$(database)/documents/org/$(orgId)/publicData/info);
+              allow write : if isOrgExists(orgId) 
+              							&& (request.resource.data.roles.keys().hasAny(['admin', 'editor', 'viewer']) == false || getRole('admin', orgId) );
           }
 
           match /documents/{docs=**} {
             // allow read : if isOrgViewer(orgId) || isOrgCreator(orgId) || isOrgAdmin(orgId)
-            allow read : if isOrgAdmin(orgId);
+            allow read : if getRole('admin') || getRole('editor') || getRole('viewer');
           }
   		}
     }
 	}
+
 }
+

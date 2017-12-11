@@ -8,6 +8,8 @@ import {OrgService} from './org.service';
 import {TranslateModule} from '@ngx-translate/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import { OrgUserDetailsComponent } from './org-user-details/org-user-details.component';
+import { OrgAdminComponent } from './org-admin/org-admin.component';
+import { OrgAdminUserItemComponent } from './org-admin-user-item/org-admin-user-item.component';
 
 @NgModule({
   imports: [
@@ -19,7 +21,9 @@ import { OrgUserDetailsComponent } from './org-user-details/org-user-details.com
   ],
   declarations: [
     OrgHomePageComponent,
-    OrgUserDetailsComponent
+    OrgUserDetailsComponent,
+    OrgAdminComponent,
+    OrgAdminUserItemComponent
   ],
   exports: [OrgHomePageComponent],
   providers: [

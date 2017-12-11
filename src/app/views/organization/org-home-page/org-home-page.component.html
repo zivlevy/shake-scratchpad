@@ -21,6 +21,10 @@
         <a class="nav-link" (click)="join()">Join</a>
       </li>
 
+      <li *ngIf="currentUser?.roles?.admin && isAuthenticated" class="nav-item">
+        <a class="nav-link" (click)="gotoAdmin()">Admin</a>
+      </li>
+
       <li *ngIf="isAuthenticated" class="nav-item">
         <a class="nav-link" (click)="logout()">Logout</a>
       </li>
@@ -35,3 +39,4 @@
     </ul>
   </div>
 </nav>
+<router-outlet></router-outlet>

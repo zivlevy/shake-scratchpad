@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AngularFirestore, AngularFirestoreDocument} from 'angularfire2/firestore';
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {ChildActivationEnd, Router} from '@angular/router';
@@ -14,6 +14,7 @@ export class OrgService {
   private currentOrg$: BehaviorSubject<string> = new BehaviorSubject('');
   isAuthenticated: boolean;
   private orgPublicData: any; // local copy of org public data
+  private localCurrentOrg: string;
 
   constructor(private authService: AuthService,
               private afs: AngularFirestore,
@@ -42,6 +43,7 @@ export class OrgService {
 
   private setOrganization(orgID: string) {
     console.log('setting current org to:' + orgID);
+    this.localCurrentOrg = orgID;
     this.currentOrg$.next(orgID);
 
   }
@@ -49,38 +51,10 @@ export class OrgService {
   /************************
    Org User API
    ************************/
-  // user login to shake and org and register to shake if needed
-  loginToOrg(email: string, password: string) {
-    this.afAuth.auth.signInWithEmailAndPassword(email, password)
-      .then(user => {
-        if (user) {
-          // get the user from the org db
-          const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
-          userRef.valueChanges().take(1).subscribe(orgUser => {
-            if (orgUser) {
-              this.router.navigate([`org/${this.currentOrg$.getValue()}`]);
-            } else {
-              // user doesn't exist - create it
-              this.setUserDoc(user)
-                .then( () =>
-                  this.router.navigate([`org/${this.currentOrg$.getValue()}/userDetails`])
-              );
-            }
-          });
-        }
-      }).catch(err => {
-        console.log(err);
-        if (err.code === 'auth/user-not-found') {
-          this.emailSignUp(email, password).then(() => {
-            this.router.navigate([`org/${this.currentOrg$.getValue()}/userDetails`]);
-          });
-        }
-    });
-  }
 
   joinToOrg() {
     this.setUserDoc(this.afAuth.auth.currentUser)
-      .then( () =>
+      .then(() =>
         this.router.navigate([`org/${this.currentOrg$.getValue()}/userDetails`])
       );
   }
@@ -101,18 +75,21 @@ export class OrgService {
       uid: user.uid,
       email: user.email || null,
       isPending: true,
-      roles: null
+      roles: {}
     };
     return userRef.set(data);
   }
 
-  // Update additional user data to firestore
+  // Update additional user data
   updateOrgUser(uid: string, userData: OrgUser) {
-    console.log(uid);
     const userRef = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${uid}`);
-    return userRef.update(userData).then(() => {
-      this.router.navigate([`org/${this.currentOrg$.getValue()}`]);
-    });
+    return userRef.update(userData);
+  }
+
+  // Delete additional user data
+  deleteOrgUser(uid: string) {
+    const userRef = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${uid}`);
+    return userRef.delete();
   }
 
   getOrgUser$() {
@@ -200,6 +177,16 @@ export class OrgService {
 
 
   /************************
-   Org Documents API
+   Org Admin API
    ************************/
+  getOrgUsersList$() {
+    const orgUsersRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/users`);
+    return orgUsersRef.snapshotChanges().map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as OrgUser;
+        const id = a.payload.doc.id;
+        return { uid: id, ...data };
+      });
+    });
+  }
 }

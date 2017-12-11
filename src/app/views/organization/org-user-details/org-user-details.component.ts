@@ -12,9 +12,9 @@ import {Router} from '@angular/router';
   styleUrls: ['./org-user-details.component.scss']
 })
 export class OrgUserDetailsComponent implements OnInit, OnDestroy {
-  signupForm: FormGroup;
   detailForm: FormGroup;
   currentUser: OrgUser;
+  currentOrg: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public fb: FormBuilder,
@@ -33,6 +33,12 @@ export class OrgUserDetailsComponent implements OnInit, OnDestroy {
         console.log(this.currentUser);
       });
 
+    this.orgService.getCurrentOrg$()
+      .takeUntil(this.destroy$)
+      .subscribe(org => {
+        this.currentOrg = org;
+      });
+
     this.detailForm = this.fb.group({
       'displayName': ['', [Validators.required]]
     });
@@ -43,10 +49,13 @@ export class OrgUserDetailsComponent implements OnInit, OnDestroy {
     return this.detailForm.get('displayName');
   }
 
-  // Step 2
   setUserDetails(user) {
     this.currentUser.displayName = this.displayName.value;
-    return this.orgService.updateOrgUser(this.currentUser.uid, this.currentUser);
+    const newUserData: OrgUser = {uid: this.currentUser.uid, displayName: this.displayName.value};
+    this.orgService.updateOrgUser(this.currentUser.uid, newUserData)
+      .then(() => {
+        this.router.navigate([`org/${this.currentOrg}`]);
+      });
   }
 
   ngOnDestroy() {

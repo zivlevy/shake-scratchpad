@@ -6,7 +6,7 @@ export interface OrgRoles {
 
 export interface OrgUser {
     uid: string;
-    email: string;
+    email?: string;
     isPending?: boolean;
     firstName?: string;
     lastName?: string;
