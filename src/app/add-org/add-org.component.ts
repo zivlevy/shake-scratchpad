@@ -18,7 +18,6 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   orgForm: FormGroup;
 
 
-
   constructor(public fb: FormBuilder,
               public auth: AuthService,
               public router: Router,
@@ -52,7 +51,10 @@ export class AddOrgComponent implements OnInit, OnDestroy {
 
   addOrg() {
     console.log(this.orgname.value);
-    this.homeService.setNewOrg(this.orgname.value);
+    this.homeService.setNewOrg(this.orgname.value)
+      .then(() => {
+        this.router.navigate([`org/${this.orgname.value}`]);
+      });
 
   }
 

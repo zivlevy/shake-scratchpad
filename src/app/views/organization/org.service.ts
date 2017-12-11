@@ -100,7 +100,8 @@ export class OrgService {
     const data: OrgUser = {
       uid: user.uid,
       email: user.email || null,
-      isPending: true
+      isPending: true,
+      roles: null
     };
     return userRef.set(data);
   }

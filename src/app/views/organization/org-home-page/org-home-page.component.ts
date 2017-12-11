@@ -30,6 +30,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
     this.orgService.getOrgUser$()
       .takeUntil(this.destroy$)
       .subscribe((orgUser: OrgUser) => {
+        console.log(orgUser);
         this.currentUser = orgUser;
       });
 
