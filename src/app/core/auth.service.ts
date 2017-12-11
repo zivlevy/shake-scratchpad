@@ -25,11 +25,20 @@ export class AuthService {
 
     //// Email/Password Auth ////
     emailSignUp(email: string, password: string) {
-        return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+        return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+          .then(user => {
+            console.log(user);
+            user.sendEmailVerification().then(() => {console.log('email sent'); })
+              .catch(err => console.log(err));
+          });
     }
 
     login(email: string, password: string) {
         return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+    }
+
+    logout() {
+      this.afAuth.auth.signOut();
     }
 
     isAuth$() {
@@ -38,8 +47,13 @@ export class AuthService {
                 if (! user) {
                     return false;
                 }
-                return !user.isAnonymous;
-            });
+
+                return !user.isAnonymous && user.emailVerified  ;
+              });
+    }
+
+    getUser$(){
+      return this.afAuth.authState;
     }
 
     setLanguadge(lng) {

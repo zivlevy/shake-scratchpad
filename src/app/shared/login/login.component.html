@@ -1,42 +1,36 @@
-<div class="ww">
-    <h1>Login</h1>
-    <form #myForm="ngForm">
 
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input [(ngModel)]="email" name="email"
-                   type="text" class="form-control"
-                   id="email" required
-                   #eml="ngModel">
 
-            <div [hidden]="eml.valid || eml.pristine"
-                 class="alert alert-danger">
-                Email is required
-            </div>
-        </div>
+<div class="wrapper">
 
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input [(ngModel)]="password" name="password"
-                   type="text" class="form-control"
-                   id="password" required
-                   #pass="ngModel"
-            >
+  <img src="../../../assets/img/shake-logo.png" id="logo">
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
 
-            <div [hidden]="pass.valid || pass.pristine"
-                 class="alert alert-danger">
-                Password is required
-            </div>
-        </div>
+    <h3>Login</h3>
 
-        <button *ngIf="!showSpinner" type="submit" [disabled]="!myForm.valid" class="btn btn-success" (click)="login()">
-            Submit
-        </button>
-        <a [routerLink]="['/signup']" preserveQueryParams>Sign Up</a>
-        <sk-spinner *ngIf="showSpinner"></sk-spinner>
-    </form>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input class="form-control" id="email" type="email"
+             formControlName="email">
+
+      <div *ngIf="email.invalid && email.dirty">
+        Your email doesn't look quite right...
+      </div>
+    </div>
+    <div class="form-group">
+
+      <label for="password">Password</label>
+      <input class="form-control" type="password" id="password"
+             formControlName="password" required>
+
+      <div *ngIf="password.invalid && password.touched">
+        Password must be between 6 and 24 chars and have at least one number
+      </div>
+    </div>
+
+    <button class="btn btn-success" type="submit" [disabled]="!loginForm.valid">Login</button>
+    <a  (click)="gotoRegister()">Sign-up page</a>
+
+  </form>
+
 </div>
-
-
-
 

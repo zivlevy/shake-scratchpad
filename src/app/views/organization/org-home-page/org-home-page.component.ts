@@ -5,77 +5,85 @@ import {OrgService} from '../org.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/takeUntil';
 import {Subject} from 'rxjs/Subject';
-import {OrgUser} from '../../../model/user';
+import {OrgUser} from '../../../model/org-user';
 
 @Component({
-    selector: 'sk-org-home-page',
-    templateUrl: './org-home-page.component.html',
-    styleUrls: ['./org-home-page.component.scss']
+  selector: 'sk-org-home-page',
+  templateUrl: './org-home-page.component.html',
+  styleUrls: ['./org-home-page.component.scss']
 })
 export class OrgHomePageComponent implements OnInit, OnDestroy {
-    orgId: string;
-    logo: string;
-    name: string;
-    rtl = false;
-    isAuthenticated = false;
-    currentUser: OrgUser = null;
+  logo: string;
+  name: string;
+  rtl = false;
+  isAuthenticated = false;
+  currentUser: OrgUser = null;
 
-    destroy$: Subject<boolean> = new Subject<boolean>();
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
-    constructor(private route: ActivatedRoute,
-                private router: Router,
-                private orgService: OrgService,
-                private authService: AuthService) {
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private orgService: OrgService,
+              private authService: AuthService) {
 
-    }
+    // get user info
+    this.orgService.getOrgUser$()
+      .takeUntil(this.destroy$)
+      .subscribe((orgUser: OrgUser) => {
+        this.currentUser = orgUser;
+      });
 
-    ngOnInit() {
-        // get user authentication
-        this.authService.isAuth$()
-            .takeUntil(this.destroy$)
-            .subscribe(isAuth => this.isAuthenticated = isAuth);
+  }
 
-        // get user info
-        this.orgService.getOrgUser$()
-            .takeUntil(this.destroy$)
-            .subscribe((orgUser: OrgUser) => {
-            console.log(orgUser);
-                this.currentUser = orgUser;
-            });
-
-        // get org public data
-        this.orgService.getOrgPublicData$()
-            .takeUntil(this.destroy$)
-            .subscribe(orgData => {
-                console.log(orgData);
-                if (orgData) {
-                    this.logo = orgData.logo;
-                    this.name = orgData.name;
-                }
-            });
-
-    }
-
-    setLang(lng) {
-        this.authService.setLanguadge(lng);
-        this.rtl = lng === 'he' ?  true : false;
-    }
-
-    login() {
-        const orgId = this.route.snapshot.params['id'];
-        this.router.navigate([`org/${orgId}/orgLogin`], { queryParams: { returnUrl: 'org/' + orgId }});
-    }
+  ngOnInit() {
+    // get user authentication
+    this.authService.isAuth$()
+      .takeUntil(this.destroy$)
+      .subscribe(isAuth => this.isAuthenticated = isAuth);
 
 
 
-    ngOnDestroy() {
-        console.log('unsub =======');
-        // force unsubscribe
-        this.destroy$.next(true);
-        // Now let's also unsubscribe from the subject itself:
-        this.destroy$.unsubscribe();
+    // get org public data
+    this.orgService.getOrgPublicData$()
+      .takeUntil(this.destroy$)
+      .subscribe(orgData => {
+        console.log(orgData);
+        if (orgData) {
+          this.logo = orgData.logo;
+          this.name = orgData.name;
+        }
+      });
 
-    }
+  }
+
+  setLang(lng) {
+    this.authService.setLanguadge(lng);
+    this.rtl = lng === 'he' ? true : false;
+  }
+
+  login() {
+    const orgId = this.route.snapshot.params['id'];
+    this.router.navigate([`login`], {queryParams: {returnUrl: 'org/' + orgId}});
+  }
+
+  logout() {
+    const orgId = this.route.snapshot.params['id'];
+    this.authService.logout();
+  }
+
+  join() {
+    this.orgService.joinToOrg();
+  }
+
+
+  ngOnDestroy() {
+    console.log('unsub =======');
+    // force unsubscribe
+    this.destroy$.next(true);
+    // Now let's also unsubscribe from the subject itself:
+    this.destroy$.unsubscribe();
+
+  }
 
 
 }

@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {OrgHomePageComponent} from './org-home-page/org-home-page.component';
-import {OrgLoginComponent} from './org-login/org-login.component';
+import {OrgUserDetailsComponent} from './org-user-details/org-user-details.component';
 
 const routes: Routes = [
     {
@@ -9,8 +9,10 @@ const routes: Routes = [
         children: [
             {path: ':id', children: [
                 {path: '', component: OrgHomePageComponent},
-                {path: 'orgLogin', component: OrgLoginComponent}
-            ]}
+                {path: 'userDetails', component: OrgUserDetailsComponent}
+            ]},
+          {path: '', redirectTo: '/home', pathMatch: 'full'}
+
         ]
     }
 ];

@@ -1,14 +1,23 @@
-<sk-navbar></sk-navbar>
-<mat-card class="card">
-    <mat-card-header>
-        <mat-card-title>Shake home</mat-card-title>
-        <mat-card-subtitle>Shake it till you make it</mat-card-subtitle>
-    </mat-card-header>
-    <h1>Shake has arrived</h1>
-    <mat-card-content>
-        <p translate>
-            ORG-HOME-PAGE
-        </p>
-    </mat-card-content>
+<mat-toolbar color="primary">
+  <span>Shake</span>
 
-</mat-card>
+  <!-- This fills the remaining space of the current row -->
+  <span class="fill-remaining-space"></span>
+  <span><button mat-button *ngIf="!currentUser" (click)="login()">Login</button></span>
+  <span><button mat-button *ngIf="currentUser" (click)="logout()">Logout</button></span>
+</mat-toolbar>
+
+<div class="wrapper">
+  <img src="../../../assets/img/shake-logo.png" id="logo">
+
+  <div class="msg-to-user jumbotron" *ngIf="currentUser && currentUser.emailVerified">
+    <h3>You can add an organization for free</h3>
+    <button class="btn btn-primary btn-block" (click)="addOrganization()">Add Organization</button>
+  </div>
+
+  <div class="msg-to-user jumbotron" *ngIf="currentUser && !currentUser.emailVerified ">
+    <h3>You need to verify your account</h3>
+  </div>
+</div>
+
+

@@ -1,15 +1,17 @@
-export class OrgUser {
+export interface OrgRoles {
+  admin?: boolean;
+  editor?: boolean;
+  viewer?: boolean;
+}
+
+export interface OrgUser {
     uid: string;
     email: string;
-    isAdmin?: boolean;
-    isEditor?: boolean;
-    isViewer?: boolean;
     isPending?: boolean;
     firstName?: string;
     lastName?: string;
     displayName?: string;
     photoURL?: string;
-    constructor() {}
-
+    roles?: OrgRoles;
 }
 

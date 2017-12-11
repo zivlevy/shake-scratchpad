@@ -25,15 +25,25 @@ function isAuthenticated() {
     function isOrgViewer(org) {
   		return get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).data.isViewer == true;
 		}
+    
+          function isOrgExists(org) {
+    				return  exists(/databases/$(database)/documents/org/ttttt)
+    			}
 
 		// THE FULL DATABASE
     match /{document=**} {
       allow read, write : if false;//isSKAdmin() ;
     }
-
+		//OrgRequested
+			match /orgRequested/{id=**} {
+      	allow read: if true;
+        allow write: if true;
+      }
     // ORG
     match /org {
+    
       match /{orgId}{
+
       		allow read : if true;
    				allow write : if isOrgAdmin(orgId)  ;
 
@@ -42,9 +52,9 @@ function isAuthenticated() {
               allow write: if isOrgAdmin(orgId)
           }
 
-          match /users/{user} {
+          match /users/{user=**} {
           		allow read : if true;
-              allow write : if isOrgAdmin(orgId);
+              allow write : if exists(/databases/$(database)/documents/org/$(orgId)/publicData/info);
           }
 
           match /documents/{docs=**} {
@@ -54,6 +64,4 @@ function isAuthenticated() {
   		}
     }
 	}
-
 }
-

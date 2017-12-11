@@ -1,13 +1,21 @@
-.ww {
+.wrapper {
   position: relative;
-  width:350px;
-  margin: 50px auto;
+  margin: 10% auto;
+  max-width: 500px;
 }
 
-.ng-valid:not(form) {
-  border-left: solid green 5px;
+#logo {
+  position: relative;
+  width: 30%;
+  left: 35%;
 }
 
-.ng-invalid:not(form) {
-  border-left: solid darkred 5px;
+a:not([href]):not([tabindex]) {
+  &:hover {
+    cursor: pointer;
+
+  }
+  color: blue;
+  text-decoration: underline;
+
 }

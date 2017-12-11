@@ -6,26 +6,26 @@ import {OrgHomePageComponent} from './org-home-page/org-home-page.component';
 import {OrgGuard} from './guards/org.guard';
 import {OrgService} from './org.service';
 import {TranslateModule} from '@ngx-translate/core';
-import { OrgLoginComponent } from './org-login/org-login.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from '@angular/forms';
+import { OrgUserDetailsComponent } from './org-user-details/org-user-details.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CoreModule,
-        OrganizationRoutingModule,
-        TranslateModule.forChild(),
-        ReactiveFormsModule
-    ],
-    declarations: [
-        OrgHomePageComponent,
-        OrgLoginComponent
-    ],
-    exports: [OrgHomePageComponent],
-    providers: [
-        OrgGuard,
-        OrgService
-    ]
+  imports: [
+    CommonModule,
+    CoreModule,
+    OrganizationRoutingModule,
+    TranslateModule.forChild(),
+    ReactiveFormsModule
+  ],
+  declarations: [
+    OrgHomePageComponent,
+    OrgUserDetailsComponent
+  ],
+  exports: [OrgHomePageComponent],
+  providers: [
+    OrgGuard,
+    OrgService
+  ]
 })
 export class OrganizationModule {
 
