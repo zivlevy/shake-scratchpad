@@ -12,9 +12,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {OrganizationModule} from './views/organization/organization.module';
-import {ShakeModule} from './views/shake/shake.module';
 import {NotFoundComponent} from './shared/not-found/not-found.component';
-import {HomepageComponent} from './homepage/homepage.component';
 
 
 import { ToastrModule } from 'ngx-toastr';
@@ -26,17 +24,15 @@ import {TranslateLoader} from '@ngx-translate/core';
 import {MyMaterialModule} from './material-module/my--material.module';
 import {QuillModule} from 'ngx-quill';
 import {SpinnerComponent} from './shared/spinner/spinner.component';
-import {AddOrgComponent} from './add-org/add-org.component';
 import {LoginComponent} from './shared/login/login.component';
 import { SignupComponent } from './shared/signup/signup.component';
+import {HomeModule} from './views/home/home.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotFoundComponent,
-    HomepageComponent,
     SpinnerComponent,
-    AddOrgComponent,
     LoginComponent,
     SignupComponent
   ],
@@ -61,7 +57,7 @@ import { SignupComponent } from './shared/signup/signup.component';
     AngularFirestoreModule,
     AngularFireAuthModule,
     CoreModule,
-    ShakeModule,
+    HomeModule,
     OrganizationModule,
     AppRoutingModule    // <==== allways last !
   ],
