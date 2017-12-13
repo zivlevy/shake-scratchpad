@@ -16,9 +16,11 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
   logo: string;
   name: string;
   rtl = false;
+  isLoadingOrgUser: boolean = true;
   isAuthenticated = false;
-  currentUser: OrgUser = null;
-  currentOrg:string;
+  currentOrgUser: OrgUser = null;
+  currentOthenticatedUser;
+  currentOrg: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private route: ActivatedRoute,
@@ -31,12 +33,24 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    // get current authenticatedUser
+    this.authService.getUser$()
+      .takeUntil(this.destroy$)
+      .subscribe(user => {
+      console.log(user);
+      this.currentOthenticatedUser = user;
+      this.isAuthenticated = user ? user.emailVerified : null;
+    });
+
     // get user info
     this.orgService.getOrgUser$()
       .takeUntil(this.destroy$)
       .subscribe((orgUser: OrgUser) => {
         console.log(orgUser);
-        this.currentUser = orgUser;
+        console.log('endded')
+        this.isLoadingOrgUser = false;
+        this.currentOrgUser = orgUser;
       });
 
     // get current org
@@ -45,13 +59,6 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
       .subscribe(org => {
         this.currentOrg = org;
       });
-
-    // get user authentication
-    this.authService.isAuth$()
-      .takeUntil(this.destroy$)
-      .subscribe(isAuth => this.isAuthenticated = isAuth);
-
-
 
     // get org public data
     this.orgService.getOrgPublicData$()

@@ -7,23 +7,25 @@ import {OrgGuard} from './guards/org.guard';
 import {OrgService} from './org.service';
 import {TranslateModule} from '@ngx-translate/core';
 import {ReactiveFormsModule} from '@angular/forms';
-import { OrgUserDetailsComponent } from './org-user-details/org-user-details.component';
 import { OrgAdminComponent } from './org-admin/org-admin.component';
 import { OrgAdminUserItemComponent } from './org-admin-user-item/org-admin-user-item.component';
+import {SharedModule} from '../../shared/shared.module';
+import {MyMaterialModule} from '../../material-module/my--material.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    MyMaterialModule,
     CoreModule,
+    SharedModule,
     OrganizationRoutingModule,
     TranslateModule.forChild(),
     ReactiveFormsModule
   ],
   declarations: [
     OrgHomePageComponent,
-    OrgUserDetailsComponent,
     OrgAdminComponent,
-    OrgAdminUserItemComponent
+    OrgAdminUserItemComponent,
   ],
   exports: [OrgHomePageComponent],
   providers: [

@@ -32,6 +32,10 @@ export class SignupComponent implements OnInit, OnDestroy {
 
 
     this.loginForm = this.fb.group({
+      'displayName': ['', [
+        Validators.required,
+      ]
+      ],
       'email': ['', [
         Validators.required,
         Validators.email
@@ -57,10 +61,14 @@ export class SignupComponent implements OnInit, OnDestroy {
     return this.loginForm.get('password');
   }
 
+  get displayName() {
+    return this.loginForm.get('displayName');
+  }
 
-  login() {
+
+  signup() {
     this.auth.emailSignUp(this.email.value, this.password.value).then(user => {
-      console.log(user);
+      this.auth.updateUserProfile(this.displayName.value, null)
       this.router.navigate([this.returnRoute]);
 
     }).catch(err => {

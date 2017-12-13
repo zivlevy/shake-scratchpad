@@ -19,7 +19,8 @@ export class OrgService {
   constructor(private authService: AuthService,
               private afs: AngularFirestore,
               private afAuth: AngularFireAuth,
-              private router: Router) {
+              private router: Router
+              ) {
 
     this.router.events
       .filter((event) => {
@@ -54,17 +55,8 @@ export class OrgService {
 
   joinToOrg() {
     this.setUserDoc(this.afAuth.auth.currentUser)
-      .then(() =>
-        this.router.navigate([`org/${this.currentOrg$.getValue()}/userDetails`])
-      );
-  }
-
-  // user sign-up by email
-  emailSignUp(email: string, password: string) {
-    return this.authService.emailSignUp(email, password)
-      .then(user => this.setUserDoc(user))
-      .catch((err) => {
-        console.log(err);
+      .then(() => {
+        this.router.navigate([`org/${this.currentOrg$.getValue()}`]);
       });
   }
 
@@ -73,7 +65,6 @@ export class OrgService {
     const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
     const data: OrgUser = {
       uid: user.uid,
-      email: user.email || null,
       isPending: true,
       roles: {}
     };

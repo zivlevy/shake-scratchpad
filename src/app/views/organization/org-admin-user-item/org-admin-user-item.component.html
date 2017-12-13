@@ -2,8 +2,10 @@
 <button (click)="delete()">Delete</button>
 <span>{{user.displayName}}</span>
 
+
 <input #pending type="checkbox" [checked]="user.isPending">
 <input #admin type="checkbox" [checked]="user.roles?.admin">
 <input #editor type="checkbox" [checked]="user.roles?.editor">
 <input #viewer type="checkbox" [checked]="user.roles?.viewer">
+
 

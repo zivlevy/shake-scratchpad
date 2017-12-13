@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {OrgHomePageComponent} from './org-home-page/org-home-page.component';
-import {OrgUserDetailsComponent} from './org-user-details/org-user-details.component';
 import {OrgAdminComponent} from './org-admin/org-admin.component';
 
 const routes: Routes = [
@@ -13,7 +12,6 @@ const routes: Routes = [
           {
             path: '', component: OrgHomePageComponent, children: [
               {path: 'admin', component: OrgAdminComponent},
-              {path: 'userDetails', component: OrgUserDetailsComponent},
 
             ]}
             ]

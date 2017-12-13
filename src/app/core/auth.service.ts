@@ -19,6 +19,12 @@ export class AuthService {
     constructor(private afAuth: AngularFireAuth,
                 private afs: AngularFirestore,
                 private router: Router) {
+      this.getUser$().subscribe(user => {
+        if (user) {
+          console.log(user.displayName);
+        }
+      });
+
 
     }
 
@@ -55,6 +61,25 @@ export class AuthService {
     getUser$(){
       return this.afAuth.authState;
     }
+
+    updateUserProfile(displayName, photoUrl): Promise<any> | null {
+
+      this.afAuth.auth.currentUser.updateProfile({
+        displayName: displayName,
+        photoURL: photoUrl
+      }).then(() => {
+
+      }, (error) => {
+        // An error happened.
+        console.log(error);
+      });
+
+
+      return null;
+
+
+    }
+
 
     setLanguadge(lng) {
         this.languadge$.next(lng);

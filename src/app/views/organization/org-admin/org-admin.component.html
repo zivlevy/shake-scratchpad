@@ -1,4 +1,3 @@
-
 <div class="wrapper">
   <h3>Ugly list of users - just for tests</h3>
   <div *ngFor="let user of users | async">
@@ -9,4 +8,55 @@
     </sk-org-admin-user-item>
   </div>
 
+</div>
+
+
+<div class="user-table mat-elevation-z8">
+  <div>
+    <mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <button mat-icon-button><mat-icon>edit</mat-icon></button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
+        <mat-cell *matCellDef="let user"> {{user.uid}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="pending">
+        <mat-header-cell *matHeaderCellDef>Pending</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <mat-checkbox [checked]="user.isPending"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="admin">
+        <mat-header-cell *matHeaderCellDef>Admin</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <mat-checkbox [checked]="user.roles.admin"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="editor">
+        <mat-header-cell *matHeaderCellDef>Edotor</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <mat-checkbox [checked]="user.roles.editor"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="viewer">
+        <mat-header-cell *matHeaderCellDef>Viewer</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <mat-checkbox [checked]="user.roles.viewer"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
 </div>

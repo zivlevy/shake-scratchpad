@@ -19,3 +19,15 @@ a:not([href]):not([tabindex]) {
   text-decoration: underline;
 
 }
+
+.error-message {
+  color: darkred;
+}
+
+.ng-valid:not(form) {
+  border-left: solid green 5px;
+}
+
+.ng-invalid:not(form) {
+  border-left: solid darkred 5px;
+}

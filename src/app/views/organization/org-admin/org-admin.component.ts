@@ -1,11 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrgService} from '../org.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
 import {OrgUser} from '../../../model/org-user';
 import {ToastrService} from 'ngx-toastr';
+import {DataSource} from "@angular/cdk/collections";
+import {Observable} from "rxjs/Observable";
+import {MatTableDataSource} from "@angular/material";
 
 @Component({
   selector: 'sk-org-admin',
@@ -17,10 +19,15 @@ export class OrgAdminComponent implements OnInit, OnDestroy {
   users: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  displayedColumns = ['action', 'pending', 'admin', 'editor', 'viewer'];
+  dataSource = new MatTableDataSource();
+
+
   constructor(public auth: AuthService,
               public orgService: OrgService,
               public router: Router,
               private toastr: ToastrService) {
+
   }
 
   ngOnInit() {
@@ -33,31 +40,37 @@ export class OrgAdminComponent implements OnInit, OnDestroy {
       });
 
     this.users = this.orgService.getOrgUsersList$();
+    this.orgService.getOrgUsersList$()
+      .takeUntil(this.destroy$)
+      .subscribe(userList => {
+        console.log(userList);
+        this.dataSource.data = userList;
+      });
   }
 
   userChanged(user) {
     console.log(user);
     this.orgService.updateOrgUser(user.uid, user)
-      .then (() => {
+      .then(() => {
         this.toastr.success('User updated successfully', '', {
           timeOut: 5000
         });
       })
-      .catch (err => {
+      .catch(err => {
         this.toastr.error(err.message, '', {
           timeOut: 5000
         });
       });
   }
 
-  userDeleted(userId){
+  userDeleted(userId) {
     this.orgService.deleteOrgUser(userId)
-      .then (() => {
+      .then(() => {
         this.toastr.success('User deleted successfully', '', {
           timeOut: 5000
         });
       })
-      .catch (err => {
+      .catch(err => {
         this.toastr.error(err.message, '', {
           timeOut: 5000
         });
@@ -74,3 +87,4 @@ export class OrgAdminComponent implements OnInit, OnDestroy {
 
   }
 }
+

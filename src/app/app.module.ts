@@ -1,8 +1,10 @@
+
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AngularFireModule} from 'angularfire2';
-import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AppComponent} from './app.component';
@@ -23,7 +25,6 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {TranslateLoader} from '@ngx-translate/core';
 import {MyMaterialModule} from './material-module/my--material.module';
 import {QuillModule} from 'ngx-quill';
-import {SpinnerComponent} from './shared/spinner/spinner.component';
 import {LoginComponent} from './shared/login/login.component';
 import { SignupComponent } from './shared/signup/signup.component';
 import {HomeModule} from './views/home/home.module';
@@ -32,12 +33,14 @@ import {HomeModule} from './views/home/home.module';
   declarations: [
     AppComponent,
     NotFoundComponent,
-    SpinnerComponent,
     LoginComponent,
     SignupComponent
   ],
   imports: [
     BrowserAnimationsModule,
+    environment.production
+      ? ServiceWorkerModule.register('/ngsw-worker.js')
+      : [],
     ToastrModule.forRoot(),
     BrowserModule,
     RouterModule,
