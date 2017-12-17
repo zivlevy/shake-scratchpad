@@ -1,36 +1,58 @@
-
-
-<div class="wrapper">
-
-  <img src="../../../assets/img/shake-logo.png" id="logo">
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
-
-    <h3>Login</h3>
-
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input class="form-control" id="email" type="email"
-             formControlName="email">
-
-      <div *ngIf="email.invalid && email.dirty">
-        Your email doesn't look quite right...
-      </div>
-    </div>
-    <div class="form-group">
-
-      <label for="password">Password</label>
-      <input class="form-control" type="password" id="password"
-             formControlName="password" required>
-
-      <div *ngIf="password.invalid && password.touched">
-        Password must be between 6 and 24 chars and have at least one number
-      </div>
-    </div>
-
-    <button class="btn btn-success" type="submit" [disabled]="!loginForm.valid">Login</button>
-    <a  (click)="gotoRegister()">Sign-up page</a>
-
-  </form>
+<div id="full-page">
 
 </div>
+<div class="wrapper">
+  <div class="d-flex justify-content-center">
+    <img src="assets/img/shake-logo.png" id="logo" [routerLink]="['/home']">
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="form-header p-0">
+      <h1 [innerHTML]="'Login to Shake' | translate"></h1>
+    </div>
+    <div class="form-body">
+      <div class="form-group">
+        <label for="email" [innerHTML]="'Email' | translate"></label>
+        <input class="form-control" id="email" type="email"
+               formControlName="email">
+
+        <div *ngIf="email.invalid && email.dirty"
+             [innerHTML]="'Please enter a valid email' | translate">
+
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password"
+               [innerHTML]="'Password' | translate"
+        ></label>
+
+
+        <input class="form-control" type="password" id="password"
+               formControlName="password" required>
+
+        <div *ngIf="password.invalid && password.touched"
+             [innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">
+        </div>
+      </div>
+
+      <button class="btn btn-success btn-block" type="submit" [disabled]="!loginForm.valid"
+              [innerHTML]="'Login' | translate"></button>
+    </div>
+  </form>
+
+  <div class="form-body text-center" >
+    <span [innerHTML]="'New to Shake?' | translate"></span>
+    <a (click)="gotoRegister()"
+       [innerHTML]="'Create an account' | translate"
+    ></a>
+  </div>
+
+  <div class="flags d-flex justify-content-center">
+    <img src="assets/img/il.png" (click)="setLng('he')">
+    <img src="assets/img/us.png" (click)="setLng('en')">
+  </div>
+
+</div>
+
+
 

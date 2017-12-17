@@ -14,7 +14,7 @@ import {User} from 'firebase';
 
 @Injectable()
 export class AuthService {
-    private languadge$: BehaviorSubject<string> = new BehaviorSubject('en');
+
 
     constructor(private afAuth: AngularFireAuth,
                 private afs: AngularFirestore,
@@ -81,11 +81,5 @@ export class AuthService {
     }
 
 
-    setLanguadge(lng) {
-        this.languadge$.next(lng);
-    }
 
-    getLanguadge$ () {
-        return this.languadge$.asObservable();
-    }
 }

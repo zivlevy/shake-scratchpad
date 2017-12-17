@@ -62,11 +62,17 @@ export class OrgService {
 
   // Sets initial user data to firestore after successful sign-up
   private setUserDoc(user) {
+    // set the org to the user
+    const orgUserRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}/orgs/${this.currentOrg$.getValue()}`);
+    orgUserRef.set({});
+
+    // set the user data in the org
     const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
     const data: OrgUser = {
       uid: user.uid,
       isPending: true,
-      roles: {}
+      roles: {},
+      displayName: user.displayName
     };
     return userRef.set(data);
   }

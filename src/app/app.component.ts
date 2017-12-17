@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import Quill from 'quill';
 import {AuthService} from './core/auth.service';
+import {LanguadgeService} from "./core/languadge.service";
 
 @Component({
     selector: 'app-root',
@@ -10,19 +11,22 @@ import {AuthService} from './core/auth.service';
 })
 export class AppComponent implements OnInit {
 
-    rtl = false;
+    rtl = true;
     param = {value: 'world'};
     content;
     constructor(private translate: TranslateService,
-                private authService: AuthService) {
+                private authService: AuthService,
+                private lngService: LanguadgeService) {
 
         translate.setDefaultLang('en');
+        this.lngService.setLanguadge('en');
     }
 
     ngOnInit() {
 
-        this.authService.getLanguadge$()
+        this.lngService.getLanguadge$()
             .subscribe(lng => {
+              console.log(lng)
                 // the lang to use, if the lang isn't available, it will use the current loader to get them
                 this.translate.use(lng);
                 lng === 'he' ? this.rtl = true : this.rtl = false;

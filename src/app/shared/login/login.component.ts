@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../core/auth.service';
-import {ToastrService} from "ngx-toastr";
+import {ToastrService} from 'ngx-toastr';
+import {LanguadgeService} from '../../core/languadge.service';
 
 @Component({
   selector: 'sk-login',
@@ -19,13 +20,14 @@ export class LoginComponent implements OnInit, OnDestroy {
               public auth: AuthService,
               public router: Router,
               private route: ActivatedRoute,
+              private lngService: LanguadgeService,
               private toastr: ToastrService) {
 
   }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
-      console.log(params.get('returnUrl'))
+      console.log(params.get('returnUrl'));
       this.returnRoute = params.get('returnUrl');
     });
 
@@ -62,16 +64,21 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate([this.returnRoute]);
     })
       .catch(err => {
-        this.toastr.error(err.message, '',{
+        this.toastr.error(err.message, '', {
           timeOut: 5000,
         });
       });
 
   }
-gotoRegister(){
-    console.log(this.returnRoute)
+
+  gotoRegister() {
+    console.log(this.returnRoute);
     this.router.navigate(['register'], {queryParams: {returnUrl: this.returnRoute}});
-}
+  }
+
+  setLng(lng) {
+    this.lngService.setLanguadge(lng);
+  }
 
   ngOnDestroy() {
     // force unsubscribe

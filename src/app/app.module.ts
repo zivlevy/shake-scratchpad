@@ -23,18 +23,19 @@ import {TranslateModule} from '@ngx-translate/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {TranslateLoader} from '@ngx-translate/core';
-import {MyMaterialModule} from './material-module/my--material.module';
 import {QuillModule} from 'ngx-quill';
 import {LoginComponent} from './shared/login/login.component';
 import { SignupComponent } from './shared/signup/signup.component';
 import {HomeModule} from './views/home/home.module';
+import { ScrpComponent } from './scrp/scrp.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotFoundComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ScrpComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -55,7 +56,6 @@ import {HomeModule} from './views/home/home.module';
         deps: [HttpClient]
       }
     }),
-    MyMaterialModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,

@@ -5,9 +5,7 @@ import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
 import {OrgUser} from '../../../model/org-user';
 import {ToastrService} from 'ngx-toastr';
-import {DataSource} from "@angular/cdk/collections";
-import {Observable} from "rxjs/Observable";
-import {MatTableDataSource} from "@angular/material";
+
 
 @Component({
   selector: 'sk-org-admin',
@@ -18,10 +16,6 @@ export class OrgAdminComponent implements OnInit, OnDestroy {
   currentUser: OrgUser;
   users: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
-  displayedColumns = ['action', 'pending', 'admin', 'editor', 'viewer'];
-  dataSource = new MatTableDataSource();
-
 
   constructor(public auth: AuthService,
               public orgService: OrgService,
@@ -44,7 +38,6 @@ export class OrgAdminComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(userList => {
         console.log(userList);
-        this.dataSource.data = userList;
       });
   }
 

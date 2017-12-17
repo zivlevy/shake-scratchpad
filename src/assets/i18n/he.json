@@ -1,4 +1,13 @@
 {
-  "Users": "משתמשים",
-  "ORG-HOME-PAGE": "דף הבית לארגון"
+  "login component":"========= LogIn Component=========",
+  "Login to Shake": "הכנס לShake",
+  "Email": "אימייל",
+  "Please enter a valid email": "הכנס אימייל חוקי",
+  "Password": "סיסמה",
+  "Password must be between 6 and 24 chars and have at least one number":"סיסמה צריכה להיות בין 6 ל24 תוים ולהכיל לפחות מספר אחד",
+  "Login": "היכנס",
+  "Create an account": "צור חשבון",
+  "New to Shake?": "משתמש חדש?"
+
+
 }

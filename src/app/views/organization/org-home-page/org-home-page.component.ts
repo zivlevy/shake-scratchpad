@@ -6,6 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/takeUntil';
 import {Subject} from 'rxjs/Subject';
 import {OrgUser} from '../../../model/org-user';
+import {LanguadgeService} from "../../../core/languadge.service";
 
 @Component({
   selector: 'sk-org-home-page',
@@ -26,6 +27,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private orgService: OrgService,
+              private lngService: LanguadgeService,
               private authService: AuthService) {
 
 
@@ -73,7 +75,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
   }
 
   setLang(lng) {
-    this.authService.setLanguadge(lng);
+    this.lngService.setLanguadge(lng);
     this.rtl = lng === 'he' ? true : false;
   }
 

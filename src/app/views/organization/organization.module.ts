@@ -10,12 +10,11 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { OrgAdminComponent } from './org-admin/org-admin.component';
 import { OrgAdminUserItemComponent } from './org-admin-user-item/org-admin-user-item.component';
 import {SharedModule} from '../../shared/shared.module';
-import {MyMaterialModule} from '../../material-module/my--material.module';
+import { OrgNavComponent } from './org-nav/org-nav.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    MyMaterialModule,
     CoreModule,
     SharedModule,
     OrganizationRoutingModule,
@@ -26,6 +25,7 @@ import {MyMaterialModule} from '../../material-module/my--material.module';
     OrgHomePageComponent,
     OrgAdminComponent,
     OrgAdminUserItemComponent,
+    OrgNavComponent
   ],
   exports: [OrgHomePageComponent],
   providers: [

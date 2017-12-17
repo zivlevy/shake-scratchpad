@@ -19,7 +19,7 @@ export class HomeService {
 
   setNewOrg(orgName: string) {
     const orgDocRef: AngularFirestoreDocument<any> = this.afs.collection(`orgRequested`).doc(orgName);
-    const org: Organization = {name: orgName, createdBy: this.currentUser.uid};
+    const org = {name: orgName, createdBy: this.currentUser.uid, displayName: this.currentUser.displayName};
     // return orgCollectionRef.valueChanges().subscribe(orgi => console.log(orgi));
     return orgDocRef.set(org);
   }
