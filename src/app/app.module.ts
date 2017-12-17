@@ -28,7 +28,7 @@ import {LoginComponent} from './shared/login/login.component';
 import { SignupComponent } from './shared/signup/signup.component';
 import {HomeModule} from './views/home/home.module';
 import { ScrpComponent } from './scrp/scrp.component';
-
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +43,7 @@ import { ScrpComponent } from './scrp/scrp.component';
       ? ServiceWorkerModule.register('/ngsw-worker.js')
       : [],
     ToastrModule.forRoot(),
+    BsDropdownModule.forRoot(),
     BrowserModule,
     RouterModule,
     HttpClientModule,

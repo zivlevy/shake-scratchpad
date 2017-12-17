@@ -7,7 +7,16 @@
   "Password must be between 6 and 24 chars and have at least one number":"סיסמה צריכה להיות בין 6 ל24 תוים ולהכיל לפחות מספר אחד",
   "Login": "היכנס",
   "Create an account": "צור חשבון",
-  "New to Shake?": "משתמש חדש?"
+  "New to Shake?": "משתמש חדש?",
+
+
+  "Signup component":"========= Signup Component=========",
+  "Register to Shake": "הרשם ל Shake",
+  "Display Name": "שם",
+  "Register": "הרשם",
+  "Already Shake user?": "כבר רשום ל Shake?",
+  "Go to Login": "עבור למסך כניסה"
+
 
 
 }

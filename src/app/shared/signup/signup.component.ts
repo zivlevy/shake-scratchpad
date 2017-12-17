@@ -3,7 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../core/auth.service';
-import { ToastrService } from 'ngx-toastr';
+import {ToastrService} from 'ngx-toastr';
+import {LanguadgeService} from "../../core/languadge.service";
 
 @Component({
   selector: 'sk-signup',
@@ -20,6 +21,7 @@ export class SignupComponent implements OnInit, OnDestroy {
               public auth: AuthService,
               private router: Router,
               private route: ActivatedRoute,
+              private lngService: LanguadgeService,
               private toastr: ToastrService) {
 
   }
@@ -83,6 +85,10 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     this.router.navigate(['login'], {queryParams: {returnUrl: this.returnRoute}});
 
+  }
+
+  setLng(lng) {
+    this.lngService.setLanguadge(lng);
   }
 
   ngOnDestroy() {

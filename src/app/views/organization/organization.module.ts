@@ -11,6 +11,9 @@ import { OrgAdminComponent } from './org-admin/org-admin.component';
 import { OrgAdminUserItemComponent } from './org-admin-user-item/org-admin-user-item.component';
 import {SharedModule} from '../../shared/shared.module';
 import { OrgNavComponent } from './org-nav/org-nav.component';
+import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
+import { OrgAdminUsersComponent } from './org-admin-users/org-admin-users.component';
+import { OrgAdminOrgComponent } from './org-admin-org/org-admin-org.component';
 
 @NgModule({
   imports: [
@@ -19,13 +22,16 @@ import { OrgNavComponent } from './org-nav/org-nav.component';
     SharedModule,
     OrganizationRoutingModule,
     TranslateModule.forChild(),
+    BsDropdownModule,
     ReactiveFormsModule
   ],
   declarations: [
     OrgHomePageComponent,
     OrgAdminComponent,
     OrgAdminUserItemComponent,
-    OrgNavComponent
+    OrgNavComponent,
+    OrgAdminUsersComponent,
+    OrgAdminOrgComponent
   ],
   exports: [OrgHomePageComponent],
   providers: [

@@ -1,40 +1,49 @@
-<nav class="navbar navbar-expand-md bg-primary navbar-dark">
-  <div class="container">
-    <a class="navbar-brand" href="#">Brand</a>
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
-        </li>
-      </ul>
-      {{rtl}}
-      <ul class="navbar-nav" [ngClass]="{'ml-auto':!rtl, 'mr-auto': rtl}">
-        <li *ngIf="!isLoadingOrgUser && !currentOrgUser && isAuthenticated" class="nav-item">
-          <a class="nav-link" (click)="join()">Join</a>
-        </li>
+<nav class="navbar  navbar-expand bg-primary navbar-dark">
 
-        <li *ngIf="currentOrgUser &&  currentOrgUser?.roles?.admin && isAuthenticated" class="nav-item">
-          <a class="nav-link" (click)="gotoAdmin()">Admin</a>
-        </li>
+  <a class="navbar-brand">Brand</a>
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-        <li *ngIf="isAuthenticated" class="nav-item">
-          <a class="nav-link" (click)="logout()">Logout</a>
-        </li>
 
-        <li *ngIf="!isAuthenticated" class="nav-item">
-          <a class="nav-link" (click)="login()">Login</a>
-        </li>
-      </ul>
-    </div>
+    <!-- Right nav bar -->
+    <ul class="navbar-nav" [ngClass]="{'ml-auto':!rtl, 'mr-auto': rtl}">
+      <li *ngIf="!isLoadingOrgUser && !currentOrgUser && isAuthenticated" class="nav-item">
+        <a class="nav-link" (click)="join()">Join</a>
+      </li>
+
+
+      <!-- Admin drop down-->
+      <div class="btn-group" dropdown *ngIf="currentOrgUser &&  currentOrgUser?.roles?.admin && isAuthenticated">
+        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+          <i class="fa fa-gear"></i> <span class="caret"></span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+          <li role="menuitem" [routerLink]="'admin-org'"><a class="dropdown-item">Organization settings</a></li>
+          <li role="menuitem" [routerLink]="'admin-users'"><a class="dropdown-item">Users</a></li>
+          <!--<li class="divider dropdown-divider"></li>-->
+
+        </ul>
+      </div>
+
+      <!-- User drop down-->
+      <div class="btn-group" dropdown *ngIf="isAuthenticated">
+        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+          <i class="fa fa-user-circle"></i> <span class="caret"></span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+          <li role="menuitem"><a class="dropdown-item">Profile</a></li>
+          <li class="divider dropdown-divider"></li>
+          <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- login -->
+      <li *ngIf="!isAuthenticated" class="nav-item">
+        <a class="nav-link" (click)="login()">Login</a>
+      </li>
+    </ul>
   </div>
 </nav>

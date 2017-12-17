@@ -1,14 +1,25 @@
+
+#full-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f9f9f9 !important;
+}
+
 .wrapper {
   position: relative;
   margin: 10% auto;
-  max-width: 500px;
+  max-width: 350px;
+
 }
 
 #logo {
-  position: relative;
   width: 30%;
-  left: 35%;
+  margin: 0 auto;
 }
+
 
 a:not([href]):not([tabindex]) {
   &:hover {
@@ -20,14 +31,49 @@ a:not([href]):not([tabindex]) {
 
 }
 
-.error-message {
-  color: darkred;
-}
+
 
 .ng-valid:not(form) {
   border-left: solid green 5px;
 }
 
-.ng-invalid:not(form) {
-  border-left: solid darkred 5px;
+
+.form-header {
+  color: #333;
+  text-align: center;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+  padding: 10px 20px;
+  font-family: "Arial";
+  margin-top: 20px;
+  line-height: 1.5;
+  h1 {
+    font-size: 2rem;
+  }
 }
+
+.form-body {
+  border: 1px solid #d8dee2;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 14px;
+  background-color: #fff;
+  margin-top: 16px !important;
+  box-sizing: border-box;
+  display: block;
+  line-height: 1.5;
+  color: #24292e;
+
+}
+
+.flags {
+
+  direction: ltr;
+
+  img {
+    margin:20px 5px;
+    height: 30px;
+  }
+}
+

@@ -36,6 +36,7 @@
     "firebase-functions": "^0.7.3",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.4",
+    "ngx-bootstrap": "^2.0.0-rc.0",
     "ngx-quill": "^2.0.4",
     "ngx-toastr": "^8.0.0",
     "rxjs": "^5.5.2",
