@@ -48,6 +48,14 @@
         </div>
       </div>
 
+      <input class="form-control" type="password" id="password2"
+             formControlName="password2" required>
+
+      <div *ngIf="password2.invalid && password2.touched"
+           [innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">
+      </div>
+    </div>
+
       <button class="btn btn-success btn-block" type="submit" [disabled]="!loginForm.valid"
               [innerHTML]="'Register' | translate"></button>
     </div>
