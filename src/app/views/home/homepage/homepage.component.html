@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md bg-primary navbar-dark">
   <div class="container">
-    <a class="navbar-brand">Shake</a>
+    <a class="navbar-brand" href="#"><img src="../../../../assets/img/shake-logo.png"></a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
             data-target="#navbar2SupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false"
             aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -16,20 +16,34 @@
     </div>
   </div>
 </nav>
-<div class="py-5 gradient-overlay"
-     style="background-image: url(&quot;https://pingendo.github.io/templates/sections/assets/cover_event.jpg&quot;);">
+<!--<div class="py-5 opaque-overlay"-->
+     <!--style="background-image: url('../../../../assets/homepage/img/bg-masthead.jpg');">-->
+  <!--<div class="container py-5">-->
+    <!--<div class="row">-->
+      <!--<div class="col-md-3 text-white">-->
+        <!--<img class="d-block mb-5 m-4 img-fluid" src="../../../../assets/img/shake-logo.png"></div>-->
+      <!--<div class="col-md-12 text-white align-self-center">-->
+        <!--<h1 class="display-3 mb-4">Shake</h1>-->
+        <!--<p class="lead mb-5">We make organizations organized-->
+          <!--<br></p>-->
+        <!--<h4 *ngIf="!currentUser">Please login / sign-in to create an new organization</h4>-->
+        <!--<h3 *ngIf="currentUser && !currentUser.emailVerified ">You need to verify your account</h3>-->
+        <!--<a *ngIf="currentUser && currentUser.emailVerified " class="btn btn-lg btn-primary mx-1"-->
+           <!--(click)="addOrganization()">Create new organization</a>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+<div class="py-5 text-center opaque-overlay" style="background-image: url('../../../../assets/homepage/img/bg-home.jpg');">
   <div class="container py-5">
     <div class="row">
-      <div class="col-md-3 text-white">
-        <img class="d-block mb-5 m-4 img-fluid" src=""></div>
-      <div class="col-md-9 text-white align-self-center">
-        <h1 class="display-3 mb-4">Shake</h1>
-        <p class="lead mb-5">We make organizations organized
-          <br></p>
-        <h4 *ngIf="!currentUser">Please login / sign-in to create an new organization</h4>
-        <h3 *ngIf="currentUser && !currentUser.emailVerified ">You need to verify your account</h3>
+      <div class="col-md-12 text-white">
+        <h1 class="display-3 mb-4">Your Business Ideas</h1>
+        <h1 class="display-3 mb-4">Delivered</h1>
+        <h5 *ngIf="!currentUser">Please login / sign-in to create an new organization</h5>
+        <h5 *ngIf="currentUser && !currentUser.emailVerified ">You need to verify your account</h5>
         <a *ngIf="currentUser && currentUser.emailVerified " class="btn btn-lg btn-primary mx-1"
-           (click)="addOrganization()">Create new organization</a>
+        (click)="addOrganization()">Create new organization</a>
       </div>
     </div>
   </div>
@@ -39,75 +53,62 @@
     <div class="row text-center">
       <div class="col-md-12">
         <h1 class="mb-4 text-primary">Benefits and features</h1>
-        <p class="lead">Design unique interfaces by customizing Bootstrap theme with Pingendo.
-          <br>Modify colors, fonts and grid setting without opening any CSS file.</p>
+        <p class="lead">SHAKE is a unique way to finally organize your business ideas, So they are available to all employees, wherever they are
+          <br>
+        </p>
         <div class="row text-left mt-5">
           <div class="col-md-4 my-3">
             <div class="row mb-3">
-              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-mars"></i></div>
+              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-wrench"></i></div>
               <div class="align-self-center col-10">
-                <h5 class="text-secondary"><b>For him</b></h5>
+                <h5 class="text-secondary"><b>Easy to set up</b></h5>
               </div>
             </div>
-            <p>Based on fluid design principles. Works with screen resolution. &nbsp;In-app chat panel 24/7 active. The
-              support you need, right there.</p>
+            <p>You just sign in to SHAKE, create a new organization, and you are ready to go.</p>
           </div>
           <div class="col-md-4 my-3">
             <div class="row mb-3">
-              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-venus"></i></div>
+              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-anchor"></i></div>
               <div class="align-self-center col-10">
-                <h5 class="text-secondary"><b>For her</b></h5>
+                <h5 class="text-secondary"><b>Pre loaded knowledge</b></h5>
               </div>
             </div>
-            <p>Help us spreading the word. Tell your friends with just one-click.&nbsp;Work simultaneously on different
-              panels with the switcher</p>
+            <p>Your new SHAKE organization starts with an initial knowledge package, representing common best practices.</p>
           </div>
           <div class="col-md-4 my-3">
             <div class="row mb-3">
-              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-neuter"></i></div>
+              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-bolt"></i></div>
               <div class="align-self-center col-10">
-                <h5 class="text-secondary"><b>For its</b></h5>
+                <h5 class="text-secondary"><b>Easy to use</b></h5>
               </div>
             </div>
-            <p>You are working with plain HTML and SASS files on your computer, so extending and integrating Javascript
-              is a breeze.</p>
+            <p>SHAKE makes it super easy to manage your knowledge, by providing intuitive creation and editing capabilities, with an excellent document viewer</p>
           </div>
           <div class="col-md-4 my-3">
             <div class="row mb-3">
-              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-mars-stroke"></i></div>
+              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-align-center"></i></div>
               <div class="align-self-center col-10">
-                <h5 class="text-secondary"><b>For anyone</b></h5>
+                <h5 class="text-secondary"><b>Structured data</b></h5>
               </div>
             </div>
-            <p>Based on fluid design principles. Works with screen resolution.&nbsp;Choose settings depending on the
-              criteria you value the most.</p>
+            <p>SHAKE documents are structured such that they are very easy to use</p>
           </div>
+          <div class="col-md-4 my-3"></div>
           <div class="col-md-4 my-3">
             <div class="row mb-3">
-              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-mars-double"></i></div>
+              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-question-circle-o"></i></div>
               <div class="align-self-center col-10">
-                <h5 class="text-secondary"><b>Even couples</b></h5>
+                <h5 class="text-secondary"><b>Need expert help ?</b></h5>
               </div>
             </div>
-            <p>In-app chat panel 24/7 active. The support you need, right there. Pingendo enhance the battery duration
-              and the quality of your life.&nbsp;</p>
-          </div>
-          <div class="col-md-4 my-3">
-            <div class="row mb-3">
-              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-genderless"></i></div>
-              <div class="align-self-center col-10">
-                <h5 class="text-secondary"><b>Any other?</b></h5>
-              </div>
-            </div>
-            <p>Help us spreading the word. Tell your friends with just one-click.&nbsp;Work simultaneously on different
-              panels. Share the work with teammates.</p>
+            <p>If you want to take your knowledge management to an even highr level, our partners at ROM Knowledgeware are there for you</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="py-5 text-center bg-light">
+<div class="py-5 text-center bg-testimonial gradient-overlay">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -117,30 +118,23 @@
     </div>
     <div class="row">
       <div class="col-md-4 p-4">
-        <img class="img-fluid d-block rounded-circle mx-auto"
-             src="https://pingendo.github.io/templates/sections/assets/test_meow.jpg">
-        <p class="my-4"><i>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-          Aenean massa.</i></p>
-        <p><b>Meow</b>
-          <br>Senior developer</p>
+        <img class="img-fluid d-block rounded-circle mx-auto" src="../../../../assets/homepage/img/testimonials-1.jpg">
+        <p class="my-4"><i>We tried SHAKE in our gas station. It solved an ever lasting problem of making every shift emplyee aware of company regulations&nbsp;</i></p>
+        <p><b>Alona</b>
+          <br>PAZ fuel, Raanana</p>
       </div>
       <div class="col-md-4 p-4">
-        <img class="img-fluid d-block rounded-circle mx-auto"
-             src="https://pingendo.github.io/templates/sections/assets/test_fish.jpg">
-        <p class="my-4"><i>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
-          quam felis, ultricies nec. </i></p>
-        <p><b>J. L. Fish</b>
-          <br>UI designer</p>
+        <img class="img-fluid d-block rounded-circle mx-auto" src="../../../../assets/homepage/img/testimonials-3.jpg">
+        <p class="my-4"><i>A Senior persons home is always active, with a large nursing and aid stuff. SHAKE provided us with an easy way to get everyone up to date on patient care procedures.</i></p>
+        <p><b>Sima</b>
+          <br>Beit Gil Hazhav, Chief Nurse</p>
       </div>
       <div class="col-md-4 p-4">
-        <img class="img-fluid d-block rounded-circle mx-auto"
-             src="https://pingendo.github.io/templates/sections/assets/test_carlito.jpg">
-        <p class="my-4"><i>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Cum sociis natoque
-          penatibus et magnis dis parturient montes.</i></p>
-        <p><b>Carlito</b>
-          <br>Boss</p>
+        <img class="img-fluid d-block rounded-circle mx-auto" src="../../../../assets/homepage/img/testimonials-2.jpg">
+        <p class="my-4"><i>Oor waiting stuff is composed of students, with a very rapid change rate. SHAKE enabled us to get our procedures to each and every one of them, using media channels that are realy used.</i></p>
+        <p><b>Boris</b>
+          <br>Events place owner</p>
       </div>
     </div>
   </div>
 </div>
-
