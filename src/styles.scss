@@ -109,7 +109,11 @@ app-root:empty + .loading {
   }
 }
 
-//
+// global
+.error-message {
+  font-size: smaller;
+  color: darkred;
+}
 
 
 

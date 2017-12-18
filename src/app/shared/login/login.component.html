@@ -16,7 +16,7 @@
         <input class="form-control" id="email" type="email"
                formControlName="email">
 
-        <div *ngIf="email.invalid && email.dirty"
+        <div *ngIf="email.invalid && email.dirty" class="error-message"
              [innerHTML]="'Please enter a valid email' | translate">
 
         </div>
@@ -30,7 +30,7 @@
         <input class="form-control" type="password" id="password"
                formControlName="password" required>
 
-        <div *ngIf="password.invalid && password.touched"
+        <div *ngIf="password.invalid && password.touched"  class="error-message"
              [innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">
         </div>
       </div>
