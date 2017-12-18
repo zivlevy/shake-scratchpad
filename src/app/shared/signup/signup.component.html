@@ -18,7 +18,7 @@
         <input class="form-control" id="displayName" type="displayName"
                formControlName="displayName">
 
-        <div *ngIf="displayName.invalid && displayName.dirty" class="error-message"
+        <div *ngIf="displayName.invalid && displayName.dirty" class="error-message"  class="error-message"
              [innerHTML]="'Dispaly name can not by empty' | translate">
         </div>
       </div>
@@ -28,7 +28,7 @@
         <input class="form-control" id="email" type="email"
                formControlName="email">
 
-        <div *ngIf="email.invalid && email.dirty"
+        <div *ngIf="email.invalid && email.dirty"  class="error-message"
              [innerHTML]="'Please enter a valid email' | translate">
 
         </div>
@@ -41,7 +41,7 @@
         <input class="form-control" type="password" id="password"
                formControlName="password" required>
 
-        <div *ngIf="password.invalid && password.touched"
+        <div *ngIf="password.invalid && password.touched"  class="error-message"
              [innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">
         </div>
       </div>
@@ -54,10 +54,11 @@
         <input class="form-control" type="password" id="confirmPassword"
                formControlName="confirmPassword" required>
 
-        <div *ngIf="confirmPassword.invalid && confirmPassword.touched"
-             [innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">
+        <div *ngIf="loginForm.errors" class="error-message"
+             [innerHTML]="'Password don\'t match' | translate">
         </div>
       </div>
+
 
       <button class="btn btn-success btn-block" type="submit" [disabled]="!loginForm.valid"
               [innerHTML]="'Register' | translate"></button>

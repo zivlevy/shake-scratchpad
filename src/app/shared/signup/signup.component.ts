@@ -44,22 +44,29 @@ export class SignupComponent implements OnInit, OnDestroy {
       ]
       ],
       'password': ['', [
-        Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
-        Validators.minLength(6),
-        Validators.maxLength(25),
-        Validators.required
-      ]
-      ],
+      Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
+      Validators.minLength(6),
+      Validators.maxLength(25),
+      Validators.required
+    ]
+    ],
       'confirmPassword': ['', [
-        Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
-        Validators.minLength(6),
-        Validators.maxLength(25),
-        Validators.required
-      ]
-      ]
-    });
+
+    ]
+    ]
+    }, { validator: this.checkPasswords});
 
   }
+
+
+  // validator
+  checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+    const pass = group.controls.password.value;
+    const confirmPass = group.controls.confirmPassword.value;
+
+    return pass === confirmPass ? null : { notSame: true };
+  }
+
 
   // Using getters will make your code look pretty
   get email() {
