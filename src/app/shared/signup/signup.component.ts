@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../core/auth.service';
 import {ToastrService} from 'ngx-toastr';
-import {LanguadgeService} from "../../core/languadge.service";
+import {LanguadgeService} from '../../core/languadge.service';
 
 @Component({
   selector: 'sk-signup',
@@ -49,6 +49,13 @@ export class SignupComponent implements OnInit, OnDestroy {
         Validators.maxLength(25),
         Validators.required
       ]
+      ],
+      'confirmPassword': ['', [
+        Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
+        Validators.minLength(6),
+        Validators.maxLength(25),
+        Validators.required
+      ]
       ]
     });
 
@@ -67,10 +74,14 @@ export class SignupComponent implements OnInit, OnDestroy {
     return this.loginForm.get('displayName');
   }
 
+  get confirmPassword() {
+    return this.loginForm.get('confirmPassword');
+  }
+
 
   signup() {
     this.auth.emailSignUp(this.email.value, this.password.value).then(user => {
-      this.auth.updateUserProfile(this.displayName.value, null)
+      this.auth.updateUserProfile(this.displayName.value, null);
       this.router.navigate([this.returnRoute]);
 
     }).catch(err => {
