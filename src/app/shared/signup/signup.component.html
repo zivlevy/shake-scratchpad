@@ -1,4 +1,3 @@
-
 <div id="full-page">
 
 </div>
@@ -20,7 +19,7 @@
                formControlName="displayName">
 
         <div *ngIf="displayName.invalid && displayName.dirty" class="error-message"
-             [innerHTML]="'Dispaly name can not by empty' | translate" >
+             [innerHTML]="'Dispaly name can not by empty' | translate">
         </div>
       </div>
 
@@ -39,7 +38,6 @@
                [innerHTML]="'Password' | translate"
         ></label>
 
-
         <input class="form-control" type="password" id="password"
                formControlName="password" required>
 
@@ -48,20 +46,25 @@
         </div>
       </div>
 
-      <input class="form-control" type="password" id="password2"
-             formControlName="password2" required>
+      <div class="form-group">
+        <label for="confirmPassword"
+               [innerHTML]="'Confirm password' | translate"
+        ></label>
 
-      <div *ngIf="password2.invalid && password2.touched"
-           [innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">
+        <input class="form-control" type="password" id="confirmPassword"
+               formControlName="confirmPassword" required>
+
+        <div *ngIf="confirmPassword.invalid && confirmPassword.touched"
+             [innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">
+        </div>
       </div>
-    </div>
 
       <button class="btn btn-success btn-block" type="submit" [disabled]="!loginForm.valid"
               [innerHTML]="'Register' | translate"></button>
     </div>
   </form>
 
-  <div class="form-body text-center" >
+  <div class="form-body text-center">
     <span [innerHTML]="'Already Shake user?' | translate"></span>
     <a (click)="gotoLogin()"
        [innerHTML]="'Go to Login' | translate"
