@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 import {Router} from '@angular/router';
 import {AuthService} from '../../core/auth.service';
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class HomeService {
@@ -24,7 +25,15 @@ export class HomeService {
   }
 
   getCountrySectors(country: string) {
-    const countrySectorsRef: AngularFirestoreCollection<any> = this.afs.collection('dataPackages/' + country + '/');
-    return countrySectorsRef.valueChanges().take(1);
+    const sectorsCollection: AngularFirestoreCollection<any> = this.afs.collection('countries').doc(country).collection('sectors');
+    const sectorsObservable = sectorsCollection.snapshotChanges().map(arr => {
+      return arr.map(snap => {
+        const data = snap.payload.doc.data();
+        const id = snap.payload.doc.id;
+        return { id, ...data};
+      });
+    })
+
+    return sectorsObservable.take(1);
   }
 }

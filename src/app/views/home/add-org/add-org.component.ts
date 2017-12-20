@@ -1,12 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {OrgService} from '../../organization/org.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
-import {OrgUser} from '../../../model/org-user';
-import {HomeService} from "../home.service";
-import {LanguadgeService} from "../../../core/languadge.service";
+import {HomeService} from '../home.service';
+import {LanguageService} from '../../../core/language.service';
 
 @Component({
   selector: 'sk-add-org',
@@ -22,7 +20,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   constructor(public fb: FormBuilder,
               public auth: AuthService,
               public router: Router,
-              private lngService: LanguadgeService,
+              private lngService: LanguageService,
               private homeService: HomeService) {
 
   }
@@ -55,8 +53,11 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   }
 
   updateSectors(country: string) {
+    this.sectors = new Array<string>();
     this.homeService.getCountrySectors(country).subscribe(sectorsList => {
-      console.log(sectorsList);
+      for (const sector of sectorsList) {
+        this.sectors.push(sector.id);
+      }
     });
   }
 
