@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../../core/auth.service';
-import {LanguadgeService} from '../../../core/languadge.service';
+import {LanguageService} from '../../../core/language.service';
 import {OrgService} from '../org.service';
 import {OrgUser} from '../../../model/org-user';
 import {Subject} from 'rxjs/Subject';
@@ -24,7 +24,7 @@ export class OrgNavComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private orgService: OrgService,
-              private lngService: LanguadgeService,
+              private lngService: LanguageService,
               private authService: AuthService) { }
 
   ngOnInit() {

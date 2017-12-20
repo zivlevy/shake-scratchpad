@@ -3,7 +3,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()
-export class LanguadgeService {
+export class LanguageService {
   private languadge$: BehaviorSubject<string> = new BehaviorSubject('en');
   constructor(private translate: TranslateService) { }
 

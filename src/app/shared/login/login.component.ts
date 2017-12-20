@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../core/auth.service';
 import {ToastrService} from 'ngx-toastr';
-import {LanguadgeService} from '../../core/languadge.service';
+import {LanguageService} from '../../core/language.service';
 
 @Component({
   selector: 'sk-login',
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               public auth: AuthService,
               public router: Router,
               private route: ActivatedRoute,
-              private lngService: LanguadgeService,
+              private lngService: LanguageService,
               private toastr: ToastrService) {
 
   }

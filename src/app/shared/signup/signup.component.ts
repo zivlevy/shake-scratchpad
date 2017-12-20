@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../core/auth.service';
 import {ToastrService} from 'ngx-toastr';
-import {LanguadgeService} from '../../core/languadge.service';
+import {LanguageService} from '../../core/language.service';
 
 @Component({
   selector: 'sk-signup',
@@ -21,7 +21,7 @@ export class SignupComponent implements OnInit, OnDestroy {
               public auth: AuthService,
               private router: Router,
               private route: ActivatedRoute,
-              private lngService: LanguadgeService,
+              private lngService: LanguageService,
               private toastr: ToastrService) {
 
   }

@@ -4,7 +4,7 @@ import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {AuthService} from './auth.service';
 import { HomeService } from '../views/home/home.service';
-import {LanguadgeService} from './languadge.service';
+import {LanguageService} from './language.service';
 import {UploadService} from './upload.service';
 
 @NgModule({
@@ -16,7 +16,7 @@ import {UploadService} from './upload.service';
     providers: [
       AuthService,
       HomeService,
-      LanguadgeService,
+      LanguageService,
     UploadService],
     declarations: []
 })

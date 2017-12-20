@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import Quill from 'quill';
 import {AuthService} from './core/auth.service';
-import {LanguadgeService} from "./core/languadge.service";
+import {LanguageService} from "./core/language.service";
 
 @Component({
     selector: 'app-root',
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
     content;
     constructor(private translate: TranslateService,
                 private authService: AuthService,
-                private lngService: LanguadgeService) {
+                private lngService: LanguageService) {
 
         translate.setDefaultLang('en');
         this.lngService.setLanguadge('en');
