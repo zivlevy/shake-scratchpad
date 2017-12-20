@@ -23,4 +23,8 @@ export class HomeService {
     return orgDocRef.set(org);
   }
 
+  getCountrySectors(country: string) {
+    const countrySectorsRef: AngularFirestoreCollection<any> = this.afs.collection('dataPackages/' + country + '/');
+    return countrySectorsRef.valueChanges().take(1);
+  }
 }
