@@ -6,13 +6,16 @@ import { HomepageComponent } from './homepage/homepage.component';
 import {AddOrgComponent} from './add-org/add-org.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HomeService} from './home.service';
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslateModule} from '@ngx-translate/core';
+import {TooltipModule} from 'ngx-bootstrap';
 
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    TranslateModule,
+    TooltipModule,
     HomeRoutingModule,
     TranslateModule
   ],

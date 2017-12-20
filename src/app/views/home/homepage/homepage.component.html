@@ -17,34 +17,18 @@
   </div>
 </nav>
 
-<!--<div class="py-5 opaque-overlay"-->
-     <!--style="background-image: url('../../../../assets/homepage/img/bg-masthead.jpg');">-->
-  <!--<div class="container py-5">-->
-    <!--<div class="row">-->
-      <!--<div class="col-md-3 text-white">-->
-        <!--<img class="d-block mb-5 m-4 img-fluid" src="../../../../assets/img/shake-logo.png"></div>-->
-      <!--<div class="col-md-12 text-white align-self-center">-->
-        <!--<h1 class="display-3 mb-4">Shake</h1>-->
-        <!--<p class="lead mb-5">We make organizations organized-->
-          <!--<br></p>-->
-        <!--<h4 *ngIf="!currentUser">Please login / sign-in to create an new organization</h4>-->
-        <!--<h3 *ngIf="currentUser && !currentUser.emailVerified ">You need to verify your account</h3>-->
-        <!--<a *ngIf="currentUser && currentUser.emailVerified " class="btn btn-lg btn-primary mx-1"-->
-           <!--(click)="addOrganization()">Create new organization</a>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
 <div class="py-5 text-center opaque-overlay" style="background-image: url('../../../../assets/homepage/img/bg-home.jpg');">
   <div class="container py-5">
     <div class="row">
       <div class="col-md-12 text-white">
-        <h1 class="display-3 mb-4">Your Business Ideas</h1>
-        <h1 class="display-3 mb-4">Delivered</h1>
-        <h5 *ngIf="!currentUser">Please login / sign-in to create an new organization</h5>
-        <h5 *ngIf="currentUser && !currentUser.emailVerified ">You need to verify your account</h5>
-        <a *ngIf="currentUser && currentUser.emailVerified " class="btn btn-lg btn-primary mx-1"
+        <h1 class="display-3 mb-4">Your Business Operating Procedures</h1>
+        <h1 class="display-3 mb-4">Smartly Delivered</h1>
+        <br>
+        <a [class.disabled]="!currentUser || !currentUser.emailVerified " class="btn btn-lg btn-primary mx-1"
         (click)="addOrganization()">Create new organization</a>
+        <br>
+        <small *ngIf="!currentUser" class="text-white"> Login to enable button</small>
+        <small *ngIf="currentUser && !currentUser.emailVerified " class="text-white">Verify your account to enable button</small>
       </div>
     </div>
   </div>
@@ -62,10 +46,11 @@
             <div class="row mb-3">
               <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-wrench"></i></div>
               <div class="align-self-center col-10">
-                <h5 class="text-secondary"><b>Easy to set up</b></h5>
+                <h5 class="text-secondary"><b>Easy, modern management</b></h5>
               </div>
             </div>
-            <p>You just sign in to SHAKE, create a new organization, and you are ready to go.</p>
+            <p>Replace your printed procedures and stickey notes.</p>
+            <p>Improves your organization performance as employees are better informed.</p>
           </div>
           <div class="col-md-4 my-3">
             <div class="row mb-3">
@@ -125,16 +110,16 @@
           <br>PAZ fuel, Raanana</p>
       </div>
       <div class="col-md-4 p-4">
+        <img class="img-fluid d-block rounded-circle mx-auto" src="../../../../assets/homepage/img/testimonials-2.jpg">
+        <p class="my-4"><i>Our waiting stuff is composed of students, with a very rapid change rate. SHAKE enabled us to get our procedures to each and every one of them, using media channels that are realy used.</i></p>
+        <p><b>Boris</b>
+          <br>Events place owner</p>
+      </div>
+      <div class="col-md-4 p-4">
         <img class="img-fluid d-block rounded-circle mx-auto" src="../../../../assets/homepage/img/testimonials-3.jpg">
         <p class="my-4"><i>A Senior persons home is always active, with a large nursing and aid stuff. SHAKE provided us with an easy way to get everyone up to date on patient care procedures.</i></p>
         <p><b>Sima</b>
           <br>Beit Gil Hazhav, Chief Nurse</p>
-      </div>
-      <div class="col-md-4 p-4">
-        <img class="img-fluid d-block rounded-circle mx-auto" src="../../../../assets/homepage/img/testimonials-2.jpg">
-        <p class="my-4"><i>Oor waiting stuff is composed of students, with a very rapid change rate. SHAKE enabled us to get our procedures to each and every one of them, using media channels that are realy used.</i></p>
-        <p><b>Boris</b>
-          <br>Events place owner</p>
       </div>
     </div>
   </div>
