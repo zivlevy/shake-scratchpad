@@ -17,8 +17,13 @@
   "Already Shake user?": "כבר רשום ל Shake?",
   "Confirm password": "אמת סיסמה",
   "Password don't match": "הסיסמה לא תואמת",
-  "Go to Login": "עבור למסך כניסה"
+  "Go to Login": "עבור למסך כניסה",
 
-
-
+  "New org component": "========= NewOrg Component=========",
+  "Create New Organization": "צור ארגון חדש",
+  "orgId": "מזהה ארגון",
+  "orgId_tooltip": "זהו מזהה ייחודי של הארגון שלך. אי אפשר לשנותו אחרי יצירת הארגון",
+  "Organization Name": "שם הארגון",
+  "Country": "מדינה",
+  "Sector": "מגזר"
 }

@@ -29,6 +29,7 @@ import { SignupComponent } from './shared/signup/signup.component';
 import {HomeModule} from './views/home/home.module';
 import { ScrpComponent } from './scrp/scrp.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import {TooltipModule} from "ngx-bootstrap";
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +61,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    TooltipModule.forRoot(),
     CoreModule,
     HomeModule,
     OrganizationModule,
