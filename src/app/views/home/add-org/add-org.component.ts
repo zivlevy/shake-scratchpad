@@ -5,8 +5,8 @@ import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
 import {OrgUser} from '../../../model/org-user';
-import {HomeService} from "../home.service";
-import {LanguadgeService} from "../../../core/languadge.service";
+import {HomeService} from '../home.service';
+import {LanguageService} from '../../../core/language.service';
 
 @Component({
   selector: 'sk-add-org',
@@ -22,7 +22,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   constructor(public fb: FormBuilder,
               public auth: AuthService,
               public router: Router,
-              private lngService: LanguadgeService,
+              private lngService: LanguageService,
               private homeService: HomeService) {
 
   }

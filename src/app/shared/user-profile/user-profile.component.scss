@@ -2,6 +2,25 @@
   width: 250px;
   margin: 20px auto;
 }
+#img-input {
+position: relative;
+  left: -50px;
+
+}
+#hide {
+  position: relative;
+  top:-340px;
+  width: 350px;
+  height: 38px;
+  pointer-events: none;
+
+
+}
+#cropper-buttons {
+  position: relative;
+  top:-40px;
+}
+
 #display-name {
   margin-top: 10px;
 }

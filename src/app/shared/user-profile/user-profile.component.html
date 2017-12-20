@@ -1,12 +1,14 @@
 <div id="wrapper">
   <div id="img-input" *ngIf="isEditImage; else profile">
-
     <img-cropper [image]="data" [settings]="cropperSettings"></img-cropper>
-    <br>
-    <button class="btn btn-outline-danger"
-            [disabled]="!data.image"
-            (click)="isEditImage = false; uploadSingle()">save</button>
-    <button class="btn btn-outline-primary" (click)="this.data.image =''; isEditImage = false">cancel</button>
+    <button id="hide" class="btn btn-primary"> Open image </button>
+    <div id="cropper-buttons">
+
+      <button class="btn btn-outline-danger"
+              [disabled]="!data.image"
+              (click)="isEditImage = false; uploadSingle()">save</button>
+      <button class="btn btn-outline-primary" (click)="this.data.image =''; isEditImage = false">cancel</button>
+    </div>
 
   </div>
 

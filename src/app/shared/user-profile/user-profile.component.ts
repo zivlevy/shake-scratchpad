@@ -45,7 +45,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.cropperSettings.height = 100;
     this.cropperSettings.croppedWidth = 250;
     this.cropperSettings.croppedHeight = 250;
-    this.cropperSettings.canvasWidth = 400;
+    this.cropperSettings.canvasWidth = 350;
     this.cropperSettings.canvasHeight = 300;
     this.cropperSettings.rounded = true;
 
