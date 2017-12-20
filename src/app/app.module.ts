@@ -29,7 +29,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import {TooltipModule} from 'ngx-bootstrap';
 import {SharedModule} from './shared/shared.module';
 import { Ng2FileInputModule } from 'ng2-file-input';
-import {ImageCropperComponent} from 'ng2-img-cropper';
 
 @NgModule({
   declarations: [
@@ -37,8 +36,7 @@ import {ImageCropperComponent} from 'ng2-img-cropper';
     NotFoundComponent,
     LoginComponent,
     SignupComponent,
-    ScrpComponent,
-    ImageCropperComponent
+    ScrpComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -74,6 +72,7 @@ import {ImageCropperComponent} from 'ng2-img-cropper';
   ],
   providers: [],
   bootstrap: [AppComponent]
+
 })
 export class AppModule {
 }

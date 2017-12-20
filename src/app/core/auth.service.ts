@@ -67,16 +67,14 @@ export class AuthService {
       displayName = displayName ? displayName : this.currentUser.displayName;
       photoUrl = photoUrl ? photoUrl : this.currentUser.photoUrl;
 
-      this.afAuth.auth.currentUser.updateProfile({
+      return this.afAuth.auth.currentUser.updateProfile({
         displayName: displayName,
         photoURL: photoUrl
-      }).then(() => {
-
-      }, (error) => {
-        // An error happened.
-        console.log(error);
       });
-      return null;
+    }
+
+    updateUserEmail(newEmail: string) : Promise<any> {
+      return this.afAuth.auth.currentUser.updateEmail(newEmail);
     }
 
 

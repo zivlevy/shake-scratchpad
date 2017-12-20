@@ -3,6 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {OrgHomePageComponent} from './org-home-page/org-home-page.component';
 import {OrgAdminUsersComponent} from './org-admin-users/org-admin-users.component';
 import {OrgAdminOrgComponent} from './org-admin-org/org-admin-org.component';
+import {UserProfileComponent} from "../../shared/user-profile/user-profile.component";
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
         path: ':id', children: [
           {
             path: '', component: OrgHomePageComponent, children: [
+              {path: 'user-profile', component: UserProfileComponent},
               {path: 'admin-users', component: OrgAdminUsersComponent},
               {path: 'admin-org', component: OrgAdminOrgComponent}
 

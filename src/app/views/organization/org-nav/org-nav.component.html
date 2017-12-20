@@ -30,10 +30,14 @@
       <!-- User drop down-->
       <div class="btn-group" dropdown *ngIf="isAuthenticated">
         <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-          <i class="fa fa-user-circle"></i> <span class="caret"></span>
+          <i *ngIf="!currentOthenticatedUser || !currentOthenticatedUser.photoURL" class="fa fa-user-circle"></i>
+          <img id="userImg"  class="rounded-circle"
+               *ngIf="currentOthenticatedUser && currentOthenticatedUser.photoURL"
+               [src]="currentOthenticatedUser?.photoURL" alt="">
+          <span class="caret"></span>
         </button>
         <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
-          <li role="menuitem"><a class="dropdown-item">Profile</a></li>
+          <li role="menuitem" [routerLink]="'user-profile'"><a class="dropdown-item">Profile</a></li>
           <li class="divider dropdown-divider"></li>
           <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a>
           </li>

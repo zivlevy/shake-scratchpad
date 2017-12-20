@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../../core/auth.service';
 import {LanguageService} from '../../../core/language.service';
@@ -11,7 +11,7 @@ import {Subject} from 'rxjs/Subject';
   templateUrl: './org-nav.component.html',
   styleUrls: ['./org-nav.component.scss']
 })
-export class OrgNavComponent implements OnInit {
+export class OrgNavComponent implements OnInit, OnDestroy {
   logo: string;
   name: string;
   rtl = false;
@@ -40,7 +40,6 @@ export class OrgNavComponent implements OnInit {
     this.authService.getUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
-        console.log(user);
         this.currentOthenticatedUser = user;
         this.isAuthenticated = user ? user.emailVerified : null;
       });
@@ -86,8 +85,9 @@ export class OrgNavComponent implements OnInit {
 
   logout() {
     const orgId = this.route.snapshot.params['id'];
-    this.authService.logout();
     this.router.navigate([`org/${this.currentOrg}`]);
+    this.authService.logout();
+
   }
 
   join() {

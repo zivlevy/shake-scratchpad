@@ -19,6 +19,10 @@
   "Password don't match": "הסיסמה לא תואמת",
   "Go to Login": "עבור למסך כניסה",
 
+  "UserProfile component":"========= User-Profile Component=========",
+  "User Profile": "פרופיל משתמש",
+
+
   "New org component": "========= NewOrg Component=========",
   "Create New Organization": "צור ארגון חדש",
   "orgId": "מזהה ארגון",

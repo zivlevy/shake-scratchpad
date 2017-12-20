@@ -3,7 +3,7 @@
 <div class="container">
   <div id="img-input" *ngIf="isEditImage; else image">
     <img-cropper [image]="data" [settings]="cropperSettings"></img-cropper><br>
-    <button (click)="isEditImage = false">save</button>
+    <button (click)="isEditImage = false; uploadSingle()">save</button>
     <button (click)="this.data.image =''; isEditImage = false">cancel</button>
 
   </div>
@@ -15,12 +15,7 @@
   <button (click)="isEditImage = true">change image</button>
 </ng-template>
 
-<select class="custom-select">
-  <option selected>Open this select menu</option>
-  <option value="1">One</option>
-  <option value="2">Two</option>
-  <option value="3">Three</option>
-</select>
+
 
 <!--<div *ngIf="currentUpload">-->
   <!--<div class="progress">-->

@@ -4,6 +4,7 @@ import {Upload} from '../model/upload';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import {AuthService} from './auth.service';
+
 @Injectable()
 export class UploadService {
   currentUser;
@@ -21,31 +22,11 @@ export class UploadService {
   private basePath = '/uploads';
 
 
-  uploadUserImg(upload: Upload, userId: string){
-  const storageRef = firebase.storage().ref();
-    const uploadTask = storageRef.child(`${this.basePath}/${userId}`).put(upload.file);
-    return uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-      (snapshot) => {
-        // upload in progress
-        upload.progress = (uploadTask.snapshot.bytesTransferred / uploadTask.snapshot.totalBytes) * 100;
-      },
-      (error) => {
-        // upload failed
-        console.log(error);
-      },
-      () => {
-        // upload success
-        upload.url = uploadTask.snapshot.downloadURL;
-        upload.name = upload.file.name;
-        console.log('finished');
-        this.authService.updateUserProfile(null, uploadTask.snapshot.downloadURL)
-
-      }
-    );
+  uploadUserImg(img, userId: string) {
+    const storageRef = firebase.storage().ref();
+    storageRef.child(`${this.basePath}/${userId}`)
+      .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
+      this.authService.updateUserProfile(null, snapshot.downloadURL);
+    }).catch(err => console.log(err));
   }
-
-  // Writes the file details to the realtime db
-//   private saveFileData(upload: Upload) {
-//     this.db.list(`${this.basePath}/`).push(upload);
-//   }
 }
