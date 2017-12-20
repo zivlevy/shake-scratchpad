@@ -1,10 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {OrgService} from '../../organization/org.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
-import {OrgUser} from '../../../model/org-user';
 import {HomeService} from "../home.service";
 
 @Component({

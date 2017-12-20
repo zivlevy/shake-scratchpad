@@ -29,13 +29,19 @@ import { SignupComponent } from './shared/signup/signup.component';
 import {HomeModule} from './views/home/home.module';
 import { ScrpComponent } from './scrp/scrp.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import {SharedModule} from './shared/shared.module';
+import { Ng2FileInputModule } from 'ng2-file-input';
+import {ImageCropperComponent} from "ng2-img-cropper";
+import {TooltipModule} from "ngx-bootstrap";
+
 @NgModule({
   declarations: [
     AppComponent,
     NotFoundComponent,
     LoginComponent,
     SignupComponent,
-    ScrpComponent
+    ScrpComponent,
+    ImageCropperComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -49,6 +55,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     HttpClientModule,
     QuillModule,
     FormsModule,
+    SharedModule,
     ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
@@ -60,6 +67,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    Ng2FileInputModule.forRoot(),
+    TooltipModule.forRoot(),
     CoreModule,
     HomeModule,
     OrganizationModule,

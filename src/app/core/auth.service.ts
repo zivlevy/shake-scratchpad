@@ -14,14 +14,15 @@ import {User} from 'firebase';
 
 @Injectable()
 export class AuthService {
-
+    currentUser;
 
     constructor(private afAuth: AngularFireAuth,
                 private afs: AngularFirestore,
                 private router: Router) {
+
       this.getUser$().subscribe(user => {
         if (user) {
-          console.log(user.displayName);
+          this.currentUser = user;
         }
       });
 
@@ -63,6 +64,8 @@ export class AuthService {
     }
 
     updateUserProfile(displayName, photoUrl): Promise<any> | null {
+      displayName = displayName ? displayName : this.currentUser.displayName;
+      photoUrl = photoUrl ? photoUrl : this.currentUser.photoUrl;
 
       this.afAuth.auth.currentUser.updateProfile({
         displayName: displayName,
@@ -73,11 +76,7 @@ export class AuthService {
         // An error happened.
         console.log(error);
       });
-
-
       return null;
-
-
     }
 
 

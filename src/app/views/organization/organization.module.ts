@@ -21,7 +21,7 @@ import { OrgAdminOrgComponent } from './org-admin-org/org-admin-org.component';
     CoreModule,
     SharedModule,
     OrganizationRoutingModule,
-    TranslateModule.forChild(),
+    TranslateModule,
     BsDropdownModule,
     ReactiveFormsModule
   ],

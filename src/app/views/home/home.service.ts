@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 import {Router} from '@angular/router';
 import {AuthService} from '../../core/auth.service';
-import {Organization} from '../../model/organization';
 
 @Injectable()
 export class HomeService {
