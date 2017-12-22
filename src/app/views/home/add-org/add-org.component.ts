@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validator, Validators} from "@angular/forms";
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
@@ -15,7 +15,9 @@ export class AddOrgComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   newOrgForm: FormGroup;
-  sectors: Array<string> = ['a', 'b'];
+  sectors: Array<string>;
+  sector: string;
+  country: string;
 
   constructor(public fb: FormBuilder,
               public auth: AuthService,
@@ -24,6 +26,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
               private homeService: HomeService) {
 
   }
+
 
   ngOnInit() {
     this.newOrgForm = this.fb.group({
@@ -37,37 +40,51 @@ export class AddOrgComponent implements OnInit, OnDestroy {
       ]
       ],
       'country': ['', [
-        // Validators.required
+        Validators.required
       ]],
       'sector': [ '', [
-        // Validators.required
+        Validators.required
       ]]
     });
 
     this.updateSectors('Israel');
   }
 
-  // Using getters will make your code look pretty
   get orgId() {
     return this.newOrgForm.get('orgId');
   }
 
+  get orgName() {
+    return this.newOrgForm.get('orgName');
+  }
+
+  countryChanged(country: string) {
+    this.country = country;
+    this.updateSectors(country);
+  }
+
+  updateSector(sector: string) {
+    console.log(this.country);
+    this.sector = sector;
+  }
+
   updateSectors(country: string) {
     this.sectors = new Array<string>();
-    this.homeService.getCountrySectors(country).subscribe(sectorsList => {
-      for (const sector of sectorsList) {
-        this.sectors.push(sector.id);
-      }
-    });
+    this.homeService.getCountrySectors$(country)
+      .take(1)
+      .subscribe(sectorsList => {
+        for (const sector of sectorsList) {
+          this.sectors.push(sector.id);
+        }
+        this.newOrgForm.controls['sector'].setValue('');
+      });
   }
 
   addOrg() {
-    console.log(this.orgId.value);
-    this.homeService.setNewOrg(this.orgId.value)
+    this.homeService.setNewOrg(this.orgId.value, this.orgName.value, this.country, this.sector)
       .then(() => {
         this.router.navigate([`org/${this.orgId.value}`]);
       });
-
   }
 
   setLng(lng) {
@@ -80,5 +97,9 @@ export class AddOrgComponent implements OnInit, OnDestroy {
     // Now let's also unsubscribe from the subject itself:
     this.destroy$.unsubscribe();
 
+  }
+
+  test() {
+    this.homeService.test();
   }
 }

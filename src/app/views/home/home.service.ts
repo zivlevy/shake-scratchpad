@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 import {Router} from '@angular/router';
 import {AuthService} from '../../core/auth.service';
-import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class HomeService {
@@ -17,23 +16,31 @@ export class HomeService {
     });
   }
 
-  setNewOrg(orgName: string) {
-    const orgDocRef: AngularFirestoreDocument<any> = this.afs.collection(`orgRequested`).doc(orgName);
-    const org = {name: orgName, createdBy: this.currentUser.uid, displayName: this.currentUser.displayName};
-    // return orgCollectionRef.valueChanges().subscribe(orgi => console.log(orgi));
+  setNewOrg(orgId: string, orgName: string, country: string, sector: string) {
+    const orgDocRef: AngularFirestoreDocument<any> = this.afs.collection(`orgRequested`).doc(orgId);
+    const org = {orgId: orgId, orgName: orgName, country: country,  sector: sector, createdBy: this.currentUser.uid,
+      userName: this.currentUser.displayName};
     return orgDocRef.set(org);
   }
 
-  getCountrySectors(country: string) {
+  getCountrySectors$(country: string) {
     const sectorsCollection: AngularFirestoreCollection<any> = this.afs.collection('countries').doc(country).collection('sectors');
-    const sectorsObservable = sectorsCollection.snapshotChanges().map(arr => {
+    return sectorsCollection.snapshotChanges().map(arr => {
       return arr.map(snap => {
         const data = snap.payload.doc.data();
         const id = snap.payload.doc.id;
         return { id, ...data};
       });
-    })
+    });
+  }
 
-    return sectorsObservable.take(1);
+  test() {
+    console.log('test');
+
+    const sectorsCollection: AngularFirestoreDocument<any> = this.afs.collection('countries').doc('Israel')
+      .collection('sectors').doc('Pizza');
+    return sectorsCollection.snapshotChanges().map(snap => {
+        console.log(snap.payload.data().icon_url);
+    }).subscribe();
   }
 }
