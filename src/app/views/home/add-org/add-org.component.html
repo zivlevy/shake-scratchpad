@@ -34,16 +34,16 @@
       </div>
 
       <div class="form-group">
-        <label for="country" [innerHTML]="'Country' | translate" ></label>
-        <select class="form-control custom-select" id="country">
+        <label for="country" [innerHTML]="'Country' | translate"  ></label>
+        <select class="form-control custom-select" id="country" (change)="updateSectors($event.target.value)">
           <option value="Israel">Israel</option>
-          <option value="United States">United States</option>
+          <option value="USA">USA</option>
         </select>
 
       </div>
 
       <div class="form-group">
-        <label for="sector" [innerHTML]="'Sector' | translate" ></label>
+        <label for="sector" [innerHTML]="'Sector' | translate"></label>
         <select class="form-control custom-select" id="sector">
           <option *ngFor="let sector of sectors" [value]="sector">{{sector}}</option>
         </select>

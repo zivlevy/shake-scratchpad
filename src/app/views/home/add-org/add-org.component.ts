@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {OrgService} from '../../organization/org.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
@@ -55,8 +54,11 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   }
 
   updateSectors(country: string) {
+    this.sectors = new Array<string>();
     this.homeService.getCountrySectors(country).subscribe(sectorsList => {
-      console.log(sectorsList);
+      for (const sector of sectorsList) {
+        this.sectors.push(sector.id);
+      }
     });
   }
 
