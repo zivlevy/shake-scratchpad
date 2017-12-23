@@ -15,6 +15,7 @@ export class OrgService {
   isAuthenticated: boolean;
   private orgPublicData: any; // local copy of org public data
   private localCurrentOrg: string;
+  private currentSkUser;
 
   constructor(private authService: AuthService,
               private afs: AngularFirestore,
@@ -39,7 +40,6 @@ export class OrgService {
     this.authService.isAuth$()
       .subscribe(isAuth => this.isAuthenticated = isAuth);
 
-
   }
 
   private setOrganization(orgID: string) {
@@ -54,14 +54,19 @@ export class OrgService {
    ************************/
 
   joinToOrg() {
-    this.setUserDoc(this.afAuth.auth.currentUser)
-      .then(() => {
-        this.router.navigate([`org/${this.currentOrg$.getValue()}`]);
-      });
+    this.authService.getSkUser$()
+      .take(1)
+      .subscribe(skUser => {
+        this.setUserInfo(skUser)
+          .then(() => {
+            this.router.navigate([`org/${this.currentOrg$.getValue()}`]);
+          });
+      } );
+
   }
 
-  // Sets initial user data to firestore after successful sign-up
-  private setUserDoc(user) {
+  // Sets initial user data to firestore after successful org Join
+  private setUserInfo(user) {
     // set the org to the user
     const orgUserRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}/orgs/${this.currentOrg$.getValue()}`);
     orgUserRef.set({});
@@ -71,8 +76,10 @@ export class OrgService {
     const data: OrgUser = {
       uid: user.uid,
       isPending: true,
-      roles: {},
-      displayName: user.displayName
+      roles: {}, // must be empty object for permission
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL
     };
     return userRef.set(data);
   }

@@ -14,6 +14,7 @@ export const newOrgRequest =  orgFunctions.newOrgRequest;
 
 // users
 export const deleteUser =  usersFunctions.deleteUser;
+export const updateUserInfo =  usersFunctions.updateUserInfo;
 
 
 

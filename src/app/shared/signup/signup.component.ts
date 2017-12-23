@@ -88,10 +88,10 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   signup() {
     this.auth.emailSignUp(this.email.value, this.password.value).then(user => {
-      console.log(user)
+      console.log(user);
       user.sendEmailVerification();
       this.auth.createUserInitialData(user.uid, this.email.value , this.displayName.value, );
-      this.router.navigate([this.returnRoute]);
+      this.router.navigate([this.returnRoute ? this.returnRoute : '']);
 
     }).catch(err => {
       this.toastr.error(err.message, '', {
@@ -103,8 +103,11 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   gotoLogin() {
 
-    this.router.navigate(['login'], {queryParams: {returnUrl: this.returnRoute}});
-
+    if (this.returnRoute) {
+      this.router.navigate([`${this.returnRoute}/login`], {queryParams: {returnUrl: this.returnRoute}});
+    } else {
+      this.router.navigate(['login']);
+    }
   }
 
   setLng(lng) {

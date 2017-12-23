@@ -15,8 +15,8 @@ import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class AuthService {
-    currentAuthUser;
-    currentSkUser;
+    private currentAuthUser;
+    private currentSkUser;
 
     constructor(private afAuth: AngularFireAuth,
                 private afs: AngularFirestore,
@@ -88,7 +88,10 @@ export class AuthService {
     }
 
     updateUserEmail(newEmail: string): Promise<any> {
-      return this.afAuth.auth.currentUser.updateEmail(newEmail);
+      return this.afAuth.auth.currentUser.updateEmail(newEmail).then(() => {
+        this.afs.doc(`users/${this.currentSkUser.uid}`).update({email: newEmail});
+      });
+
     }
 
 

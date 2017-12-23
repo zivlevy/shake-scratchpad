@@ -90,7 +90,12 @@ export class OrgNavComponent implements OnInit, OnDestroy {
 
   login() {
     const orgId = this.route.snapshot.params['id'];
-    this.router.navigate([`login`], {queryParams: {returnUrl: 'org/' + orgId}});
+    this.router.navigate([`org/${this.currentOrg}/login`], {queryParams: {returnUrl: 'org/' + orgId}});
+  }
+
+  signup() {
+    const orgId = this.route.snapshot.params['id'];
+    this.router.navigate([`org/${this.currentOrg}/register`], {queryParams: {returnUrl: 'org/' + orgId}});
   }
 
   logout() {

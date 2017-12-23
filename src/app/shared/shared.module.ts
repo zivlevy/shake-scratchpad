@@ -5,7 +5,9 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {RouterModule} from '@angular/router';
-import {ImageCropperComponent} from "ng2-img-cropper";
+import {ImageCropperComponent} from 'ng2-img-cropper';
+import { NavUserComponent } from './nav-user/nav-user.component';
+import {BsDropdownModule} from "ngx-bootstrap";
 
 @NgModule({
   imports: [
@@ -13,18 +15,21 @@ import {ImageCropperComponent} from "ng2-img-cropper";
     ReactiveFormsModule,
     FormsModule,
     TranslateModule,
-    RouterModule
+    RouterModule,
+    BsDropdownModule
 
   ],
   declarations: [
     SpinnerComponent,
     UserProfileComponent,
-    ImageCropperComponent
+    ImageCropperComponent,
+    NavUserComponent
   ],
   exports: [
     SpinnerComponent,
     UserProfileComponent,
-    ImageCropperComponent
+    ImageCropperComponent,
+    NavUserComponent
   ]})
 
 export class SharedModule {

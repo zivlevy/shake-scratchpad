@@ -8,6 +8,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {HomeService} from './home.service';
 import {TranslateModule} from '@ngx-translate/core';
 import {TooltipModule} from 'ngx-bootstrap';
+import {SharedModule} from "../../shared/shared.module";
+import { HomeContentComponent } from './home-content/home-content.component';
 
 
 @NgModule({
@@ -17,11 +19,13 @@ import {TooltipModule} from 'ngx-bootstrap';
     TranslateModule,
     TooltipModule,
     HomeRoutingModule,
-    TranslateModule
+    TranslateModule,
+    SharedModule
   ],
   declarations: [
     HomepageComponent,
     AddOrgComponent,
+    HomeContentComponent,
     ],
   providers: [
     HomeService

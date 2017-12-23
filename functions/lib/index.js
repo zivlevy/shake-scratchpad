@@ -9,4 +9,5 @@ const usersFunctions = require("./users");
 exports.newOrgRequest = orgFunctions.newOrgRequest;
 // users
 exports.deleteUser = usersFunctions.deleteUser;
+exports.updateUserInfo = usersFunctions.updateUserInfo;
 //# sourceMappingURL=index.js.map

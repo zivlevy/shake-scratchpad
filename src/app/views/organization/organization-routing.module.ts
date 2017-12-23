@@ -4,6 +4,9 @@ import {OrgHomePageComponent} from './org-home-page/org-home-page.component';
 import {OrgAdminUsersComponent} from './org-admin-users/org-admin-users.component';
 import {OrgAdminOrgComponent} from './org-admin-org/org-admin-org.component';
 import {UserProfileComponent} from "../../shared/user-profile/user-profile.component";
+import {LoginComponent} from "../../shared/login/login.component";
+import {Register} from "ts-node/dist";
+import {SignupComponent} from "../../shared/signup/signup.component";
 
 const routes: Routes = [
   {
@@ -13,6 +16,8 @@ const routes: Routes = [
         path: ':id', children: [
           {
             path: '', component: OrgHomePageComponent, children: [
+              {path: 'login', component: LoginComponent},
+              {path: 'register', component: SignupComponent},
               {path: 'user-profile', component: UserProfileComponent},
               {path: 'admin-users', component: OrgAdminUsersComponent},
               {path: 'admin-org', component: OrgAdminOrgComponent}

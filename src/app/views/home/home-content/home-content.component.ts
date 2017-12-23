@@ -1,14 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import {Subject} from 'rxjs/Subject';
-import { AuthService } from "../../../core/auth.service";
+import {AuthService} from '../../../core/auth.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-  selector: 'sk-homepage',
-  templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.scss']
+  selector: 'sk-home-content',
+  templateUrl: './home-content.component.html',
+  styleUrls: ['./home-content.component.scss']
 })
-export class HomepageComponent implements OnInit, OnDestroy {
+export class HomeContentComponent implements OnInit {
+
   destroy$: Subject<boolean> = new Subject<boolean>();
   isAuthenticated: boolean;
   currentUser: any;
@@ -20,6 +21,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
     this.authService.getUser$()
       .takeUntil(this.destroy$)
       .subscribe(authUser => {
+        console.log(authUser)
         this.currentUser = authUser;
       });
   }
@@ -29,11 +31,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.router.navigate([`/login`]);
-  }
-
-  signup() {
-    this.router.navigate([`/register`]);
+    this.router.navigate([`login`], {queryParams: {returnUrl: '/'}});
   }
 
   logout() {
@@ -51,4 +49,5 @@ export class HomepageComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
 
   }
+
 }

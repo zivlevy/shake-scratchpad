@@ -26,7 +26,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.route.queryParamMap.subscribe(params => {
+      console.log(this.route.parent);
       console.log(params.get('returnUrl'));
       this.returnRoute = params.get('returnUrl');
     });
@@ -61,7 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     this.auth.login(this.email.value, this.password.value).then(user => {
-      this.router.navigate([this.returnRoute]);
+      this.router.navigate([this.returnRoute ? this.returnRoute : '']);
     })
       .catch(err => {
         this.toastr.error(err.message, '', {
@@ -72,8 +74,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   gotoRegister() {
-    console.log(this.returnRoute);
-    this.router.navigate(['register'], {queryParams: {returnUrl: this.returnRoute}});
+    if (this.returnRoute) {
+      this.router.navigate([`${this.returnRoute}/register`], {queryParams: {returnUrl: this.returnRoute}});
+    } else {
+      this.router.navigate(['register']);
+    }
   }
 
   setLng(lng) {
