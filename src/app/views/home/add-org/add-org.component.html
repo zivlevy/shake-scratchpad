@@ -8,10 +8,12 @@
     <img src="assets/img/shake-logo.png" id="logo" [routerLink]="['/home']">
   </div>
 
+  <button (click)="test()">Test</button>
+
   <form [formGroup]="newOrgForm" (ngSubmit)="addOrg()">
 
     <div class="form-header p-0">
-      <h1 [innerHTML]="'Create New Organization' | translate"></h1>
+      <h1 [innerHTML]="'Create Organization' | translate"></h1>
     </div>
 
     <div class="form-body">
@@ -35,7 +37,8 @@
 
       <div class="form-group">
         <label for="country" [innerHTML]="'Country' | translate"  ></label>
-        <select class="form-control custom-select" id="country" (change)="updateSectors($event.target.value)">
+        <select formControlName="country" class="form-control custom-select" id="country" (change)="countryChanged($event.target.value)">
+          <option disabled selected value style="display:none"></option>
           <option value="Israel">Israel</option>
           <option value="USA">USA</option>
         </select>
@@ -44,8 +47,9 @@
 
       <div class="form-group">
         <label for="sector" [innerHTML]="'Sector' | translate"></label>
-        <select class="form-control custom-select" id="sector">
-          <option *ngFor="let sector of sectors" [value]="sector">{{sector.id}}</option>
+        <select formControlName="sector" class="form-control custom-select" id="sector" (change)="updateSector($event.target.value)">
+          <option disabled selected value style="display:none"></option>
+          <option *ngFor="let sector of sectors" [value]="sector">{{sector}}</option>
         </select>
       </div>
 
@@ -53,6 +57,7 @@
 
     </div>
   </form>
+
 
   <div class="flags d-flex justify-content-center">
     <img src="assets/img/il.png" (click)="setLng('he')">

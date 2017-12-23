@@ -24,7 +24,7 @@
 
 
   "New org component": "========= NewOrg Component=========",
-  "Create New Organization": "צור ארגון חדש",
+  "Create Organization": "צור ארגון",
   "orgId": "מזהה ארגון",
   "orgId_tooltip": "זהו מזהה ייחודי של הארגון שלך. אי אפשר לשנותו אחרי יצירת הארגון",
   "Organization Name": "שם הארגון",
