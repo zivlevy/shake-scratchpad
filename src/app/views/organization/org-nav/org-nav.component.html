@@ -15,7 +15,7 @@
 
 
       <!-- Admin drop down-->
-      <div class="btn-group" dropdown *ngIf="currentOrgUser &&  currentOrgUser?.roles?.admin && isAuthenticated">
+      <div class="btn-group" dropdown *ngIf="currentOrgUser &&  currentOrgUser?.roles?.admin && currentOthenticatedUser">
         <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
           <i class="fa fa-gear"></i> <span class="caret"></span>
         </button>
@@ -28,14 +28,15 @@
       </div>
 
       <!-- User drop down-->
-      <div class="btn-group" dropdown *ngIf="isAuthenticated">
+      <div class="btn-group" dropdown *ngIf="currentOthenticatedUser">
         <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-          <i *ngIf="!currentOthenticatedUser || !currentOthenticatedUser.photoURL" class="fa fa-user-circle"></i>
+          <i *ngIf="!skUser || skUser.photoURL === ''" class="fa fa-user-circle"></i>
           <img id="userImg"  class="rounded-circle"
-               *ngIf="currentOthenticatedUser && currentOthenticatedUser.photoURL"
-               [src]="currentOthenticatedUser?.photoURL" alt="">
+               *ngIf="skUser && skUser.photoURL != ''"
+               [src]="skUser?.photoURL" alt="">
           <span class="caret"></span>
         </button>
+
         <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
           <li role="menuitem" [routerLink]="'user-profile'"><a class="dropdown-item">Profile</a></li>
           <li class="divider dropdown-divider"></li>

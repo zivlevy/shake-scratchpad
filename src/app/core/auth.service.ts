@@ -9,12 +9,14 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import * as firebase from 'firebase';
 import UserCredential = firebase.auth.UserCredential;
 import {User} from 'firebase';
+import {Observable} from "rxjs/Observable";
 
 
 
 @Injectable()
 export class AuthService {
-    currentUser;
+    currentAuthUser;
+    currentSkUser;
 
     constructor(private afAuth: AngularFireAuth,
                 private afs: AngularFirestore,
@@ -22,7 +24,14 @@ export class AuthService {
 
       this.getUser$().subscribe(user => {
         if (user) {
-          this.currentUser = user;
+          console.log(user);
+          this.currentAuthUser = user;
+        }
+      });
+
+      this.getSkUser$().subscribe(user => {
+        if (user) {
+          this.currentSkUser = user;
         }
       });
 
@@ -32,16 +41,15 @@ export class AuthService {
 
     //// Email/Password Auth ////
     emailSignUp(email: string, password: string) {
-        return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-          .then(user => {
-            console.log(user);
-            user.sendEmailVerification().then(() => {console.log('email sent'); })
-              .catch(err => console.log(err));
-          });
+        return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
     }
 
     login(email: string, password: string) {
         return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+    }
+
+    createUserInitialData (uid, email, displayName) {
+      return this.afs.doc(`users/${uid}`).set({displayName, uid, email});
     }
 
     logout() {
@@ -59,21 +67,27 @@ export class AuthService {
               });
     }
 
-    getUser$(){
+    getUser$() {
       return this.afAuth.authState;
     }
 
-    updateUserProfile(displayName, photoUrl): Promise<any> | null {
-      displayName = displayName ? displayName : this.currentUser.displayName;
-      photoUrl = photoUrl ? photoUrl : this.currentUser.photoUrl;
-
-      return this.afAuth.auth.currentUser.updateProfile({
-        displayName: displayName,
-        photoURL: photoUrl
+    getSkUser$(): Observable<any>{
+      return this.getUser$().switchMap(user => {
+         return user ? this.afs.doc(`users/${user.uid}`).valueChanges() : Observable.of(null);
       });
     }
 
-    updateUserEmail(newEmail: string) : Promise<any> {
+    updateUserProfile(uid, displayName, photoURL): Promise<any> | null {
+      if (this.currentSkUser) {
+        displayName = displayName ? displayName : this.currentSkUser.displayName;
+        photoURL = photoURL ? photoURL : this.currentSkUser.photoURL;
+      }
+
+      return this.afs.doc(`users/${uid}`).update({displayName, photoURL});
+
+    }
+
+    updateUserEmail(newEmail: string): Promise<any> {
       return this.afAuth.auth.currentUser.updateEmail(newEmail);
     }
 

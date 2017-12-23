@@ -45,7 +45,7 @@
       <div class="form-group">
         <label for="sector" [innerHTML]="'Sector' | translate"></label>
         <select class="form-control custom-select" id="sector">
-          <option *ngFor="let sector of sectors" [value]="sector">{{sector}}</option>
+          <option *ngFor="let sector of sectors" [value]="sector">{{sector.id}}</option>
         </select>
       </div>
 

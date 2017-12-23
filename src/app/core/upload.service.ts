@@ -7,14 +7,14 @@ import {AuthService} from './auth.service';
 
 @Injectable()
 export class UploadService {
-  currentUser;
+  currentAuthUser;
 
   constructor(private afs: AngularFirestore,
               private authService: AuthService) {
 
     authService.getUser$().subscribe(user => {
       if (user) {
-        this.currentUser = user;
+        this.currentAuthUser = user;
       }
     });
   }
@@ -23,10 +23,15 @@ export class UploadService {
 
 
   uploadUserImg(img, userId: string) {
-    const storageRef = firebase.storage().ref();
-    storageRef.child(`${this.basePath}/${userId}`)
-      .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
-      this.authService.updateUserProfile(null, snapshot.downloadURL);
-    }).catch(err => console.log(err));
+    return new Promise((resolve, reject) => {
+      const storageRef = firebase.storage().ref();
+      storageRef.child(`${this.basePath}/${userId}`)
+        .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
+          console.log(snapshot)
+        this.authService.updateUserProfile( this.currentAuthUser.uid, null,  snapshot.downloadURL).then(() => {
+           resolve();
+        });
+      }).catch(err => reject(err));
+    });
   }
 }

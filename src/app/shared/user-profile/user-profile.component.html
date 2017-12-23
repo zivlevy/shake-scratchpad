@@ -1,27 +1,30 @@
 <div id="wrapper">
+
+  <!-- image cropper -->
   <div id="img-input" *ngIf="isEditImage; else profile">
     <img-cropper [image]="data" [settings]="cropperSettings"></img-cropper>
-    <button id="hide" class="btn btn-primary"> Open image </button>
+    <button id="hide" class="btn btn-primary"> Choose image</button>
     <div id="cropper-buttons">
 
       <button class="btn btn-outline-danger"
               [disabled]="!data.image"
-              (click)="isEditImage = false; uploadSingle()">save</button>
-      <button class="btn btn-outline-primary" (click)="this.data.image =''; isEditImage = false">cancel</button>
+              (click)="isEditImage = false; uploadSingle()">save
+      </button>
+      <button class="btn btn-outline-primary" (click)="data.image = tmpDataImage; isEditImage = false">cancel</button>
     </div>
-
   </div>
 
+  <!-- main profile section -->
   <ng-template #profile>
     <h3 class="text-center text-primary">User profile</h3>
 
     <div id="user-img-contianer">
       <img id="user-img" class="rounded-circle"
-           [src]="currentUser?.photoURL ? currentUser?.photoURL : 'assets/img/default-user-image.png'" alt="">
+           [src]="data && data.image ? data.image : 'assets/img/default-user-image.png'" alt="">
     </div>
 
     <div>
-      <button id="btn-update-img" class="btn btn-block btn-outline-primary btn-sm" (click)="isEditImage=true">Update
+      <button id="btn-update-img" class="btn btn-block btn-outline-primary btn-sm" (click)="isEditImage=true; tmpDataImage = data.image">Update
         image
       </button>
     </div>
@@ -34,7 +37,7 @@
              id="newDispalyname" required
              #newDispalyname="ngModel">
 
-      <button *ngIf="newDispalyname.value !== currentUser?.displayName &&  newDispalyname.valid"
+      <button *ngIf="newDispalyname.value !== currentSkUser?.displayName &&  newDispalyname.valid"
               id="btn-update-displayName"
               class="btn btn-block btn-outline-danger btn-sm"
               (click)="updateDisplayName()">Update display name
@@ -42,11 +45,13 @@
     </div>
 
     <hr>
+
+    <!--  Email section -->
     <div id="update-email">
 
       <div *ngIf="!isEditEmail; else editEmail">
         <label>Email:</label>
-        <span><strong>{{currentUser?.email}}</strong></span>
+        <span><strong>{{currentAuthUser?.email}}</strong></span>
         <button class="btn btn-outline-primary btn-block btn-sm" (click)="showEmailEdit()">Edit email</button>
         <br>
       </div>
@@ -60,25 +65,24 @@
                id="email" required
                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                #email="ngModel">
-      <div id="email-update-buttons" class="row">
-        <div class="col">
-          <button [disabled]="email.value == currentUser?.email ||  !email.valid"
-                  id="btn-update-email"
-                  class="btn  btn-block btn-outline-danger"
-                  (click)="updateEmail()">Update
-          </button>
+        <div id="email-update-buttons" class="row">
+          <div class="col">
+            <button [disabled]="email.value == currentAuthUser?.email ||  !email.valid"
+                    id="btn-update-email"
+                    class="btn  btn-block btn-outline-danger"
+                    (click)="updateEmail()">Update
+            </button>
+          </div>
+          <div class="col">
+            <button
+              class="btn btn-block btn-outline-primary"
+              (click)="cancelEmailUpdate()">Cancel
+            </button>
+          </div>
         </div>
-        <div class="col">
-          <button
-                  class="btn btn-block btn-outline-primary"
-                  (click)="cancelEmailUpdate()">Cancel
-          </button>
-        </div>
-      </div>
-
-
       </ng-template>
     </div>
+    <!-- end email section -->
 
   </ng-template>
 

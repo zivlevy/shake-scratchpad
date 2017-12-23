@@ -1,24 +1,14 @@
 import * as functions from 'firebase-functions'
-import * as admin from 'firebase-admin'
+import * as admin from "firebase-admin";
 
 
-export const newOrgRequest = functions.firestore
-  .document('orgRequested/{doc}').onCreate((event) => {
-    const newOrg = event.data.data();
-    // Firestore database
+
+export const deleteUser = functions
+  .auth.user().onDelete(event =>{
+    const uid = event.data.uid;
     const db = admin.firestore();
-    const orgRef = db.collection('org').doc(newOrg.name).collection('publicData').doc('info');
-    const usersRef = db.collection('org').doc(newOrg.name).collection('users').doc(newOrg.createdBy);
-    const orgUsersRef = db.collection('users').doc(newOrg.createdBy).collection('orgs').doc(newOrg.name);
-    usersRef.set({displayName:newOrg.displayName , roles: {admin: true, editor: false, viewer: false}})
-      .catch();
-    orgRef.set({description: 'this is description', name: newOrg.name, createdBy: newOrg.createdBy})
-      .then(() => {
-        db.collection('orgRequested').doc(newOrg.name).delete().catch()
-          orgUsersRef.set({}).catch()
 
-      }).catch();
-
+    const userRef = db.collection('users').doc(uid)
+    userRef.delete();
     return 0;
-
   });

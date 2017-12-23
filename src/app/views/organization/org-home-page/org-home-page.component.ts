@@ -20,7 +20,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
   isLoadingOrgUser: boolean = true;
   isAuthenticated = false;
   currentOrgUser: OrgUser = null;
-  currentOthenticatedUser;
+  currentAothenticatedUser;
   currentOrg: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -41,7 +41,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(user => {
       console.log(user);
-      this.currentOthenticatedUser = user;
+      this.currentAothenticatedUser = user;
       this.isAuthenticated = user ? user.emailVerified : null;
     });
 
@@ -49,8 +49,6 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
     this.orgService.getOrgUser$()
       .takeUntil(this.destroy$)
       .subscribe((orgUser: OrgUser) => {
-        console.log(orgUser);
-        console.log('endded')
         this.isLoadingOrgUser = false;
         this.currentOrgUser = orgUser;
       });

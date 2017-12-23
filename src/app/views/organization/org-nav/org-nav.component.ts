@@ -15,6 +15,8 @@ export class OrgNavComponent implements OnInit, OnDestroy {
   logo: string;
   name: string;
   rtl = false;
+
+  skUser;
   isLoadingOrgUser = true;
   isAuthenticated = false;
   currentOrgUser: OrgUser = null;
@@ -28,6 +30,14 @@ export class OrgNavComponent implements OnInit, OnDestroy {
               private authService: AuthService) { }
 
   ngOnInit() {
+
+    this.authService.getSkUser$()
+      .takeUntil(this.destroy$)
+      .subscribe(user => {
+        console.log(user);
+        this.skUser = user;
+      });
+
     // get current language
     this.lngService.getLanguadge$()
       .takeUntil(this.destroy$).
@@ -41,7 +51,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(user => {
         this.currentOthenticatedUser = user;
-        this.isAuthenticated = user ? user.emailVerified : null;
+        this.isAuthenticated =  user ? user.emailVerified : null;
       });
 
     // get user info

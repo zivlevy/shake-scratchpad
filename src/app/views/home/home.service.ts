@@ -11,7 +11,7 @@ export class HomeService {
   constructor(private afs: AngularFirestore,
               private router: Router,
               private authService: AuthService) {
-    this.authService.getUser$().subscribe(user => {
+    this.authService.getSkUser$().subscribe(user => {
       this.currentUser = user;
       console.log(this.currentUser);
     });

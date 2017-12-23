@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
-import {OrgUser} from '../../../model/org-user';
 import {HomeService} from '../home.service';
 import {LanguageService} from '../../../core/language.service';
 
@@ -16,7 +15,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   newOrgForm: FormGroup;
-  sectors: Array<string> = ['a', 'b'];
+  sectors: Array<any> = [];
 
   constructor(public fb: FormBuilder,
               public auth: AuthService,
@@ -54,11 +53,13 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   }
 
   updateSectors(country: string) {
-    this.sectors = new Array<string>();
-    this.homeService.getCountrySectors(country).subscribe(sectorsList => {
-      for (const sector of sectorsList) {
-        this.sectors.push(sector.id);
-      }
+    this.sectors = new Array<any>();
+    this.homeService.getCountrySectors(country)
+    .subscribe(sectorsList => {
+      this.sectors = sectorsList;
+      // for (const sector of sectorsList) {
+      //   this.sectors.push(sector.id);
+      // }
     });
   }
 

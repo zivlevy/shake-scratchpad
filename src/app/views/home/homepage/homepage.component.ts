@@ -21,7 +21,6 @@ export class HomepageComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(authUser => {
         this.currentUser = authUser;
-        if (authUser) console.log(authUser.displayName);
       });
   }
 

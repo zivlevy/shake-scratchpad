@@ -17,7 +17,8 @@ import {UploadService} from '../../core/upload.service';
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
 
-  currentUser;
+  currentAuthUser;
+  currentSkUser;
   newDisplayName = '';
   newEmail = '';
 
@@ -25,6 +26,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   isEditImage = false;
   isEditEmail = false;
   data: any;
+  tmpDataImage: string;
 
   selectedFiles: FileList;
   currentUpload: Upload;
@@ -55,24 +57,31 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.authService.getSkUser$()
+      .takeUntil(this.destroy$)
+      .subscribe(user => {
+        this.data.image = user.photoURL;
+        this.currentSkUser = user;
+        this.newDisplayName = user.displayName;
+      });
+
     this.authService.getUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
-        this.currentUser = user;
-        this.newDisplayName = user.displayName;
+        this.currentAuthUser = user;
         this.newEmail = user.email;
       });
   }
 
   updateDisplayName() {
-    this.authService.updateUserProfile(this.newDisplayName, null)
+    this.authService.updateUserProfile( this.currentAuthUser.uid, this.newDisplayName, null)
       .then(user => console.log(user))
       .catch();
   }
 
   updateEmail() {
     this.authService.updateUserEmail(this.newEmail)
-      .then()
+      .then(() => this.isEditEmail = false)
       .catch();
   }
 
@@ -81,14 +90,19 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   uploadSingle() {
-     this.uploadService.uploadUserImg(this.data.image, this.currentUser.uid);
+    this.uploadService.uploadUserImg(this.data.image, this.currentSkUser.uid)
+      .then(() => {
+        this.isEditImage = false;
+        console.log('finishhhhh')
+      });
   }
 
 
   showEmailEdit() {
     this.isEditEmail = true;
-    this.newEmail = this.currentUser.email;
+    this.newEmail = this.currentAuthUser.email;
   }
+
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);

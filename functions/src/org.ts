@@ -5,7 +5,6 @@ import * as admin from 'firebase-admin'
 export const newOrgRequest = functions.firestore
   .document('orgRequested/{doc}').onCreate((event) => {
     const newOrg = event.data.data();
-    // Firestore database
     const db = admin.firestore();
     const orgRef = db.collection('org').doc(newOrg.name).collection('publicData').doc('info');
     const usersRef = db.collection('org').doc(newOrg.name).collection('users').doc(newOrg.createdBy);
