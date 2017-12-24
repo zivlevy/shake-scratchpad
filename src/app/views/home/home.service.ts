@@ -5,21 +5,29 @@ import {AuthService} from '../../core/auth.service';
 
 @Injectable()
 export class HomeService {
-  currentUser;
+  currentSkUser;
 
   constructor(private afs: AngularFirestore,
               private router: Router,
               private authService: AuthService) {
     this.authService.getSkUser$().subscribe(user => {
-      this.currentUser = user;
-      console.log(this.currentUser);
+      this.currentSkUser = user;
+      console.log(this.currentSkUser);
     });
   }
 
   setNewOrg(orgId: string, orgName: string, country: string, sector: string) {
     const orgDocRef: AngularFirestoreDocument<any> = this.afs.collection(`orgRequested`).doc(orgId);
-    const org = {orgId: orgId, orgName: orgName, country: country,  sector: sector, createdBy: this.currentUser.uid,
-      userName: this.currentUser.displayName};
+    const org = {
+      orgId: orgId,
+      orgName: orgName,
+      country: country,
+      sector: sector,
+      createdBy: this.currentSkUser.uid,
+      displayName: this.currentSkUser.displayName,
+      email: this.currentSkUser.email,
+      photoURL: this.currentSkUser.photoURL
+    };
     return orgDocRef.set(org);
   }
 
@@ -29,7 +37,7 @@ export class HomeService {
       return arr.map(snap => {
         const data = snap.payload.doc.data();
         const id = snap.payload.doc.id;
-        return { id, ...data};
+        return {id, ...data};
       });
     });
   }
@@ -40,7 +48,7 @@ export class HomeService {
       return arr.map(snap => {
         const data = snap.payload.doc.data();
         const id = snap.payload.doc.id;
-        return { id, ...data};
+        return {id, ...data};
       });
     });
   }

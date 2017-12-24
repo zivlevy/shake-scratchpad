@@ -21,7 +21,6 @@ exports.updateUserInfo = functions.firestore
     const usersRef = db.collection(`users/${uid}/orgs`);
     usersRef.get().then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-            console.log(`Found document at ${documentSnapshot.ref.id}`);
             const orgUsersRef = db.collection(`org/${documentSnapshot.ref.id}/users`).doc(`${uid}`);
             orgUsersRef.update({ displayName, email, photoURL }).catch();
         });
