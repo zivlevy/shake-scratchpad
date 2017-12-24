@@ -18,7 +18,6 @@ export const newOrgRequest = functions.firestore
     const orgUserRef = db.collection('org').doc(newOrg.orgId).collection('users').doc(newOrg.createdBy);
     const dataPackageRef = db.collection('countries').doc(newOrg.country).collection('sectors').doc(newOrg.sector);
 
-    // db.collection('users').doc(newOrg.createdBy).get().then(user => console.log(user)).catch()
     // set the root org
     orgRootRef.set({}, {merge: true})
       .then(() => orgInfoRef.set({    // then - insert public info
