@@ -34,13 +34,15 @@ export class HomeService {
     });
   }
 
-  test() {
-    console.log('test');
-
-    const sectorsCollection: AngularFirestoreDocument<any> = this.afs.collection('countries').doc('Israel')
-      .collection('sectors').doc('Pizza');
-    return sectorsCollection.snapshotChanges().map(snap => {
-        console.log(snap.payload.data().icon_url);
-    }).subscribe();
+  getOrgs$() {
+    const orgCollection: AngularFirestoreCollection<any> = this.afs.collection('org');
+    return orgCollection.snapshotChanges().map(arr => {
+      return arr.map(snap => {
+        const data = snap.payload.doc.data();
+        const id = snap.payload.doc.id;
+        return { id, ...data};
+      });
+    });
   }
+
 }

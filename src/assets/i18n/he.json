@@ -26,7 +26,8 @@
   "New org component": "========= NewOrg Component=========",
   "Create Organization": "צור ארגון",
   "orgId": "מזהה ארגון",
-  "orgId_tooltip": "זהו מזהה ייחודי של הארגון שלך. אי אפשר לשנותו אחרי יצירת הארגון",
+  "TXT_orgId_tooltip": "זהו מזהה ייחודי של הארגון שלך. אי אפשר לשנותו אחרי יצירת הארגון",
+  "TXT_orgId_error": "המזהה צריך להיות בין 4 ל - 12 תווים / ספרות, בלי רווחים",
   "Organization Name": "שם הארגון",
   "Country": "מדינה",
   "Sector": "מגזר"
