@@ -15,7 +15,7 @@
 
 
       <!-- Admin drop down-->
-      <div class="btn-group" dropdown *ngIf="currentOrgUser &&  currentOrgUser?.roles?.admin && currentOthenticatedUser">
+      <div class="btn-group" dropdown *ngIf="currentOrgUser &&  currentOrgUser?.roles?.admin && currentAuthUser">
         <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
           <i class="fa fa-gear"></i> <span class="caret"></span>
         </button>
@@ -31,10 +31,10 @@
      <sk-nav-user [logoutRoute]="'org/zaza'"></sk-nav-user>
 
       <!-- login -->
-      <li *ngIf="!currentOthenticatedUser" class="nav-item">
+      <li *ngIf="!currentAuthUser" class="nav-item">
         <a class="nav-link" (click)="login()">Login</a>
       </li>
-      <li class="nav-item" *ngIf="!currentOthenticatedUser" (click)="signup()">
+      <li class="nav-item" *ngIf="!currentAuthUser" (click)="signup()">
         <a class="nav-link"> Sign up</a>
       </li>
 

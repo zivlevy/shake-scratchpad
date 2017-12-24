@@ -8,6 +8,7 @@ import {RouterModule} from '@angular/router';
 import {ImageCropperComponent} from 'ng2-img-cropper';
 import { NavUserComponent } from './nav-user/nav-user.component';
 import {BsDropdownModule} from "ngx-bootstrap";
+import { CheckboxComponent } from './checkbox/checkbox.component';
 
 @NgModule({
   imports: [
@@ -23,13 +24,15 @@ import {BsDropdownModule} from "ngx-bootstrap";
     SpinnerComponent,
     UserProfileComponent,
     ImageCropperComponent,
-    NavUserComponent
+    NavUserComponent,
+    CheckboxComponent
   ],
   exports: [
     SpinnerComponent,
     UserProfileComponent,
     ImageCropperComponent,
-    NavUserComponent
+    NavUserComponent,
+    CheckboxComponent
   ]})
 
 export class SharedModule {

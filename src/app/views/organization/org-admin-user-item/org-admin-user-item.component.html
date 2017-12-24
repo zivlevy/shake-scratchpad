@@ -1,11 +1,20 @@
-<button (click)="save(pending.checked, admin.checked, editor.checked, viewer.checked)">save</button>
-<button (click)="delete()">Delete</button>
-<span>{{user.displayName}}</span>
+
+<div class="row">
+  <div class="col"><img id="user-img" class="rounded-circle" [src]="user.photoURL" alt=""></div>
+  <div class="col">{{user.displayName}}</div>
+  <div class="col"><input #pending class="roundedOne" type="checkbox" [checked]="user.isPending" (click)="save(pending.checked, admin.checked, editor.checked, viewer.checked)"></div>
+  <div class="col"><input #admin type="checkbox" [checked]="user.roles?.admin" (click)="save(pending.checked, admin.checked, editor.checked, viewer.checked)"></div>
+  <div class="col"><input #editor type="checkbox" [checked]="user.roles?.editor" (click)="save(pending.checked, admin.checked, editor.checked, viewer.checked)"></div>
+  <div class="col"><input #viewer type="checkbox" [checked]="user.roles?.viewer" (click)="save(pending.checked, admin.checked, editor.checked, viewer.checked)"></div>
+  <div class="col"><button (click)="delete()">Delete</button></div>
+</div>
 
 
-<input #pending type="checkbox" [checked]="user.isPending">
-<input #admin type="checkbox" [checked]="user.roles?.admin">
-<input #editor type="checkbox" [checked]="user.roles?.editor">
-<input #viewer type="checkbox" [checked]="user.roles?.viewer">
+
+
+
+
+
+
 
 

@@ -16,11 +16,11 @@ export class OrgNavComponent implements OnInit, OnDestroy {
   name: string;
   rtl = false;
 
-  skUser;
+  currentSkUser;
   isLoadingOrgUser = true;
   isAuthenticated = false;
   currentOrgUser: OrgUser = null;
-  currentOthenticatedUser;
+  currentAuthUser;
   currentOrg: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(private route: ActivatedRoute,
@@ -35,7 +35,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(user => {
         console.log(user);
-        this.skUser = user;
+        this.currentSkUser = user;
       });
 
     // get current language
@@ -50,7 +50,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
     this.authService.getUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
-        this.currentOthenticatedUser = user;
+        this.currentAuthUser = user;
         this.isAuthenticated =  user ? user.emailVerified : null;
       });
 

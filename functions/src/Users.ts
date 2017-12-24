@@ -18,20 +18,18 @@ export const updateUserInfo = functions.firestore
   .document(`users/{uid}`).onUpdate((event) => {
     const uid = event.params.uid;
     const data = event.data.data();
+
     const displayName = data.displayName;
     const email = data.email;
     const photoURL = data.photoURL;
+
     const db = admin.firestore();
     const usersRef = db.collection(`users/${uid}/orgs`);
     usersRef.get().then(querySnapshot => {
       querySnapshot.forEach(documentSnapshot => {
-        console.log(`Found document at ${documentSnapshot.ref.id}`);
         const orgUsersRef = db.collection(`org/${documentSnapshot.ref.id}/users`).doc(`${uid}`);
         orgUsersRef.update({displayName, email, photoURL}).catch()
       });
     });
-
-
-
     return 0;
   });
