@@ -32,7 +32,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
     this.newOrgForm = this.fb.group({
       'orgId': ['', [
         Validators.required,
-        Validators.pattern('[A-Za-z]{4,12}')
+        Validators.pattern('[A-Za-z0-9]{4,12}')
       ]
       ],
       'orgName': ['', [
@@ -100,6 +100,9 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   }
 
   test() {
-    this.homeService.test();
+    this.homeService.getOrgs$()
+      .subscribe(list => {
+        console.log(list);
+      });
   }
 }

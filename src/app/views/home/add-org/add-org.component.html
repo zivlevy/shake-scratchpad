@@ -20,12 +20,12 @@
 
       <div class="form-group">
         <label for="orgId" [innerHTML]="'orgId' | translate" ></label>
-        <span [tooltip]="'orgId_tooltip' | translate"><i class="fa fa-question-circle-o"></i></span>
+        <span [tooltip]="'TXT_orgId_tooltip' | translate"><i class="fa fa-question-circle-o"></i></span>
         <input class="form-control" type="text" id="orgId"
                formControlName="orgId" required>
 
-        <div *ngIf="orgId.invalid && orgId.touched">
-          name must be between 4 and 12 chars with no space
+        <div *ngIf="orgId.invalid && orgId.touched" [innerHTML]="'TXT_orgId_error' | translate">
+          <!--name must be between 4 and 12 chars with no space-->
         </div>
       </div>
 
