@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/takeUntil';
 import {Subject} from 'rxjs/Subject';
 import {OrgUser} from '../../../model/org-user';
-import {LanguageService} from "../../../core/language.service";
+import {LanguageService} from '../../../core/language.service';
 
 @Component({
   selector: 'sk-org-home-page',
@@ -17,7 +17,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
   logo: string;
   name: string;
   rtl = false;
-  isLoadingOrgUser: boolean = true;
+  isLoadingOrgUser = true;
   isAuthenticated = false;
   currentOrgUser: OrgUser = null;
   currentAothenticatedUser;
@@ -31,7 +31,6 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
               private authService: AuthService) {
 
 
-
   }
 
   ngOnInit() {
@@ -40,10 +39,10 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
     this.authService.getUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
-      console.log(user);
-      this.currentAothenticatedUser = user;
-      this.isAuthenticated = user ? user.emailVerified : null;
-    });
+        console.log(user);
+        this.currentAothenticatedUser = user;
+        this.isAuthenticated = user ? user.emailVerified : null;
+      });
 
     // get user info
     this.orgService.getOrgUser$()
@@ -98,13 +97,11 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('unsub =======');
     // force unsubscribe
     this.destroy$.next(true);
     // Now let's also unsubscribe from the subject itself:
     this.destroy$.unsubscribe();
 
   }
-
 
 }

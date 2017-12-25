@@ -85,9 +85,17 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   addOrg() {
     this.homeService.setNewOrg(this.orgId.value, this.orgName.value, this.country, this.sector)
       .then(() => {
-        this.router.navigate([`org/${this.orgId.value}`]);
+        this.homeService.waitForOrg(this.orgId.value)
+          .takeUntil(this.destroy$)
+            .subscribe(res => {
+          if (res != null) {
+            this.router.navigate([`org/${this.orgId.value}`]);
+          }
+        });
+
       });
   }
+
 
   setLng(lng) {
     this.lngService.setLanguadge(lng);

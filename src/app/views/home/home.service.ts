@@ -32,6 +32,11 @@ export class HomeService {
     return orgDocRef.set(org);
   }
 
+  waitForOrg(orgId) {
+    const docRef: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/users/${this.currentSkUser.uid}`);
+    return docRef.valueChanges();
+  }
+
   getCountrySectors$(country: string) {
     const sectorsCollection: AngularFirestoreCollection<any> = this.afs.collection('countries').doc(country).collection('sectors');
     return sectorsCollection.snapshotChanges().map(arr => {
