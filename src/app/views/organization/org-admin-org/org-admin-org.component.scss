@@ -1,0 +1,46 @@
+#wrapper {
+  width: 250px;
+  margin: 20px auto;
+}
+
+#logoWrapper {
+  width: 250px;
+  margin: 20px auto;
+}
+
+#imgWraper {
+  width: 750px;
+  margin: 20px auto;
+}
+
+#img-input {
+  position: relative;
+  left: -50px;
+
+}
+#logoHide {
+  position: relative;
+  top:-340px;
+  width: 350px;
+  height: 38px;
+  pointer-events: none;
+}
+
+#imgHide {
+  position: relative;
+  top:-340px;
+  width: 350px;
+  height: 38px;
+  pointer-events: none;
+}
+
+.cropper-buttons {
+  position: relative;
+  top:-40px;
+}
+
+#bgImage {
+  width: 100%;
+  height: 300px;
+  margin-bottom: 20px;
+}
