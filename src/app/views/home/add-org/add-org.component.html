@@ -23,7 +23,6 @@
                formControlName="orgId" required>
 
         <div  class="error-message" *ngIf="orgId.invalid && orgId.touched && orgIdAvailable" [innerHTML]="'TXT_orgId_error' | translate"></div>
-
         <div  class="error-message" *ngIf="orgId.invalid && orgId.touched && !orgIdAvailable" [innerHTML]="'TXT_orgId_unavailable' | translate"></div>
       </div>
 
