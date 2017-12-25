@@ -26,7 +26,8 @@ export class HomeService {
       createdBy: this.currentSkUser.uid,
       displayName: this.currentSkUser.displayName,
       email: this.currentSkUser.email,
-      photoURL: this.currentSkUser.photoURL
+      photoURL: this.currentSkUser.photoURL,
+      uid: this.currentSkUser.uid
     };
     return orgDocRef.set(org);
   }

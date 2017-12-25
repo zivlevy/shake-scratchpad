@@ -14,6 +14,7 @@ import { OrgNavComponent } from './org-nav/org-nav.component';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import { OrgAdminUsersComponent } from './org-admin-users/org-admin-users.component';
 import { OrgAdminOrgComponent } from './org-admin-org/org-admin-org.component';
+import {LazyLoadImageModule} from "ng-lazyload-image";
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { OrgAdminOrgComponent } from './org-admin-org/org-admin-org.component';
     TranslateModule,
     BsDropdownModule,
     ReactiveFormsModule,
+    LazyLoadImageModule
 
   ],
   declarations: [

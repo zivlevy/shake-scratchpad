@@ -30,6 +30,7 @@ import {TooltipModule, ButtonsModule} from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {SharedModule} from './shared/shared.module';
 import { Ng2FileInputModule } from 'ng2-file-input';
+import {LazyLoadImageModule} from "ng-lazyload-image";
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { Ng2FileInputModule } from 'ng2-file-input';
     TooltipModule.forRoot(),
     ButtonsModule.forRoot(),
     ModalModule.forRoot(),
+    LazyLoadImageModule,
     CoreModule,
     HomeModule,
     OrganizationModule,

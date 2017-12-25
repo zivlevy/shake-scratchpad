@@ -36,6 +36,7 @@ export const newOrgRequest = functions.firestore
           displayName: newOrg.displayName,
           email: newOrg.email,
           photoURL: newOrg.photoURL,
+          uid:newOrg.uid,
           roles: {admin: true, editor: false, viewer: false}}).catch();
 
         // set the org in the users collection under the userID
@@ -49,25 +50,4 @@ export const newOrgRequest = functions.firestore
 
   });
 
-// export const newOrgRequest = functions.firestore
-//   .document('orgRequested/{doc}').onCreate((event) => {
-//     const newOrg = event.data.data();
-//     const db = admin.firestore();
-//     const orgRef = db.collection('org').doc(newOrg.orgId).collection('publicData').doc('info');
-//     const usersRef = db.collection('org').doc(newOrg.orgId).collection('users').doc(newOrg.createdBy);
-//     const orgUsersRef = db.collection('users').doc(newOrg.createdBy).collection('orgs').doc(newOrg.orgId);
-//     const dataPackageRef = db.collection('countries').doc(newOrg.country).collection('sectors').doc(newOrg.sector);
-//
-//     usersRef.set({userName:newOrg.userName , roles: {admin: true, editor: false, viewer: false}})
-//       .catch();
-//     orgRef.set({orgId: newOrg.orgId, orgName: newOrg.orgName, country: newOrg.country, sector: newOrg.sector, createdBy: newOrg.createdBy})
-//       .then(() => {
-//         copyInitialDataPackage(orgRef, dataPackageRef);
-//         db.collection('orgRequested').doc(newOrg.orgId).delete().catch();
-//         orgUsersRef.set({}).catch();
-//       }).catch();
-//
-//     return 0;
-//
-//   });
 
