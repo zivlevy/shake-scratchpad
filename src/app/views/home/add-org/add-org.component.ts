@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
@@ -18,7 +18,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   sectors: Array<string>;
   sector: string;
   country: string;
-  orgIdAvailable:boolean;
+  orgIdAvailable: boolean;
 
   constructor(public fb: FormBuilder,
               public auth: AuthService,
@@ -33,12 +33,11 @@ export class AddOrgComponent implements OnInit, OnDestroy {
     this.newOrgForm = this.fb.group({
       'orgId': ['', [
         Validators.required,
-        Validators.pattern('[A-Za-z0-9]{4,12}'),
-        this.validateOrgId.bind(this)
+        Validators.pattern('[A-Za-z0-9]{4,12}')
       ]
       ],
       'orgName': ['', [
-        Validators.required
+        Validators.required,
       ]
       ],
       'country': ['', [
@@ -118,6 +117,8 @@ export class AddOrgComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
 
   }
+
+
 
 
 }
