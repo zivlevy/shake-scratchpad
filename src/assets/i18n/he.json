@@ -31,5 +31,12 @@
   "TXT_orgId_unavailable": "מזהה זה נמצא בשימוש. בחר אחר",
   "Organization Name": "שם הארגון",
   "Country": "מדינה",
-  "Sector": "מגזר"
+  "Sector": "מגזר",
+
+  "New org component": "========= org-admin-org Component=========",
+  "Organization Management": "ניהול ארגון",
+  "Organization Logo": "לוגו ארגוני",
+  "Upload": "טען",
+  "Background Image": "תמונת רקע",
+  "Language": "שפה"
 }
