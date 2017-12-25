@@ -31,5 +31,16 @@
   "TXT_orgId_unavailable": "מזהה זה נמצא בשימוש. בחר אחר",
   "Organization Name": "שם הארגון",
   "Country": "מדינה",
-  "Sector": "מגזר"
+  "Sector": "מגזר",
+
+
+
+  "Org Admin Users component": "========= Org Admin User Component=========",
+  "Name": "שם",
+  "Pending": "ממתין",
+  "Admin": "מנהל",
+  "Editor": "עורך",
+  "Viewer": "צופה",
+
+  "Users Roles":"משתמשים ותפקידים"
 }

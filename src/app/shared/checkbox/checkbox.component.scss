@@ -2,7 +2,7 @@
   font-family: arial;
   display: block;
   position: relative;
-  padding-left: 30px;
+  padding-left: 32px;
   margin-bottom: 5px;
   padding-top: 3px;
   cursor: pointer;
@@ -15,12 +15,12 @@
 }
 .control_indicator {
   position: absolute;
-  top: 2px;
+  top: 3px;
   left: 0;
-  height: 20px;
-  width: 20px;
+  height: 26px;
+  width: 26px;
   background: #e6e6e6;
-  border: 1px solid #000000;
+  border: 2px hidden #948E8E;
 }
 .control-radio .control_indicator {
   border-radius: 2px;
@@ -36,7 +36,7 @@
 }
 .control:hover input:not([disabled]):checked ~ .control_indicator,
 .control input:checked:focus ~ .control_indicator {
-  background: #ffa100;
+  background: #0e6647;
 }
 .control input:disabled ~ .control_indicator {
   background: #e6e6e6;
@@ -53,10 +53,10 @@
   display: block;
 }
 .control-checkbox .control_indicator:after {
-  left: 8px;
+  left: 10px;
   top: 4px;
-  width: 3px;
-  height: 8px;
+  width: 5px;
+  height: 12px;
   border: solid #ffffff;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);

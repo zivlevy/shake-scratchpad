@@ -50,12 +50,13 @@ export class OrgAdminUsersComponent implements OnInit, OnDestroy {
     this.orgService.updateOrgUser(user.uid, user)
       .then(() => {
         this.toastr.success('User updated successfully', '', {
-          timeOut: 5000
+          timeOut: 2000,
+
         });
       })
       .catch(err => {
-        this.toastr.error(err.message, '', {
-          timeOut: 5000
+        this.toastr.error(err.message, 'User updated failed', {
+          timeOut: 2000
         });
       });
   }
@@ -68,7 +69,7 @@ export class OrgAdminUsersComponent implements OnInit, OnDestroy {
         });
       })
       .catch(err => {
-        this.toastr.error(err.message, '', {
+        this.toastr.error(err.message, 'User delete failed', {
           timeOut: 5000
         });
       });
@@ -76,7 +77,6 @@ export class OrgAdminUsersComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    console.log('unsub =======');
     // force unsubscribe
     this.destroy$.next(true);
     // Now let's also unsubscribe from the subject itself:

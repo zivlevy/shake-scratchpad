@@ -7,12 +7,23 @@
          [src]="currentSkUser?.photoURL" alt="">
     <span class="caret"></span>
   </button>
-
-  <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+<div *ngIf="currentLng === 'en'">
+  <ul *dropdownMenu class="dropdown-menu dropdown-menu-right"  role="menu">
     <li role="menuitem" [routerLink]="'user-profile'"><a class="dropdown-item">Profile</a></li>
     <li class="divider dropdown-divider"></li>
     <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a>
     </li>
   </ul>
+</div>
+
+  <div *ngIf="currentLng === 'he'">
+    <ul *dropdownMenu class="dropdown-menu dropdown-menu-left"  role="menu">
+      <li role="menuitem" [routerLink]="'user-profile'"><a class="dropdown-item">Profile</a></li>
+      <li class="divider dropdown-divider"></li>
+      <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a>
+      </li>
+    </ul>
+  </div>
+
 </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'sk-checkbox',
@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./checkbox.component.scss']
 })
 export class CheckboxComponent implements OnInit {
-
+  @Input() checked: boolean;
+  @Output() valueChanged: EventEmitter<boolean> = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
+  }
+
+  inputClicked() {
+    this.valueChanged.emit(this.checked);
   }
 
 }

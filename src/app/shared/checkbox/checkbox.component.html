@@ -1,2 +1,4 @@
-<h1>ziv</h1>
-<input type="checkbox" class="styled-checkbox">
+<label class="control control-checkbox">
+  <input type="checkbox" [checked]="checked" (click)="inputClicked()" />
+  <div class="control_indicator"></div>
+</label>

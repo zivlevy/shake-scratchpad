@@ -6,7 +6,7 @@ import {OrgHomePageComponent} from './org-home-page/org-home-page.component';
 import {OrgGuard} from './guards/org.guard';
 import {OrgService} from './org.service';
 import {TranslateModule} from '@ngx-translate/core';
-import {ReactiveFormsModule} from '@angular/forms';
+import {ReactiveFormsModule , FormsModule} from '@angular/forms';
 import { OrgAdminComponent } from './org-admin/org-admin.component';
 import { OrgAdminUserItemComponent } from './org-admin-user-item/org-admin-user-item.component';
 import {SharedModule} from '../../shared/shared.module';
@@ -23,7 +23,8 @@ import { OrgAdminOrgComponent } from './org-admin-org/org-admin-org.component';
     OrganizationRoutingModule,
     TranslateModule,
     BsDropdownModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
   ],
   declarations: [
     OrgHomePageComponent,

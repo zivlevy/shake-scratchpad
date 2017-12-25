@@ -96,7 +96,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.uploadService.uploadUserImg(this.data.image, this.currentSkUser.uid)
       .then(() => {
         this.isEditImage = false;
-        console.log('finishhhhh')
       });
   }
 

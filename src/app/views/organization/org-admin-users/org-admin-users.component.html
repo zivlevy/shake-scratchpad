@@ -1,7 +1,18 @@
 <div class="wrapper">
-  <h3>Ugly list of users - just for tests</h3>
-  <div *ngFor="let user of users | async">
+  <h3 id="header" class="text-center text-primary" [innerHTML]="'Users Roles' | translate"></h3>
+  <div class="row">
+    <div class="col-1 text-left"><p></p></div>
+    <div class="col-2" [innerHTML]="'Name' | translate"></div>
+    <div class="col" [innerHTML]="'Pending' | translate"></div>
+    <div class="col" [innerHTML]="'Admin' | translate"></div>
+    <div class="col" [innerHTML]="'Editor' | translate"></div>
+    <div class="col" [innerHTML]="'Viewer' | translate"></div>
+    <div class="col"><p></p></div>
+  </div>
+  <div *ngFor="let user of users | async;  let i = index">
     <sk-org-admin-user-item [user]="user"
+                            [index]="i"
+                            [currentSkUser]="currentUser"
                             (userChanged)="userChanged($event)"
                             (userDelete)="userDeleted($event)">
 
@@ -9,5 +20,7 @@
   </div>
 
 </div>
+
+
 
 

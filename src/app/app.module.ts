@@ -26,7 +26,8 @@ import { SignupComponent } from './shared/signup/signup.component';
 import {HomeModule} from './views/home/home.module';
 import { ScrpComponent } from './scrp/scrp.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import {TooltipModule} from 'ngx-bootstrap';
+import {TooltipModule, ButtonsModule} from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import {SharedModule} from './shared/shared.module';
 import { Ng2FileInputModule } from 'ng2-file-input';
 
@@ -65,6 +66,8 @@ import { Ng2FileInputModule } from 'ng2-file-input';
     TooltipModule.forRoot(),
     Ng2FileInputModule.forRoot(),
     TooltipModule.forRoot(),
+    ButtonsModule.forRoot(),
+    ModalModule.forRoot(),
     CoreModule,
     HomeModule,
     OrganizationModule,
