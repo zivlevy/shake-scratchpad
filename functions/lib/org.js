@@ -17,7 +17,6 @@ exports.newOrgRequest = functions.firestore
     const usersRef = db.collection('users').doc(newOrg.createdBy).collection('orgs').doc(newOrg.orgId);
     const orgUserRef = db.collection('org').doc(newOrg.orgId).collection('users').doc(newOrg.createdBy);
     const dataPackageRef = db.collection('countries').doc(newOrg.country).collection('sectors').doc(newOrg.sector);
-    // db.collection('users').doc(newOrg.createdBy).get().then(user => console.log(user)).catch()
     // set the root org
     orgRootRef.set({}, { merge: true })
         .then(() => orgInfoRef.set({

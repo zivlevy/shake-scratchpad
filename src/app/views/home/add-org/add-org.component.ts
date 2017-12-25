@@ -33,11 +33,12 @@ export class AddOrgComponent implements OnInit, OnDestroy {
     this.newOrgForm = this.fb.group({
       'orgId': ['', [
         Validators.required,
-        Validators.pattern('[A-Za-z0-9]{4,12}')
+        Validators.pattern('[A-Za-z0-9]{4,12}'),
+        this.validateOrgId.bind(this)
       ]
       ],
       'orgName': ['', [
-        Validators.required,
+        Validators.required
       ]
       ],
       'country': ['', [
@@ -106,7 +107,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
       });
   }
 
-  validateOrgId() {
+  validateOrgId(c: FormControl) {
     return this.orgIdAvailable ? null : {err: true};
   }
 
