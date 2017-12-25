@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
@@ -18,13 +18,14 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   sectors: Array<string>;
   sector: string;
   country: string;
+  orgIdAvailable:boolean;
 
   constructor(public fb: FormBuilder,
               public auth: AuthService,
               public router: Router,
               private lngService: LanguageService,
               private homeService: HomeService) {
-
+    this.orgIdAvailable = false;
   }
 
 
@@ -32,7 +33,8 @@ export class AddOrgComponent implements OnInit, OnDestroy {
     this.newOrgForm = this.fb.group({
       'orgId': ['', [
         Validators.required,
-        Validators.pattern('[A-Za-z0-9]{4,12}')
+        Validators.pattern('[A-Za-z0-9]{4,12}'),
+        this.validateOrgId.bind(this)
       ]
       ],
       'orgName': ['', [
@@ -91,6 +93,24 @@ export class AddOrgComponent implements OnInit, OnDestroy {
     this.lngService.setLanguadge(lng);
   }
 
+  checkOrgId() {
+    this.orgIdAvailable = false;
+    if (this.orgId.value.length === 0) {
+      this.orgIdAvailable = true;
+      return;
+    }
+    this.homeService.getOrgID$(this.orgId.value)
+      .take(1)
+      .subscribe(exists => {
+        this.orgIdAvailable = !exists;
+        this.newOrgForm.controls['orgId'].updateValueAndValidity();
+      });
+  }
+
+  validateOrgId() {
+    return this.orgIdAvailable ? null : {err: true};
+  }
+
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);
@@ -99,10 +119,5 @@ export class AddOrgComponent implements OnInit, OnDestroy {
 
   }
 
-  test() {
-    this.homeService.getOrgs$()
-      .subscribe(list => {
-        console.log(list);
-      });
-  }
+
 }
