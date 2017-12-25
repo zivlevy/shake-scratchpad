@@ -22,7 +22,7 @@
         <input class="form-control" type="text" id="orgId" (change)="checkOrgId()" (keyup)="checkOrgId()"
                formControlName="orgId" required>
 
-        <div  class="error-message" *ngIf="orgId.invalid && orgId.touched && orgIdAvailable" [innerHTML]="'TXT_orgId_error' | translate"></div>
+        <div  class="error-message" *ngIf="orgId.invalid &&  orgId.touched && orgIdAvailable" [innerHTML]="'TXT_orgId_error' | translate"></div>
 
         <div  class="error-message" *ngIf="orgId.invalid && orgId.touched && !orgIdAvailable" [innerHTML]="'TXT_orgId_unavailable' | translate"></div>
       </div>
