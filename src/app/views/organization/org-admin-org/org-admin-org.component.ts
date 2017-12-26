@@ -16,6 +16,9 @@ export class OrgAdminOrgComponent implements OnInit {
   bgImgCropperSettings: CropperSettings;
   inLogoEdit = false;
   inBGImageEdit = false;
+  logoData: any;
+  imgData: any;
+
   orgName: string;
   orgId: string;
 
@@ -24,27 +27,33 @@ export class OrgAdminOrgComponent implements OnInit {
               private lngService: LanguageService) {
 
     this.logoCropperSettings = new CropperSettings();
-    this.logoCropperSettings.width = 100;
-    this.logoCropperSettings.height = 100;
-    this.logoCropperSettings.croppedWidth = 250;
-    this.logoCropperSettings.croppedHeight = 250;
+    this.logoCropperSettings.width = 50;
+    this.logoCropperSettings.height = 50;
+    this.logoCropperSettings.croppedWidth = 50;
+    this.logoCropperSettings.croppedHeight = 50;
     this.logoCropperSettings.canvasWidth = 350;
     this.logoCropperSettings.canvasHeight = 300;
-    this.logoCropperSettings.rounded = true;
+    this.logoCropperSettings.rounded = false;
 
     this.bgImgCropperSettings = new CropperSettings();
-    this.bgImgCropperSettings.width = 100;
+    this.bgImgCropperSettings.width = 200;
     this.bgImgCropperSettings.height = 100;
-    this.bgImgCropperSettings.croppedWidth = 250;
+    this.bgImgCropperSettings.croppedWidth = 500;
     this.bgImgCropperSettings.croppedHeight = 250;
     this.bgImgCropperSettings.canvasWidth = 700;
     this.bgImgCropperSettings.canvasHeight = 300;
-    this.bgImgCropperSettings.rounded = true;
+    this.bgImgCropperSettings.rounded = false;
+
+    this.logoData = {};
+    this.imgData = {};
   }
 
   ngOnInit() {
     this.orgManagementForm = this.fb.group({
-      'orgId': ['', [
+      'orgId': [{
+        values: this.orgId,
+        disabled: true
+      }, [
         Validators.required
       ]],
       'orgName': ['', [
@@ -68,8 +77,16 @@ export class OrgAdminOrgComponent implements OnInit {
     this.inLogoEdit = true;
   }
 
+  logoSavedClicked() {
+    this.inLogoEdit = false;
+  }
+
   imageUploadClicked() {
     this.inBGImageEdit = true;
+  }
+
+  imageSaveClicked() {
+    this.inBGImageEdit = false;
   }
 
   saveClicked() {

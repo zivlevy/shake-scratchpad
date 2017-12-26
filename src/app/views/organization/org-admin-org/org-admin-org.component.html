@@ -3,24 +3,24 @@
   <div *ngIf="inLogoEdit || inBGImageEdit; else orgManagement">
 
     <div id="logoWrapper" class="img-input" *ngIf="inLogoEdit">
-      <img-cropper [settings]="logoCropperSettings"></img-cropper>
+      <img-cropper [image]="logoData" [settings]="logoCropperSettings"></img-cropper>
       <button id="logoHide" class="btn btn-primary"> Choose Logo image</button>
       <div class="cropper-buttons">
 
-        <button class="btn btn-outline-danger"
-                (click)="inLogoEdit = false">save
+        <button class="btn btn-outline-danger" [disabled]="!logoData.image"
+                (click)="logoSavedClicked()">save
         </button>
         <button class="btn btn-outline-primary" (click)="inLogoEdit = false">cancel</button>
       </div>
     </div>
 
     <div id="imgWraper" class="img-input" *ngIf="inBGImageEdit">
-      <img-cropper [settings]="bgImgCropperSettings"></img-cropper>
+      <img-cropper [image]="imgData" [settings]="bgImgCropperSettings"></img-cropper>
       <button id="imgHide" class="btn btn-primary"> Choose Background image</button>
       <div class="cropper-buttons">
 
-        <button class="btn btn-outline-danger"
-                (click)="inBGImageEdit = false">save
+        <button class="btn btn-outline-danger" [disabled]="!imgData.image"
+                (click)="imageSaveClicked()">save
         </button>
         <button class="btn btn-outline-primary" (click)="inBGImageEdit = false">cancel</button>
       </div>
@@ -42,6 +42,9 @@
         <nav class="navbar  navbar-expand bg-primary navbar-dark">
 
           <a class="navbar-brand">{{orgName}}</a>
+          <span *ngIf="logoData.image">
+            <img [src]="logoData.image" [width]="logoCropperSettings.croppedWidth" [height]="logoCropperSettings.croppedHeight">
+          </span>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                   data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                   aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -55,14 +58,16 @@
           </div>
         </nav>
 
-        <img id="bgImage" src="assets/homepage/img/bg-home.jpg">
+        <img class="bgImage" src="assets/homepage/img/bg-home.jpg" *ngIf="!imgData.image">
+        <img class="bgImage" [src]="imgData.image" *ngIf="imgData.image">
+
 
         <div class="form-body">
 
           <div class="form-group row">
             <label for="orgId" class="col-sm-3 col-form-label" [innerHTML]="'orgId' | translate" ></label>
             <input class="form-control col-sm-7" type="text" id="orgId" [(ngModel)]="orgId"
-                   formControlName="orgId" disabled>
+                   formControlName="orgId">
           </div>
 
           <div class="form-group row">
