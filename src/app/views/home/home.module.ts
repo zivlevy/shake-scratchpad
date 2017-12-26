@@ -8,8 +8,9 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {HomeService} from './home.service';
 import {TranslateModule} from '@ngx-translate/core';
 import {TooltipModule} from 'ngx-bootstrap';
-import {SharedModule} from "../../shared/shared.module";
+import {SharedModule} from '../../shared/shared.module';
 import { HomeContentComponent } from './home-content/home-content.component';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { HomeContentComponent } from './home-content/home-content.component';
     TooltipModule,
     HomeRoutingModule,
     TranslateModule,
-    SharedModule
+    SharedModule,
+    NgxSpinnerModule
   ],
   declarations: [
     HomepageComponent,

@@ -5,6 +5,7 @@ import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
 import {HomeService} from '../home.service';
 import {LanguageService} from '../../../core/language.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'sk-add-org',
@@ -19,17 +20,20 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   sector: string;
   country: string;
   orgIdAvailable: boolean;
+  isWaiting: boolean = false;
 
   constructor(public fb: FormBuilder,
               public auth: AuthService,
               public router: Router,
               private lngService: LanguageService,
-              private homeService: HomeService) {
+              private homeService: HomeService,
+              private spinner: NgxSpinnerService) {
     this.orgIdAvailable = false;
   }
 
 
   ngOnInit() {
+
     this.newOrgForm = this.fb.group({
       'orgId': ['', [
         Validators.required,
@@ -83,12 +87,16 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   }
 
   addOrg() {
+    this.spinner.show();
+    this.isWaiting = true;
     this.homeService.setNewOrg(this.orgId.value, this.orgName.value, this.country, this.sector)
       .then(() => {
         this.homeService.waitForOrg(this.orgId.value)
           .takeUntil(this.destroy$)
             .subscribe(res => {
           if (res != null) {
+            this.spinner.hide();
+            this.isWaiting = false;
             this.router.navigate([`org/${this.orgId.value}`]);
           }
         });

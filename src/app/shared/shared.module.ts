@@ -7,8 +7,9 @@ import {TranslateModule} from '@ngx-translate/core';
 import {RouterModule} from '@angular/router';
 import {ImageCropperComponent} from 'ng2-img-cropper';
 import { NavUserComponent } from './nav-user/nav-user.component';
-import {BsDropdownModule} from "ngx-bootstrap";
+import {BsDropdownModule} from 'ngx-bootstrap';
 import { CheckboxComponent } from './checkbox/checkbox.component';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
     FormsModule,
     TranslateModule,
     RouterModule,
-    BsDropdownModule
+    BsDropdownModule,
+    NgxSpinnerModule
 
   ],
   declarations: [
