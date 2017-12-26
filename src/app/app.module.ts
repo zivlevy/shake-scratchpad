@@ -31,6 +31,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import {SharedModule} from './shared/shared.module';
 import { Ng2FileInputModule } from 'ng2-file-input';
 import {LazyLoadImageModule} from "ng-lazyload-image";
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import {LazyLoadImageModule} from "ng-lazyload-image";
     ScrpComponent
   ],
   imports: [
+    NgxSpinnerModule,
     BrowserAnimationsModule,
     environment.production
       ? ServiceWorkerModule.register('/ngsw-worker.js')

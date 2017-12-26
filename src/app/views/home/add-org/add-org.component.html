@@ -60,6 +60,8 @@
     <img src="assets/img/il.png" (click)="setLng('he')">
     <img src="assets/img/us.png" (click)="setLng('en')">
   </div>
-
 </div>
+
+<ngx-spinner [type]="'timer'" [bdOpacity]="0.9" [size]="'large'"></ngx-spinner>
+<h3 *ngIf="isWaiting" class="wait-msg text-center">Creating your organization. Please wait ....</h3>
 

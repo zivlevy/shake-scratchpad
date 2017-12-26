@@ -77,3 +77,10 @@ a:not([href]):not([tabindex]) {
   }
 }
 
+.wait-msg {
+  position: absolute;
+  width: 100%;
+  color: white;
+  top:60%;
+  z-index: 99999!important;
+}
