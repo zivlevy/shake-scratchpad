@@ -14,7 +14,8 @@ import { OrgNavComponent } from './org-nav/org-nav.component';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import { OrgAdminUsersComponent } from './org-admin-users/org-admin-users.component';
 import { OrgAdminOrgComponent } from './org-admin-org/org-admin-org.component';
-import {LazyLoadImageModule} from "ng-lazyload-image";
+import {LazyLoadImageModule} from 'ng-lazyload-image';
+import {ImageCropperModule} from 'ng2-img-cropper';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import {LazyLoadImageModule} from "ng-lazyload-image";
     TranslateModule,
     BsDropdownModule,
     ReactiveFormsModule,
-    LazyLoadImageModule
+    LazyLoadImageModule,
+    ImageCropperModule
 
   ],
   declarations: [

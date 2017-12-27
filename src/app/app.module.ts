@@ -1,6 +1,5 @@
-
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../environments/environment';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -15,23 +14,23 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {OrganizationModule} from './views/organization/organization.module';
 import {NotFoundComponent} from './shared/not-found/not-found.component';
-import { ToastrModule } from 'ngx-toastr';
+import {ToastrModule} from 'ngx-toastr';
 import {TranslateModule} from '@ngx-translate/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {TranslateLoader} from '@ngx-translate/core';
 import {QuillModule} from 'ngx-quill';
 import {LoginComponent} from './shared/login/login.component';
-import { SignupComponent } from './shared/signup/signup.component';
+import {SignupComponent} from './shared/signup/signup.component';
 import {HomeModule} from './views/home/home.module';
-import { ScrpComponent } from './scrp/scrp.component';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import {ScrpComponent} from './scrp/scrp.component';
+import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {TooltipModule, ButtonsModule} from 'ngx-bootstrap';
-import { ModalModule } from 'ngx-bootstrap/modal';
+import {ModalModule} from 'ngx-bootstrap/modal';
 import {SharedModule} from './shared/shared.module';
-import { Ng2FileInputModule } from 'ng2-file-input';
-import {LazyLoadImageModule} from "ng-lazyload-image";
-import {NgxSpinnerModule} from "ngx-spinner";
+import {Ng2FileInputModule} from 'ng2-file-input';
+import {LazyLoadImageModule} from 'ng-lazyload-image';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   declarations: [
