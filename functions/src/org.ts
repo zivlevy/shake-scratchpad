@@ -1,10 +1,46 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
-const copyInitialDataPackage = function (orgRef, dataPackageRef) {
+
+const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
   dataPackageRef.get().then(function (doc) {
-    console.log(doc.data().iconID);
-    orgRef.update({iconId: doc.data().iconID});
+
+    const file = admin.storage().bucket().file('dataPackages/logos/pizza.png');
+    console.log('Test if file exists');
+    file.exists()
+      .then( res => {
+        console.log('Result = ', res);
+      })
+      .catch(err => {
+        console.log('Error', err);
+      })
+
+    const newLocation = 'gs://orgs/' + newOrg.orgId + '/pizza.png';
+
+    // file.download()
+    //   .then( () => {
+    //       console.log('success');
+    //     }
+    //   )
+    //   .catch(err => {
+    //     console.log('My error', err);
+    //   });
+    //
+    // admin.storage().bucket().getFiles()
+    //   .then((results) => {
+    //     console.log('results = ', results);
+    //
+    //     const files = results[0];
+    //
+    //     files.forEach(file => {
+    //       console.log(file.name);
+    //     });
+    //   })
+    //   .catch();
+
+
+    const initialLogoUrl = doc.data().logoUrl;
+    orgInfoRef.update({logoUrl: doc.data().logoUrl});
   })
 };
 
@@ -16,20 +52,20 @@ export const newOrgRequest = functions.firestore
     const orgInfoRef = db.collection('org').doc(newOrg.orgId).collection('publicData').doc('info');
     const usersRef = db.collection('users').doc(newOrg.createdBy).collection('orgs').doc(newOrg.orgId);
     const orgUserRef = db.collection('org').doc(newOrg.orgId).collection('users').doc(newOrg.createdBy);
-    const dataPackageRef = db.collection('countries').doc(newOrg.country).collection('sectors').doc(newOrg.sector);
+    const dataPackageRef = db.collection('dataPackages').doc(newOrg.language).collection('sectors').doc(newOrg.sector);
 
     // set the root org
     orgRootRef.set({}, {merge: true})
       .then(() => orgInfoRef.set({    // then - insert public info
         orgId: newOrg.orgId,
         orgName: newOrg.orgName,
-        country: newOrg.country,
+        language: newOrg.language,
         sector: newOrg.sector,
         createdBy: newOrg.createdBy
       }))
       .then(() => {
         //  insert initial data package
-        copyInitialDataPackage(orgInfoRef, dataPackageRef);
+        copyInitialDataPackage(newOrg, orgInfoRef, dataPackageRef);
 
         // set user info in org users
         orgUserRef.set({

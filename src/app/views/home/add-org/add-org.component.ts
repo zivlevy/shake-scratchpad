@@ -18,7 +18,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   newOrgForm: FormGroup;
   sectors: Array<string>;
   sector: string;
-  country: string;
+  language: string;
   orgIdAvailable: boolean;
   isWaiting: boolean = false;
 
@@ -45,7 +45,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
         Validators.required
       ]
       ],
-      'country': ['', [
+      'language': ['', [
         Validators.required
       ]],
       'sector': [ '', [
@@ -64,19 +64,19 @@ export class AddOrgComponent implements OnInit, OnDestroy {
     return this.newOrgForm.get('orgName');
   }
 
-  countryChanged(country: string) {
-    this.country = country;
-    this.updateSectors(country);
+  languageChanged(language: string) {
+    this.language = language;
+    this.updateSectors(language);
   }
 
   updateSector(sector: string) {
-    console.log(this.country);
+    console.log(this.language);
     this.sector = sector;
   }
 
-  updateSectors(country: string) {
+  updateSectors(language: string) {
     this.sectors = new Array<string>();
-    this.homeService.getCountrySectors$(country)
+    this.homeService.getLanguageSectors$(language)
       .take(1)
       .subscribe(sectorsList => {
         for (const sector of sectorsList) {
@@ -89,18 +89,17 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   addOrg() {
     this.spinner.show();
     this.isWaiting = true;
-    this.homeService.setNewOrg(this.orgId.value, this.orgName.value, this.country, this.sector)
+    this.homeService.setNewOrg(this.orgId.value, this.orgName.value, this.language, this.sector)
       .then(() => {
         this.homeService.waitForOrg(this.orgId.value)
           .takeUntil(this.destroy$)
-            .subscribe(res => {
-          if (res != null) {
-            this.spinner.hide();
-            this.isWaiting = false;
-            this.router.navigate([`org/${this.orgId.value}`]);
-          }
-        });
-
+          .subscribe(res => {
+            if (res != null) {
+              this.spinner.hide();
+              this.isWaiting = false;
+              this.router.navigate([`org/${this.orgId.value}`]);
+            }
+          });
       });
   }
 

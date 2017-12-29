@@ -1,11 +1,11 @@
 <nav class="navbar  navbar-expand bg-primary navbar-dark">
 
-  <a class="navbar-brand">{{currentOrg}}</a>
+
+  <a class="navbar-brand"><img id="orgLogo" [src]="logoUrl"> {{orgName}}</a>
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
           data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
           aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
 
     <!-- Right nav bar -->
     <ul class="navbar-nav" [ngClass]="{'ml-auto':!rtl, 'mr-auto': rtl}">

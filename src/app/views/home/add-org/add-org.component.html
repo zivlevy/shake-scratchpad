@@ -33,11 +33,11 @@
       </div>
 
       <div class="form-group">
-        <label for="country" [innerHTML]="'Country' | translate"  ></label>
-        <select formControlName="country" class="form-control custom-select" id="country" (change)="countryChanged($event.target.value)">
+        <label for="language" [innerHTML]="'Language' | translate"  ></label>
+        <select formControlName="language" class="form-control custom-select" id="language" (change)="languageChanged($event.target.value)">
           <option disabled selected value style="display:none"></option>
-          <option value="Israel">Israel</option>
-          <option value="USA">USA</option>
+          <option value="Hebrew">עברית</option>
+          <option value="English">English</option>
         </select>
 
       </div>

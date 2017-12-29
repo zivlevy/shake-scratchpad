@@ -12,8 +12,8 @@ import {Subject} from 'rxjs/Subject';
   styleUrls: ['./org-nav.component.scss']
 })
 export class OrgNavComponent implements OnInit, OnDestroy {
-  logo: string;
-  name: string;
+  logoUrl: string;
+  orgName: string;
   rtl = false;
 
   currentSkUser;
@@ -76,8 +76,8 @@ export class OrgNavComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(orgData => {
         if (orgData) {
-          this.logo = orgData.logo;
-          this.name = orgData.name;
+          this.logoUrl = orgData.logoUrl;
+          this.orgName = orgData.orgName;
         }
       });
 
