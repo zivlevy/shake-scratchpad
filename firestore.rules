@@ -12,19 +12,21 @@ function isAuthenticated() {
   		return exists(/databases/$(database)/documents/sk-admins/$(request.auth.uid)) ;
 		}
 
-	
-    
+
+
     function isOrgExists(org) {
     		return  exists(/databases/$(database)/documents/org/$(org)/publicData/info)
     }
-    
+
     function getRole(role,org) {
         return get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).data.roles[role] == true ||
         get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).roles[role] == true
     }
 		// THE FULL DATABASE
     match /{document=**} {
-      allow read, write : if false;//isSKAdmin() ;
+      // allow read, write : if false;//isSKAdmin() ;
+      allow read, write : if true ;
+
     }
 		//OrgRequested
 			match /orgRequested/{id=**} {
@@ -33,7 +35,7 @@ function isAuthenticated() {
       }
     // ORG
     match /org {
-    
+
       match /{orgId}{
 
       		allow read : if true;
@@ -46,7 +48,7 @@ function isAuthenticated() {
 
           match /users/{user=**} {
           		allow read : if true;
-              allow write : if isOrgExists(orgId) 
+              allow write : if isOrgExists(orgId)
               							&& (request.resource.data.roles.keys().hasAny(['admin', 'editor', 'viewer']) == false || getRole('admin', orgId) );
           }
 

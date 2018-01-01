@@ -3,6 +3,7 @@ import {CropperSettings} from "ng2-img-cropper";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LanguageService} from "../../../core/language.service";
 import {OrgService} from "../org.service";
+import {UploadService} from "../../../core/upload.service";
 
 @Component({
   selector: 'sk-org-admin-org',
@@ -24,7 +25,8 @@ export class OrgAdminOrgComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private orgService: OrgService,
-              private lngService: LanguageService) {
+              private lngService: LanguageService,
+              private uploadService: UploadService) {
 
     this.logoCropperSettings = new CropperSettings();
     this.logoCropperSettings.width = 50;
@@ -90,7 +92,9 @@ export class OrgAdminOrgComponent implements OnInit {
   }
 
   saveClicked() {
-
+    this.uploadService.uploadOrgLogo(this.logoData.image, this.orgId)
+      .then()
+      .catch();
   }
 
   cancelClicked() {

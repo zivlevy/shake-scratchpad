@@ -5,6 +5,7 @@ import {LanguageService} from '../../../core/language.service';
 import {OrgService} from '../org.service';
 import {OrgUser} from '../../../model/org-user';
 import {Subject} from 'rxjs/Subject';
+import {UploadService} from '../../../core/upload.service';
 
 @Component({
   selector: 'sk-org-nav',
@@ -27,14 +28,15 @@ export class OrgNavComponent implements OnInit, OnDestroy {
               private router: Router,
               private orgService: OrgService,
               private lngService: LanguageService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private uploadService: UploadService) { }
 
   ngOnInit() {
 
     this.authService.getSkUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
-        console.log(user);
+        console.log('getSkUser', user);
         this.currentSkUser = user;
       });
 
@@ -42,7 +44,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
     this.lngService.getLanguadge$()
       .takeUntil(this.destroy$).
     subscribe(lng => {
-      console.log(lng);
+      console.log('get Lang', lng);
       this.rtl = lng === 'he' ? true : false;
     });
 
@@ -58,8 +60,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
     this.orgService.getOrgUser$()
       .takeUntil(this.destroy$)
       .subscribe((orgUser: OrgUser) => {
-        console.log(orgUser);
-        console.log('endded');
+        console.log('orgUser', orgUser);
         this.isLoadingOrgUser = false;
         this.currentOrgUser = orgUser;
       });
@@ -76,10 +77,17 @@ export class OrgNavComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(orgData => {
         if (orgData) {
-          this.logoUrl = orgData.logoUrl;
           this.orgName = orgData.orgName;
         }
       });
+
+    this.uploadService.getOrgLogo(this.currentOrg)
+      .then((url) => {
+        console.log('result =', url);
+        this.logoUrl = url;
+      }).catch(err => {
+        console.log(err);
+    });
 
   }
 

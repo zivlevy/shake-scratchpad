@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
-import {Upload} from '../model/upload';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import {AuthService} from './auth.service';
+
 
 @Injectable()
 export class UploadService {
@@ -19,18 +19,44 @@ export class UploadService {
     });
   }
 
-  private basePath = '/uploads';
+  private usersImagePath = '/users';
+  private orgImagePath = '/orgs';
 
 
   uploadUserImg(img, userId: string) {
     return new Promise((resolve, reject) => {
       const storageRef = firebase.storage().ref();
-      storageRef.child(`${this.basePath}/${userId}`)
+      storageRef.child(`${this.usersImagePath}/${userId}`)
         .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
-          console.log(snapshot)
+          console.log(snapshot);
         this.authService.updateUserProfile( this.currentAuthUser.uid, null,  snapshot.downloadURL).then(() => {
            resolve();
         });
+      }).catch(err => reject(err));
+    });
+  }
+
+  uploadOrgLogo(img, orgId: string) {
+    return new Promise((resolve, reject) => {
+      const storageRef = firebase.storage().ref();
+      storageRef.child(`${this.orgImagePath}/${orgId}/logo`)
+        .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
+          console.log(snapshot.downloadURL);
+          resolve();
+        }).catch(err => reject(err));
+    });
+  }
+
+  getOrgLogo(orgId: string) {
+    return new Promise <string>((resolve, reject) => {
+      const storageRef = firebase.storage().ref();
+      console.log(storageRef);
+      console.log(`${this.orgImagePath}/${orgId}/logo`);
+      storageRef
+        .child(`${this.orgImagePath}/${orgId}/logo`)
+        .getDownloadURL().then((url) => {
+        console.log(url);
+        resolve(url);
       }).catch(err => reject(err));
     });
   }

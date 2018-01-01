@@ -1,46 +1,24 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+import {algoliaGetSearchKey} from "./algolia";
 
 
 const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
   dataPackageRef.get().then(function (doc) {
 
-    const file = admin.storage().bucket().file('dataPackages/logos/pizza.png');
-    console.log('Test if file exists');
-    file.exists()
-      .then( res => {
-        console.log('Result = ', res);
-      })
+    const logo = admin.storage().bucket().file('dataPackages/logos/' + doc.data().logoFileName);
+
+    const newLogoLocation = 'orgs/' + newOrg.orgId + '/logo';
+
+    logo.copy(newLogoLocation)
+      .then( () => {
+          console.log('Logo copy success');
+        }
+      )
       .catch(err => {
-        console.log('Error', err);
-      })
+        console.log('Logo copy  error', err);
+      });
 
-    const newLocation = 'gs://orgs/' + newOrg.orgId + '/pizza.png';
-
-    // file.download()
-    //   .then( () => {
-    //       console.log('success');
-    //     }
-    //   )
-    //   .catch(err => {
-    //     console.log('My error', err);
-    //   });
-    //
-    // admin.storage().bucket().getFiles()
-    //   .then((results) => {
-    //     console.log('results = ', results);
-    //
-    //     const files = results[0];
-    //
-    //     files.forEach(file => {
-    //       console.log(file.name);
-    //     });
-    //   })
-    //   .catch();
-
-
-    const initialLogoUrl = doc.data().logoUrl;
-    orgInfoRef.update({logoUrl: doc.data().logoUrl});
   })
 };
 
@@ -50,6 +28,7 @@ export const newOrgRequest = functions.firestore
     const db = admin.firestore();
     const orgRootRef = db.collection('org').doc(newOrg.orgId);
     const orgInfoRef = db.collection('org').doc(newOrg.orgId).collection('publicData').doc('info');
+    const orgPrivateInfoRef = db.collection('org').doc(newOrg.orgId).collection('privateData').doc('info');
     const usersRef = db.collection('users').doc(newOrg.createdBy).collection('orgs').doc(newOrg.orgId);
     const orgUserRef = db.collection('org').doc(newOrg.orgId).collection('users').doc(newOrg.createdBy);
     const dataPackageRef = db.collection('dataPackages').doc(newOrg.language).collection('sectors').doc(newOrg.sector);
@@ -66,6 +45,12 @@ export const newOrgRequest = functions.firestore
       .then(() => {
         //  insert initial data package
         copyInitialDataPackage(newOrg, orgInfoRef, dataPackageRef);
+
+        // get org public search key
+        const searchKey = algoliaGetSearchKey(newOrg.orgId);
+        orgPrivateInfoRef.set({
+          searchKey: searchKey
+        });
 
         // set user info in org users
         orgUserRef.set({
