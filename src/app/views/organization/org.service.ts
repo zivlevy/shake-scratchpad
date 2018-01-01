@@ -8,6 +8,7 @@ import {Observable} from 'rxjs/Observable';
 import {AuthService} from '../../core/auth.service';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {OrgUser} from '../../model/org-user';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class OrgService {
