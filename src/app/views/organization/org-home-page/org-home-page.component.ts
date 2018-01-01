@@ -7,6 +7,7 @@ import 'rxjs/add/operator/takeUntil';
 import {Subject} from 'rxjs/Subject';
 import {OrgUser} from '../../../model/org-user';
 import {LanguageService} from '../../../core/language.service';
+import {AlgoliaService} from "../../../core/algolia.service";
 
 @Component({
   selector: 'sk-org-home-page',
@@ -19,16 +20,18 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
   isLoadingOrgUser = true;
   isAuthenticated = false;
   currentOrgUser: OrgUser = null;
-  currentAothenticatedUser;
+  currentAuthenticatedUser;
   currentOrg: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  searchResults = new Array<string>();
+  orgSearchKey: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private orgService: OrgService,
               private lngService: LanguageService,
-              private authService: AuthService) {
-
+              private authService: AuthService,
+              private algoliaService: AlgoliaService) {
 
   }
 
@@ -38,8 +41,8 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
     this.authService.getUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
-        console.log(user);
-        this.currentAothenticatedUser = user;
+        // console.log(user);
+        this.currentAuthenticatedUser = user;
         this.isAuthenticated = user ? user.emailVerified : null;
       });
 
@@ -67,6 +70,27 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
         }
       });
 
+    // get org private data
+    this.orgService.getOrgPrivateData$()
+      .takeUntil(this.destroy$)
+      .subscribe(orgData => {
+        if (orgData) {
+          this.orgSearchKey = orgData.searchKey;
+        }
+      });
+
+  }
+
+  searchClicked(searchString: string){
+    // get Algolia search results
+    this.algoliaService.getSearchResults(this.currentOrg, this.orgSearchKey, searchString)
+      .then((res) => {
+        this.searchResults = res;
+        console.log('result ==', res);
+      })
+      .catch((err) => {
+        console.log('some problem with search results', err);
+      });
   }
 
   setLang(lng) {

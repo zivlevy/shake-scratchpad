@@ -36,7 +36,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
     this.authService.getSkUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
-        console.log('getSkUser', user);
+        // console.log('getSkUser', user);
         this.currentSkUser = user;
       });
 
@@ -44,7 +44,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
     this.lngService.getLanguadge$()
       .takeUntil(this.destroy$).
     subscribe(lng => {
-      console.log('get Lang', lng);
+      // console.log('get Lang', lng);
       this.rtl = lng === 'he' ? true : false;
     });
 
@@ -60,7 +60,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
     this.orgService.getOrgUser$()
       .takeUntil(this.destroy$)
       .subscribe((orgUser: OrgUser) => {
-        console.log('orgUser', orgUser);
+        // console.log('orgUser', orgUser);
         this.isLoadingOrgUser = false;
         this.currentOrgUser = orgUser;
       });
@@ -83,7 +83,6 @@ export class OrgNavComponent implements OnInit, OnDestroy {
 
     this.uploadService.getOrgLogo(this.currentOrg)
       .then((url) => {
-        console.log('result =', url);
         this.logoUrl = url;
       }).catch(err => {
         console.log(err);
