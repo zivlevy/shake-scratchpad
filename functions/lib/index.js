@@ -7,6 +7,7 @@ const orgFunctions = require("./org");
 const usersFunctions = require("./users");
 // org
 exports.newOrgRequest = orgFunctions.newOrgRequest;
+exports.onPrivateDocCreated = orgFunctions.onPrivateDocCreated;
 // users
 exports.deleteUser = usersFunctions.deleteUser;
 exports.updateUserInfo = usersFunctions.updateUserInfo;

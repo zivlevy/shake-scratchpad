@@ -16,6 +16,11 @@ const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
         });
     });
 };
+exports.onPrivateDocCreated = functions.firestore.document('org/{orgId}/privateDocuments/{docId}').onCreate((event) => {
+    const orgId = event.resource.match("org/(.*)/privateDocuments")[1];
+    algolia_1.algoliaUploadDocument(orgId, event.data.id, event.data.data().docText, event.data.data().docFormattedText);
+    return 0;
+});
 exports.newOrgRequest = functions.firestore
     .document('orgRequested/{doc}').onCreate((event) => {
     const newOrg = event.data.data();

@@ -182,6 +182,21 @@ export class OrgService {
       });
   }
 
+  // Written by Ran
+  uploadDocument(docName: string, docText: string, docFormattedText: string) {
+    const orgDocumentsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/privateDocuments`);
+
+    const data = {
+      docName: docName,
+      docText: docText,
+      docFormattedText: docFormattedText
+    };
+
+    orgDocumentsRef.add(data)
+      .then(() => console.log('successfully saved'))
+      .catch(err => console.log(err));
+  }
+
 
   /************************
    Org Admin API

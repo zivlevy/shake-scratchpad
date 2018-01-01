@@ -1,3 +1,29 @@
 <sk-org-nav></sk-org-nav>
 <sk-spinner *ngIf="isLoadingOrgUser"></sk-spinner>
 <router-outlet></router-outlet>
+
+<!--For demo only-->
+<div class="container">
+  <p class="text-center h2">Welcome to {{ orgName }} Home Page</p>
+  <div class="row">
+    <div class="col-6">
+      <p class="text-center">Left Text</p>
+    </div>
+    <div class="col-6">
+      <p class="text-center">Add documents</p>
+      <div>
+        <label for="docName">name</label>
+        <input id="docName" #docName>
+      </div>
+      <div>
+        <label for="docText">Text</label>
+        <input id="docText" #docText>
+      </div>
+      <div>
+        <label for="docFormattedText">Formatted Text</label>
+        <input id="docFormattedText" #docFormattedText>
+      </div>
+      <button (click)="uploadClicked(docName.value, docText.value, docFormattedText.value)">Upload</button>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,7 @@ import * as usersFunctions from './users'
 // org
 
 export const newOrgRequest =  orgFunctions.newOrgRequest;
-
+export const onPrivateDocCreated = orgFunctions.onPrivateDocCreated;
 
 // users
 export const deleteUser =  usersFunctions.deleteUser;
