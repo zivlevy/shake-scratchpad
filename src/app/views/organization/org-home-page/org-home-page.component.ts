@@ -14,8 +14,7 @@ import {LanguageService} from '../../../core/language.service';
   styleUrls: ['./org-home-page.component.scss']
 })
 export class OrgHomePageComponent implements OnInit, OnDestroy {
-  logo: string;
-  name: string;
+  orgName: string;
   rtl = false;
   isLoadingOrgUser = true;
   isAuthenticated = false;
@@ -64,8 +63,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(orgData => {
         if (orgData) {
-          this.logo = orgData.logo;
-          this.name = orgData.name;
+          this.orgName = orgData.orgName;
         }
       });
 
@@ -104,4 +102,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
 
   }
 
+  uploadClicked(docName, docText, docFormattedText) {
+    this.orgService.uploadDocument(docName, docText, docFormattedText);
+  }
 }

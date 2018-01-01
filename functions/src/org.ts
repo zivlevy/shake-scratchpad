@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
-import {algoliaGetSearchKey} from "./algolia";
+import {algoliaGetSearchKey, algoliaUploadDocument} from "./algolia";
 
 
 const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
@@ -21,6 +21,14 @@ const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
 
   })
 };
+
+export const onPrivateDocCreated = functions.firestore.document('org/{orgId}/privateDocuments/{docId}').onCreate((event) => {
+
+  const orgId = event.resource.match("org/(.*)/privateDocuments")[1];
+  algoliaUploadDocument(orgId, event.data.id, event.data.data().docText, event.data.data().docFormattedText);
+
+  return 0;
+});
 
 export const newOrgRequest = functions.firestore
   .document('orgRequested/{doc}').onCreate((event) => {
@@ -70,5 +78,6 @@ export const newOrgRequest = functions.firestore
     return 0;
 
   });
+
 
 
