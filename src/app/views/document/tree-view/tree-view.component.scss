@@ -2,10 +2,7 @@
   background-color: lightgray;
 
 }
-quill-editor{
-  position: relative;
-  display: inline-block;
-}
+
 
 .item-wrapper {
 }
@@ -25,4 +22,7 @@ quill-editor{
   height: 20px;
 }
 
-
+.set-rtl {
+  text-align: right;
+  direction: rtl;
+}

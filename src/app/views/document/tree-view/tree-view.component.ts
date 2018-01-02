@@ -1,6 +1,7 @@
 import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import * as _ from 'lodash';
-import {SkTreeNode} from "../../../model/document";
+import {SkTreeNode} from '../../../model/document';
+
 @Component({
   selector: 'sk-tree-view',
   templateUrl: './tree-view.component.html',
@@ -14,15 +15,30 @@ export class TreeViewComponent implements OnInit {
   @Output() treeChange: EventEmitter<null> = new EventEmitter();
   isHoverSeperator: boolean;
   isHoverSection: boolean;
+
+  // editor
+
+  isRTL: boolean = true;
+  public options: Object = {
+    placeholderText: 'הכנס טקסט...',
+    charCounterCount: false,
+    direction: 'rtl',
+    toolbarInline: true,
+    toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'align', 'subscript', 'superscript', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo'],
+    toolbarVisibleWithoutSelection: false
+  };
+
   constructor() {
   }
 
   ngOnInit() {
 
   }
-  treeChanged(){
+
+  treeChanged() {
     this.treeChange.emit();
   }
+
   textChange(ev) {
     this.treeNode.plainText = ev.text;
   }
@@ -32,7 +48,7 @@ export class TreeViewComponent implements OnInit {
    ********************/
   dragStartItem(ev, node) {
     ev.stopPropagation();
-    console.log(ev);
+    if (ev.dataTransfer.types.length > 0) return;
     const temp = _.cloneDeep(node);
     delete temp.parent;
     console.log(temp);
@@ -46,15 +62,18 @@ export class TreeViewComponent implements OnInit {
 
   dragEndItem(ev) {
     ev.stopPropagation();
+    console.log('==============')
+    console.log(this.treeNode)
     if (ev.dataTransfer.dropEffect !== 'none') {
-      this.treeNode.parent.children.forEach((item, index , array)  => {
+      this.treeNode.parent.children.forEach((item, index, array) => {
         if (item === TreeViewComponent.currentDragedObject) {
-          array.splice(index , 1);
+          array.splice(index, 1);
         }
       });
       this.treeChanged();
     }
   }
+
   /********************
    * DnD Section
    ********************/
@@ -72,9 +91,9 @@ export class TreeViewComponent implements OnInit {
   dragEndSection(ev) {
     ev.stopPropagation();
     if (ev.dataTransfer.dropEffect !== 'none') {
-      this.treeNode.parent.children.forEach((item, index , array)  => {
+      this.treeNode.parent.children.forEach((item, index, array) => {
         if (item === TreeViewComponent.currentDragedObject) {
-          array.splice(index , 1);
+          array.splice(index, 1);
         }
       });
       this.treeChanged();
@@ -88,7 +107,15 @@ export class TreeViewComponent implements OnInit {
 
   onDragOverSection(ev) {
     ev.preventDefault();
-    if (this.findParentExists(this.treeNode)) {
+    const transferTypes = [...ev.dataTransfer.types];
+    console.log(transferTypes.length)
+
+    if (!transferTypes.includes('skitem')
+      || !transferTypes.includes('sksection')
+      || transferTypes.length > 1
+      || this.findParentExists(this.treeNode)
+
+    ) {
       ev.dataTransfer.dropEffect = 'none';
     } else {
       this.isHoverSection = true;
@@ -132,16 +159,20 @@ export class TreeViewComponent implements OnInit {
     if (skSectionJSON) tmpTreeNode = JSON.parse(skSectionJSON);
 
     tmpTreeNode.parent = this.treeNode.parent;
-    const insertIndex = this.findNodeIndexInParent( this.treeNode , this.treeNode.parent);
+    const insertIndex = this.findNodeIndexInParent(this.treeNode, this.treeNode.parent);
     this.addParents(tmpTreeNode);
-    this.treeNode.parent.children.splice( insertIndex, 0, tmpTreeNode);
+    this.treeNode.parent.children.splice(insertIndex, 0, tmpTreeNode);
 
   }
 
   onDragOverSeperator(ev) {
     console.log('drag Over seperator');
+    const transferTypes = [...ev.dataTransfer.types];
     ev.preventDefault();
-    if (this.findParentExists(this.treeNode)) {
+    if (!transferTypes.includes('skitem')
+      || !transferTypes.includes('sksection')
+      || transferTypes.length > 1
+      || this.findParentExists(this.treeNode)) {
       ev.dataTransfer.dropEffect = 'none';
     } else {
       this.isHoverSeperator = true;
@@ -174,19 +205,20 @@ export class TreeViewComponent implements OnInit {
   }
 
   findParentExists(treeNode: SkTreeNode): boolean {
-    return this.findNodeInTree( TreeViewComponent.currentDragedObject, treeNode);
+    return this.findNodeInTree(TreeViewComponent.currentDragedObject, treeNode);
   }
 
-  findNodeIndexInParent (node: SkTreeNode, parent: SkTreeNode) : number {
+  findNodeIndexInParent(node: SkTreeNode, parent: SkTreeNode): number {
 
     let nodeIndex: number = -1;
-    parent.children.forEach( (child, index) => {
-      console.log(child)
-      if (child === node) nodeIndex =  index;
-    })
+    parent.children.forEach((child, index) => {
+      console.log(child);
+      if (child === node) nodeIndex = index;
+    });
     return nodeIndex;
   }
-  findNodeInTree (treeNode: SkTreeNode, node: SkTreeNode): boolean {
+
+  findNodeInTree(treeNode: SkTreeNode, node: SkTreeNode): boolean {
     if (treeNode === node) {
       return true;
     }

@@ -14,7 +14,7 @@
     </div>
 
     <h6
-      [ngClass]="{'section-dragedOver': isHoverSection}"
+      [ngClass]="{'section-dragedOver': isHoverSection ,'set-rtl': isRTL}"
       (dragover)="onDragOverSection($event)"
       (dragenter)="onDragEnterSection($event)"
       (dragleave)="onDragLeaveSection($event)"
@@ -30,12 +30,14 @@
     <div #sep class="seperator " [ngClass]="{'seperator-dragedOver': isHoverSeperator}"
          (drop)="onDropSeperator($event)"
          (dragleave)="onDragLeaveSeperator($event)"
-         (dragover)="onDragOverSeperator($event)">
+         (dragover)="onDragOverSeperator($event)"
+          draggable="false">
     </div>
-    <quill-editor #editor [(ngModel)]="treeNode.data"
-                  [theme]="'bubble'"
-                  (onContentChanged)="textChange($event)">
-    </quill-editor>
+    <div [ngClass]="{'set-rtl': isRTL}" [froalaEditor]="options" [ngModel]="treeNode.data"></div>
+    <!--<quill-editor #editor [(ngModel)]="treeNode.data"-->
+                  <!--[theme]="'bubble'"-->
+                  <!--(onContentChanged)="textChange($event)">-->
+    <!--</quill-editor>-->
 
   </div>
 </div>

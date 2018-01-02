@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~quill/dist/quill.snow.css";
 @import "~ngx-toastr/toastr";
 @import 'theme';
 @import '../node_modules/font-awesome/css/font-awesome.css';
@@ -80,6 +79,3 @@ app-root:empty + .loading {
 }
 
 
-.ql-bubble .ql-tooltip {
-  z-index:3000;
-}

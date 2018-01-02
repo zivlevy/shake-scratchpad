@@ -19,7 +19,6 @@ import {TranslateModule} from '@ngx-translate/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {TranslateLoader} from '@ngx-translate/core';
-import {QuillModule} from 'ngx-quill';
 import {LoginComponent} from './shared/login/login.component';
 import {SignupComponent} from './shared/signup/signup.component';
 import {HomeModule} from './views/home/home.module';
@@ -32,7 +31,7 @@ import {Ng2FileInputModule} from 'ng2-file-input';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {DocumentModule} from "./views/document/document.module";
-
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +41,8 @@ import {DocumentModule} from "./views/document/document.module";
     ScrpComponent
   ],
   imports: [
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot(),
     NgxSpinnerModule,
     BrowserAnimationsModule,
     environment.production
@@ -52,7 +53,6 @@ import {DocumentModule} from "./views/document/document.module";
     BrowserModule,
     RouterModule,
     HttpClientModule,
-    QuillModule,
     FormsModule,
     SharedModule,
     ReactiveFormsModule,
