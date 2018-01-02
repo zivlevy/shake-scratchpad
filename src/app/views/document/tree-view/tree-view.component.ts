@@ -18,7 +18,7 @@ export class TreeViewComponent implements OnInit {
 
   // editor
 
-  isRTL: boolean = true;
+  isRTL: boolean = false;
   public options: Object = {
     placeholderText: 'הכנס טקסט...',
     charCounterCount: false,

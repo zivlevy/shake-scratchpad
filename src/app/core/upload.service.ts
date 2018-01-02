@@ -48,13 +48,19 @@ export class UploadService {
   }
 
   getOrgLogo(orgId: string) {
+    console.log('promise started');
     return new Promise <string>((resolve, reject) => {
       const storageRef = firebase.storage().ref();
       storageRef
         .child(`${this.orgImagePath}/${orgId}/logo`)
-        .getDownloadURL().then((url) => {
-        resolve(url);
-      }).catch(err => reject(err));
+        .getDownloadURL()
+        .then((url) => {
+          resolve(url);
+        })
+        .catch(err => {
+          console.log('service error', err);
+          reject(err);
+        });
     });
   }
 }
