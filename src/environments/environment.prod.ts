@@ -14,6 +14,8 @@ firebase: {
   projectId: "shakescratchpad",
   storageBucket: "shakescratchpad.appspot.com",
   messagingSenderId: "898581880696"
-
-}
+  },
+  algolia: {
+    appId: 'OH29RANN3N'
+  }
 };

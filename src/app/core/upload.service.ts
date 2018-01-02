@@ -3,6 +3,9 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import {AuthService} from './auth.service';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/retryWhen';
+import 'rxjs/add/operator/delay';
 
 
 @Injectable()
@@ -47,25 +50,18 @@ export class UploadService {
     });
   }
 
-  getOrgLogo(orgId: string) {
-    const storageRef = firebase.storage().ref();
-    return storageRef
-      .child(`${this.orgImagePath}/${orgId}/logo`)
-      .getDownloadURL()
 
-    // console.log('promise started');
-    // return new Promise <string>((resolve, reject) => {
-    //   const storageRef = firebase.storage().ref();
-    //   storageRef
-    //     .child(`${this.orgImagePath}/${orgId}/logo`)
-    //     .getDownloadURL()
-    //     .then((url) => {
-    //       resolve(url);
-    //     })
-    //     .catch(err => {
-    //       console.log('service error', err);
-    //       reject(err);
-    //     });
-    // });
+  getOrgLogo$(orgId: string) {
+    const storageRef = firebase.storage().ref();
+    return Observable.defer(() => {
+      return storageRef
+        .child(`${this.orgImagePath}/${orgId}/logo`)
+        .getDownloadURL();
+    })
+      .retryWhen((err) => {
+        return err
+          .delay(1000)
+          .take(5);
+      });
   }
 }
