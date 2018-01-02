@@ -1,0 +1,28 @@
+#handle {
+  background-color: lightgray;
+
+}
+quill-editor{
+  position: relative;
+  display: inline-block;
+}
+
+.item-wrapper {
+}
+.seperator {
+  height:2px;
+  width:98%;
+}
+
+.section-dragedOver {
+  border: 1px dashed palegoldenrod;
+  background-color: lightgoldenrodyellow;
+}
+
+.seperator-dragedOver {
+  border: 1px dashed palegoldenrod;
+  background-color: lightgoldenrodyellow;
+  height: 20px;
+}
+
+
