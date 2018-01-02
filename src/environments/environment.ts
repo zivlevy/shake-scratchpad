@@ -20,5 +20,14 @@ export const environment = {
       // stornageBucket: "shakescratchpad.appspot.com",
       // messagingSenderId: "898581880696"
 
+      apiKey: "AIzaSyDwhlfoyY89v88KaPc99UYaDXgk0Lx4fr4",
+      authDomain: "shakescratchpad.firebaseapp.com",
+      databaseURL: "https://shakescratchpad.firebaseio.com",
+      projectId: "shakescratchpad",
+      storageBucket: "shakescratchpad.appspot.com",
+      messagingSenderId: "898581880696"
+    },
+    algolia: {
+      appId: 'OH29RANN3N'
     }
 };

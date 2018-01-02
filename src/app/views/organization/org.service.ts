@@ -15,6 +15,7 @@ export class OrgService {
   private currentOrg$: BehaviorSubject<string> = new BehaviorSubject('');
   isAuthenticated: boolean;
   private orgPublicData: any; // local copy of org public data
+  private orgPrivateData: any; // local copy of org private data
   private localCurrentOrg: string;
   private currentSkUser;
 
@@ -103,7 +104,7 @@ export class OrgService {
         if (!user) {
           return Observable.of(null);
         } else {
-          console.log(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
+          // console.log(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
           const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
           return userRef.valueChanges();
         }
@@ -183,6 +184,36 @@ export class OrgService {
   }
 
   // Written by Ran
+  getOrgPrivateData$(): Observable<any> {
+    const orgId = this.currentOrg$.getValue();
+    if (orgId === '') {
+      return Observable.of(null);
+    }
+
+    if (this.currentOrg$.getValue() === orgId && this.orgPrivateData) {
+      return Observable.of(this.orgPrivateData);
+    }
+
+    return this.currentOrg$
+      .distinctUntilChanged()
+      .switchMap(newOrgId => {
+        if (!newOrgId) {
+          return Observable.of(null);
+        }
+        const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}/privateData/info`);
+        return document.valueChanges()
+          .map(orgData => {
+            if (orgData) {
+              this.orgPrivateData = orgData;
+              return orgData;
+            } else {
+              this.orgPrivateData = null;
+              return null;
+            }
+          });
+      });
+  }
+
   uploadDocument(docName: string, docText: string, docFormattedText: string) {
     const orgDocumentsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/privateDocuments`);
 

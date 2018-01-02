@@ -7,7 +7,15 @@
   <p class="text-center h2">Welcome to {{ orgName }} Home Page</p>
   <div class="row">
     <div class="col-6">
-      <p class="text-center">Left Text</p>
+      <div>
+        <input id="searchBox" #searchBox>
+        <button (click)="searchClicked(searchBox.value)">Search</button>
+      </div>
+      <ul>
+        <li *ngFor="let result of searchResults">
+          {{ result }}
+        </li>
+      </ul>
     </div>
     <div class="col-6">
       <p class="text-center">Add documents</p>
