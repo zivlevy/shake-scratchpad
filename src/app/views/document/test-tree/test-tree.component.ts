@@ -44,8 +44,7 @@ export class TestTreeComponent implements OnInit {
     const emptySection = new SkSection('empty section');
 
     this.document.nodes.push(modules, emptySection, angularLibs);
-    console.log(this.document);
-    console.log(JSON.stringify(this.document));
+
     this.ziv = new SkSection('').deserialize(JSON.parse(JSON.stringify(this.document)));
   }
 

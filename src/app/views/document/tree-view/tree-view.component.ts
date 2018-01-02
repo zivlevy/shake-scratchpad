@@ -9,7 +9,7 @@ import {SkTreeNode} from '../../../model/document';
 })
 export class TreeViewComponent implements OnInit {
   static currentDragedObject;
-
+  static isStop: boolean = false;
   @Input() treeNode: SkTreeNode;
   @Input() identMargin: number;
   @Output() treeChange: EventEmitter<null> = new EventEmitter();
@@ -18,14 +18,21 @@ export class TreeViewComponent implements OnInit {
 
   // editor
 
-  isRTL: boolean = true;
+  isRTL: boolean = false;
   public options: Object = {
     placeholderText: 'הכנס טקסט...',
     charCounterCount: false,
-    direction: 'rtl',
     toolbarInline: true,
     toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'align', 'subscript', 'superscript', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo'],
-    toolbarVisibleWithoutSelection: false
+    toolbarVisibleWithoutSelection: false,
+    events : {
+      'froalaEditor.initialized':  (e, editor) => {
+        editor.events.on('drop',  (ev) => {
+          ev.preventDefault();
+          TreeViewComponent.isStop = true;
+        }, true);
+      }
+    }
   };
 
   constructor() {
@@ -49,6 +56,7 @@ export class TreeViewComponent implements OnInit {
   dragStartItem(ev, node) {
     ev.stopPropagation();
     if (ev.dataTransfer.types.length > 0) return;
+    console.log('==== drag item start')
     const temp = _.cloneDeep(node);
     delete temp.parent;
     console.log(temp);
@@ -62,16 +70,20 @@ export class TreeViewComponent implements OnInit {
 
   dragEndItem(ev) {
     ev.stopPropagation();
-    console.log('==============')
+    console.log(TreeViewComponent.isStop)
+
     console.log(this.treeNode)
-    if (ev.dataTransfer.dropEffect !== 'none') {
+    if (ev.dataTransfer.dropEffect !== 'none' && !TreeViewComponent.isStop) {
+      console.log('===== item drop end =========')
       this.treeNode.parent.children.forEach((item, index, array) => {
+        console.log('remove')
         if (item === TreeViewComponent.currentDragedObject) {
           array.splice(index, 1);
         }
       });
       this.treeChanged();
     }
+    TreeViewComponent.isStop = false;
   }
 
   /********************
@@ -90,12 +102,15 @@ export class TreeViewComponent implements OnInit {
 
   dragEndSection(ev) {
     ev.stopPropagation();
+    console.log(ev.dataTransfer.dropEffect)
+
     if (ev.dataTransfer.dropEffect !== 'none') {
       this.treeNode.parent.children.forEach((item, index, array) => {
         if (item === TreeViewComponent.currentDragedObject) {
           array.splice(index, 1);
         }
       });
+      console.log('drag end')
       this.treeChanged();
     }
   }
@@ -110,12 +125,13 @@ export class TreeViewComponent implements OnInit {
     const transferTypes = [...ev.dataTransfer.types];
     console.log(transferTypes.length)
 
-    if (!transferTypes.includes('skitem')
-      || !transferTypes.includes('sksection')
+    if ((!transferTypes.includes('skitem')
+        && !transferTypes.includes('sksection'))
       || transferTypes.length > 1
       || this.findParentExists(this.treeNode)
 
     ) {
+      console.log(ev.dataTransfer.dropEffect)
       ev.dataTransfer.dropEffect = 'none';
     } else {
       this.isHoverSection = true;
@@ -169,10 +185,12 @@ export class TreeViewComponent implements OnInit {
     console.log('drag Over seperator');
     const transferTypes = [...ev.dataTransfer.types];
     ev.preventDefault();
-    if (!transferTypes.includes('skitem')
-      || !transferTypes.includes('sksection')
+    if ((!transferTypes.includes('skitem')
+        && !transferTypes.includes('sksection'))
       || transferTypes.length > 1
-      || this.findParentExists(this.treeNode)) {
+      || this.findParentExists(this.treeNode)
+
+    ) {
       ev.dataTransfer.dropEffect = 'none';
     } else {
       this.isHoverSeperator = true;
