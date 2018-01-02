@@ -6,9 +6,7 @@ import {OrgService} from '../org.service';
 import {OrgUser} from '../../../model/org-user';
 import {Subject} from 'rxjs/Subject';
 import {UploadService} from '../../../core/upload.service';
-import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/retry';
-import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/defer';
 
 @Component({
@@ -86,8 +84,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
         }
       });
 
-    Observable.defer(() => this.uploadService.getOrgLogo(this.currentOrg))
-      .retry(5)
+    this.uploadService.getOrgLogo$(this.currentOrg)
       .subscribe(
         (url) => this.logoUrl = url,
         (err) => console.log('Error: ' + err),
