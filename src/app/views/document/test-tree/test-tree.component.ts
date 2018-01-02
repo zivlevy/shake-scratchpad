@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {SK_ITEM_TYPE, SkItem, SkSection, SkTreeNode} from "../../../model/document";
+import {SK_ITEM_TYPE, SkItem, SkSection, SkTreeNode} from '../../../model/document';
 
 @Component({
   selector: 'sk-test-tree',
@@ -7,7 +7,7 @@ import {SK_ITEM_TYPE, SkItem, SkSection, SkTreeNode} from "../../../model/docume
   styleUrls: ['./test-tree.component.scss']
 })
 export class TestTreeComponent implements OnInit {
-  document: SkSection = new SkSection('myDoc');
+  document: SkSection = new SkSection('קליטה ראשונית של מטופל סיעודי');
   editedDocument: SkSection;
   treeList: Array<{ index: number, sk: SkSection | SkItem }> = [];
   ziv: SkSection;
@@ -25,25 +25,45 @@ export class TestTreeComponent implements OnInit {
 
   // create demo document
   createDocument() {
-    const modules = new SkSection('Modules');
+    const modules = new SkSection('אוריינטציה למטופל ולמשפחתו');
     const item1 = new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO);
-    item1.data = 'Angular apps are modular and Angular has its own modularity system called NgModules.\n' +
-      '\n' +
-      'NgModules are a big deal. This page introduces modules; the NgModules page covers them in depth.';
+    item1.data = 'עם קליטת המטופל לבית חולים גריאטרי האחות הקולטת תציג עצמה לפני החולה ומשפחתו ותיתן הסבר כללי על אופי בית החולים הגריאטרי.';
+    modules.nodes.push(item1);
 
-    const item2 = new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_WARNING);
-    item2.data = 'Decorators are functions that modify JavaScript classes. Angular has many decorators that attach metadata to classes so that it knows what those classes mean and how they should work. Learn more about decorators on the web.';
-    modules.nodes.push(item1, item2);
 
-    const angularLibs = new SkSection('Angular libraries');
-    angularLibs.nodes.push(
-      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'Angular ships as a collection of JavaScript modules. You can think of them as library modules.'),
-      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_WARNING, 'Each Angular library name begins with the @angular prefix.')
+    const a = new SkSection('שיחה עם המטופל ומשפחתו');
+    a.nodes.push(
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'האחות תקיים שיחת היכרות עם החולה ומשפחתו תתאם ציפיות ותאסוף מידע שיסייע בהשלמת האנמנזה הסיעודית כולל ההחלטה לגבי יצירת קשר והעברת מידע לאיש קשר ו/או מטפל עיקרי.'),
     );
 
-    const emptySection = new SkSection('empty section');
+    const b = new SkSection('שיבוץ מיקום פיזי למטופל');
+    b.nodes.push(
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'על פי המידע שנאסף בשיתוף עם חברי הצוות הרב מקצועי, תשבץ האחות את המטופל לחדר מתאים ותקבע עבורו את המקום בישיבה שלו בחדר האוכל. (ראי/ה גם נוהל רוחב 0.4.5)'),
+    );
 
-    this.document.nodes.push(modules, emptySection, angularLibs);
+    const c = new SkSection(' אומדן סיעודי ואנמנזה סיעודית');
+    c.nodes.push(
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'יתבצעו מייד עם קבלתו של המטופל בבית החולים הגריאטרי ויכללו את הפעולות הבאות:'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'איסוף נתונים אישיים ודמוגראפיים.'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'לקיחת סימנים חיוניים כולל שקילת המטופל.'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'סקירת היסטוריה בריאותית- רפואית.'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'בדיקת התרופות שהמטופל מקבל'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'אומדן גופני – תפקודי של המטופל.'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'אומדן קוגניטיבי של המטופל'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'אומדן נפשי של מטופל'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'אומדן כאב למטופל'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'איסוף נתונים משפחתיים וחברתיים'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'קבלת מידע על הרגלים קודמים והעדפות של החולה ומשפחתו'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'זיהוי אבחנות סיעודיות על ידי האחות הקולטת'),
+    );
+    const d = new SkSection(' תוכנית טיפול סיעודית ראשונית ותיעוד');
+    d.nodes.push(
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'האחות תערוך תוכנית טיפול סיעודית ראשונית על בסיס המידע שהתקבל.'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'האחות תתעד ותרשום את כל התהליך ואת הנתונים שנאספו ברשומות המתאימות. ראה נוהל מס\' 2.3.1 רישום תיעוד ודווח סיעודי.'),
+      new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'האחות תתעד במסגרת המעקב הסיעודי השוטף, את נתוני הסתגלות המטופל'),
+    );
+
+    this.document.nodes.push(modules, a, b , c , d);
 
     this.ziv = new SkSection('').deserialize(JSON.parse(JSON.stringify(this.document)));
   }

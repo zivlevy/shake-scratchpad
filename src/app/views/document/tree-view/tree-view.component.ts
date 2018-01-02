@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 import * as _ from 'lodash';
 import {SkTreeNode} from '../../../model/document';
 
@@ -10,6 +10,7 @@ import {SkTreeNode} from '../../../model/document';
 export class TreeViewComponent implements OnInit {
   static currentDragedObject;
   static isStop: boolean = false;
+  @ViewChild ('wrapper') wrapper;
   @Input() treeNode: SkTreeNode;
   @Input() identMargin: number;
   @Output() treeChange: EventEmitter<null> = new EventEmitter();
@@ -17,12 +18,14 @@ export class TreeViewComponent implements OnInit {
   isHoverSection: boolean;
 
   // editor
+   isRTL: boolean = true;
 
-  isRTL: boolean = false;
   public options: Object = {
     placeholderText: 'הכנס טקסט...',
     charCounterCount: false,
+    initOnClick: true,
     toolbarInline: true,
+    direction: 'rtl',
     toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'align', 'subscript', 'superscript', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo'],
     toolbarVisibleWithoutSelection: false,
     events : {
@@ -39,11 +42,15 @@ export class TreeViewComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    if (this.isRTL) {
+      this.wrapper.nativeElement.style.marginRight = this.identMargin  + 'px';
+    } else {
+      this.wrapper.nativeElement.style.marginLeft = this.identMargin  + 'px';
+    }
   }
 
   treeChanged() {
-    this.treeChange.emit();
+    // this.treeChange.emit();
   }
 
   textChange(ev) {
@@ -64,7 +71,7 @@ export class TreeViewComponent implements OnInit {
     console.log(t);
     ev.dataTransfer.setData('skItem', t);
     ev.dataTransfer.dropEffect = 'move';
-    ev.dataTransfer.setDragImage(ev.target, 20, 0);
+    if (!this.isRTL) ev.dataTransfer.setDragImage(ev.target, 20, 0);
     TreeViewComponent.currentDragedObject = this.treeNode;
   }
 
@@ -96,7 +103,7 @@ export class TreeViewComponent implements OnInit {
     const t = JSON.stringify(temp);
     ev.dataTransfer.setData('skSection', t);
     ev.dataTransfer.dropEffect = 'move';
-    ev.dataTransfer.setDragImage(ev.target, 20, 0);
+    if (!this.isRTL) ev.dataTransfer.setDragImage(ev.target, 20, 0);
     TreeViewComponent.currentDragedObject = this.treeNode;
   }
 
@@ -152,6 +159,7 @@ export class TreeViewComponent implements OnInit {
     tmpTreeNode.parent = this.treeNode;
     this.addParents(tmpTreeNode);
     this.treeNode.children.push(tmpTreeNode);
+    this.isHoverSection = false;
   }
 
   onDragLeaveSection(ev) {
@@ -182,9 +190,9 @@ export class TreeViewComponent implements OnInit {
   }
 
   onDragOverSeperator(ev) {
+    ev.preventDefault();
     console.log('drag Over seperator');
     const transferTypes = [...ev.dataTransfer.types];
-    ev.preventDefault();
     if ((!transferTypes.includes('skitem')
         && !transferTypes.includes('sksection'))
       || transferTypes.length > 1

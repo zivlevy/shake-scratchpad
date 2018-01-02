@@ -1,45 +1,42 @@
 <!-- set margin for the level -->
-<div [ngStyle]="{'margin-left': identMargin + 'px'}">
+  <div  #wrapper >
 
 
-  <!-- if this is a section -->
-  <div class="item-wrapper" (dragstart)="dragStartSection($event,treeNode)"
-       (dragend)="dragEndSection($event)"
-       draggable="true" *ngIf="treeNode.children">
+    <!-- if this is a section -->
+    <div class="item-wrapper" (dragstart)="dragStartSection($event,treeNode)"
+         (dragend)="dragEndSection($event)"
+         draggable="true" *ngIf="treeNode.children">
 
-    <div  class="seperator " [ngClass]="{'seperator-dragedOver': isHoverSeperator}"
-          (drop)="onDropSeperator($event)"
-          (dragleave)="onDragLeaveSeperator($event)"
-          (dragover)="onDragOverSeperator($event)">
+      <div  class="seperator " [ngClass]="{'seperator-dragedOver': isHoverSeperator}"
+            (drop)="onDropSeperator($event)"
+            (dragleave)="onDragLeaveSeperator($event)"
+            (dragover)="onDragOverSeperator($event)">
+      </div>
+
+      <h5
+        [ngClass]="{'section-dragedOver': isHoverSection ,'set-rtl': isRTL}"
+        (dragover)="onDragOverSection($event)"
+        (dragenter)="onDragEnterSection($event)"
+        (dragleave)="onDragLeaveSection($event)"
+        (drop)="onDropSection($event)">{{treeNode.label}}
+      </h5>
+      <div *ngFor="let node of treeNode.children">
+        <sk-tree-view [treeNode]="node" [identMargin]="identMargin" (treeChange)="treeChanged()"></sk-tree-view>
+      </div>
     </div>
 
-    <h6
-      [ngClass]="{'section-dragedOver': isHoverSection ,'set-rtl': isRTL}"
-      (dragover)="onDragOverSection($event)"
-      (dragenter)="onDragEnterSection($event)"
-      (dragleave)="onDragLeaveSection($event)"
-      (drop)="onDropSection($event)">{{treeNode.label}}
-    </h6>
-    <div *ngFor="let node of treeNode.children">
-      <sk-tree-view [treeNode]="node" [identMargin]="identMargin" (treeChange)="treeChanged()"></sk-tree-view>
+    <!-- this is an Item -->
+    <div class="item-wrapper" *ngIf="!treeNode.children" draggable="true" (dragstart)="dragStartItem($event,treeNode)"
+         (dragend)="dragEndItem($event)">
+      <div #sep class="seperator " [ngClass]="{'seperator-dragedOver': isHoverSeperator}"
+           (drop)="onDropSeperator($event)"
+           (dragleave)="onDragLeaveSeperator($event)"
+           (dragover)="onDragOverSeperator($event)"
+           draggable="false">
+      </div>
+      <div>
+        <div [ngClass]="{'set-rtl': isRTL, 'editor-ltr': !isRTL, 'editor-rtl': isRTL}" [froalaEditor]="options" [ngModel]="treeNode.data"></div>
+      </div>
+
     </div>
   </div>
-
-  <div class="item-wrapper" *ngIf="!treeNode.children" draggable="true" (dragstart)="dragStartItem($event,treeNode)"
-       (dragend)="dragEndItem($event)">
-    <div #sep class="seperator " [ngClass]="{'seperator-dragedOver': isHoverSeperator}"
-         (drop)="onDropSeperator($event)"
-         (dragleave)="onDragLeaveSeperator($event)"
-         (dragover)="onDragOverSeperator($event)"
-          draggable="false">
-    </div>
-    <div [ngClass]="{'set-rtl': isRTL}" [froalaEditor]="options" [ngModel]="treeNode.data"></div>
-    <!--<quill-editor #editor [(ngModel)]="treeNode.data"-->
-                  <!--[theme]="'bubble'"-->
-                  <!--(onContentChanged)="textChange($event)">-->
-    <!--</quill-editor>-->
-
-  </div>
-</div>
-
-<div class="blue" draggable="true"></div>

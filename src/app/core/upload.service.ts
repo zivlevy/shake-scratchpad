@@ -51,7 +51,7 @@ export class UploadService {
     const storageRef = firebase.storage().ref();
     return storageRef
       .child(`${this.orgImagePath}/${orgId}/logo`)
-      .getDownloadURL()
+      .getDownloadURL();
 
     // console.log('promise started');
     // return new Promise <string>((resolve, reject) => {

@@ -3,12 +3,12 @@
 
 }
 
-
 .item-wrapper {
 }
+
 .seperator {
-  height:2px;
-  width:98%;
+  height: 2px;
+  width: 98%;
 }
 
 .section-dragedOver {
@@ -26,3 +26,36 @@
   text-align: right;
   direction: rtl;
 }
+
+.editor-ltr {
+  margin: 0;
+  padding-left: 12px;
+  &:before {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    background-color: aliceblue;
+    top: 0px;
+    left: -12px;
+  }
+}
+
+.editor-rtl {
+  margin: 0;
+  padding-right: 12px;
+  &:after {
+    content: "";
+    display: block;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    background-color: aliceblue;
+    top: 0px;
+    right: -12px;
+  }
+}
+
+
+
