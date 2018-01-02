@@ -6,6 +6,9 @@ import {OrgService} from '../org.service';
 import {OrgUser} from '../../../model/org-user';
 import {Subject} from 'rxjs/Subject';
 import {UploadService} from '../../../core/upload.service';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/observable/throw';
 
 @Component({
   selector: 'sk-org-nav',
@@ -13,7 +16,7 @@ import {UploadService} from '../../../core/upload.service';
   styleUrls: ['./org-nav.component.scss']
 })
 export class OrgNavComponent implements OnInit, OnDestroy {
-  logoUrl: string;
+  logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
   orgName: string;
   rtl = false;
 
@@ -81,12 +84,26 @@ export class OrgNavComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.uploadService.getOrgLogo(this.currentOrg)
-      .then((url) => {
-        this.logoUrl = url;
-      }).catch(err => {
-        console.log(err);
-    });
+    Observable.fromPromise(
+      this.uploadService.getOrgLogo(this.currentOrg)
+        .then((url) => {
+          this.logoUrl = url;
+        }).catch(err => {
+        console.log('promise error', err);
+        return Observable.throw(err);
+      })
+    )
+      .retry(2)
+      .takeUntil(this.destroy$)
+      .subscribe();
+
+
+    // this.uploadService.getOrgLogo(this.currentOrg)
+    //   .then((url) => {
+    //     this.logoUrl = url;
+    //   }).catch(err => {
+    //     console.log(err);
+    // });
 
   }
 

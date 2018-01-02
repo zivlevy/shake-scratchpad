@@ -3,10 +3,9 @@ import {Routes, RouterModule} from '@angular/router';
 import {OrgHomePageComponent} from './org-home-page/org-home-page.component';
 import {OrgAdminUsersComponent} from './org-admin-users/org-admin-users.component';
 import {OrgAdminOrgComponent} from './org-admin-org/org-admin-org.component';
-import {UserProfileComponent} from "../../shared/user-profile/user-profile.component";
-import {LoginComponent} from "../../shared/login/login.component";
-import {Register} from "ts-node/dist";
-import {SignupComponent} from "../../shared/signup/signup.component";
+import {UserProfileComponent} from '../../shared/user-profile/user-profile.component';
+import {LoginComponent} from '../../shared/login/login.component';
+import {SignupComponent} from '../../shared/signup/signup.component';
 
 const routes: Routes = [
   {
