@@ -5,44 +5,7 @@
 @import '../node_modules/font-awesome/css/font-awesome.css';
 @import '../node_modules/bootstrap/scss/bootstrap';
 @import "../node_modules/ng2-file-input/ng2-file-input.scss";
-//
-//[dir="rtl"] .input-group-addon:not(:last-child){
-//  border-right: 1px solid rgba(0,0,0,.15);
-//  border-left: 0;
-//}
-//body {
-//  text-align: inherit;
-//}
-//[dir="rtl"] .input-group .form-control:not(:last-child),
-//[dir="rtl"] .input-group-addon:not(:last-child),
-//[dir="rtl"] .input-group-btn:not(:first-child)>.btn-group:not(:last-child)>.btn,
-//[dir="rtl"] .input-group-btn:not(:first-child)>.btn:not(:last-child):not(.dropdown-toggle),
-//[dir="rtl"] .input-group-btn:not(:last-child)>.btn,
-//[dir="rtl"] .input-group-btn:not(:last-child)>.btn-group>.btn,
-//[dir="rtl"] .input-group-btn:not(:last-child)>.dropdown-toggle{
-//  border-bottom-right-radius: .25rem;
-//  border-top-right-radius: .25rem;
-//  border-bottom-left-radius: 0;
-//  border-top-left-radius: 0;
-//}
-//
-//[dir="rtl"] .input-group .form-control:not(:first-child),
-//[dir="rtl"] .input-group-addon:not(:first-child),
-//[dir="rtl"] .input-group-btn:not(:first-child)>.btn,
-//[dir="rtl"] .input-group-btn:not(:first-child)>.btn-group>.btn,
-//[dir="rtl"] .input-group-btn:not(:first-child)>.dropdown-toggle,
-//[dir="rtl"] .input-group-btn:not(:last-child)>.btn-group:not(:first-child)>.btn,
-//[dir="rtl"] .input-group-btn:not(:last-child)>.btn:not(:first-child){
-//  border-bottom-right-radius: 0;
-//  border-top-right-radius: 0;
-//  border-bottom-left-radius: .25rem;
-//  border-top-left-radius: .25rem;
-//}
-//
-//[dir="rtl"] .form-control + .input-group-addon:not(:first-child){
-//  border-left: 1px solid rgba(0,0,0,.15);
-//  border-right: 0;
-//}
+
 
 
 body {
@@ -117,4 +80,6 @@ app-root:empty + .loading {
 }
 
 
-
+.ql-bubble .ql-tooltip {
+  z-index:3000;
+}

@@ -31,6 +31,7 @@ import {SharedModule} from './shared/shared.module';
 import {Ng2FileInputModule} from 'ng2-file-input';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import {DocumentModule} from "./views/document/document.module";
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     LazyLoadImageModule,
     CoreModule,
     HomeModule,
+    DocumentModule,
     OrganizationModule,
     AppRoutingModule    // <==== allways last !
   ],

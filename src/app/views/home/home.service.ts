@@ -18,6 +18,9 @@ export class HomeService {
 
   setNewOrg(orgId: string, orgName: string, language: string, sector: string) {
     const orgDocRef: AngularFirestoreDocument<any> = this.afs.collection(`orgRequested`).doc(orgId);
+    if (!this.currentSkUser.photoURL) {
+      this.currentSkUser.photoURL ='';
+    }
     const org = {
       orgId: orgId,
       orgName: orgName,
