@@ -9,6 +9,7 @@ import {UploadService} from '../../../core/upload.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/defer';
 
 @Component({
   selector: 'sk-org-nav',
@@ -27,12 +28,14 @@ export class OrgNavComponent implements OnInit, OnDestroy {
   currentAuthUser;
   currentOrg: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private orgService: OrgService,
               private lngService: LanguageService,
               private authService: AuthService,
-              private uploadService: UploadService) { }
+              private uploadService: UploadService) {
+  }
 
   ngOnInit() {
 
@@ -45,8 +48,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
 
     // get current language
     this.lngService.getLanguadge$()
-      .takeUntil(this.destroy$).
-    subscribe(lng => {
+      .takeUntil(this.destroy$).subscribe(lng => {
       // console.log('get Lang', lng);
       this.rtl = lng === 'he' ? true : false;
     });
@@ -56,7 +58,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(user => {
         this.currentAuthUser = user;
-        this.isAuthenticated =  user ? user.emailVerified : null;
+        this.isAuthenticated = user ? user.emailVerified : null;
       });
 
     // get user info
@@ -84,27 +86,12 @@ export class OrgNavComponent implements OnInit, OnDestroy {
         }
       });
 
-    Observable.fromPromise(
-      this.uploadService.getOrgLogo(this.currentOrg)
-        .then((url) => {
-          this.logoUrl = url;
-        }).catch(err => {
-        console.log('promise error', err);
-        return Observable.throw(err);
-      })
-    )
-      .retry(2)
-      .takeUntil(this.destroy$)
-      .subscribe();
-
-
-    // this.uploadService.getOrgLogo(this.currentOrg)
-    //   .then((url) => {
-    //     this.logoUrl = url;
-    //   }).catch(err => {
-    //     console.log(err);
-    // });
-
+    Observable.defer(() => this.uploadService.getOrgLogo(this.currentOrg))
+      .retry(5)
+      .subscribe(
+        (url) => this.logoUrl = url,
+        (err) => console.log('Error: ' + err),
+        () => console.log('Completed'));
   }
 
   setLang(lng) {
