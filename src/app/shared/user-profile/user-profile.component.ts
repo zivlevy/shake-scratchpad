@@ -7,7 +7,7 @@ import {ToastrService} from 'ngx-toastr';
 import {LanguageService} from '../../core/language.service';
 import {CropperSettings} from 'ng2-img-cropper';
 import {Upload} from '../../model/upload';
-import {UploadService} from '../../core/upload.service';
+import {ImageService} from '../../core/image.service';
 
 
 @Component({
@@ -36,7 +36,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   constructor(public fb: FormBuilder,
               public authService: AuthService,
-              private uploadService: UploadService,
+              private imageService: ImageService,
               private router: Router,
               private route: ActivatedRoute,
               private lngService: LanguageService,
@@ -93,7 +93,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   uploadSingle() {
-    this.uploadService.uploadUserImg(this.data.image, this.currentSkUser.uid)
+    this.imageService.uploadUserImg(this.data.image, this.currentSkUser.uid)
       .then(() => {
         this.isEditImage = false;
       });

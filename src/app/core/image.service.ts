@@ -9,7 +9,7 @@ import 'rxjs/add/operator/delay';
 
 
 @Injectable()
-export class UploadService {
+export class ImageService {
   currentAuthUser;
 
   constructor(private afs: AngularFirestore,

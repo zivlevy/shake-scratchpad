@@ -5,7 +5,7 @@ import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {AuthService} from './auth.service';
 import { HomeService } from '../views/home/home.service';
 import {LanguageService} from './language.service';
-import {UploadService} from './upload.service';
+import {ImageService} from './image.service';
 
 @NgModule({
     imports: [
@@ -17,7 +17,7 @@ import {UploadService} from './upload.service';
       AuthService,
       HomeService,
       LanguageService,
-    UploadService],
+    ImageService],
     declarations: []
 })
 export class CoreModule {

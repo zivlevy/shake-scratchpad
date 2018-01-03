@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {UploadService} from '../core/upload.service';
+import {ImageService} from '../core/image.service';
 import {Upload} from '../model/upload';
 import * as firebase from 'firebase/app';
 import {AuthService} from '../core/auth.service';
@@ -22,7 +22,7 @@ export class ScrpComponent implements OnInit {
 
   isEditImage = false;
 
-  constructor( private upSvc: UploadService,
+  constructor( private upSvc: ImageService,
                authService: AuthService) {
     this.cropperSettings = new CropperSettings();
     this.cropperSettings.width = 100;

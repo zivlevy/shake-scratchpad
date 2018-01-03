@@ -6,7 +6,7 @@ import {Subject} from 'rxjs/Subject';
 import {OrgUser} from '../../../model/org-user';
 import {LanguageService} from '../../../core/language.service';
 import {Org} from '../../../model/org';
-import {UploadService} from '../../../core/upload.service';
+import {ImageService} from '../../../core/image.service';
 import {User} from '../../../model/user';
 import 'rxjs/add/operator/takeUntil';
 
@@ -27,7 +27,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
               private orgService: OrgService,
               private lngService: LanguageService,
               private authService: AuthService,
-              private uploadService: UploadService
+              private imageService: ImageService
               ) {}
 
   ngOnInit() {
@@ -89,7 +89,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
     // default logo
     this.org.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
 
-    this.uploadService.getOrgLogo$(this.org.orgId)
+    this.imageService.getOrgLogo$(this.org.orgId)
       .subscribe(
         (url) => this.org.logoUrl = url,
         (err) => console.log('Error: ' + err));

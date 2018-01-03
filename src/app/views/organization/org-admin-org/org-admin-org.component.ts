@@ -3,7 +3,7 @@ import {CropperSettings} from "ng2-img-cropper";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LanguageService} from "../../../core/language.service";
 import {OrgService} from "../org.service";
-import {UploadService} from "../../../core/upload.service";
+import {ImageService} from "../../../core/image.service";
 
 @Component({
   selector: 'sk-org-admin-org',
@@ -27,7 +27,7 @@ export class OrgAdminOrgComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private orgService: OrgService,
               private lngService: LanguageService,
-              private uploadService: UploadService) {
+              private imageService: ImageService) {
 
     this.logoCropperSettings = new CropperSettings();
     this.logoCropperSettings.width = 50;
@@ -78,7 +78,7 @@ export class OrgAdminOrgComponent implements OnInit {
         this.orgId = org.orgId;
 
         // get Logo
-        this.uploadService.getOrgLogo$(this.orgId)
+        this.imageService.getOrgLogo$(this.orgId)
           .subscribe(
             (url) => {
               this.logoUrl = url;
@@ -107,7 +107,7 @@ export class OrgAdminOrgComponent implements OnInit {
   }
 
   saveClicked() {
-    this.uploadService.uploadOrgLogo(this.logoData.image, this.orgId)
+    this.imageService.uploadOrgLogo(this.logoData.image, this.orgId)
       .then()
       .catch();
   }
