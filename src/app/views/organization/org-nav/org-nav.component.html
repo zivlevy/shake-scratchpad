@@ -1,7 +1,7 @@
 <nav class="navbar  navbar-expand bg-primary navbar-dark">
 
 
-  <a class="navbar-brand"><img id="orgLogo" [src]="logoUrl"> {{orgName}}</a>
+  <a class="navbar-brand" [href]="org.orgHome"><img id="orgLogo" [src]="org.logoUrl"> {{org.orgName}}</a>
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
           data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
           aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -9,13 +9,13 @@
 
     <!-- Right nav bar -->
     <ul class="navbar-nav" [ngClass]="{'ml-auto':!rtl, 'mr-auto': rtl}">
-      <li *ngIf="!isLoadingOrgUser && !currentOrgUser && isAuthenticated" class="nav-item">
+      <li *ngIf="!user.isLoadingOrgUser && !user.currentOrgUser && user.isAuthenticated" class="nav-item">
         <a class="nav-link" (click)="join()">Join</a>
       </li>
 
 
       <!-- Admin drop down-->
-      <div class="btn-group" dropdown *ngIf="currentOrgUser &&  currentOrgUser?.roles?.admin && currentAuthUser">
+      <div class="btn-group" dropdown *ngIf="user.currentOrgUser &&  user.currentOrgUser?.roles?.admin && user.currentAuthUser">
         <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
           <i class="fa fa-gear"></i> <span class="caret"></span>
         </button>
@@ -35,13 +35,13 @@
       </div>
 
       <!-- User drop down-->
-     <sk-nav-user [logoutRoute]="'org/' + currentOrg"></sk-nav-user>
+     <sk-nav-user [logoutRoute]="org.orgHome"></sk-nav-user>
 
       <!-- login -->
-      <li *ngIf="!currentAuthUser" class="nav-item">
+      <li *ngIf="!user.currentAuthUser" class="nav-item">
         <a class="nav-link" (click)="login()">Login</a>
       </li>
-      <li class="nav-item" *ngIf="!currentAuthUser" (click)="signup()">
+      <li class="nav-item" *ngIf="!user.currentAuthUser" (click)="signup()">
         <a class="nav-link"> Sign up</a>
       </li>
 

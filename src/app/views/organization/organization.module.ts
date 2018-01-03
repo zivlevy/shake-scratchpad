@@ -17,6 +17,7 @@ import { OrgAdminOrgComponent } from './org-admin-org/org-admin-org.component';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {ImageCropperModule} from 'ng2-img-cropper';
 import {AlgoliaService} from "../../core/algolia.service";
+import { OrgHomeContentComponent } from './org-home-content/org-home-content.component';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import {AlgoliaService} from "../../core/algolia.service";
     OrgAdminUserItemComponent,
     OrgNavComponent,
     OrgAdminUsersComponent,
-    OrgAdminOrgComponent
+    OrgAdminOrgComponent,
+    OrgHomeContentComponent
   ],
   exports: [OrgHomePageComponent],
   providers: [

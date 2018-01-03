@@ -22,6 +22,7 @@ export class OrgAdminOrgComponent implements OnInit {
 
   orgName: string;
   orgId: string;
+  logoUrl: string;
 
   constructor(private fb: FormBuilder,
               private orgService: OrgService,
@@ -66,13 +67,27 @@ export class OrgAdminOrgComponent implements OnInit {
       ]]
     });
 
+    // default logo
+    this.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
+
     // get current org
     this.orgService.getOrgPublicData$()
       .take(1)
       .subscribe(org => {
         this.orgName = org.orgName;
         this.orgId = org.orgId;
+
+        // get Logo
+        this.uploadService.getOrgLogo$(this.orgId)
+          .subscribe(
+            (url) => {
+              this.logoUrl = url;
+            },
+            (err) => console.log('Error: ' + err),
+            () => console.log('Completed'));
       });
+
+
   }
 
   logoUploadClicked() {
