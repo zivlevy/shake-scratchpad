@@ -1,0 +1,33 @@
+<!--For demo only-->
+<div class="container">
+  <p class="text-center h2">Welcome to {{ orgName }} Home Page</p>
+  <div class="row">
+    <div class="col-6">
+      <div>
+        <input id="searchBox" #searchBox>
+        <button (click)="searchClicked(searchBox.value)">Search</button>
+      </div>
+      <ul>
+        <li *ngFor="let result of searchResults">
+          {{ result }}
+        </li>
+      </ul>
+    </div>
+    <div class="col-6">
+      <p class="text-center">Add documents</p>
+      <div>
+        <label for="docName">name</label>
+        <input id="docName" #docName>
+      </div>
+      <div>
+        <label for="docText">Text</label>
+        <input id="docText" #docText>
+      </div>
+      <div>
+        <label for="docFormattedText">Formatted Text</label>
+        <input id="docFormattedText" #docFormattedText>
+      </div>
+      <button (click)="uploadClicked(docName.value, docText.value, docFormattedText.value)">Upload</button>
+    </div>
+  </div>
+</div>

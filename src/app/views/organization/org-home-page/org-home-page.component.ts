@@ -2,12 +2,13 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../org.service';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/takeUntil';
 import {Subject} from 'rxjs/Subject';
 import {OrgUser} from '../../../model/org-user';
 import {LanguageService} from '../../../core/language.service';
-import {AlgoliaService} from "../../../core/algolia.service";
+import {Org} from '../../../model/org';
+import {ImageService} from '../../../core/image.service';
+import {User} from '../../../model/user';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
   selector: 'sk-org-home-page',
@@ -15,50 +16,56 @@ import {AlgoliaService} from "../../../core/algolia.service";
   styleUrls: ['./org-home-page.component.scss']
 })
 export class OrgHomePageComponent implements OnInit, OnDestroy {
-  orgName: string;
+  org: Org = new Org();
+  user: User = new User();
+
   rtl = false;
-  isLoadingOrgUser = true;
-  isAuthenticated = false;
-  currentOrgUser: OrgUser = null;
-  currentAuthenticatedUser;
-  currentOrg: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  searchResults = new Array<string>();
-  orgSearchKey: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private orgService: OrgService,
               private lngService: LanguageService,
               private authService: AuthService,
-              private algoliaService: AlgoliaService) {
-
-  }
+              private imageService: ImageService
+              ) {}
 
   ngOnInit() {
+
+    this.user.isLoadingOrgUser = true;
+    this.user.isAuthenticated = false;
 
     // get current authenticatedUser
     this.authService.getUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
         // console.log(user);
-        this.currentAuthenticatedUser = user;
-        this.isAuthenticated = user ? user.emailVerified : null;
+        this.user.currentAuthUser = user;
+        this.user.isAuthenticated = user ? user.emailVerified : null;
       });
 
     // get user info
     this.orgService.getOrgUser$()
       .takeUntil(this.destroy$)
       .subscribe((orgUser: OrgUser) => {
-        this.isLoadingOrgUser = false;
-        this.currentOrgUser = orgUser;
+        this.user.isLoadingOrgUser = false;
+        this.user.currentOrgUser = orgUser;
+      });
+
+
+    this.authService.getSkUser$()
+      .takeUntil(this.destroy$)
+      .subscribe(user => {
+        // console.log('getSkUser', user);
+        this.user.currentSkUser = user;
       });
 
     // get current org
     this.orgService.getCurrentOrg$()
       .takeUntil(this.destroy$)
       .subscribe(org => {
-        this.currentOrg = org;
+        this.org.orgId = org;
+        this.org.orgHome = '/org/' + org;
       });
 
     // get org public data
@@ -66,7 +73,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(orgData => {
         if (orgData) {
-          this.orgName = orgData.orgName;
+          this.org.orgName = orgData.orgName;
         }
       });
 
@@ -75,48 +82,20 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(orgData => {
         if (orgData) {
-          this.orgSearchKey = orgData.searchKey;
+          this.org.orgSearchKey = orgData.searchKey;
         }
       });
 
+    // default logo
+    this.org.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
+
+    this.imageService.getOrgLogo$(this.org.orgId)
+      .subscribe(
+        (url) => this.org.logoUrl = url,
+        (err) => console.log('Error: ' + err));
+
   }
 
-  searchClicked(searchString: string){
-    // get Algolia search results
-    this.algoliaService.getSearchResults(this.currentOrg, this.orgSearchKey, searchString)
-      .then((res) => {
-        this.searchResults = res;
-        console.log('result ==', res);
-      })
-      .catch((err) => {
-        console.log('some problem with search results', err);
-      });
-  }
-
-  setLang(lng) {
-    this.lngService.setLanguadge(lng);
-    this.rtl = lng === 'he' ? true : false;
-  }
-
-  login() {
-    const orgId = this.route.snapshot.params['id'];
-    this.router.navigate([`login`], {queryParams: {returnUrl: 'org/' + orgId}});
-  }
-
-  logout() {
-    const orgId = this.route.snapshot.params['id'];
-    this.authService.logout();
-    this.router.navigate([`org/${this.currentOrg}`]);
-  }
-
-  join() {
-    this.orgService.joinToOrg();
-  }
-
-  gotoAdmin() {
-    // this.router.navigate([`org/${this.currentOrg}/admin`]);
-    this.router.navigate([`org/${this.currentOrg}/admin`]);
-  }
 
   ngOnDestroy() {
     // force unsubscribe
@@ -126,7 +105,4 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
 
   }
 
-  uploadClicked(docName, docText, docFormattedText) {
-    this.orgService.uploadDocument(docName, docText, docFormattedText);
-  }
 }
