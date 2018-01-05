@@ -24,6 +24,7 @@ export class OrgAdminOrgComponent implements OnInit {
   orgName: string;
   orgId: string;
   logoUrl: string;
+  bannerUrl: string;
   orgHome: string;
 
   constructor(private fb: FormBuilder,
@@ -42,11 +43,11 @@ export class OrgAdminOrgComponent implements OnInit {
     this.logoCropperSettings.rounded = false;
 
     this.bannerCropperSettings = new CropperSettings();
-    this.bannerCropperSettings.width = 200;
-    this.bannerCropperSettings.height = 100;
-    this.bannerCropperSettings.croppedWidth = 500;
-    this.bannerCropperSettings.croppedHeight = 250;
-    this.bannerCropperSettings.canvasWidth = 700;
+    this.bannerCropperSettings.width = 50;
+    this.bannerCropperSettings.height = 50;
+    this.bannerCropperSettings.croppedWidth = 50;
+    this.bannerCropperSettings.croppedHeight = 50;
+    this.bannerCropperSettings.canvasWidth = 350;
     this.bannerCropperSettings.canvasHeight = 300;
     this.bannerCropperSettings.rounded = false;
 
@@ -73,7 +74,7 @@ export class OrgAdminOrgComponent implements OnInit {
 
     // default logo
     this.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
-
+    this.bannerUrl = 'assets/img/shake banner.png';
     // get current org
     this.orgService.getOrgPublicData$()
       .take(1)
@@ -89,8 +90,16 @@ export class OrgAdminOrgComponent implements OnInit {
             (url) => {
               this.logoUrl = url;
             },
-            (err) => console.log('Error: ' + err),
-            () => console.log('Completed'));
+            (err) => console.log('Error: ' + err));
+
+        // get banner
+        this.imageService.getOrgBanner$(this.orgId)
+          .subscribe(
+            (url) => {
+              this.bannerUrl = url;
+            },
+            (err) => console.log('Error: ' + err));
+
       });
 
 
@@ -123,11 +132,19 @@ export class OrgAdminOrgComponent implements OnInit {
     }
 
 
-    // if (this.logoData.image) {
-    //   this.imageService.uploadOrgLogo(this.logoData.image, this.orgId)
-    //     .then()
-    //     .catch();
-    // }
+    if (this.logoData.image) {
+      this.imageService.uploadOrgLogo(this.logoData.image, this.orgId)
+        .then()
+        .catch();
+    }
+
+    if (this.bannerData.image) {
+      this.imageService.uploadOrgBanner(this.bannerData.image, this.orgId)
+        .then()
+        .catch();
+    }
+
+
 
   }
 

@@ -50,6 +50,16 @@ export class ImageService {
     });
   }
 
+  uploadOrgBanner(img, orgId: string) {
+    return new Promise((resolve, reject) => {
+      const storageRef = firebase.storage().ref();
+      storageRef.child(`${this.orgImagePath}/${orgId}/banner`)
+        .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
+        console.log(snapshot.downloadURL);
+        resolve();
+      }).catch(err => reject(err));
+    });
+  }
 
   getOrgLogo$(orgId: string) {
     const storageRef = firebase.storage().ref();
@@ -60,7 +70,21 @@ export class ImageService {
     })
       .retryWhen((err) => {
         return err
-          .delay(1000)
+          .delay(2000)
+          .take(5);
+      });
+  }
+
+  getOrgBanner$(orgId: string) {
+    const storageRef = firebase.storage().ref();
+    return Observable.defer(() => {
+      return storageRef
+        .child(`${this.orgImagePath}/${orgId}/banner`)
+        .getDownloadURL();
+    })
+      .retryWhen((err) => {
+        return err
+          .delay(2000)
           .take(5);
       });
   }

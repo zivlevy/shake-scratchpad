@@ -59,7 +59,7 @@
           </div>
         </nav>
 
-        <img class="bannerImage" src="assets/img/shake banner.png" *ngIf="!bannerData.image">
+        <img class="bannerImage" [src]="bannerUrl" *ngIf="!bannerData.image">
         <img class="bannerImage" [src]="bannerData.image" *ngIf="bannerData.image">
 
 
