@@ -184,6 +184,11 @@ export class OrgService {
   }
 
   // Written by Ran
+  setOrgPublicData(orgId, newData) {
+    const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
+    return document.update(newData);
+  }
+
   getOrgPrivateData$(): Observable<any> {
     const orgId = this.currentOrg$.getValue();
     if (orgId === '') {

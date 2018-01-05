@@ -5,15 +5,18 @@ const admin = require("firebase-admin");
 const algolia_1 = require("./algolia");
 const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
     dataPackageRef.get().then(function (doc) {
+        console.log('dataPackages/banners/' + doc.data().bannerFileName);
         const logo = admin.storage().bucket().file('dataPackages/logos/' + doc.data().logoFileName);
+        const banner = admin.storage().bucket().file('dataPackages/banners/' + doc.data().bannerFileName);
         const newLogoLocation = 'orgs/' + newOrg.orgId + '/logo';
+        const newBannerLocation = 'orgs/' + newOrg.orgId + '/banner';
+        console.log(newBannerLocation);
         logo.copy(newLogoLocation)
-            .then(() => {
-            console.log('Logo copy success');
-        })
-            .catch(err => {
-            console.log('Logo copy  error', err);
-        });
+            .then()
+            .catch();
+        banner.copy(newBannerLocation)
+            .then()
+            .catch();
     });
 };
 exports.onPrivateDocCreated = functions.firestore.document('org/{orgId}/privateDocuments/{docId}').onCreate((event) => {
@@ -32,7 +35,7 @@ exports.newOrgRequest = functions.firestore
     const orgUserRef = db.collection('org').doc(newOrg.orgId).collection('users').doc(newOrg.createdBy);
     const dataPackageRef = db.collection('dataPackages').doc(newOrg.language).collection('sectors').doc(newOrg.sector);
     // set the root org
-    orgRootRef.set({}, { merge: true })
+    orgRootRef.set({ 'stam': 'stam' }, { merge: true })
         .then(() => orgInfoRef.set({
         orgId: newOrg.orgId,
         orgName: newOrg.orgName,

@@ -27,7 +27,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
               private orgService: OrgService,
               private lngService: LanguageService,
               private authService: AuthService,
-              private imageService: ImageService
+              private imageService: ImageService,
               ) {}
 
   ngOnInit() {
@@ -73,6 +73,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(orgData => {
         if (orgData) {
+          console.log('org data change', orgData);
           this.org.orgName = orgData.orgName;
         }
       });

@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LanguageService} from "../../../core/language.service";
 import {OrgService} from "../org.service";
 import {ImageService} from "../../../core/image.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'sk-org-admin-org',
@@ -14,20 +15,22 @@ export class OrgAdminOrgComponent implements OnInit {
 
   orgManagementForm: FormGroup;
   logoCropperSettings: CropperSettings;
-  bgImgCropperSettings: CropperSettings;
+  bannerCropperSettings: CropperSettings;
   inLogoEdit = false;
-  inBGImageEdit = false;
+  inBannerEdit = false;
   logoData: any;
-  imgData: any;
+  bannerData: any;
 
   orgName: string;
   orgId: string;
   logoUrl: string;
+  orgHome: string;
 
   constructor(private fb: FormBuilder,
               private orgService: OrgService,
               private lngService: LanguageService,
-              private imageService: ImageService) {
+              private imageService: ImageService,
+              private router: Router) {
 
     this.logoCropperSettings = new CropperSettings();
     this.logoCropperSettings.width = 50;
@@ -38,23 +41,24 @@ export class OrgAdminOrgComponent implements OnInit {
     this.logoCropperSettings.canvasHeight = 300;
     this.logoCropperSettings.rounded = false;
 
-    this.bgImgCropperSettings = new CropperSettings();
-    this.bgImgCropperSettings.width = 200;
-    this.bgImgCropperSettings.height = 100;
-    this.bgImgCropperSettings.croppedWidth = 500;
-    this.bgImgCropperSettings.croppedHeight = 250;
-    this.bgImgCropperSettings.canvasWidth = 700;
-    this.bgImgCropperSettings.canvasHeight = 300;
-    this.bgImgCropperSettings.rounded = false;
+    this.bannerCropperSettings = new CropperSettings();
+    this.bannerCropperSettings.width = 200;
+    this.bannerCropperSettings.height = 100;
+    this.bannerCropperSettings.croppedWidth = 500;
+    this.bannerCropperSettings.croppedHeight = 250;
+    this.bannerCropperSettings.canvasWidth = 700;
+    this.bannerCropperSettings.canvasHeight = 300;
+    this.bannerCropperSettings.rounded = false;
 
     this.logoData = {};
-    this.imgData = {};
+    this.bannerData = {};
+
   }
 
   ngOnInit() {
     this.orgManagementForm = this.fb.group({
       'orgId': [{
-        values: this.orgId,
+        value: this.orgId,
         disabled: true
       }, [
         Validators.required
@@ -76,8 +80,10 @@ export class OrgAdminOrgComponent implements OnInit {
       .subscribe(org => {
         this.orgName = org.orgName;
         this.orgId = org.orgId;
+        this.orgHome = '/org/' + org.orgId;
 
-        // get Logo
+
+          // get Logo
         this.imageService.getOrgLogo$(this.orgId)
           .subscribe(
             (url) => {
@@ -98,22 +104,36 @@ export class OrgAdminOrgComponent implements OnInit {
     this.inLogoEdit = false;
   }
 
-  imageUploadClicked() {
-    this.inBGImageEdit = true;
+  bannerUploadClicked() {
+    this.inBannerEdit = true;
   }
 
-  imageSaveClicked() {
-    this.inBGImageEdit = false;
+  bannerSaveClicked() {
+    this.inBannerEdit = false;
   }
 
   saveClicked() {
-    this.imageService.uploadOrgLogo(this.logoData.image, this.orgId)
-      .then()
-      .catch();
+    if (this.orgManagementForm.controls['orgName'].dirty) {
+      const newData = {
+        'orgName': this.orgManagementForm.controls['orgName'].value,
+      };
+      this.orgService.setOrgPublicData(this.orgId, newData)
+        .then(() => this.router.navigate([this.orgHome]))
+        .catch();
+    }
+
+
+    // if (this.logoData.image) {
+    //   this.imageService.uploadOrgLogo(this.logoData.image, this.orgId)
+    //     .then()
+    //     .catch();
+    // }
+
   }
 
   cancelClicked() {
-
+    console.log(this.orgHome);
+    this.router.navigate([this.orgHome]);
   }
 
   languageSelectorClicked(lang: string) {
