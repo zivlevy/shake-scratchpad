@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import {CropperSettings} from "ng2-img-cropper";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {LanguageService} from "../../../core/language.service";
-import {OrgService} from "../org.service";
-import {ImageService} from "../../../core/image.service";
-import {Router} from "@angular/router";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {CropperSettings} from 'ng2-img-cropper';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {LanguageService} from '../../../core/language.service';
+import {OrgService} from '../org.service';
+import {ImageService} from '../../../core/image.service';
+import {Router} from '@angular/router';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'sk-org-admin-org',
   templateUrl: './org-admin-org.component.html',
   styleUrls: ['./org-admin-org.component.scss']
 })
-export class OrgAdminOrgComponent implements OnInit {
+export class OrgAdminOrgComponent implements OnInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   orgManagementForm: FormGroup;
   logoCropperSettings: CropperSettings;
@@ -76,21 +78,24 @@ export class OrgAdminOrgComponent implements OnInit {
 
     // get current org
     this.orgService.getOrgPublicData$()
-      .take(1)
+      .takeUntil(this.destroy$)
       .subscribe(org => {
-        this.orgName = org.orgName;
-        this.orgId = org.orgId;
-        this.orgHome = '/org/' + org.orgId;
+        if (org) {
+          this.orgName = org.orgName;
+          this.orgId = org.orgId;
+          this.orgHome = '/org/' + org.orgId;
 
 
           // get Logo
-        this.imageService.getOrgLogo$(this.orgId)
-          .subscribe(
-            (url) => {
-              this.logoUrl = url;
-            },
-            (err) => console.log('Error: ' + err),
-            () => console.log('Completed'));
+          this.imageService.getOrgLogo$(this.orgId)
+            .subscribe(
+              (url) => {
+                this.logoUrl = url;
+              },
+              (err) => console.log('Error: ' + err),
+              () => console.log('Completed'));
+        }
+
       });
 
 
@@ -151,6 +156,14 @@ export class OrgAdminOrgComponent implements OnInit {
     } else {
       this.orgManagementForm.controls['language'].setValue('Hebrew');
     }
+  }
+
+  ngOnDestroy() {
+    // force unsubscribe
+    this.destroy$.next(true);
+    // Now let's also unsubscribe from the subject itself:
+    this.destroy$.unsubscribe();
+
   }
 
 }

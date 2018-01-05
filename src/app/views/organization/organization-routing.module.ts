@@ -21,9 +21,9 @@ const routes: Routes = [
               {path: 'register', component: SignupComponent},
               {path: 'user-profile', component: UserProfileComponent},
               {path: 'admin-users', component: OrgAdminUsersComponent},
-
+              {path: 'admin-org', component: OrgAdminOrgComponent}
             ]},
-          {path: 'admin-org', component: OrgAdminOrgComponent}
+
 
         ]
       },

@@ -14,8 +14,8 @@ import * as firebase from 'firebase';
 export class OrgService {
   private currentOrg$: BehaviorSubject<string> = new BehaviorSubject('');
   isAuthenticated: boolean;
-  private orgPublicData: any; // local copy of org public data
-  private orgPrivateData: any; // local copy of org private data
+  private orgPublicData$: BehaviorSubject<any> = new BehaviorSubject({});
+  private orgPrivateData$: BehaviorSubject<any> = new BehaviorSubject({});
   private localCurrentOrg: string;
   private currentSkUser;
 
@@ -41,6 +41,9 @@ export class OrgService {
     // get user authentication
     this.authService.isAuth$()
       .subscribe(isAuth => this.isAuthenticated = isAuth);
+
+    // set org public data updates
+    this.updateOrgPublicData();
 
   }
 
@@ -114,35 +117,48 @@ export class OrgService {
 
 
   /***************************
-   Authorization and abilities
+   Internamls
    **************************/
 
-  canRead(user: OrgUser): boolean {
-    const allowed = ['admin', 'editor', 'subscriber'];
-    return this.checkAuthorization(user, allowed);
+ private updateOrgPublicData() {
+
+    this.currentOrg$
+      .distinctUntilChanged()
+      .switchMap(newOrgId => {
+        if (!newOrgId) {
+          return Observable.of(null);
+        }
+        const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}/publicData/info`);
+        return document.valueChanges()
+          .map(orgData => {
+            console.log('here');
+            if (orgData) {
+              return orgData;
+            } else {
+              return null;
+            }
+          });
+      }).subscribe(orgPublicData => this.orgPublicData$.next(orgPublicData));
   }
 
-  canEdit(user: OrgUser): boolean {
-    const allowed = ['admin', 'editor'];
-    return this.checkAuthorization(user, allowed);
-  }
+  private updateOrgPrivateData() {
 
-  canDelete(user: OrgUser): boolean {
-    const allowed = ['admin'];
-    return this.checkAuthorization(user, allowed);
-  }
-
-// determines if user has matching role
-  private checkAuthorization(user: OrgUser, allowedRoles: string[]): boolean {
-    if (!user) {
-      return false;
-    }
-    for (const role of allowedRoles) {
-      if (user.roles[role]) {
-        return true;
-      }
-    }
-    return false;
+    this.currentOrg$
+      .distinctUntilChanged()
+      .switchMap(newOrgId => {
+        if (!newOrgId) {
+          return Observable.of(null);
+        }
+        const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}/privateData/info`);
+        return document.valueChanges()
+          .map(orgData => {
+            if (orgData) {
+              return orgData;
+            } else {
+              return null;
+            }
+          });
+      }).subscribe(orgPrivateData => this.orgPrivateData$.next(orgPrivateData));
   }
 
   /************************
@@ -153,70 +169,20 @@ export class OrgService {
     return this.currentOrg$.asObservable();
   }
 
+
+
   getOrgPublicData$(): Observable<any> {
-    const orgId = this.currentOrg$.getValue();
-    if (orgId === '') {
-      return Observable.of(null);
-    }
+    return this.orgPublicData$.asObservable();
+  }
 
-    if (this.currentOrg$.getValue() === orgId && this.orgPublicData) {
-      return Observable.of(this.orgPublicData);
-    }
-
-    return this.currentOrg$
-      .distinctUntilChanged()
-      .switchMap(newOrgId => {
-        if (!newOrgId) {
-          return Observable.of(null);
-        }
-        const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}/publicData/info`);
-        return document.valueChanges()
-          .map(orgData => {
-            if (orgData) {
-              this.orgPublicData = orgData;
-              return orgData;
-            } else {
-              this.orgPublicData = null;
-              return null;
-            }
-          });
-      });
+  getOrgPrivateData$(): Observable<any> {
+    return this.orgPrivateData$.asObservable();
   }
 
   // Written by Ran
   setOrgPublicData(orgId, newData) {
     const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
     return document.update(newData);
-  }
-
-  getOrgPrivateData$(): Observable<any> {
-    const orgId = this.currentOrg$.getValue();
-    if (orgId === '') {
-      return Observable.of(null);
-    }
-
-    if (this.currentOrg$.getValue() === orgId && this.orgPrivateData) {
-      return Observable.of(this.orgPrivateData);
-    }
-
-    return this.currentOrg$
-      .distinctUntilChanged()
-      .switchMap(newOrgId => {
-        if (!newOrgId) {
-          return Observable.of(null);
-        }
-        const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}/privateData/info`);
-        return document.valueChanges()
-          .map(orgData => {
-            if (orgData) {
-              this.orgPrivateData = orgData;
-              return orgData;
-            } else {
-              this.orgPrivateData = null;
-              return null;
-            }
-          });
-      });
   }
 
   uploadDocument(docName: string, docText: string, docFormattedText: string) {
