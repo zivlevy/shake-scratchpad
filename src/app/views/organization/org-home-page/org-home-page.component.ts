@@ -89,10 +89,15 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
 
     // default logo
     this.org.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
-
     this.imageService.getOrgLogo$(this.org.orgId)
       .subscribe(
         (url) => this.org.logoUrl = url,
+        (err) => console.log('Error: ' + err));
+
+    this.org.bannerUrl = 'assets/img/shake banner.png';
+    this.imageService.getOrgBanner$(this.org.orgId)
+      .subscribe(
+        (url) => this.org.bannerUrl = url,
         (err) => console.log('Error: ' + err));
 
   }
