@@ -31,6 +31,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
   logoUrl: string;
   bannerUrl: string;
   orgHome: string;
+  lang: string;
 
   constructor(private fb: FormBuilder,
               private orgService: OrgService,
@@ -88,7 +89,15 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
           this.orgName = org.orgName;
           this.orgId = org.orgId;
           this.orgHome = '/org/' + org.orgId;
-
+          this.lang = org.language;
+          this.orgManagementForm.controls['language'].setValue(this.lang);
+          if (org.language === 'Hebrew') {
+            console.log('a hebrew org');
+            this.lngService.setLanguadge('he');
+          } else {
+            console.log('an english org');
+            this.lngService.setLanguadge('en');
+          }
 
           // get Logo
         this.imageService.getOrgLogo$(this.orgId)
@@ -144,9 +153,11 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
     let logoPromise: any;
     let bannerPromise: any;
 
-    if (this.orgManagementForm.controls['orgName'].dirty) {
+    if (this.orgManagementForm.controls['orgName'].dirty ||
+    this.orgManagementForm.controls['language'].dirty) {
       const newData = {
         'orgName': this.orgManagementForm.controls['orgName'].value,
+        'language': this.orgManagementForm.controls['language'].value,
       };
       publicDataPromise = this.orgService.setOrgPublicData(this.orgId, newData);
     } else {
