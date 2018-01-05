@@ -6,6 +6,8 @@ import {OrgService} from '../org.service';
 import {ImageService} from '../../../core/image.service';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
+import * as _ from "lodash";
+
 
 @Component({
   selector: 'sk-org-admin-org',
@@ -22,6 +24,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
   inBannerEdit = false;
   logoData: any;
   bannerData: any;
+  tempData: any;
 
   orgName: string;
   orgId: string;
@@ -45,17 +48,17 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
     this.logoCropperSettings.rounded = false;
 
     this.bannerCropperSettings = new CropperSettings();
-    this.bannerCropperSettings.width = 50;
-    this.bannerCropperSettings.height = 50;
-    this.bannerCropperSettings.croppedWidth = 50;
-    this.bannerCropperSettings.croppedHeight = 50;
-    this.bannerCropperSettings.canvasWidth = 350;
-    this.bannerCropperSettings.canvasHeight = 300;
+    this.bannerCropperSettings.width = 1000;
+    this.bannerCropperSettings.height = 100;
+    this.bannerCropperSettings.croppedWidth = 1000;
+    this.bannerCropperSettings.croppedHeight = 100;
+    this.bannerCropperSettings.canvasWidth = 1000;
+    this.bannerCropperSettings.canvasHeight = 100;
     this.bannerCropperSettings.rounded = false;
 
     this.logoData = {};
     this.bannerData = {};
-
+    this.tempData = {};
   }
 
   ngOnInit() {
@@ -109,6 +112,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
   }
 
   logoUploadClicked() {
+    this.tempData = _.cloneDeep(this.logoData);
     this.inLogoEdit = true;
   }
 
@@ -116,7 +120,13 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
     this.inLogoEdit = false;
   }
 
+  logoCancelClicked() {
+    this.logoData = _.cloneDeep(this.tempData);
+    this.inLogoEdit = false;
+  }
+
   bannerUploadClicked() {
+    this.tempData = _.cloneDeep(this.bannerData);
     this.inBannerEdit = true;
   }
 
@@ -124,35 +134,50 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
     this.inBannerEdit = false;
   }
 
+  bannerCancelClicked() {
+    this.bannerData = _.cloneDeep(this.tempData);
+    this.inBannerEdit = false;
+  }
+
   saveClicked() {
+    let publicDataPromise: any;
+    let logoPromise: any;
+    let bannerPromise: any;
+
     if (this.orgManagementForm.controls['orgName'].dirty) {
       const newData = {
         'orgName': this.orgManagementForm.controls['orgName'].value,
       };
-      this.orgService.setOrgPublicData(this.orgId, newData)
-        .then(() => this.router.navigate([this.orgHome]))
-        .catch();
+      publicDataPromise = this.orgService.setOrgPublicData(this.orgId, newData);
+    } else {
+      publicDataPromise = Promise.resolve();
     }
 
 
     if (this.logoData.image) {
-      this.imageService.uploadOrgLogo(this.logoData.image, this.orgId)
-        .then()
-        .catch();
+      logoPromise = this.imageService.uploadOrgLogo(this.logoData.image, this.orgId);
+    } else {
+      logoPromise = Promise.resolve();
+
     }
 
     if (this.bannerData.image) {
-      this.imageService.uploadOrgBanner(this.bannerData.image, this.orgId)
-        .then()
-        .catch();
+      bannerPromise = this.imageService.uploadOrgBanner(this.bannerData.image, this.orgId);
+    } else {
+      bannerPromise = Promise.resolve();
     }
 
 
+    Promise.all([publicDataPromise, logoPromise, bannerPromise])
+      .then(() => {
+        console.log('all is well');
+        this.router.navigate([this.orgHome]);
+      })
+      .catch(err => console.log(err));
 
   }
 
   cancelClicked() {
-    console.log(this.orgHome);
     this.router.navigate([this.orgHome]);
   }
 

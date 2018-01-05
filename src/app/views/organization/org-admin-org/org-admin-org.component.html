@@ -10,19 +10,19 @@
         <button class="btn btn-outline-danger" [disabled]="!logoData.image"
                 (click)="logoSavedClicked()">save
         </button>
-        <button class="btn btn-outline-primary" (click)="inLogoEdit = false">cancel</button>
+        <button class="btn btn-outline-primary" (click)="logoCancelClicked()">cancel</button>
       </div>
     </div>
 
-    <div id="imgWraper" class="img-input" *ngIf="inBannerEdit">
+    <div id="bannerWraper" class="img-input" *ngIf="inBannerEdit">
       <img-cropper [image]="bannerData" [settings]="bannerCropperSettings"></img-cropper>
-      <button id="imgHide" class="btn btn-primary"> Choose Banner image</button>
+      <button id="bannerHide" class="btn btn-primary"> Choose Banner image</button>
       <div class="cropper-buttons">
 
         <button class="btn btn-outline-danger" [disabled]="!bannerData.image"
                 (click)="bannerSaveClicked()">save
         </button>
-        <button class="btn btn-outline-primary" (click)="inBannerEdit = false">cancel</button>
+        <button class="btn btn-outline-primary" (click)="bannerCancelClicked()">cancel</button>
       </div>
     </div>
   </div>
@@ -45,6 +45,8 @@
             <img *ngIf="!logoData.image" [src]="logoUrl" class="orgLogo">
             {{orgName}}
           </a>
+
+          <img *ngIf="tempData.image" [src]="tempData.image" class="orgLogo">
 
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                   data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
