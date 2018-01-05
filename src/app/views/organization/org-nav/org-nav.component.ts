@@ -31,8 +31,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private orgService: OrgService,
-              private lngService: LanguageService,
-              private authService: AuthService) {
+              private lngService: LanguageService) {
   }
 
   ngOnInit() {

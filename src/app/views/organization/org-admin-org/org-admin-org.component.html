@@ -1,6 +1,6 @@
 <div>
 
-  <div *ngIf="inLogoEdit || inBGImageEdit; else orgManagement">
+  <div *ngIf="inLogoEdit || inBannerEdit; else orgManagement">
 
     <div id="logoWrapper" class="img-input" *ngIf="inLogoEdit">
       <img-cropper [image]="logoData" [settings]="logoCropperSettings"></img-cropper>
@@ -14,15 +14,15 @@
       </div>
     </div>
 
-    <div id="imgWraper" class="img-input" *ngIf="inBGImageEdit">
-      <img-cropper [image]="imgData" [settings]="bgImgCropperSettings"></img-cropper>
-      <button id="imgHide" class="btn btn-primary"> Choose Background image</button>
+    <div id="imgWraper" class="img-input" *ngIf="inBannerEdit">
+      <img-cropper [image]="bannerData" [settings]="bannerCropperSettings"></img-cropper>
+      <button id="imgHide" class="btn btn-primary"> Choose Banner image</button>
       <div class="cropper-buttons">
 
-        <button class="btn btn-outline-danger" [disabled]="!imgData.image"
-                (click)="imageSaveClicked()">save
+        <button class="btn btn-outline-danger" [disabled]="!bannerData.image"
+                (click)="bannerSaveClicked()">save
         </button>
-        <button class="btn btn-outline-primary" (click)="inBGImageEdit = false">cancel</button>
+        <button class="btn btn-outline-primary" (click)="inBannerEdit = false">cancel</button>
       </div>
     </div>
   </div>
@@ -39,10 +39,12 @@
 
         <nav class="navbar  navbar-expand bg-primary navbar-dark">
 
-          <img *ngIf="logoData.image" [src]="logoData.image" id="orgLogo">
-          <img *ngIf="!logoData.image" [src]="logoUrl" id="orgLogo">
 
-          <a class="navbar-brand"> {{orgName}}</a>
+          <a class="navbar-brand" [href]="orgHome">
+            <img *ngIf="logoData.image" [src]="logoData.image" class="orgLogo">
+            <img *ngIf="!logoData.image" [src]="logoUrl" class="orgLogo">
+            {{orgName}}
+          </a>
 
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                   data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -57,8 +59,8 @@
           </div>
         </nav>
 
-        <img class="bgImage" src="assets/homepage/img/bg-home.jpg" *ngIf="!imgData.image">
-        <img class="bgImage" [src]="imgData.image" *ngIf="imgData.image">
+        <img class="bannerImage" src="assets/img/shake banner.png" *ngIf="!bannerData.image">
+        <img class="bannerImage" [src]="bannerData.image" *ngIf="bannerData.image">
 
 
         <div class="form-body">
@@ -92,8 +94,8 @@
           </div>
 
           <div class="form-group row">
-            <label for="orgBGImage" class="col-sm-3 col-form-label" [innerHTML]="'Background Image' | translate" ></label>
-            <button class="btn btn-primary form-control col-sm-4" id="orgBGImage" (click)="imageUploadClicked()"
+            <label for="orgBGImage" class="col-sm-3 col-form-label" [innerHTML]="'Banner Image' | translate" ></label>
+            <button class="btn btn-primary form-control col-sm-4" id="orgBGImage" (click)="bannerUploadClicked()"
                     [innerHTML]="'Upload' | translate"></button>
           </div>
 
