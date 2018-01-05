@@ -1,7 +1,5 @@
 <!-- set margin for the level -->
   <div  #wrapper >
-
-
     <!-- if this is a section -->
     <div class="item-wrapper" (dragstart)="dragStartSection($event,treeNode)"
          (dragend)="dragEndSection($event)"
@@ -21,7 +19,7 @@
         (drop)="onDropSection($event)">{{treeNode.label}}
       </h5>
       <div *ngFor="let node of treeNode.children">
-        <sk-tree-view [treeNode]="node" [identMargin]="identMargin" (treeChange)="treeChanged()"></sk-tree-view>
+        <sk-tree-view [isRTL]="isRTL" [treeNode]="node" [identMargin]="identMargin" (treeChange)="treeChanged()"></sk-tree-view>
       </div>
     </div>
 

@@ -19,7 +19,7 @@ export class SkSection implements Serializable<SkSection> {
 
   deserialize(input): SkSection {
     this.title = input.title;
-    this.data = input.title;
+    this.data = input.data;
     input.nodes.forEach(node => {
       if (node.title) {
         const section: SkSection = new SkSection(node.title).deserialize(node);
@@ -54,6 +54,7 @@ export class SkItem implements Serializable<SkItem>  {
 export interface SkTreeNode {
   label?: string;
   data?: any;
+  plainText?: string;
   icon?: any;
   expandedIcon?: any;
   collapsedIcon?: any;
@@ -68,5 +69,5 @@ export interface SkTreeNode {
   droppable?: boolean;
   selectable?: boolean;
   level?: number;
-  plainText?: string;
+
 }
