@@ -103,7 +103,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
             },
             (err) => console.log('Error: ' + err));
 
-      });
+      }}) ;
 
 
   }
