@@ -44,6 +44,7 @@ export class OrgService {
 
     // set org public data updates
     this.updateOrgPublicData();
+    this.updateOrgPrivateData();
 
   }
 
@@ -117,7 +118,7 @@ export class OrgService {
 
 
   /***************************
-   Internamls
+   Private functions
    **************************/
 
  private updateOrgPublicData() {

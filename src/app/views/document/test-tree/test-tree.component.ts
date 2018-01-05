@@ -181,7 +181,6 @@ export class TestTreeComponent implements OnInit {
       const section: SkSection = new SkSection('');
       section.title = treeNode.label;
       section.data = treeNode.data;
-      section.data = treeNode.data;
       treeNode.children.forEach(tn => {
         section.nodes.push(this.treeNodeToSkSection(tn));
       });

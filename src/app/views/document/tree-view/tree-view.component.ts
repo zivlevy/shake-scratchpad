@@ -56,7 +56,7 @@ export class TreeViewComponent implements OnInit {
   }
 
   treeChanged() {
-    // this.treeChange.emit();
+    this.treeChange.emit();
   }
 
   textChange(ev) {

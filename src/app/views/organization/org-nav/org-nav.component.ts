@@ -39,7 +39,6 @@ export class OrgNavComponent implements OnInit, OnDestroy {
     // get current language
     this.lngService.getLanguadge$()
       .takeUntil(this.destroy$).subscribe(lng => {
-      // console.log('get Lang', lng);
       this.rtl = lng === 'he' ? true : false;
     });
 
