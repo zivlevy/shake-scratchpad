@@ -5,4 +5,5 @@ export class Org {
   bannerUrl: string;
   orgSearchKey: string;
   orgHome: string;
+  language: string;
 }

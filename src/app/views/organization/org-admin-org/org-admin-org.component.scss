@@ -8,8 +8,8 @@
   margin: 20px auto;
 }
 
-#imgWraper {
-  width: 250px;
+#bannerWraper {
+  width: 1000px;
   margin: 20px auto;
 }
 
@@ -26,10 +26,10 @@
   pointer-events: none;
 }
 
-#imgHide {
+#bannerHide {
   position: relative;
-  top:-340px;
-  width: 350px;
+  top:-140px;
+  width: 1000px;
   height: 38px;
   pointer-events: none;
 }
