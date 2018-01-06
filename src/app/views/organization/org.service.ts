@@ -85,7 +85,7 @@ export class OrgService {
       roles: {}, // must be empty object for permission
       displayName: user.displayName,
       email: user.email,
-      photoURL: user.photoURL
+      photoURL: user.photoURL ? user.photoURL : ''
     };
     return userRef.set(data);
   }
