@@ -18,18 +18,21 @@ import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {ImageCropperModule} from 'ng2-img-cropper';
 import {AlgoliaService} from "../../core/algolia.service";
 import { OrgHomeContentComponent } from './org-home-content/org-home-content.component';
+import { OrgDocManagerComponent } from './org-doc-manager/org-doc-manager.component';
+import {DocumentModule} from "../document/document.module";
 
 @NgModule({
   imports: [
     CommonModule,
     CoreModule,
     SharedModule,
+    DocumentModule,
     OrganizationRoutingModule,
     TranslateModule,
     BsDropdownModule,
     ReactiveFormsModule,
     LazyLoadImageModule,
-    ImageCropperModule
+    ImageCropperModule,
 
   ],
   declarations: [
@@ -39,7 +42,8 @@ import { OrgHomeContentComponent } from './org-home-content/org-home-content.com
     OrgNavComponent,
     OrgAdminUsersComponent,
     OrgAdminOrgComponent,
-    OrgHomeContentComponent
+    OrgHomeContentComponent,
+    OrgDocManagerComponent,
   ],
   exports: [OrgHomePageComponent],
   providers: [

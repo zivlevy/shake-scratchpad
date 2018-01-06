@@ -39,6 +39,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
     // get current language
     this.lngService.getLanguadge$()
       .takeUntil(this.destroy$).subscribe(lng => {
+        console.log(lng);
       this.rtl = lng === 'he' ? true : false;
     });
 
@@ -61,6 +62,10 @@ export class OrgNavComponent implements OnInit, OnDestroy {
 
   join() {
     this.orgService.joinToOrg();
+  }
+
+  docManager() {
+    this.router.navigate([`org/${this.org.orgId}/doc-manage`]);
   }
 
   ngOnDestroy() {

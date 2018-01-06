@@ -8,6 +8,7 @@ export class LanguageService {
   constructor(private translate: TranslateService) { }
 
   setLanguadge(lng) {
+    document.getElementsByTagName('html')[0].setAttribute('dir', lng === 'he' ? 'rtl' : 'ltr' );
     this.languadge$.next(lng);
   }
 

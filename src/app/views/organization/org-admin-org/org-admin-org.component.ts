@@ -6,8 +6,7 @@ import {OrgService} from '../org.service';
 import {ImageService} from '../../../core/image.service';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
-import * as _ from "lodash";
-
+import * as _ from 'lodash';
 
 @Component({
   selector: 'sk-org-admin-org',
@@ -182,7 +181,8 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
     Promise.all([publicDataPromise, logoPromise, bannerPromise])
       .then(() => {
         console.log('all is well');
-        this.router.navigate([this.orgHome]);
+        window.location.reload();
+        // this.router.navigate([this.orgHome]);
       })
       .catch(err => console.log(err));
 

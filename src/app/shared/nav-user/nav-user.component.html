@@ -1,23 +1,34 @@
 <!-- User drop down-->
-<div class="btn-group" dropdown *ngIf="currentAuthUser">
-  <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-    <i *ngIf="!currentSkUser || !currentSkUser.photoURL || currentSkUser.photoURL === ''" class="fa fa-user-circle"></i>
-    <img id="userImg"  class="rounded-circle"
-         *ngIf="currentSkUser && currentSkUser.photoURL != ''"
-         [src]="currentSkUser?.photoURL" alt="">
-    <span class="caret"></span>
-  </button>
 <div *ngIf="currentLng === 'en'">
-  <ul *dropdownMenu class="dropdown-menu dropdown-menu-right"  role="menu">
-    <li role="menuitem" [routerLink]="'user-profile'"><a class="dropdown-item">Profile</a></li>
-    <li class="divider dropdown-divider"></li>
-    <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a>
-    </li>
-  </ul>
-</div>
+  <div class="btn-group" dropdown *ngIf="currentAuthUser">
+    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+      <i *ngIf="!currentSkUser || !currentSkUser.photoURL || currentSkUser.photoURL === ''"
+         class="fa fa-user-circle"></i>
+      <img class="rounded-circle userImg"
+           *ngIf="currentSkUser && currentSkUser.photoURL != ''"
+           [src]="currentSkUser?.photoURL" alt="">
+      <span class="caret"></span>
+    </button>
 
-  <div *ngIf="currentLng === 'he'">
-    <ul *dropdownMenu class="dropdown-menu dropdown-menu-left"  role="menu">
+    <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
+      <li role="menuitem" [routerLink]="'user-profile'"><a class="dropdown-item">Profile</a></li>
+      <li class="divider dropdown-divider"></li>
+      <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div *ngIf="currentLng === 'he'">
+  <div class="btn-group" dropdown *ngIf="currentAuthUser">
+    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+      <i *ngIf="!currentSkUser || !currentSkUser.photoURL || currentSkUser.photoURL === ''"
+         class="fa fa-user-circle"></i>
+      <img class="rounded-circle userImg"
+           *ngIf="currentSkUser && currentSkUser.photoURL != ''"
+           [src]="currentSkUser?.photoURL" alt="">
+      <span class="caret"></span>
+    </button>
+    <ul *dropdownMenu class="dropdown-menu dropdown-menu-left" role="menu">
       <li role="menuitem" [routerLink]="'user-profile'"><a class="dropdown-item">Profile</a></li>
       <li class="divider dropdown-divider"></li>
       <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a>

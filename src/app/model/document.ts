@@ -42,7 +42,6 @@ export class SkItem implements Serializable<SkItem>  {
     this.data = input.data;
     this.plainText = input.plainText;
     return this;
-
   }
 }
 
@@ -52,6 +51,7 @@ export class SkItem implements Serializable<SkItem>  {
  *
  ***************/
 export interface SkTreeNode {
+  isRoot?: boolean;
   label?: string;
   data?: any;
   plainText?: string;

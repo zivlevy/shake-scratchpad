@@ -2,6 +2,7 @@ import {Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild}
 import * as _ from 'lodash';
 import {SkItem, SkSection, SkTreeNode} from '../../../model/document';
 import {TreeNode} from '@angular/router/src/utils/tree';
+import {LanguageService} from "../../../core/language.service";
 
 @Component({
   selector: 'sk-tree-view',
@@ -14,8 +15,12 @@ export class TreeViewComponent implements OnInit {
   static isStop: boolean = false;
   @ViewChild('wrapper') wrapper;
   @ViewChild('itemMenuTrigger') itemMenuTrigger;
+
   @ViewChild('sectionMenuTrigger') sectionMenuTrigger;
   @ViewChild('itemMenu') itemMenu;
+
+  @ViewChild('itemTreeTrigger') treeMenuTrigger;
+  @ViewChild('treeMenu') treeMenu;
 
   @Input() isRTL: boolean;
   @Input() treeNode: SkTreeNode;
@@ -30,9 +35,23 @@ export class TreeViewComponent implements OnInit {
   public options;
   inEditorClick: boolean;
 
-  constructor() {
+  constructor(private lngService: LanguageService) {
+    document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+  }
 
+  openTreeMenu(ev) {
+    ev.preventDefault();
+    if (this.treeNode.isRoot) {return; }
+    this.treeMenuTrigger.openMenu();
+  }
 
+  treeEditorClick(ev) {
+    if (this.treeNode.isRoot) {return; }
+    if (this.inEditorClick) {
+      this.inEditorClick = false;
+      return;
+    }
+    this.openTreeMenu(ev);
   }
 
   openItemMenu(ev) {
@@ -360,6 +379,13 @@ export class TreeViewComponent implements OnInit {
     this.treeNode.children.splice(0, 0, tmpTreeNode);
   }
 
+  addSectionChild() {
+    const tmpTreeNode: SkTreeNode = {label: ''};
+    tmpTreeNode.children = [];
+    tmpTreeNode.parent = this.treeNode;
+    this.treeNode.children.splice(0, 0, tmpTreeNode);
+  }
+
   addSectionBefore() {
     const index = this.findNodeIndexInParent(this.treeNode, this.treeNode.parent);
     const tmpTreeNode: SkTreeNode = {label: ''};
@@ -371,6 +397,7 @@ export class TreeViewComponent implements OnInit {
   addSectionAfter() {
     const index = this.findNodeIndexInParent(this.treeNode, this.treeNode.parent);
     const tmpTreeNode: SkTreeNode = {label: ''};
+    tmpTreeNode.children = [];
     tmpTreeNode.parent = this.treeNode.parent;
     this.treeNode.parent.children.splice(index + 1, 0, tmpTreeNode);
   }

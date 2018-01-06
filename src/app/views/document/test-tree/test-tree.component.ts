@@ -69,7 +69,7 @@ export class TestTreeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.makeList(this.document);
+    // this.makeList(this.document);
     this.buildTree(this.document);
     console.log(this.treeList);
     console.log(this.skTree);
@@ -77,19 +77,19 @@ export class TestTreeComponent implements OnInit {
 
   }
 
-  makeList = (sk: SkSection | SkItem, index: number = 0) => {
-    if (sk instanceof SkSection) {
-      this.treeList.push({index, sk});
-      if (sk.nodes.length > 0) {
-        sk.nodes.forEach(node => {
-          this.makeList(node, index + 1);
-        });
-      }
-    } else if (sk instanceof SkItem) {
-
-      this.treeList.push({index, sk});
-    }
-  }
+  // makeList = (sk: SkSection | SkItem, index: number = 0) => {
+  //   if (sk instanceof SkSection) {
+  //     this.treeList.push({index, sk});
+  //     if (sk.nodes.length > 0) {
+  //       sk.nodes.forEach(node => {
+  //         this.makeList(node, index + 1);
+  //       });
+  //     }
+  //   } else if (sk instanceof SkItem) {
+  //
+  //     this.treeList.push({index, sk});
+  //   }
+  // }
 
 
   /*****************
@@ -106,7 +106,7 @@ export class TestTreeComponent implements OnInit {
 
   SkSectionToTreeNode(item: SkSection, parent: SkTreeNode | null): SkTreeNode {
     const tn: SkTreeNode = {};
-    console.log(parent);
+    tn.isRoot = !parent;
     tn.children = [];
     tn.level = parent ? parent.level + 1 : 0;
     item.nodes.forEach(node => {
