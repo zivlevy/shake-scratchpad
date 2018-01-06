@@ -1,6 +1,7 @@
 import {Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 import * as _ from 'lodash';
-import {SkTreeNode} from '../../../model/document';
+import {SkItem, SkSection, SkTreeNode} from '../../../model/document';
+import {TreeNode} from '@angular/router/src/utils/tree';
 
 @Component({
   selector: 'sk-tree-view',
@@ -11,7 +12,10 @@ export class TreeViewComponent implements OnInit {
 
   static currentDragedObject;
   static isStop: boolean = false;
-  @ViewChild ('wrapper') wrapper;
+  @ViewChild('wrapper') wrapper;
+  @ViewChild('itemMenuTrigger') itemMenuTrigger;
+  @ViewChild('sectionMenuTrigger') sectionMenuTrigger;
+  @ViewChild('itemMenu') itemMenu;
 
   @Input() isRTL: boolean;
   @Input() treeNode: SkTreeNode;
@@ -21,16 +25,49 @@ export class TreeViewComponent implements OnInit {
   isHoverSeperator: boolean;
   isHoverSection: boolean;
 
+
   // editor
   public options;
+  inEditorClick: boolean;
 
   constructor() {
 
 
   }
 
+  openItemMenu(ev) {
+    ev.preventDefault();
+    this.itemMenuTrigger.openMenu();
+  }
+
+  openSectionMenu(ev) {
+    ev.preventDefault();
+      this.sectionMenuTrigger.openMenu();
+  }
+
+  itemEditorClick(ev) {
+    if (this.inEditorClick) {
+      this.inEditorClick = false;
+      return;
+    }
+    this.openItemMenu(ev);
+  }
+
+  sectionEditorClick(ev) {
+    if (this.inEditorClick) {
+      this.inEditorClick = false;
+      return;
+    }
+    this.openSectionMenu(ev);
+  }
+
   ngOnInit() {
+    // editor options
     this.options = {
+      fontSizeSelection: true,
+      fontSize: ['8', '10', '12', '14', '18', '20', '24'],
+      multiLine: this.treeNode.children ? false : true,
+      disableRightClick: true,
       placeholderText: this.isRTL ? 'הכנס טקסט...' : 'Insert text',
       charCounterCount: false,
       initOnClick: true,
@@ -38,20 +75,34 @@ export class TreeViewComponent implements OnInit {
       direction: this.isRTL ? 'rtl' : 'ltr',
       toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'align', 'subscript', 'superscript', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo'],
       toolbarVisibleWithoutSelection: false,
-      events : {
-        'froalaEditor.initialized':  (e, editor) => {
-          editor.events.on('drop',  (ev) => {
+      events: {
+        'froalaEditor.initialized': (e, editor) => {
+          editor.events.on('drop', (ev) => {
             ev.preventDefault();
             TreeViewComponent.isStop = true;
           }, true);
+        },
+        'froalaEditor.click': (e, editor) => {
+          console.log('click');
+          this.inEditorClick = true;
+          e.stopPropagation();
+        },
+        'froalaEditor.keyup' :  (e, editor, keyupEvent) => {
+        // Do something here.
+          console.log(e)
+        if (keyupEvent.originalEvent.code === 'KeyZ' && keyupEvent.ctrlKey) {
+          editor.selection.clear();
+          this.deleteItem();
         }
       }
+      }
     };
+
     // set identation
     if (this.isRTL) {
-      this.wrapper.nativeElement.style.marginRight = this.identMargin  + 'px';
+      this.wrapper.nativeElement.style.marginRight = this.identMargin + 'px';
     } else {
-      this.wrapper.nativeElement.style.marginLeft = this.identMargin  + 'px';
+      this.wrapper.nativeElement.style.marginLeft = this.identMargin + 'px';
     }
   }
 
@@ -266,4 +317,63 @@ export class TreeViewComponent implements OnInit {
     }
     return false;
   }
+
+
+  /*****************
+   * user actions
+   *****************/
+  addItemBefore() {
+    const index = this.findNodeIndexInParent(this.treeNode, this.treeNode.parent);
+    const tmpTreeNode: SkTreeNode = {label: ''};
+    tmpTreeNode.parent = this.treeNode.parent;
+    this.treeNode.parent.children.splice(index, 0, tmpTreeNode);
+  }
+
+  addItemAfter() {
+    const index = this.findNodeIndexInParent(this.treeNode, this.treeNode.parent);
+    const tmpTreeNode: SkTreeNode = {label: ''};
+    tmpTreeNode.parent = this.treeNode.parent;
+    this.treeNode.parent.children.splice(index + 1, 0, tmpTreeNode);
+  }
+
+  addItemsAfter(number: number) {
+    const index = this.findNodeIndexInParent(this.treeNode, this.treeNode.parent);
+    for (let i = 0; i < number; i++) {
+      const tmpTreeNode: SkTreeNode = {label: ''};
+      tmpTreeNode.parent = this.treeNode.parent;
+      this.treeNode.parent.children.splice(index + i + 1, 0, tmpTreeNode);
+    }
+
+  }
+
+  deleteItem() {
+    if (this.treeNode.parent) {
+      const index = this.findNodeIndexInParent(this.treeNode, this.treeNode.parent);
+      this.treeNode.parent.children.splice(index, 1);
+    }
+  }
+
+  // Section
+  addItemChild() {
+    const tmpTreeNode: SkTreeNode = {label: ''};
+    tmpTreeNode.parent = this.treeNode;
+    this.treeNode.children.splice(0, 0, tmpTreeNode);
+  }
+
+  addSectionBefore() {
+    const index = this.findNodeIndexInParent(this.treeNode, this.treeNode.parent);
+    const tmpTreeNode: SkTreeNode = {label: ''};
+    tmpTreeNode.parent = this.treeNode.parent;
+    tmpTreeNode.children = [];
+    this.treeNode.parent.children.splice(index, 0, tmpTreeNode);
+  }
+
+  addSectionAfter() {
+    const index = this.findNodeIndexInParent(this.treeNode, this.treeNode.parent);
+    const tmpTreeNode: SkTreeNode = {label: ''};
+    tmpTreeNode.parent = this.treeNode.parent;
+    this.treeNode.parent.children.splice(index + 1, 0, tmpTreeNode);
+  }
+
+
 }

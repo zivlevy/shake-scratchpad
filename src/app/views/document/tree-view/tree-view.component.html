@@ -1,40 +1,77 @@
 <!-- set margin for the level -->
-  <div  #wrapper >
-    <!-- if this is a section -->
-    <div class="item-wrapper" (dragstart)="dragStartSection($event,treeNode)"
-         (dragend)="dragEndSection($event)"
-         draggable="true" *ngIf="treeNode.children">
+<div class="wrapper" #wrapper>
+  <!-- context menu -->
 
-      <div  class="seperator " [ngClass]="{'seperator-dragedOver': isHoverSeperator}"
-            (drop)="onDropSeperator($event)"
-            (dragleave)="onDragLeaveSeperator($event)"
-            (dragover)="onDragOverSeperator($event)">
-      </div>
+  <!-- if this is a section -->
+  <div class="" (dragstart)="dragStartSection($event,treeNode)"
+       (dragend)="dragEndSection($event)"
+       draggable="true" *ngIf="treeNode.children">
 
-      <h5
-        [ngClass]="{'section-dragedOver': isHoverSection ,'set-rtl': isRTL}"
-        (dragover)="onDragOverSection($event)"
-        (dragenter)="onDragEnterSection($event)"
-        (dragleave)="onDragLeaveSection($event)"
-        (drop)="onDropSection($event)">{{treeNode.label}}
-      </h5>
-      <div *ngFor="let node of treeNode.children">
-        <sk-tree-view [isRTL]="isRTL" [treeNode]="node" [identMargin]="identMargin" (treeChange)="treeChanged()"></sk-tree-view>
-      </div>
+    <div class="seperator " [ngClass]="{'seperator-dragedOver': isHoverSeperator}"
+         (drop)="onDropSeperator($event)"
+         (dragleave)="onDragLeaveSeperator($event)"
+         (dragover)="onDragOverSeperator($event)"
+         draggable="false">
     </div>
 
-    <!-- this is an Item -->
-    <div class="item-wrapper" *ngIf="!treeNode.children" draggable="true" (dragstart)="dragStartItem($event,treeNode)"
-         (dragend)="dragEndItem($event)">
-      <div #sep class="seperator " [ngClass]="{'seperator-dragedOver': isHoverSeperator}"
-           (drop)="onDropSeperator($event)"
-           (dragleave)="onDragLeaveSeperator($event)"
-           (dragover)="onDragOverSeperator($event)"
-           draggable="false">
-      </div>
-      <div>
-        <div [ngClass]="{'set-rtl': isRTL, 'editor-ltr': !isRTL, 'editor-rtl': isRTL}" [froalaEditor]="options" [ngModel]="treeNode.data"></div>
-      </div>
 
+    <div  (contextmenu)="openSectionMenu($event)"  (click)="sectionEditorClick($event)">
+      <div #sectionMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="sectionMenu"></div>
+        <div
+          [ngClass]="{'section-dragedOver': isHoverSection ,'set-rtl': isRTL, 'section-editor-ltr': !isRTL, 'section-editor-rtl': isRTL}"
+          [froalaEditor]="options" [ngModel]="treeNode.data"
+          (dragover)="onDragOverSection($event)"
+          (dragenter)="onDragEnterSection($event)"
+          (dragleave)="onDragLeaveSection($event)"
+          (drop)="onDropSection($event)"
+        >
+      </div>
+    </div>
+    <div *ngFor="let node of treeNode.children">
+      <sk-tree-view [isRTL]="isRTL" [treeNode]="node" [identMargin]="identMargin"
+                    (treeChange)="treeChanged()"></sk-tree-view>
     </div>
   </div>
+
+  <!-- this is an Item -->
+  <div *ngIf="!treeNode.children" draggable="true" (dragstart)="dragStartItem($event,treeNode)"
+       (dragend)="dragEndItem($event)">
+    <div #sep class="seperator " [ngClass]="{'seperator-dragedOver': isHoverSeperator}"
+         (drop)="onDropSeperator($event)"
+         (dragleave)="onDragLeaveSeperator($event)"
+         (dragover)="onDragOverSeperator($event)"
+         draggable="false">
+    </div>
+
+    <div (contextmenu)="openItemMenu($event)" (click)="itemEditorClick($event)">
+      <div #itemMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="itemMenu"></div>
+      <div [ngClass]="{'set-rtl': isRTL, 'item-editor-ltr': !isRTL, 'item-editor-rtl': isRTL}"
+           [froalaEditor]="options" [ngModel]="treeNode.data">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Menus-->
+
+
+<mat-menu #itemMenu="matMenu">
+  <button mat-menu-item [matMenuTriggerFor]="itemSatMenu">Item</button>
+  <button mat-menu-item (click)="addSectionBefore()">Add Section Above</button>
+  <button mat-menu-item (click)="deleteItem()">Delete</button>
+</mat-menu>
+
+<mat-menu #itemSatMenu="matMenu">
+  <button mat-menu-item (click)="addItemBefore()"><mat-icon>create</mat-icon>Above</button>
+  <button mat-menu-item (click)="addItemAfter()"><mat-icon>create</mat-icon>Below</button>
+  <button mat-menu-item (click)="addItemsAfter(3)">Add 3 Below</button>
+</mat-menu>
+
+
+<mat-menu #sectionMenu="matMenu">
+  <button mat-menu-item (click)="addItemChild()"><mat-icon>create</mat-icon>Add Item</button>
+  <button mat-menu-item (click)="deleteItem()"><mat-icon>delete</mat-icon>Delete</button>
+  <button mat-menu-item (click)="addSectionBefore()"><mat-icon>create_new_folder</mat-icon>Add Section Above</button>
+</mat-menu>
+
+

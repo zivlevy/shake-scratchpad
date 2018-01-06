@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {AuthService} from './core/auth.service';
-import {LanguageService} from "./core/language.service";
+import {LanguageService} from './core/language.service';
 
 @Component({
     selector: 'app-root',
@@ -9,6 +9,7 @@ import {LanguageService} from "./core/language.service";
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
 
     rtl = true;
     param = {value: 'world'};
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit {
 
         this.lngService.getLanguadge$()
             .subscribe(lng => {
-              console.log(lng)
+              console.log(lng);
                 // the lang to use, if the lang isn't available, it will use the current loader to get them
                 this.translate.use(lng);
                 lng === 'he' ? this.rtl = true : this.rtl = false;

@@ -30,8 +30,10 @@ import {SharedModule} from './shared/shared.module';
 import {Ng2FileInputModule} from 'ng2-file-input';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {NgxSpinnerModule} from 'ngx-spinner';
-import {DocumentModule} from "./views/document/document.module";
+import {DocumentModule} from './views/document/document.module';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import {MaterialModule} from "./material/material.module";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +53,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
     ToastrModule.forRoot(),
     BsDropdownModule.forRoot(),
     BrowserModule,
+    MaterialModule,
     RouterModule,
     HttpClientModule,
     FormsModule,

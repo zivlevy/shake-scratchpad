@@ -4,7 +4,7 @@
 @import '../node_modules/font-awesome/css/font-awesome.css';
 @import '../node_modules/bootstrap/scss/bootstrap';
 @import "../node_modules/ng2-file-input/ng2-file-input.scss";
-
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 
 body {
@@ -76,6 +76,10 @@ app-root:empty + .loading {
 .error-message {
   font-size: smaller;
   color: darkred;
+}
+
+p {
+  margin-bottom: 5px;
 }
 
 

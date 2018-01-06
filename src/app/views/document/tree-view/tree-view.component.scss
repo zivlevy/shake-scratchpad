@@ -1,9 +1,14 @@
 #handle {
   background-color: lightgray;
-
 }
 
-.item-wrapper {
+.wrapper {
+  display: block;
+}
+
+
+#menu-shandler {
+  display: none;
 }
 
 .seperator {
@@ -27,34 +32,119 @@
   direction: rtl;
 }
 
-.editor-ltr {
+.item-editor-ltr {
   margin: 0;
+  padding-right: 12px;
   padding-left: 12px;
+  font-size: 16px;
   &:before {
-    content: "";
+    font-family: FontAwesome;
+    vertical-align: middle;
+    color: #888888;
+    text-align: center;
+    content: "\f142";
     display: block;
     width: 10px;
     height: 100%;
     position: absolute;
     background-color: aliceblue;
     top: 0px;
-    left: -12px;
+    left: -4px;
   }
 }
 
-.editor-rtl {
+.item-editor-rtl {
   margin: 0;
   padding-right: 12px;
+  padding-left: 12px;
+  font-size: 16px;
   &:after {
-    content: "";
+    font-family: FontAwesome;
+    vertical-align: middle;
+    color: #888888;
+    text-align: center;
+    content: "\f142";
     display: block;
     width: 10px;
     height: 100%;
     position: absolute;
     background-color: aliceblue;
     top: 0px;
-    right: -12px;
+    right: -4px;
   }
+}
+
+.section-editor-ltr {
+  margin: 0;
+  padding-right: 12px;
+  padding-left: 12px;
+  font-size: 20px;
+  &:before {
+    font-family: FontAwesome;
+    vertical-align: middle;
+    color: #888888;
+    text-align: center;
+    content: "\f142";
+    display: block;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    background-color: aliceblue;
+    top: 0px;
+    left: -4px;
+    font-size: 16px;
+  }
+}
+
+.editor-wrapper {
+  text-align: right;
+  direction: rtl;
+  margin: 0;
+  padding-right: 12px;
+  padding-left: 12px;
+  font-size: 20px;
+  background-color: #2aa1c0;
+  &:after {
+    font-family: FontAwesome;
+    vertical-align: middle;
+    color: #888888;
+    text-align: center;
+    content: "\f142";
+    display: block;
+    position: relative;
+    width: 10px;
+    top: -30px;
+    right: -5px;
+    height: 20px;
+
+
+    font-size: 16px;
+  }
+}
+.section-editor-rtl {
+  margin: 0;
+  padding-right: 12px;
+  padding-left: 12px;
+  font-size: 20px;
+  &:after {
+    font-family: FontAwesome;
+    vertical-align: middle;
+    color: #888888;
+    text-align: center;
+    content: "\f142";
+    display: block;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    background-color: aliceblue;
+    top: 0px;
+    right: -4px;
+    font-size: 16px;
+  }
+}
+
+button {
+  outline: none;
 }
 
 
