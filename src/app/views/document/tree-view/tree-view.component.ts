@@ -52,7 +52,6 @@ export class TreeViewComponent implements OnInit {
     this.openTreeMenu(ev);
   }
 
-
   ngOnInit() {
     // editor options
     this.options = {
