@@ -153,7 +153,7 @@ export class OrgService {
         if (!newOrgId) {
           return Observable.of(null);
         }
-        const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}/privateData/info`);
+        const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}`);
         return document.valueChanges()
           .map(orgData => {
             if (orgData) {

@@ -45,7 +45,7 @@ export const newOrgRequest = functions.firestore
     const dataPackageRef = db.collection('dataPackages').doc(newOrg.language).collection('sectors').doc(newOrg.sector);
 
     // set the root org
-    orgRootRef.set({'stam': 'stam'}, {merge: true})
+    orgRootRef.set({'searchKey': ''}, {merge: true})
       .then(() => orgInfoRef.set({    // then - insert public info
         orgId: newOrg.orgId,
         orgName: newOrg.orgName,
@@ -59,7 +59,7 @@ export const newOrgRequest = functions.firestore
 
         // get org public search key
         const searchKey = algoliaGetSearchKey(newOrg.orgId);
-        orgPrivateInfoRef.set({
+        orgRootRef.set({
           searchKey: searchKey
         });
 

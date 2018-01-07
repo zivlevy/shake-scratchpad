@@ -35,7 +35,7 @@ exports.newOrgRequest = functions.firestore
     const orgUserRef = db.collection('org').doc(newOrg.orgId).collection('users').doc(newOrg.createdBy);
     const dataPackageRef = db.collection('dataPackages').doc(newOrg.language).collection('sectors').doc(newOrg.sector);
     // set the root org
-    orgRootRef.set({ 'stam': 'stam' }, { merge: true })
+    orgRootRef.set({ 'searchKey': '' }, { merge: true })
         .then(() => orgInfoRef.set({
         orgId: newOrg.orgId,
         orgName: newOrg.orgName,
@@ -48,7 +48,7 @@ exports.newOrgRequest = functions.firestore
         copyInitialDataPackage(newOrg, orgInfoRef, dataPackageRef);
         // get org public search key
         const searchKey = algolia_1.algoliaGetSearchKey(newOrg.orgId);
-        orgPrivateInfoRef.set({
+        orgRootRef.set({
             searchKey: searchKey
         });
         // set user info in org users
