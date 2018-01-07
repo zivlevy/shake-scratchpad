@@ -33,6 +33,7 @@ import {NgxSpinnerModule} from 'ngx-spinner';
 import {DocumentModule} from './views/document/document.module';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import {MaterialModule} from "./material/material.module";
+import {AdminModule} from "./views/admin/admin.module";
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import {MaterialModule} from "./material/material.module";
     ButtonsModule.forRoot(),
     ModalModule.forRoot(),
     LazyLoadImageModule,
+    AdminModule,
     CoreModule,
     HomeModule,
     DocumentModule,
