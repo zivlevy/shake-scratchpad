@@ -1,5 +1,8 @@
 import {Injectable} from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
+import {
+  AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument,
+  DocumentChangeAction
+} from 'angularfire2/firestore';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {ChildActivationEnd, Router} from '@angular/router';
@@ -9,6 +12,8 @@ import {AuthService} from '../../core/auth.service';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {OrgUser} from '../../model/org-user';
 import * as firebase from 'firebase';
+import {SkDoc} from '../../model/document';
+import DocumentSnapshot = firebase.firestore.DocumentSnapshot;
 
 @Injectable()
 export class OrgService {
@@ -22,8 +27,7 @@ export class OrgService {
   constructor(private authService: AuthService,
               private afs: AngularFirestore,
               private afAuth: AngularFireAuth,
-              private router: Router
-              ) {
+              private router: Router) {
 
     this.router.events
       .filter((event) => {
@@ -67,7 +71,7 @@ export class OrgService {
           .then(() => {
             this.router.navigate([`org/${this.currentOrg$.getValue()}`]);
           });
-      } );
+      });
 
   }
 
@@ -116,12 +120,11 @@ export class OrgService {
   }
 
 
-
   /***************************
    Private functions
    **************************/
 
- private updateOrgPublicData() {
+  private updateOrgPublicData() {
 
     this.currentOrg$
       .distinctUntilChanged()
@@ -171,7 +174,6 @@ export class OrgService {
   }
 
 
-
   getOrgPublicData$(): Observable<any> {
     return this.orgPublicData$.asObservable();
   }
@@ -210,9 +212,47 @@ export class OrgService {
       return actions.map(a => {
         const data = a.payload.doc.data() as OrgUser;
         const id = a.payload.doc.id;
-        return { uid: id, ...data };
+        return {uid: id, ...data};
       });
     });
   }
+
+  /************************
+   Org Documents
+   ************************/
+  getAllDocs$(): Observable<SkDoc[]> {
+    const orgDocsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/docs`);
+    return orgDocsRef.snapshotChanges()
+      .map(docs => {
+        return docs.map(a => {
+          const data = a.payload.doc.data() as SkDoc;
+          const id = a.payload.doc.id;
+          return {uid: id, ...data};
+        });
+      });
+  }
+
+  getDoc$(docId: string): Observable <SkDoc> {
+    const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
+    return docRef.snapshotChanges()
+      .map(doc => {
+        return {uid: doc.payload.id, name: doc.payload.get('name')};
+      });
+  }
+
+  addDoc(doc: SkDoc) {
+    const docsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/docs`);
+    return docsRef.add(doc);
+  }
+
+  deleteDoc(docId: string) {
+    const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
+    return docRef.delete();
+  }
+
+  updateDoc(){
+
+  }
+
 }
 

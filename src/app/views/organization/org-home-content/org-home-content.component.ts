@@ -44,6 +44,21 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
           this.orgSearchKey = orgData.searchKey;
         }
       });
+
+    // test TODO remove
+    // this.orgService.getAllDocs$()
+    //   .subscribe(docs => {
+    //     console.log(docs);
+    //     this.orgService.getDoc$(docs[0].uid)
+    //       .subscribe(doc => { console.log( doc); });
+    //   });
+    //
+    // this.orgService.addDoc({ name: 'the name of me'})
+    //   .then(res => {
+    //     console.log(res);
+    //     // this.orgService.deleteDoc(res.id);
+    //
+    //   });
   }
 
   searchClicked(searchString: string) {

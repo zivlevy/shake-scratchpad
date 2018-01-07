@@ -63,6 +63,7 @@ export class TestTreeComponent implements OnInit {
       new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, 'האחות תתעד במסגרת המעקב הסיעודי השוטף, את נתוני הסתגלות המטופל'),
     );
 
+    // this.document.nodes.push(modules);
     this.document.nodes.push(modules, a, b , c , d);
 
     this.ziv = new SkSection('').deserialize(JSON.parse(JSON.stringify(this.document)));
@@ -112,14 +113,12 @@ export class TestTreeComponent implements OnInit {
     item.nodes.forEach(node => {
       if (node instanceof SkSection) {
         tn.children.push(this.makeTree(node, tn));
-      }
-      else {
+      } else {
         tn.children.push(this.SkItemToTreeNode(node, tn));
       }
     });
-    tn.label = item.title;
     tn.parent = parent;
-    tn.data = item.title;
+    tn.data = item.data;
     tn.expandedIcon = 'fa-folder-open';
     tn.collapsedIcon = 'fa-folder';
     tn.draggable = true;
@@ -132,7 +131,6 @@ export class TestTreeComponent implements OnInit {
 
   SkItemToTreeNode(item: SkItem, parent: SkTreeNode): SkTreeNode {
     const tn: SkTreeNode = {
-      label: item.data,
       data: item.data,
       type: item.type,
       parent: parent,
@@ -162,36 +160,54 @@ export class TestTreeComponent implements OnInit {
   }
 
   treeChanged() {
-    console.log('===================');
-    console.log(this.skTree);
-    this.editedDocument = this.makeTempDoc(this.skTree[0]);
-    this.buildTree(this.editedDocument);
+
   }
 
   /*****************
    * Temp Document
    *****************/
-  makeTempDoc = (sk: SkTreeNode): SkSection => {
-    const tree = this.treeNodeToSkSection(this.skTree[0]);
-    return <SkSection>tree;
+  makeTempDoc = (sk: SkTreeNode): {data: string , plainText: string } => {
+    const plainText = { plainText: ''};
+    const tree = this.treeNodeToSkSection(this.skTree[0], plainText );
+    console.log (plainText);
+    console.log(tree);
+    return {data: JSON.stringify(tree), plainText: plainText.plainText};
   }
 
-  treeNodeToSkSection(treeNode: SkTreeNode): SkSection | SkItem {
+  treeNodeToSkSection(treeNode: SkTreeNode, plainText: any): SkSection | SkItem {
     if (treeNode.children) {
-      const section: SkSection = new SkSection('');
-      section.title = treeNode.label;
+      const section: SkSection = new SkSection();
+      plainText.plainText += ' ' + this.stripHtml(treeNode.data) ;
       section.data = treeNode.data;
-      treeNode.children.forEach(tn => {
-        section.nodes.push(this.treeNodeToSkSection(tn));
+      treeNode.children.forEach(node => {
+        section.nodes.push(this.treeNodeToSkSection(node, plainText));
       });
       return section;
     } else {
-      const item: SkItem = new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, '');
-      item.data = treeNode.label;
-      item.plainText = treeNode.plainText;
+      const item: SkItem = new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO);
+      item.data = treeNode.data;
+      plainText.plainText += ' ' + this.stripHtml(treeNode.data) ;
       item.type = treeNode.type;
       return item;
     }
+  }
+
+   stripHtml(str) {
+    // Remove some tags
+    str = str.replace(/<[^>]+>/gim, '');
+
+    // Remove BB code
+    str = str.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2 ');
+
+
+    return str;
+  }
+
+  saveDoc() {
+    console.log(this.skTree[0]);
+    const doc = this.makeTempDoc(this.skTree[0]);
+
+    console.log(doc);
   }
 
 }
