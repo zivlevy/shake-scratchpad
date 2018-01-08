@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {SK_ITEM_TYPE, SkItem, SkSection, SkTreeNode} from '../../../model/document';
+import {Component, Input, OnInit} from '@angular/core';
+import {SK_ITEM_TYPE, SkDoc, SkItem, SkSection, SkTreeNode} from '../../../model/document';
+import {OrgService} from '../../organization/org.service';
 
 @Component({
   selector: 'sk-test-tree',
@@ -14,7 +15,7 @@ export class TestTreeComponent implements OnInit {
   selectedNode: SkTreeNode = {};
   skTree: SkTreeNode[] = [];
 
-  constructor() {
+  constructor(private orgService: OrgService) {
 
     // create document
     this.createDocument();
@@ -197,17 +198,30 @@ export class TestTreeComponent implements OnInit {
     str = str.replace(/<[^>]+>/gim, '');
 
     // Remove BB code
+    // Remove BB code
     str = str.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2 ');
 
 
     return str;
   }
 
-  saveDoc() {
-    console.log(this.skTree[0]);
-    const doc = this.makeTempDoc(this.skTree[0]);
+  newDoc() {
+    this.document = new SkSection('מסמך חדש');
+    this.buildTree(this.document);
+  }
 
-    console.log(doc);
+  saveDoc() {
+
+    const mydoc = this.makeTempDoc(this.skTree[0]);
+    this.orgService.getDoc$('123').take(1).subscribe(doc => {
+      console.log(doc);
+      const objToSave = {name: this.stripHtml(this.skTree[0].data), data: mydoc.data, plainText: mydoc.plainText};
+      // this.orgService.publishDoc(doc.uid, objToSave)
+      this.orgService.addDoc(objToSave)
+        .then(res => console.log(res));
+    });
+
+
   }
 
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {SkDoc, SkDocData} from "../../../model/document";
+import {OrgService} from "../org.service";
 
 @Component({
   selector: 'sk-org-doc-manager',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./org-doc-manager.component.scss']
 })
 export class OrgDocManagerComponent implements OnInit {
-
-  constructor() { }
+  orgDocs$;
+  currentDoc: SkDoc;
+  currentEditData: SkDocData;
+  constructor( public orgService:OrgService) { }
 
   ngOnInit() {
+    this.orgDocs$ = this.orgService.getAllDocs$();
+
+  }
+
+  docSelected(doc: SkDoc) {
+    this.currentDoc = doc;
+    this.currentEditData = doc.editVersion;
+    console.log(doc);
   }
 
 }

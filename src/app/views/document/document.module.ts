@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { DocumentRoutingModule } from './document-routing.module';
-import { TreeViewComponent } from './tree-view/tree-view.component';
+import {DocumentRoutingModule} from './document-routing.module';
+import {TreeViewComponent} from './tree-view/tree-view.component';
 import {FormsModule} from '@angular/forms';
-import { TestTreeComponent } from './test-tree/test-tree.component';
-import { ItemInfoComponent } from './item-info/item-info.component';
+import {TestTreeComponent} from './test-tree/test-tree.component';
 import {FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
-import {ContextMenuModule} from "ngx-contextmenu";
-import {MaterialModule} from "../../material/material.module";
+import {ContextMenuModule} from 'ngx-contextmenu';
+import {MaterialModule} from '../../material/material.module';
+import {DocEditorComponent} from './doc-editor/doc-editor.component';
 
 @NgModule({
   imports: [
@@ -20,8 +20,13 @@ import {MaterialModule} from "../../material/material.module";
     FroalaViewModule,
     MaterialModule
   ],
-  declarations: [TreeViewComponent, TestTreeComponent, ItemInfoComponent],
+  declarations: [
+    TreeViewComponent,
+    TestTreeComponent,
+    DocEditorComponent
+  ],
   exports: [TreeViewComponent,
-            TestTreeComponent]
+    TestTreeComponent]
 })
-export class DocumentModule { }
+export class DocumentModule {
+}

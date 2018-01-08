@@ -2,14 +2,29 @@ interface Serializable<T> {
   deserialize(input: Object): T;
 }
 
-
-export class SkDoc {
-  uid?: string ;
-  name?: string = '';
-  language?: string ;
+export interface  SkDocData {
+  name?: string;
   data?: string; // the formated text
   plainText?: string;
 
+  createdAt?: object;
+  createdBy?: string; // orgUser UID
+
+  publishBy?: string; // orgUserUID
+  publishAt?: object;
+
+  versionAt?: object;
+}
+
+export class SkDoc {
+  uid?: string ;
+  name?: string ;
+  version?: number
+  language?: string ;
+  isPublish?: boolean;
+  isPublic?: boolean;
+  editVersion?: SkDocData;
+  publishVersion?: SkDocData;
 
 }
 
