@@ -5,11 +5,19 @@
     <div class="col-6">
       <div>
         <input id="searchBox" #searchBox>
-        <button (click)="searchClicked(searchBox.value)">Search</button>
+      </div>
+      <div>
+        <button (click)="searchNamesClicked(searchBox.value)">Search in Current Name Fields</button>
+      </div>
+      <div>
+        <button (click)="searchCurrentClicked(searchBox.value)">Search in All Current Doc Fields</button>
+      </div>
+      <div>
+        <button (click)="searchHistoryClicked(searchBox.value)">Search in All History Doc Fields</button>
       </div>
       <ul>
         <li *ngFor="let result of searchResults">
-          {{ result }}
+          {{ result.published.name }}
         </li>
       </ul>
     </div>
