@@ -1,1 +1,10 @@
-<sk-test-tree></sk-test-tree>
+<div *ngFor="let doc of orgDocs$ | async"
+      (click)="docSelected(doc)">
+  {{doc.name}}
+</div>
+<button class="btn btn-sm btn-primary" (click)="newDocument()">New Doc</button>
+<button class="btn btn-sm btn-primary" (click)="saveDocument()">Save Doc</button>
+<button class="btn btn-sm btn-primary" (click)="publishDocument()">Publish Doc</button>
+<button class="btn btn-sm btn-primary" (click)="deleteDocument()">Delete Doc</button>
+
+<sk-doc-editor #editor [docData]="currentEditData" ></sk-doc-editor>

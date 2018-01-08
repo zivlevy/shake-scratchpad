@@ -242,7 +242,7 @@ export class OrgService {
     return docRef.snapshotChanges()
       .map(res => {
         console.log(res.payload.data());
-        const doc: SkDoc =  { uid: res.payload.id, ... res.payload.data()};
+        const doc: SkDoc = {uid: res.payload.id, ... res.payload.data()};
         return doc;
       });
   }
@@ -252,19 +252,19 @@ export class OrgService {
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
     editVersion.createdBy = this.currentSkUser.uid;
     editVersion.createdAt = timestamp;
-    const objToSave: SkDoc = { editVersion: editVersion, name: editVersion.name, version: 0};
+    const objToSave: SkDoc = {editVersion: editVersion, name: editVersion.name, version: 0};
     return docsRef.add(objToSave);
   }
 
   saveDoc(uid: string, editVersion: SkDocData) {
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
     return docsRef.valueChanges().take(1).toPromise()
-      .then( res => {
+      .then(res => {
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-        const nameObj = res.publishVersion ? {} : {name: editVersion.name} ;
+        const nameObj = res.publishVersion ? {} : {name: editVersion.name};
         editVersion.createdBy = this.currentSkUser.uid;
-        editVersion = {... editVersion, createdAt: timestamp };
-        return docsRef.update({...nameObj,  editVersion});
+        editVersion = {...editVersion, createdAt: timestamp};
+        return docsRef.update({...nameObj, editVersion});
       });
   }
 
@@ -272,32 +272,61 @@ export class OrgService {
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
 
     return docsRef.valueChanges().take(1).toPromise()
-      .then( res => {
+      .then(res => {
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
         // if current published - move to versions
-        if (res.publishVersion) {
-          const docVersionsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}/versions/${res.version}`);
-          docVersionsRef.set ({... res.publishVersion, versionAt: timestamp, version: res.version || 0});
+        if (!res.publishVersion) {
+          res['publishVersion'] = {...res.editVersion};
         }
+        const docVersionsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}/versions/${res.version}`);
+        docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0});
+
         // save editedVersion to PublishVersion
-          editVersion.publishAt = timestamp;
-          editVersion.publishBy = this.currentSkUser.uid;
-          const objToSave = { version: (res.version || 0)  + 1, editVersion: null, publishVersion: editVersion, name: editVersion.name, isPublish: true} ;
-          return docsRef.update( objToSave);
+        editVersion.publishAt = timestamp;
+        editVersion.publishBy = this.currentSkUser.uid;
+        const objToSave = {
+          version: (res.version || 0) + 1,
+          editVersion,
+          publishVersion: editVersion,
+          name: editVersion.name,
+          isPublish: true
+        };
+        return docsRef.update(objToSave);
       });
   }
 
-  moveDocToPublic (doc: SkDoc) {
+  moveDocToPublic(doc: SkDoc) {
     // const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/publicDocs/${doc.uid}`);
     // return docsRef.set(doc);
-    //TODO implement
+    // TODO implement
   }
 
 
   deleteDoc(docId: string) {
     const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
-    return docRef.delete();
+    this.getAllVersions$(docId).subscribe((versions => {
+      versions.forEach(version => {
+        const versionRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}/versions/${version.uid}`);
+        versionRef.delete();
+      });
+      docRef.delete();
+    }), null, () => {
+      console.log('compleated');
+      docRef.delete();
+    });
     // TODO remove from public as well
+  }
+
+  getAllVersions$(docId: string): Observable<any> {
+    const versionsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/docs/${docId}/versions`);
+    return versionsRef.snapshotChanges()
+      .map(docs => {
+        return docs.map(a => {
+          const data = a.payload.doc.data() as SkDoc;
+          const id = a.payload.doc.id;
+          return {uid: id, ...data};
+        });
+      });
   }
 
 }

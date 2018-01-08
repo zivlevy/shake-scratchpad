@@ -35,16 +35,16 @@ export class TreeViewComponent implements OnInit {
 
   openTreeMenu(ev) {
     ev.preventDefault();
-    if (this.treeNode.isRoot) {
-      return;
-    }
+    // if (this.treeNode.isRoot) {
+    //   return;
+    // }
     this.treeMenuTrigger.openMenu();
   }
 
   treeEditorClick(ev) {
-    if (this.treeNode.isRoot) {
-      return;
-    }
+    // if (this.treeNode.isRoot) {
+    //   return;
+    // }
     if (this.inEditorClick) {
       this.inEditorClick = false;
       return;

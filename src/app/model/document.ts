@@ -48,7 +48,7 @@ export class SkSection implements Serializable<SkSection> {
   deserialize(input): SkSection {
     this.data = input.data;
     input.nodes.forEach(node => {
-      if (node.children) {
+      if (node.nodes) {
         const section: SkSection = new SkSection().deserialize(node);
         this.nodes.push (section);
       } else {
