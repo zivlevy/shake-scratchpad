@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import * as algoliasearch from 'algoliasearch';
+import {AlgoliaDoc} from '../model/algolia-doc';
+import {reject} from 'q';
 
 @Injectable()
 export class AlgoliaService {
@@ -11,23 +13,35 @@ export class AlgoliaService {
     this.algoliaAppId = environment.algolia.appId;
   }
 
-  getSearchResults(orgId: string, orgSearchKey: string, searchString: string) {
+  getCurrentDocsByNames(orgId: string, orgSearchKey: string, searchString: string) {
+    const client = algoliasearch(this.algoliaAppId, orgSearchKey);
+    const index = client.initIndex(orgId);
+    return new Promise <Array<AlgoliaDoc>>((resolve, reject) => {
+      index.search({restrictSearchableAttributes: ['edited.name', 'published.name'], query: searchString})
+        .then(res => resolve(res.hits))
+        .catch(err => reject(err));
+    });
+  }
 
-    return new Promise <Array<any>>((resolve, reject) => {
-      const client = algoliasearch(this.algoliaAppId, orgSearchKey);
-      const index = client.initIndex(orgId);
-      const result = new Array<string>();
-      index.search({ query: searchString }, function searchDone(err, content) {
-        if (err) {
-          reject(err);
-        }
+  getCurrentDocsByAnyField(orgId: string, orgSearchKey: string, searchString: string) {
+    const client = algoliasearch(this.algoliaAppId, orgSearchKey);
+    const index = client.initIndex(orgId);
+    return new Promise <Array<AlgoliaDoc>>((resolve, reject) => {
+      index.search({restrictSearchableAttributes: ['published.name', 'published.plainText', 'edited.name', 'edited.plainText'],
+        query: searchString})
+        .then(res => resolve(res.hits))
+        .catch(err => reject(err));
+    });
+  }
 
-        for (const hit of content.hits) {
-          // this.result.push(`${content.hits[h].toString()}`);
-          result.push(hit.text);
-        }
-        resolve(result);
-      });
+  getHistoryDocsByAnyField(orgId: string, orgSearchKey: string, searchString: string) {
+    const client = algoliasearch(this.algoliaAppId, orgSearchKey);
+    const index = client.initIndex(orgId);
+    return new Promise <Array<AlgoliaDoc>>((resolve, reject) => {
+      index.search({restrictSearchableAttributes: ['versions.name', 'versions.plainText'],
+        query: searchString})
+        .then(res => resolve(res.hits))
+        .catch(err => reject(err));
     });
   }
 }

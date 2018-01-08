@@ -13,7 +13,7 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
   orgSearchKey: string;
   orgName: string;
   currentOrg: string;
-  searchResults = new Array<string>();
+  searchResults = new Array<any>();
 
   constructor(
     private orgService: OrgService,
@@ -61,9 +61,11 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
     //   });
   }
 
-  searchClicked(searchString: string) {
+  searchNamesClicked(searchString: string) {
     // get Algolia search results
-    this.algoliaService.getSearchResults(this.currentOrg, this.orgSearchKey, searchString)
+    this.orgSearchKey = 'ce92e39e78c39981be8c2946500374b4';
+    // this.algoliaService.getSearchResults(this.currentOrg, this.orgSearchKey, searchString)
+    this.algoliaService.getCurrentDocsByNames('test', 'ce92e39e78c39981be8c2946500374b4', searchString)
       .then((res) => {
         this.searchResults = res;
         console.log('result ==', res);
@@ -73,6 +75,33 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
       });
   }
 
+  searchCurrentClicked(searchString: string) {
+    // get Algolia search results
+    this.orgSearchKey = 'ce92e39e78c39981be8c2946500374b4';
+    // this.algoliaService.getSearchResults(this.currentOrg, this.orgSearchKey, searchString)
+    this.algoliaService.getCurrentDocsByAnyField('test', 'ce92e39e78c39981be8c2946500374b4', searchString)
+      .then((res) => {
+        this.searchResults = res;
+        console.log('result ==', res);
+      })
+      .catch((err) => {
+        console.log('some problem with search results', err);
+      });
+  }
+
+  searchHistoryClicked(searchString: string) {
+    // get Algolia search results
+    this.orgSearchKey = 'ce92e39e78c39981be8c2946500374b4';
+    // this.algoliaService.getSearchResults(this.currentOrg, this.orgSearchKey, searchString)
+    this.algoliaService.getHistoryDocsByAnyField('test', 'ce92e39e78c39981be8c2946500374b4', searchString)
+      .then((res) => {
+        this.searchResults = res;
+        console.log('result ==', res);
+      })
+      .catch((err) => {
+        console.log('some problem with search results', err);
+      });
+  }
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);
