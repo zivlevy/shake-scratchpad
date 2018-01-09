@@ -1,18 +1,16 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
-import {algoliaInitIndexAndGetSearchKey, algoliaUploadDoc, convert2AlgoliaDoc, algoliaUpdateDoc} from "./algolia";
+import {algoliaInitIndexAndGetSearchKey, algoliaUploadDoc, algoliaSaveDoc, AlgoliaDoc} from "./algolia";
 
 
 const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
   dataPackageRef.get().then(function (doc) {
 
-    console.log('dataPackages/banners/' + doc.data().bannerFileName);
     const logo = admin.storage().bucket().file('dataPackages/logos/' + doc.data().logoFileName);
     const banner = admin.storage().bucket().file('dataPackages/banners/' + doc.data().bannerFileName);
 
     const newLogoLocation = 'orgs/' + newOrg.orgId + '/logo';
     const newBannerLocation = 'orgs/' + newOrg.orgId + '/banner';
-    console.log(newBannerLocation);
 
     logo.copy(newLogoLocation)
       .then()
@@ -25,30 +23,77 @@ const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
   })
 };
 
+const saveEditDoc = function (orgId, docId, data) {
+  const editedDoc = new AlgoliaDoc;
+  if ( data.editVersion !== undefined) {
+    editedDoc.name = data.editVersion.name;
+    editedDoc.plainText = data.editVersion.plainText;
+    editedDoc.docId = docId;
+    editedDoc.docType = 'e';
+    editedDoc.version = 0;
+    editedDoc.objectID = docId + 'e';
+    algoliaSaveDoc(orgId, editedDoc);
+  }
+}
+
+const savePublishDoc = function (orgId, docId, data) {
+  const publishedDoc = new AlgoliaDoc;
+  if ( data.editVersion !== undefined) {
+    publishedDoc.name = data.publishVersion.name;
+    publishedDoc.plainText = data.publishVersion.plainText;
+    publishedDoc.docId = docId;
+    publishedDoc.docType = 'p';
+    publishedDoc.version = data.publishVersion.version;
+    publishedDoc.objectID = docId + 'p';
+    algoliaSaveDoc(orgId, publishedDoc);
+  }
+}
+
+const saveVersionDoc = function (orgId, docId, data) {
+  const versionDoc = new AlgoliaDoc;
+  versionDoc.name = data.name;
+  versionDoc.plainText = data.plainText;
+  versionDoc.docId = docId;
+  versionDoc.docType = 'v';
+  versionDoc.version = data.version;
+  versionDoc.objectID = docId + data.version;
+  algoliaSaveDoc(orgId, versionDoc);
+}
 export const onPrivateDocUpdated = functions.firestore.document('org/{orgId}/docs/{docId}').onUpdate((event) => {
 
   const orgId = event.resource.match("org/(.*)/docs")[1];
-  const algoliaDoc = convert2AlgoliaDoc(event.data.id, event.data.data());
-  algoliaUpdateDoc(orgId, algoliaDoc);
+  const data = event.data.data();
+  const docId = event.data.id;
+  // edited Version
+  saveEditDoc(orgId, docId, data);
+
+  // published Version
+  savePublishDoc(orgId, docId, data);
+
   return 0;
 })
 
 export const onPrivateDocCreated = functions.firestore.document('org/{orgId}/docs/{docId}').onCreate((event) => {
 
   const orgId = event.resource.match("org/(.*)/docs")[1];
-  const algoliaDoc = convert2AlgoliaDoc(event.data.id, event.data.data());
-  algoliaUploadDoc(orgId, algoliaDoc);
+  const data = event.data.data();
+  const docId = event.data.id;
+  // edited Version
+  saveEditDoc(orgId, docId, data);
+
+  // published Version
+  savePublishDoc(orgId, docId, data);
+
   return 0;
 });
 
 export const onPrivateDocVersionCreated = functions.firestore.document('org/{orgId}/docs/{docId}/versions/{version}').onCreate((event) => {
 
-  console.log(event.data.data().name, 'version', event.data.data().version);
-  console.log(event.data.data().plainText);
+  const orgId = event.resource.match("org/(.*)/docs")[1];
+  const data = event.data.data();
+  const docId = event.resource.match("docs/(.*)/versions")[1];
+  saveVersionDoc(orgId, docId, data);
 
-  // const orgId = event.resource.match("org/(.*)/docs")[1];
-  // const algoliaDoc = convert2AlgoliaDoc(event.data.id, event.data.data());
-  // algoliaUploadDoc(orgId, algoliaDoc);
   return 0;
 });
 
@@ -64,22 +109,31 @@ export const newOrgRequest = functions.firestore
 
     // set the root org
     orgRootRef.set({'searchKey': ''}, {merge: true})
-      .then(() => orgInfoRef.set({    // then - insert public info
-        orgId: newOrg.orgId,
-        orgName: newOrg.orgName,
-        language: newOrg.language,
-        sector: newOrg.sector,
-        createdBy: newOrg.createdBy
-      }))
       .then(() => {
-        //  insert initial data package
+        orgInfoRef.set({    // then - insert public info
+          orgId: newOrg.orgId,
+          orgName: newOrg.orgName,
+          language: newOrg.language,
+          sector: newOrg.sector,
+          createdBy: newOrg.createdBy
+        });
+
         copyInitialDataPackage(newOrg, orgInfoRef, dataPackageRef);
 
-        // get org public search key
         const searchKey = algoliaInitIndexAndGetSearchKey(newOrg.orgId);
         orgRootRef.set({
           searchKey: searchKey
         });
+      })
+      .then(() => {
+        //  insert initial data package
+        // copyInitialDataPackage(newOrg, orgInfoRef, dataPackageRef);
+
+        // get org public search key
+        // const searchKey = algoliaInitIndexAndGetSearchKey(newOrg.orgId);
+        // orgRootRef.set({
+        //   searchKey: searchKey
+        // });
 
         // set user info in org users
         orgUserRef.set({
