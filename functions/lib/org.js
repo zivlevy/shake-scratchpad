@@ -36,7 +36,7 @@ const savePublishDoc = function (orgId, docId, data) {
         publishedDoc.plainText = data.publishVersion.plainText;
         publishedDoc.docId = docId;
         publishedDoc.docType = 'p';
-        publishedDoc.version = data.publishVersion.version;
+        publishedDoc.version = data.version;
         publishedDoc.objectID = docId + 'p';
         algolia_1.algoliaSaveDoc(orgId, publishedDoc);
     }
