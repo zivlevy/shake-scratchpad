@@ -11,6 +11,8 @@ import * as usersFunctions from './users'
 
 export const newOrgRequest =  orgFunctions.newOrgRequest;
 export const onPrivateDocCreated = orgFunctions.onPrivateDocCreated;
+export const onPrivateDocUpdated = orgFunctions.onPrivateDocUpdated;
+export const onPrivateDocVersionCreated = orgFunctions.onPrivateDocVersionCreated;
 
 // users
 export const deleteUser =  usersFunctions.deleteUser;

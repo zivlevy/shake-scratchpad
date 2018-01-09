@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
-import {algoliaGetSearchKey, algoliaUploadDocument} from "./algolia";
+import {algoliaInitIndexAndGetSearchKey, algoliaUploadDoc, convert2AlgoliaDoc, algoliaUpdateDoc} from "./algolia";
 
 
 const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
@@ -25,11 +25,30 @@ const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
   })
 };
 
-export const onPrivateDocCreated = functions.firestore.document('org/{orgId}/privateDocuments/{docId}').onCreate((event) => {
+export const onPrivateDocUpdated = functions.firestore.document('org/{orgId}/docs/{docId}').onUpdate((event) => {
 
-  const orgId = event.resource.match("org/(.*)/privateDocuments")[1];
-  algoliaUploadDocument(orgId, event.data.id, event.data.data().docText, event.data.data().docFormattedText);
+  const orgId = event.resource.match("org/(.*)/docs")[1];
+  const algoliaDoc = convert2AlgoliaDoc(event.data.id, event.data.data());
+  algoliaUpdateDoc(orgId, algoliaDoc);
+  return 0;
+})
 
+export const onPrivateDocCreated = functions.firestore.document('org/{orgId}/docs/{docId}').onCreate((event) => {
+
+  const orgId = event.resource.match("org/(.*)/docs")[1];
+  const algoliaDoc = convert2AlgoliaDoc(event.data.id, event.data.data());
+  algoliaUploadDoc(orgId, algoliaDoc);
+  return 0;
+});
+
+export const onPrivateDocVersionCreated = functions.firestore.document('org/{orgId}/docs/{docId}/versions/{version}').onCreate((event) => {
+
+  console.log(event.data.data().name, 'version', event.data.data().version);
+  console.log(event.data.data().plainText);
+
+  // const orgId = event.resource.match("org/(.*)/docs")[1];
+  // const algoliaDoc = convert2AlgoliaDoc(event.data.id, event.data.data());
+  // algoliaUploadDoc(orgId, algoliaDoc);
   return 0;
 });
 
@@ -39,7 +58,6 @@ export const newOrgRequest = functions.firestore
     const db = admin.firestore();
     const orgRootRef = db.collection('org').doc(newOrg.orgId);
     const orgInfoRef = db.collection('org').doc(newOrg.orgId).collection('publicData').doc('info');
-    const orgPrivateInfoRef = db.collection('org').doc(newOrg.orgId).collection('privateData').doc('info');
     const usersRef = db.collection('users').doc(newOrg.createdBy).collection('orgs').doc(newOrg.orgId);
     const orgUserRef = db.collection('org').doc(newOrg.orgId).collection('users').doc(newOrg.createdBy);
     const dataPackageRef = db.collection('dataPackages').doc(newOrg.language).collection('sectors').doc(newOrg.sector);
@@ -58,7 +76,7 @@ export const newOrgRequest = functions.firestore
         copyInitialDataPackage(newOrg, orgInfoRef, dataPackageRef);
 
         // get org public search key
-        const searchKey = algoliaGetSearchKey(newOrg.orgId);
+        const searchKey = algoliaInitIndexAndGetSearchKey(newOrg.orgId);
         orgRootRef.set({
           searchKey: searchKey
         });

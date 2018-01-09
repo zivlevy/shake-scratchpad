@@ -19,9 +19,24 @@ const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
             .catch();
     });
 };
-exports.onPrivateDocCreated = functions.firestore.document('org/{orgId}/privateDocuments/{docId}').onCreate((event) => {
-    const orgId = event.resource.match("org/(.*)/privateDocuments")[1];
-    algolia_1.algoliaUploadDocument(orgId, event.data.id, event.data.data().docText, event.data.data().docFormattedText);
+exports.onPrivateDocUpdated = functions.firestore.document('org/{orgId}/docs/{docId}').onUpdate((event) => {
+    const orgId = event.resource.match("org/(.*)/docs")[1];
+    const algoliaDoc = algolia_1.convert2AlgoliaDoc(event.data.id, event.data.data());
+    algolia_1.algoliaUpdateDoc(orgId, algoliaDoc);
+    return 0;
+});
+exports.onPrivateDocCreated = functions.firestore.document('org/{orgId}/docs/{docId}').onCreate((event) => {
+    const orgId = event.resource.match("org/(.*)/docs")[1];
+    const algoliaDoc = algolia_1.convert2AlgoliaDoc(event.data.id, event.data.data());
+    algolia_1.algoliaUploadDoc(orgId, algoliaDoc);
+    return 0;
+});
+exports.onPrivateDocVersionCreated = functions.firestore.document('org/{orgId}/docs/{docId}/versions/{version}').onCreate((event) => {
+    console.log(event.data.data().name, 'version', event.data.data().version);
+    console.log(event.data.data().plainText);
+    // const orgId = event.resource.match("org/(.*)/docs")[1];
+    // const algoliaDoc = convert2AlgoliaDoc(event.data.id, event.data.data());
+    // algoliaUploadDoc(orgId, algoliaDoc);
     return 0;
 });
 exports.newOrgRequest = functions.firestore
@@ -47,7 +62,7 @@ exports.newOrgRequest = functions.firestore
         //  insert initial data package
         copyInitialDataPackage(newOrg, orgInfoRef, dataPackageRef);
         // get org public search key
-        const searchKey = algolia_1.algoliaGetSearchKey(newOrg.orgId);
+        const searchKey = algolia_1.algoliaInitIndexAndGetSearchKey(newOrg.orgId);
         orgRootRef.set({
             searchKey: searchKey
         });

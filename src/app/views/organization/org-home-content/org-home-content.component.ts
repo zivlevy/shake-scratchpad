@@ -63,9 +63,9 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
 
   searchNamesClicked(searchString: string) {
     // get Algolia search results
-    this.orgSearchKey = 'ce92e39e78c39981be8c2946500374b4';
+    // this.orgSearchKey = 'ce92e39e78c39981be8c2946500374b4';
     // this.algoliaService.getSearchResults(this.currentOrg, this.orgSearchKey, searchString)
-    this.algoliaService.getCurrentDocsByNames('test', 'ce92e39e78c39981be8c2946500374b4', searchString)
+    this.algoliaService.getCurrentDocsByNames(this.currentOrg, this.orgSearchKey, searchString)
       .then((res) => {
         this.searchResults = res;
         console.log('result ==', res);
@@ -77,9 +77,9 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
 
   searchCurrentClicked(searchString: string) {
     // get Algolia search results
-    this.orgSearchKey = 'ce92e39e78c39981be8c2946500374b4';
+    // this.orgSearchKey = 'ce92e39e78c39981be8c2946500374b4';
     // this.algoliaService.getSearchResults(this.currentOrg, this.orgSearchKey, searchString)
-    this.algoliaService.getCurrentDocsByAnyField('test', 'ce92e39e78c39981be8c2946500374b4', searchString)
+    this.algoliaService.getCurrentDocsByAnyField(this.currentOrg, this.orgSearchKey, searchString)
       .then((res) => {
         this.searchResults = res;
         console.log('result ==', res);
@@ -91,9 +91,9 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
 
   searchHistoryClicked(searchString: string) {
     // get Algolia search results
-    this.orgSearchKey = 'ce92e39e78c39981be8c2946500374b4';
+    // this.orgSearchKey = 'ce92e39e78c39981be8c2946500374b4';
     // this.algoliaService.getSearchResults(this.currentOrg, this.orgSearchKey, searchString)
-    this.algoliaService.getHistoryDocsByAnyField('test', 'ce92e39e78c39981be8c2946500374b4', searchString)
+    this.algoliaService.getHistoryDocsByAnyField(this.currentOrg, this.orgSearchKey, searchString)
       .then((res) => {
         this.searchResults = res;
         console.log('result ==', res);
