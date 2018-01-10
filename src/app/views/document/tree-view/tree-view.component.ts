@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild} from '@angular/core';
 import * as _ from 'lodash';
-import { SkTreeNode} from '../../../model/document';
+import {SkTreeNode} from '../../../model/document';
 
 @Component({
   selector: 'sk-tree-view',
@@ -26,8 +26,9 @@ export class TreeViewComponent implements OnInit {
   // editor
   public options;
   inEditorClick: boolean;
+  isCtrlKey: boolean;
 
-  constructor() {
+  constructor(private zone: NgZone) {
     // TODO remove if changing context menu
     // TODO change for english / hebrew if staying with this context menu
     document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
@@ -69,31 +70,54 @@ export class TreeViewComponent implements OnInit {
       toolbarVisibleWithoutSelection: false,
       events: {
         'froalaEditor.initialized': (e, editor) => {
+          const oldEnter = editor.cursor.enter;
+          editor.cursor.enter = (shift) => {
+            if (shift) {
+              if (this.isCtrlKey) {
+                this.zone.run(() => {
+                  this.addItemAfter();
+                });
+              } else {
+                this.zone.run(() => {
+                  this.addSectionAfter();
+                });
+              }
+            } else {
+              oldEnter(shift);
+            }
+          };
+
           editor.events.on('drop', (ev) => {
             ev.preventDefault();
             TreeViewComponent.isStop = true;
           }, true);
+
+          editor.events.on( 'keyup', ( ev ) => {
+            if (!ev.originalEvent.ctrlKey) {
+              this.isCtrlKey = false;
+            }
+
+          }, true);
+
+          editor.events.on('keydown', (ev) => {
+            if (ev.originalEvent.ctrlKey) {
+              this.isCtrlKey = true;
+            }
+          });
+
         },
         'froalaEditor.click': (e) => {
           console.log('click');
           this.inEditorClick = true;
           e.stopPropagation();
         },
-      'froalaEditor.contentChanged': (e, editor) => {
-        // set the updated plain text to the node
-        // this.treeNode.plainText = editor.$el.text();
-        this.treeNode.data = editor.html.get();
+        'froalaEditor.contentChanged': (e, editor) => {
+          // update the model
+          this.treeNode.data = editor.html.get();
 
-      },
-      'froalaEditor.keyup': (e, editor, keyupEvent) => {
-        // Do something here.
-        if (keyupEvent.originalEvent.code === 'KeyZ' && keyupEvent.ctrlKey) {
-          editor.selection.clear();
-          this.deleteItem();
-        }
+        },
       }
     }
-  }
     ;
 
     // set identation
@@ -114,7 +138,9 @@ export class TreeViewComponent implements OnInit {
    ********************/
   dragStartItem(ev, node) {
     ev.stopPropagation();
-    if (ev.dataTransfer.types.length > 0) { return; }
+    if (ev.dataTransfer.types.length > 0) {
+      return;
+    }
     console.log('==== drag item start');
     const temp = _.cloneDeep(node);
     delete temp.parent;
@@ -123,7 +149,9 @@ export class TreeViewComponent implements OnInit {
     console.log(t);
     ev.dataTransfer.setData('skItem', t);
     ev.dataTransfer.dropEffect = 'move';
-    if (!this.isRTL) { ev.dataTransfer.setDragImage(ev.target, 20, 0); }
+    if (!this.isRTL) {
+      ev.dataTransfer.setDragImage(ev.target, 20, 0);
+    }
     TreeViewComponent.currentDragedObject = this.treeNode;
   }
 
@@ -155,7 +183,9 @@ export class TreeViewComponent implements OnInit {
     const t = JSON.stringify(temp);
     ev.dataTransfer.setData('skSection', t);
     ev.dataTransfer.dropEffect = 'move';
-    if (!this.isRTL) { ev.dataTransfer.setDragImage(ev.target, 20, 0); }
+    if (!this.isRTL) {
+      ev.dataTransfer.setDragImage(ev.target, 20, 0);
+    }
     TreeViewComponent.currentDragedObject = this.treeNode;
   }
 
@@ -203,10 +233,14 @@ export class TreeViewComponent implements OnInit {
     let tmpTreeNode: SkTreeNode;
 
     const skItemJSON = ev.dataTransfer.getData('skItem');
-    if (skItemJSON) { tmpTreeNode = JSON.parse(skItemJSON); }
+    if (skItemJSON) {
+      tmpTreeNode = JSON.parse(skItemJSON);
+    }
 
     const skSectionJSON = ev.dataTransfer.getData('skSection');
-    if (skSectionJSON) { tmpTreeNode = JSON.parse(skSectionJSON); }
+    if (skSectionJSON) {
+      tmpTreeNode = JSON.parse(skSectionJSON);
+    }
 
     tmpTreeNode.parent = this.treeNode;
     this.addParents(tmpTreeNode);
@@ -228,10 +262,14 @@ export class TreeViewComponent implements OnInit {
     this.isHoverSeperator = false;
     let tmpTreeNode: SkTreeNode;
     const skItemJSON = ev.dataTransfer.getData('skItem');
-    if (skItemJSON) { tmpTreeNode = JSON.parse(skItemJSON); }
+    if (skItemJSON) {
+      tmpTreeNode = JSON.parse(skItemJSON);
+    }
 
     const skSectionJSON = ev.dataTransfer.getData('skSection');
-    if (skSectionJSON) { tmpTreeNode = JSON.parse(skSectionJSON); }
+    if (skSectionJSON) {
+      tmpTreeNode = JSON.parse(skSectionJSON);
+    }
 
     tmpTreeNode.parent = this.treeNode.parent;
     const insertIndex = this.findNodeIndexInParent(this.treeNode, this.treeNode.parent);
@@ -290,7 +328,9 @@ export class TreeViewComponent implements OnInit {
     let nodeIndex: number = -1;
     parent.children.forEach((child, index) => {
       console.log(child);
-      if (child === node) { nodeIndex = index; }
+      if (child === node) {
+        nodeIndex = index;
+      }
     });
     return nodeIndex;
   }

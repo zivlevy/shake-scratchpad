@@ -13,7 +13,7 @@
          (dragover)="onDragOverSeperator($event)"
          draggable="false">
     </div>
-
+{{isAltKey}}
 
     <div (contextmenu)="openTreeMenu($event)" (click)="treeEditorClick($event)">
       <div #itemTreeTrigger="matMenuTrigger" [matMenuTriggerFor]="treeMenu"></div>
