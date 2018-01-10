@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const algolia_1 = require("./algolia");
-admin.initializeApp(functions.config().firebase);
+// admin.initializeApp(functions.config().firebase);
 const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
     return dataPackageRef.get().then(doc => {
         const logo = admin.storage().bucket().file('dataPackages/logos/' + doc.data().logoFileName);

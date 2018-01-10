@@ -29,7 +29,6 @@ exports.algoliaInitIndex = function (orgId) {
     });
 };
 exports.algoliaGetSearchKey = function (orgId) {
-    // const index = client.initIndex(orgId);
     return client.generateSecuredApiKey(ALGOLIA_SEARCH_KEY, { restrictIndices: orgId });
 };
 //# sourceMappingURL=algolia.js.map
