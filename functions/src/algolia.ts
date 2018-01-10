@@ -26,10 +26,7 @@ export const algoliaUploadDoc = function (orgId, data) {
 
 export const algoliaSaveDoc = function (orgId, algoliaDoc) {
   const index = client.initIndex(orgId);
-
-  index.saveObject(algoliaDoc)
-    .then()
-    .catch((err) => console.log(err));
+  return index.saveObject(algoliaDoc);
 };
 
 export const algoliaInitIndex = function (orgId) {
@@ -42,6 +39,5 @@ export const algoliaInitIndex = function (orgId) {
 };
 
 export const algoliaGetSearchKey = function (orgId) {
-  // const index = client.initIndex(orgId);
     return client.generateSecuredApiKey(ALGOLIA_SEARCH_KEY, {restrictIndices: orgId});
 };

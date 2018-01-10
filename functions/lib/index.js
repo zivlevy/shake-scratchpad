@@ -1,10 +1,10 @@
 "use strict";
-// import * as functions from 'firebase-functions'
-// import * as admin from 'firebase-admin'
-//
-//
-// admin.initializeApp(functions.config().firebase);
 Object.defineProperty(exports, "__esModule", { value: true });
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+//
+//
+admin.initializeApp(functions.config().firebase);
 const orgFunctions = require("./org");
 const usersFunctions = require("./users");
 // org
