@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AlgoliaService} from '../../../core/algolia.service';
 import {OrgService} from '../org.service';
 import {Subject} from 'rxjs/Subject';
+import {AlgoliaDoc} from "../../../model/algolia-doc";
 
 @Component({
   selector: 'sk-org-home-content',
@@ -13,7 +14,11 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
   orgSearchKey: string;
   orgName: string;
   currentOrg: string;
-  searchResults = new Array<any>();
+
+  searchEdited: boolean;
+  searchPublished: boolean;
+  searchVersions: boolean;
+  searchResults = new Array<AlgoliaDoc>();
 
   constructor(
     private orgService: OrgService,
@@ -61,11 +66,9 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
     //   });
   }
 
-  searchNamesClicked(searchString: string) {
-    // get Algolia search results
-    // this.orgSearchKey = 'ce92e39e78c39981be8c2946500374b4';
-    // this.algoliaService.getSearchResults(this.currentOrg, this.orgSearchKey, searchString)
-    this.algoliaService.getCurrentDocsByNames(this.currentOrg, this.orgSearchKey, searchString)
+  searchClicked(searchString: string, namesOnly: boolean, edited: boolean, published: boolean, versions: boolean) {
+
+    this.algoliaService.searchDocs(this.currentOrg, this.orgSearchKey, searchString, namesOnly, edited, published, versions)
       .then((res) => {
         this.searchResults = res;
         console.log('result ==', res);
@@ -75,33 +78,6 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
       });
   }
 
-  searchCurrentClicked(searchString: string) {
-    // get Algolia search results
-    // this.orgSearchKey = 'ce92e39e78c39981be8c2946500374b4';
-    // this.algoliaService.getSearchResults(this.currentOrg, this.orgSearchKey, searchString)
-    this.algoliaService.getCurrentDocsByAnyField(this.currentOrg, this.orgSearchKey, searchString)
-      .then((res) => {
-        this.searchResults = res;
-        console.log('result ==', res);
-      })
-      .catch((err) => {
-        console.log('some problem with search results', err);
-      });
-  }
-
-  searchHistoryClicked(searchString: string) {
-    // get Algolia search results
-    // this.orgSearchKey = 'ce92e39e78c39981be8c2946500374b4';
-    // this.algoliaService.getSearchResults(this.currentOrg, this.orgSearchKey, searchString)
-    this.algoliaService.getHistoryDocsByAnyField(this.currentOrg, this.orgSearchKey, searchString)
-      .then((res) => {
-        this.searchResults = res;
-        console.log('result ==', res);
-      })
-      .catch((err) => {
-        console.log('some problem with search results', err);
-      });
-  }
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);
@@ -110,7 +86,4 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
 
   }
 
-  uploadClicked(docName, docText, docFormattedText) {
-    this.orgService.uploadDocument(docName, docText, docFormattedText);
-  }
 }

@@ -13,36 +13,24 @@ export class AlgoliaService {
     this.algoliaAppId = environment.algolia.appId;
   }
 
-  getCurrentDocsByNames(orgId: string, orgSearchKey: string, searchString: string) {
+  searchDocs(orgId: string, orgSearchKey: string, searchString: string, namesOnly: boolean, edited: boolean, published: boolean, versions: boolean) {
+    let restrictSearchAttr;
+    let filter = 'docType:e';
+    if (namesOnly) {
+      restrictSearchAttr = ['name'];
+    } else {
+      restrictSearchAttr = ['name', 'plainText'];
+    }
+    // if (edited) filter = filter + ' OR docType:e';
+
     const client = algoliasearch(this.algoliaAppId, orgSearchKey);
     const index = client.initIndex(orgId);
     return new Promise <Array<AlgoliaDoc>>((resolve, reject) => {
-      index.search({restrictSearchableAttributes: ['edited.name', 'published.name'], query: searchString})
+      index.search({restrictSearchableAttributes: restrictSearchAttr, query: searchString, filters: filter})
         .then(res => resolve(res.hits))
         .catch(err => reject(err));
     });
   }
 
-  getCurrentDocsByAnyField(orgId: string, orgSearchKey: string, searchString: string) {
-    const client = algoliasearch(this.algoliaAppId, orgSearchKey);
-    const index = client.initIndex(orgId);
-    return new Promise <Array<AlgoliaDoc>>((resolve, reject) => {
-      index.search({restrictSearchableAttributes: ['published.name', 'published.plainText', 'edited.name', 'edited.plainText'],
-        query: searchString})
-        .then(res => resolve(res.hits))
-        .catch(err => reject(err));
-    });
-  }
-
-  getHistoryDocsByAnyField(orgId: string, orgSearchKey: string, searchString: string) {
-    const client = algoliasearch(this.algoliaAppId, orgSearchKey);
-    const index = client.initIndex(orgId);
-    return new Promise <Array<AlgoliaDoc>>((resolve, reject) => {
-      index.search({restrictSearchableAttributes: ['versions.name', 'versions.plainText'],
-        query: searchString})
-        .then(res => resolve(res.hits))
-        .catch(err => reject(err));
-    });
-  }
 }
 

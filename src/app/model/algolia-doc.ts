@@ -1,10 +1,8 @@
-class AlgoliaDocVersion {
-  'name': string;
-  'plainText': string;
-}
-
 export class AlgoliaDoc {
-  'published': AlgoliaDocVersion;
-  'edited': AlgoliaDocVersion;
-  'versions': Array<AlgoliaDocVersion>;
+  objectID: string;
+  docId: string;
+  docType: string;
+  version: number;
+  name: string;
+  plainText: string;
 }
