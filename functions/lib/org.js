@@ -165,9 +165,11 @@ exports.newOrgRequest = functions.firestore
         const setOrgInUserRecord = usersRef.set({}).catch();
         // copy logo and banner package
         const copyImages = copyInitialDataPackage(newOrg, orgInfoRef, dataPackageRef);
-        // set algolia search key
+        // init algolia Index
         const initAlgoliaIndex = algolia_1.algoliaInitIndex(newOrg.orgId);
+        // set algolia search key
         const searchKey = algolia_1.algoliaGetSearchKey(newOrg.orgId);
+        //save search key to org data
         const setAlgoliaSearcKey = orgRootRef.set({
             searchKey: searchKey
         });
