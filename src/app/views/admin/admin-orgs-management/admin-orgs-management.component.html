@@ -1,0 +1,18 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>orgId</th>
+    <th>Logo</th>
+    <th>Name</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let org of orgsObservable | async" (click)="test(org)">
+    <th scope="row"> {{ org.orgId }}</th>
+    <td> {{ org.name }}</td>
+    <td> {{ org.orgName }}</td>
+    <td> {{ org }}</td>
+  </tr>
+  </tbody>
+</table>

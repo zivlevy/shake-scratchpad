@@ -13,6 +13,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {OrgUser} from '../../model/org-user';
 import * as firebase from 'firebase';
 import {SkDoc, SkDocData} from '../../model/document';
+import {Org} from "../../model/org";
 
 @Injectable()
 export class OrgService {
@@ -193,18 +194,20 @@ export class OrgService {
     return document.update(newData);
   }
 
-  uploadDocument(docName: string, docText: string, docFormattedText: string) {
-    const orgDocumentsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/privateDocuments`);
-
-    const data = {
-      docName: docName,
-      docText: docText,
-      docFormattedText: docFormattedText
-    };
-
-    orgDocumentsRef.add(data)
-      .then(() => console.log('successfully saved'))
-      .catch(err => console.log(err));
+  getOrgs$(): Observable<any> {
+    const orgsRef: AngularFirestoreCollection<any> = this.afs.collection<any>('org');
+    return orgsRef.snapshotChanges().map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data();
+        const id = a.payload.doc.id;
+        const orgData: AngularFirestoreDocument<any> = this.afs.doc(`org/${id}/publicData/info`);
+        return orgData.snapshotChanges().map(oData => {
+          return {orgId: id};
+          // console.log(oData);
+        });
+        // return {orgId: id, ...data};
+      });
+    });
   }
 
 
