@@ -15,7 +15,17 @@ export class AlgoliaService {
 
   searchDocs(orgId: string, orgSearchKey: string, searchString: string, namesOnly: boolean, edited: boolean, published: boolean, versions: boolean) {
     let restrictSearchAttr;
-    let filter = 'docType:e';
+    let filter = '';
+    if (edited) {
+      filter = 'docType:e';
+    }
+    if (published) {
+      filter = filter + (filter.length > 0 ? ' OR docType:p' : 'docType:p');
+    }
+    if (versions) {
+      filter = filter + (filter.length > 0 ? ' OR docType:v' : 'docType:v');
+    }
+
     if (namesOnly) {
       restrictSearchAttr = ['name'];
     } else {
@@ -26,7 +36,7 @@ export class AlgoliaService {
     const client = algoliasearch(this.algoliaAppId, orgSearchKey);
     const index = client.initIndex(orgId);
     return new Promise <Array<AlgoliaDoc>>((resolve, reject) => {
-      index.search({restrictSearchableAttributes: restrictSearchAttr, query: searchString})
+      index.search({restrictSearchableAttributes: restrictSearchAttr, query: searchString, filters: filter })
         .then(res => resolve(res.hits))
         .catch(err => reject(err));
     });
