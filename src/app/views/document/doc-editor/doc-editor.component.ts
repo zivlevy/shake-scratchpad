@@ -132,9 +132,10 @@ export class DocEditorComponent implements OnInit, OnChanges {
     str = str.replace(/<[^>]+>/gim, '');
 
     // Remove BB code
-    // Remove BB code
     str = str.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2 ');
 
+    // Remove &nbsp;
+    str = str.replace(/\&nbsp;/g, '');
 
     return str;
   }
