@@ -31,7 +31,7 @@ const saveEditDoc = function (orgId, docId, data) {
 };
 const savePublishDoc = function (orgId, docId, data) {
     const publishedDoc = new algolia_1.AlgoliaDoc;
-    if (data.editVersion !== undefined) {
+    if (data.publishVersion !== undefined) {
         publishedDoc.name = data.publishVersion.name;
         publishedDoc.plainText = data.publishVersion.plainText;
         publishedDoc.docId = docId;
