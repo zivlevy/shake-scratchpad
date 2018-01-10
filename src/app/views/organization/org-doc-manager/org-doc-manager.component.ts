@@ -13,6 +13,8 @@ export class OrgDocManagerComponent implements OnInit {
   orgDocs$;
   currentDoc: SkDoc;
   currentEditData: SkDocData;
+
+  isSaving: boolean;
   constructor( public orgService: OrgService) { }
 
   ngOnInit() {
@@ -35,7 +37,18 @@ export class OrgDocManagerComponent implements OnInit {
     if (this.currentDoc && this.currentDoc.uid) {
       this.orgService.saveDoc(this.currentDoc.uid, docData);
     } else {
-      this.orgService.addDoc(docData);
+      this.isSaving = true;
+      this.orgService.addDoc(docData).then((res) =>
+        this.orgService.getDoc$(res.id).take(1)
+        .subscribe(doc => {
+          this.currentDoc = doc;
+          this.currentEditData = doc.editVersion;
+          this.isSaving = false;
+        }))
+        .catch (err => {
+          console.log(err);
+          this.isSaving = false;
+        });
     }
   }
 

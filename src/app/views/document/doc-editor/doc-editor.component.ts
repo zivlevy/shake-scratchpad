@@ -127,7 +127,6 @@ export class DocEditorComponent implements OnInit, OnChanges {
   }
 
   private stripHtml(str) {
-    // TODO remove space chars at end of sentence
     // Remove some tags
     str = str.replace(/<[^>]+>/gim, '');
 
@@ -139,9 +138,9 @@ export class DocEditorComponent implements OnInit, OnChanges {
 
     return str;
   }
+
   reset() {
     this.skTree = [];
-
   }
 
   /******************
