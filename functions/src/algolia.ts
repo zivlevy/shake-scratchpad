@@ -15,15 +15,6 @@ export class AlgoliaDoc {
   plainText: string;
 }
 
-
-export const algoliaUploadDoc = function (orgId, data) {
-  const index = client.initIndex(orgId);
-
-  index.addObject(data)
-    .then()
-    .catch((err) => console.log(err));
-};
-
 export const algoliaSaveDoc = function (orgId, algoliaDoc) {
   const index = client.initIndex(orgId);
   return index.saveObject(algoliaDoc);

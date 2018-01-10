@@ -16,9 +16,7 @@ exports.algoliaUploadDoc = function (orgId, data) {
 };
 exports.algoliaSaveDoc = function (orgId, algoliaDoc) {
     const index = client.initIndex(orgId);
-    index.saveObject(algoliaDoc)
-        .then()
-        .catch((err) => console.log(err));
+    return index.saveObject(algoliaDoc);
 };
 exports.algoliaInitIndex = function (orgId) {
     const index = client.initIndex(orgId);
