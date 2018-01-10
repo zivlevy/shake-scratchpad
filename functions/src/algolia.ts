@@ -25,6 +25,9 @@ export const algoliaInitIndex = function (orgId) {
   return index.setSettings({
     searchableAttributes: [
       'name', 'plainText'
+    ],
+    attributesForFaceting: [
+      'docType', 'version'
     ]
   })
 };

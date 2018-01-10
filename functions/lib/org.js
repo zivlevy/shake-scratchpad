@@ -121,6 +121,7 @@ exports.newOrgRequest = functions.firestore
         const initAlgoliaIndex = algolia_1.algoliaInitIndex(newOrg.orgId);
         // set algolia search key
         const searchKey = algolia_1.algoliaGetSearchKey(newOrg.orgId);
+        //
         //save search key to org data
         const setAlgoliaSearcKey = orgRootRef.set({
             searchKey: searchKey

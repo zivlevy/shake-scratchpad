@@ -8,12 +8,6 @@ const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY);
 class AlgoliaDoc {
 }
 exports.AlgoliaDoc = AlgoliaDoc;
-exports.algoliaUploadDoc = function (orgId, data) {
-    const index = client.initIndex(orgId);
-    index.addObject(data)
-        .then()
-        .catch((err) => console.log(err));
-};
 exports.algoliaSaveDoc = function (orgId, algoliaDoc) {
     const index = client.initIndex(orgId);
     return index.saveObject(algoliaDoc);
@@ -23,6 +17,9 @@ exports.algoliaInitIndex = function (orgId) {
     return index.setSettings({
         searchableAttributes: [
             'name', 'plainText'
+        ],
+        attributesForFaceting: [
+            'docType', 'version'
         ]
     });
 };
