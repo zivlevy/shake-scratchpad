@@ -20,13 +20,16 @@ exports.algoliaSaveDoc = function (orgId, algoliaDoc) {
         .then()
         .catch((err) => console.log(err));
 };
-exports.algoliaInitIndexAndGetSearchKey = function (orgId) {
+exports.algoliaInitIndex = function (orgId) {
     const index = client.initIndex(orgId);
-    index.setSettings({
+    return index.setSettings({
         searchableAttributes: [
-            'name', 'plainText',
+            'name', 'plainText'
         ]
     });
+};
+exports.algoliaGetSearchKey = function (orgId) {
+    // const index = client.initIndex(orgId);
     return client.generateSecuredApiKey(ALGOLIA_SEARCH_KEY, { restrictIndices: orgId });
 };
 //# sourceMappingURL=algolia.js.map

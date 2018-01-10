@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "shakescratchpad"
+    "default": "shakescratchpad",
+    "ran": "shakescratchpad"
   }
 }
