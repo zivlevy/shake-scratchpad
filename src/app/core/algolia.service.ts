@@ -26,7 +26,7 @@ export class AlgoliaService {
     const client = algoliasearch(this.algoliaAppId, orgSearchKey);
     const index = client.initIndex(orgId);
     return new Promise <Array<AlgoliaDoc>>((resolve, reject) => {
-      index.search({restrictSearchableAttributes: restrictSearchAttr, query: searchString, filters: filter})
+      index.search({restrictSearchableAttributes: restrictSearchAttr, query: searchString})
         .then(res => resolve(res.hits))
         .catch(err => reject(err));
     });

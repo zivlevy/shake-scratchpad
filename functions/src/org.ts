@@ -43,7 +43,7 @@ const savePublishDoc = function (orgId, docId, data) {
     publishedDoc.docType = 'p';
     publishedDoc.version = data.version;
     publishedDoc.objectID = docId + 'p';
-    algoliaSaveDoc(orgId, publishedDoc);
+    return algoliaSaveDoc(orgId, publishedDoc);
   } else {
     return Promise.resolve();
   }
@@ -147,7 +147,7 @@ export const newOrgRequest = functions.firestore
 
         // set algolia search key
         const searchKey = algoliaGetSearchKey(newOrg.orgId);
-
+        //
         //save search key to org data
         const setAlgoliaSearcKey = orgRootRef.set({
           searchKey: searchKey
