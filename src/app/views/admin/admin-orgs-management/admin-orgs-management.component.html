@@ -8,11 +8,11 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let org of orgsObservable | async" (click)="test(org)">
+  <tr *ngFor="let org of orgs">
     <th scope="row"> {{ org.orgId }}</th>
-    <td> {{ org.name }}</td>
-    <td> {{ org.orgName }}</td>
-    <td> {{ org }}</td>
+    <td> </td>
+    <td> </td>
+    <td> <button class="btn btn-danger" (click)="deleteClicked(org)">Delete</button></td>
   </tr>
   </tbody>
 </table>
