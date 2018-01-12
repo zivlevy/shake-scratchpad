@@ -6,6 +6,7 @@ import { AdminComponent } from './admin/admin.component';
 import {SharedModule} from '../../shared/shared.module';
 import { AdminOrgsManagementComponent } from './admin-orgs-management/admin-orgs-management.component';
 import {CoreModule} from "../../core/core.module";
+import { AdminOrgsMamagementItemComponent } from './admin-orgs-mamagement-item/admin-orgs-mamagement-item.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,6 @@ import {CoreModule} from "../../core/core.module";
     AdminRoutingModule,
     CoreModule
   ],
-  declarations: [AdminComponent, AdminOrgsManagementComponent]
+  declarations: [AdminComponent, AdminOrgsManagementComponent, AdminOrgsMamagementItemComponent]
 })
 export class AdminModule { }

@@ -204,7 +204,6 @@ export class OrgService {
       .switchMap((result: Array<any>) => {
         return Observable.forkJoin(
           result.map(org => {
-            console.log(org)
             const orgsRefInfo: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${org.payload.doc.id}/publicData/info`);
             return orgsRefInfo.valueChanges().take(1);
           }));
