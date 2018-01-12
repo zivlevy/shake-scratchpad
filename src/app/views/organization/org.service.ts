@@ -201,7 +201,7 @@ export class OrgService {
     const orgsRef: AngularFirestoreCollection<any> = this.afs.collection<any>('org');
 
     return orgsRef.snapshotChanges()
-      .flatMap((result: Array<any>) => {
+      .switchMap((result: Array<any>) => {
         return Observable.forkJoin(
           result.map(org => {
             console.log(org)
