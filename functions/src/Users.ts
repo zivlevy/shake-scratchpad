@@ -33,8 +33,8 @@ export const updateUserInfo = functions.firestore
     return 0;
   });
 
-// export const deleteUserOrgRef = function(uid, orgId) {
-//   const db = admin.firestore();
-//   const userOrgRef = db.collection('users').doc(uid).collection('orgs').doc(orgId);
-//   return userOrgRef.delete();
-// }
+export const deleteUserOrgRef = function(uid, orgId) {
+  const db = admin.firestore();
+  const userOrgRef = db.collection('users').doc(uid).collection('orgs').doc(orgId);
+  return userOrgRef.delete();
+}

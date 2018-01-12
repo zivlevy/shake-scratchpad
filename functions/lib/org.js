@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const algolia_1 = require("./algolia");
-// import {deleteUserOrgRef} from "./Users";
 // admin.initializeApp(functions.config().firebase);
 const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
     return dataPackageRef.get().then(doc => {
@@ -136,28 +135,22 @@ exports.newOrgRequest = functions.firestore
         .then(() => { return 0; })
         .catch(() => { return 1; });
 });
-// const deleteAlUsersOrgRef = function(orgId: string) {
-//   const db = admin.firestore();
-//   const orgUsersRef = db.collection('org').doc(orgId).collection('users');
-//
-//   return orgUsersRef.get()
-// .then(snapshot => {
-//   snapshot.forEach(user => {
-//     return deleteUserOrgRef(user.id, orgId);
-//   });
-// });
-// }
-//
-// export const onOrgDelete = functions.firestore.document('org/{orgId}').onDelete((event) => {
-//   const orgId = event.data.id;
-//   console.log(orgId);
-//
-//   const deleteAllUsersOrgRefP = deleteAlUsersOrgRef(orgId);
-//
-//   const deleteAlgoliaOrgP = algoliaOrgDelete(orgId);
-//
-//   return Promise.all([deleteAllUsersOrgRefP, deleteAlgoliaOrgP])
-//     .catch(err => console.log(err));
-//
-// });
+const deleteAlUsersOrgRef = function (orgId) {
+    const db = admin.firestore();
+    const orgUsersRef = db.collection('org').doc(orgId).collection('users');
+    return orgUsersRef.get();
+    // .then(snapshot => {
+    //   snapshot.forEach(user => {
+    //     return deleteUserOrgRef(user.id, orgId);
+    //   });
+    // });
+};
+exports.onOrgDelete = functions.firestore.document('org/{orgId}').onDelete((event) => {
+    const orgId = event.data.id;
+    console.log(orgId);
+    const deleteAllUsersOrgRefP = deleteAlUsersOrgRef(orgId);
+    const deleteAlgoliaOrgP = algolia_1.algoliaOrgDelete(orgId);
+    return Promise.all([deleteAllUsersOrgRefP, deleteAlgoliaOrgP])
+        .catch(err => console.log(err));
+});
 //# sourceMappingURL=org.js.map

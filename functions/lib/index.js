@@ -4,13 +4,13 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp(functions.config().firebase);
 const orgFunctions = require("./org");
-const usersFunctions = require("./Users");
+const usersFunctions = require("./users");
 // org
 exports.newOrgRequest = orgFunctions.newOrgRequest;
 exports.onPrivateDocCreated = orgFunctions.onPrivateDocCreated;
 exports.onPrivateDocUpdated = orgFunctions.onPrivateDocUpdated;
 exports.onPrivateDocVersionCreated = orgFunctions.onPrivateDocVersionCreated;
-// export const onOrgDelete = orgFunctions.onOrgDelete;
+exports.onOrgDelete = orgFunctions.onOrgDelete;
 // users
 exports.deleteUser = usersFunctions.deleteUser;
 exports.updateUserInfo = usersFunctions.updateUserInfo;
