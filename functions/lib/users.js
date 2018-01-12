@@ -27,4 +27,9 @@ exports.updateUserInfo = functions.firestore
     });
     return 0;
 });
-//# sourceMappingURL=users.js.map
+// export const deleteUserOrgRef = function(uid, orgId) {
+//   const db = admin.firestore();
+//   const userOrgRef = db.collection('users').doc(uid).collection('orgs').doc(orgId);
+//   return userOrgRef.delete();
+// }
+//# sourceMappingURL=Users.js.map

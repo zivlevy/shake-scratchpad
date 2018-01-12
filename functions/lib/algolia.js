@@ -26,4 +26,7 @@ exports.algoliaInitIndex = function (orgId) {
 exports.algoliaGetSearchKey = function (orgId) {
     return client.generateSecuredApiKey(ALGOLIA_SEARCH_KEY, { restrictIndices: orgId });
 };
+// export const algoliaOrgDelete = function (orgId) {
+//   return client.deleteIndex(orgId);
+// }
 //# sourceMappingURL=algolia.js.map

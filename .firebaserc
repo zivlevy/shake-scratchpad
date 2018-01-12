@@ -2,6 +2,7 @@
   "projects": {
     "default": "shakescratchpad",
     "ran": "shakescratchpad",
-    "ziv": "shake-c53cb"
+    "ziv": "shake-c53cb",
+    "temp": "shakesb05"
   }
 }
