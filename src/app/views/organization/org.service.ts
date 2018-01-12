@@ -5,6 +5,7 @@ import {
 } from 'angularfire2/firestore';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/observable/forkJoin';
 import {ChildActivationEnd, Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
@@ -13,8 +14,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {OrgUser} from '../../model/org-user';
 import * as firebase from 'firebase';
 import {SkDoc, SkDocData} from '../../model/document';
-import {Org} from "../../model/org";
-import {FirestoreService} from "../../core/firestore.service";
+import {FirestoreService} from '../../core/firestore.service';
 
 @Injectable()
 export class OrgService {
@@ -197,21 +197,18 @@ export class OrgService {
   }
 
   getOrgs$(): Observable<any> {
-    const orgsRef: AngularFirestoreCollection<any> = this.afs.collection<any>('org');
-    return orgsRef.snapshotChanges().map(actions => {
-      return actions.map(a => {
-        const data = a.payload.doc.data();
-        const id = a.payload.doc.id;
-        return {orgId: id, ...data};
 
-        // const orgData: AngularFirestoreDocument<any> = this.afs.doc(`org/${id}/publicData/info`);
-        // return orgData.snapshotChanges().map(oData => {
-        //   return {orgId: id, ...data};
-          // console.log(oData);
-        // });
-        // return {orgId: id, ...data};
+    const orgsRef: AngularFirestoreCollection<any> = this.afs.collection<any>('org');
+
+    return orgsRef.snapshotChanges()
+      .flatMap((result: Array<any>) => {
+        return Observable.forkJoin(
+          result.map(org => {
+            console.log(org)
+            const orgsRefInfo: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${org.payload.doc.id}/publicData/info`);
+            return orgsRefInfo.valueChanges().take(1);
+          }));
       });
-    });
   }
 
   deleteOrg(orgId: string) {

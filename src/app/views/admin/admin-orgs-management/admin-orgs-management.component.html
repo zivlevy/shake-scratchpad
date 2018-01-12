@@ -9,9 +9,9 @@
   </thead>
   <tbody>
   <tr *ngFor="let org of orgs">
-    <th scope="row"> {{ org.orgId }}</th>
+    <td scope="row"> {{ org.orgId }}</td>
     <td> </td>
-    <td> </td>
+    <td>{{ org.orgName }} </td>
     <td> <button class="btn btn-danger" (click)="deleteClicked(org)">Delete</button></td>
   </tr>
   </tbody>
