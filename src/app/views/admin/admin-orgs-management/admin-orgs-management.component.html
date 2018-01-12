@@ -8,11 +8,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let org of orgs">
-    <td scope="row"> {{ org.orgId }}</td>
-    <td> </td>
-    <td>{{ org.orgName }} </td>
-    <td> <button class="btn btn-danger" (click)="deleteClicked(org)">Delete</button></td>
-  </tr>
+  <sk-admin-orgs-mamagement-item *ngFor="let org of orgs" [org]="org"></sk-admin-orgs-mamagement-item>
+
   </tbody>
 </table>

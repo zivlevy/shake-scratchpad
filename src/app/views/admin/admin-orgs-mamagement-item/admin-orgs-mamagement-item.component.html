@@ -1,0 +1,9 @@
+<div>
+  <tr>
+    <td scope="row"> {{ org.orgId }}</td>
+    <td><img [src]="logoURL" alt=""></td>
+    <td>{{ org.orgName }} </td>
+    <td> <button class="btn btn-danger" (click)="deleteClicked(org)">Delete</button></td>
+  </tr>
+</div>
+
