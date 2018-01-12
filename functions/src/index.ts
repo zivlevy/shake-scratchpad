@@ -6,7 +6,7 @@ import * as admin from 'firebase-admin'
 admin.initializeApp(functions.config().firebase);
 
 import * as orgFunctions from './org'
-import * as usersFunctions from './users'
+import * as usersFunctions from './skusers'
 import * as serverFunctions from './server-http'
 
 // org

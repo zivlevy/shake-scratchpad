@@ -14,6 +14,7 @@ import {OrgUser} from '../../model/org-user';
 import * as firebase from 'firebase';
 import {SkDoc, SkDocData} from '../../model/document';
 import {Org} from "../../model/org";
+import {FirestoreService} from "../../core/firestore.service";
 
 @Injectable()
 export class OrgService {
@@ -27,7 +28,8 @@ export class OrgService {
   constructor(private authService: AuthService,
               private afs: AngularFirestore,
               private afAuth: AngularFireAuth,
-              private router: Router) {
+              private router: Router,
+              private firestoreService: FirestoreService) {
 
     this.router.events
       .filter((event) => {
@@ -213,6 +215,7 @@ export class OrgService {
   }
 
   deleteOrg(orgId: string) {
+    // TODO handle collections removal
     const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
     return org.delete();
   }
@@ -250,6 +253,7 @@ export class OrgService {
     const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
     return docRef.snapshotChanges()
       .map(res => {
+        console.log(res.payload.data());
         console.log(res.payload.data());
         const doc: SkDoc = {uid: res.payload.id, ... res.payload.data()};
         return doc;
@@ -313,16 +317,19 @@ export class OrgService {
 
   deleteDoc(docId: string) {
     const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
-    this.getAllVersions$(docId).subscribe((versions => {
-      versions.forEach(version => {
-        const versionRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}/versions/${version.uid}`);
-        versionRef.delete();
-      });
-      docRef.delete();
-    }), null, () => {
-      console.log('compleated');
-      docRef.delete();
-    });
+    const verRef = `org/${this.localCurrentOrg}/docs/${docId}/versions/`;
+    this.firestoreService.deleteCollection(verRef, 5).subscribe(res => console.log(res));
+
+    // this.getAllVersions$(docId).subscribe((versions => {
+    //   versions.forEach(version => {
+    //     const versionRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}/versions/${version.uid}`);
+    //     versionRef.delete();
+    //   });
+    //   docRef.delete();
+    // }), null, () => {
+    //   console.log('compleated');
+    //   docRef.delete();
+    // });
     // TODO remove from public as well
   }
 

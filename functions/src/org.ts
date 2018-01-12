@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import {algoliaInitIndex, algoliaGetSearchKey, algoliaSaveDoc, AlgoliaDoc, algoliaOrgDelete} from "./algolia";
-import {deleteUserOrgRef} from "./Users";
+import {deleteUserOrgRef} from "./skusers";
 // admin.initializeApp(functions.config().firebase);
 
 const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {

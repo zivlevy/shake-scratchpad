@@ -6,6 +6,7 @@ import {AuthService} from './auth.service';
 import { HomeService } from '../views/home/home.service';
 import {LanguageService} from './language.service';
 import {ImageService} from './image.service';
+import {FirestoreService} from "./firestore.service";
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import {ImageService} from './image.service';
       AuthService,
       HomeService,
       LanguageService,
+      FirestoreService,
     ImageService],
     declarations: []
 })
