@@ -15,12 +15,10 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   currentUser: any;
-  orgsObservable: Observable<Org>;
   orgs: any;
 
   constructor(public authService: AuthService,
               public orgService: OrgService,
-              public imageService: ImageService
               ) {}
 
   ngOnInit() {
@@ -33,14 +31,11 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
     this.orgService.getOrgs$()
       .takeUntil(this.destroy$)
       .subscribe( orgs => {
-          console.log(orgs);
            this.orgs = orgs;
       });
   }
 
-  deleteClicked(org) {
-    this.orgService.deleteOrg(org.orgId);
-  }
+
 
   ngOnDestroy() {
     // force unsubscribe
