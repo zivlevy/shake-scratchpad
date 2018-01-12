@@ -200,16 +200,22 @@ export class OrgService {
       return actions.map(a => {
         const data = a.payload.doc.data();
         const id = a.payload.doc.id;
-        const orgData: AngularFirestoreDocument<any> = this.afs.doc(`org/${id}/publicData/info`);
-        return orgData.snapshotChanges().map(oData => {
-          return {orgId: id};
+        return {orgId: id, ...data};
+
+        // const orgData: AngularFirestoreDocument<any> = this.afs.doc(`org/${id}/publicData/info`);
+        // return orgData.snapshotChanges().map(oData => {
+        //   return {orgId: id, ...data};
           // console.log(oData);
-        });
+        // });
         // return {orgId: id, ...data};
       });
     });
   }
 
+  deleteOrg(orgId: string) {
+    const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
+    return org.delete();
+  }
 
   /************************
    Org Admin API

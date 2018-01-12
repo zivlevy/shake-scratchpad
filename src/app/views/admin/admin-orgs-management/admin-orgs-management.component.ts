@@ -15,6 +15,7 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   currentUser: any;
   orgsObservable: Observable<Org>;
+  orgs: any;
 
   constructor(public authService: AuthService,
               public orgService: OrgService) {}
@@ -26,11 +27,16 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
         this.currentUser = authUser;
       });
 
-    this.orgsObservable = this.orgService.getOrgs$();
+    this.orgService.getOrgs$()
+      .takeUntil(this.destroy$)
+      .subscribe( orgs => {
+          console.log(orgs);
+          this.orgs = orgs;
+      });
   }
 
-  test(o) {
-    console.log(o);
+  deleteClicked(org) {
+    this.orgService.deleteOrg(org.orgId);
   }
   ngOnDestroy() {
     // force unsubscribe

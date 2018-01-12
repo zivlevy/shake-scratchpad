@@ -15,6 +15,7 @@ export const newOrgRequest =  orgFunctions.newOrgRequest;
 export const onPrivateDocCreated = orgFunctions.onPrivateDocCreated;
 export const onPrivateDocUpdated = orgFunctions.onPrivateDocUpdated;
 export const onPrivateDocVersionCreated = orgFunctions.onPrivateDocVersionCreated;
+// export const onOrgDelete = orgFunctions.onOrgDelete;
 
 // users
 export const deleteUser =  usersFunctions.deleteUser;

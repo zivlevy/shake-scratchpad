@@ -2,7 +2,6 @@ import * as functions from 'firebase-functions'
 import * as admin from "firebase-admin";
 
 
-
 export const deleteUser = functions
   .auth.user().onDelete(event =>{
     const uid = event.data.uid;
@@ -33,3 +32,9 @@ export const updateUserInfo = functions.firestore
     });
     return 0;
   });
+
+// export const deleteUserOrgRef = function(uid, orgId) {
+//   const db = admin.firestore();
+//   const userOrgRef = db.collection('users').doc(uid).collection('orgs').doc(orgId);
+//   return userOrgRef.delete();
+// }
