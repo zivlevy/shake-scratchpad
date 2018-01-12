@@ -7,6 +7,7 @@ admin.initializeApp(functions.config().firebase);
 
 import * as orgFunctions from './org'
 import * as usersFunctions from './users'
+import * as serverFunctions from './server-http'
 
 // org
 
@@ -18,6 +19,9 @@ export const onPrivateDocVersionCreated = orgFunctions.onPrivateDocVersionCreate
 // users
 export const deleteUser =  usersFunctions.deleteUser;
 export const updateUserInfo =  usersFunctions.updateUserInfo;
+
+
+export const bigben =  serverFunctions.bigben;
 
 
 

@@ -9,7 +9,10 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "rewrites": [ {
+      "source": "/bigben", "function": "bigben"
+    } ]
   },
   "storage": {
     "rules": "storage.rules"
