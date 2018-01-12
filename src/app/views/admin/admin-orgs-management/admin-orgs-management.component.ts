@@ -4,6 +4,7 @@ import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../../organization/org.service';
 import {Observable} from 'rxjs/Observable';
 import {Org} from '../../../model/org';
+import {ImageService} from "../../../core/image.service";
 
 @Component({
   selector: 'sk-admin-orgs-management',
@@ -18,7 +19,9 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
   orgs: any;
 
   constructor(public authService: AuthService,
-              public orgService: OrgService) {}
+              public orgService: OrgService,
+              public imageService: ImageService
+              ) {}
 
   ngOnInit() {
     this.authService.getUser$()
@@ -31,13 +34,14 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe( orgs => {
           console.log(orgs);
-          this.orgs = orgs;
+           this.orgs = orgs;
       });
   }
 
   deleteClicked(org) {
     this.orgService.deleteOrg(org.orgId);
   }
+
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);
