@@ -1,8 +1,7 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import {algoliaInitIndex, algoliaGetSearchKey, algoliaSaveDoc, AlgoliaDoc, algoliaOrgDelete} from "./algolia";
-import {deleteUserOrgRef} from "./skusers";
-// admin.initializeApp(functions.config().firebase);
+
 
 const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
   return dataPackageRef.get().then (doc =>  {
@@ -167,29 +166,13 @@ export const newOrgRequest = functions.firestore
       );
   });
 
-const deleteAlUsersOrgRef = function(orgId: string) {
-  const db = admin.firestore();
-  const orgUsersRef = db.collection('org').doc(orgId).collection('users');
-
-  return orgUsersRef.get()
-    // .then(snapshot => {
-    //   snapshot.forEach(user => {
-    //     return deleteUserOrgRef(user.id, orgId);
-    //   });
-    // });
-
-}
-
 export const onOrgDelete = functions.firestore.document('org/{orgId}').onDelete((event) => {
   const orgId = event.data.id;
   console.log(orgId);
 
-  const deleteAllUsersOrgRefP = deleteAlUsersOrgRef(orgId);
-
-  const deleteAlgoliaOrgP = algoliaOrgDelete(orgId);
-
-  return Promise.all([deleteAllUsersOrgRefP, deleteAlgoliaOrgP])
+  return algoliaOrgDelete(orgId)
     .catch(err => console.log(err));
+
 
 });
 
