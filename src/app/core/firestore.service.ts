@@ -151,6 +151,15 @@ export class FirestoreService {
     return batch.commit();
   }
 
+  atomicBatchDelete(docArray: Array<string>) {
+    const batch = firebase.firestore().batch();
+
+    for (let docPath of docArray) {
+      batch.delete(firebase.firestore().doc(docPath));
+    }
+    return batch.commit();
+  }
+
   deleteCollection(path: string, batchSize: number): Observable<any> {
     const source = this.deleteBatch(path, batchSize);
     // expand will call deleteBatch recursively until the collection is deleted

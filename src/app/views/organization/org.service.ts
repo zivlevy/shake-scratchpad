@@ -231,15 +231,14 @@ export class OrgService {
 
     // delete org users
     this.getALlOrgUsers$(orgId)
-      .map(usersArray => {
-        return usersArray.map( user => {
+      .subscribe((usersArray) => {
+          usersArray.forEach( (user: OrgUser) => {
           const userOrgRef = this.afs.collection('users').doc(user.uid).collection('orgs').doc(orgId);
           userOrgRef.delete()
             .then()
             .catch();
-        });
-      })
-      .subscribe(res => console.log('out', res));
+          });
+      });
 
     // this.firestoreService.deleteCollection(`org/${orgId}/docs`, 5)
     //   .subscribe(res => console.log(res));
