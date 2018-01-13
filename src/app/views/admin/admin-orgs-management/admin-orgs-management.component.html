@@ -1,14 +1,12 @@
-<table class="table">
-  <thead>
-  <tr>
-    <th>orgId</th>
-    <th>Logo</th>
-    <th>Name</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-  <sk-admin-orgs-mamagement-item *ngFor="let org of orgs" [org]="org"></sk-admin-orgs-mamagement-item>
+<h1 class="h1 text-center">Organizations Management</h1>
 
-  </tbody>
-</table>
+<div class="container">
+  <div class="row">
+    <p class="h6 col-2">orgId</p>
+    <p class="h6 col-2">Logo</p>
+    <p class="h6 col-4">Name</p>
+    <p class="h6 col-2">Actions</p>
+  </div>
+  <hr>
+  <sk-admin-orgs-mamagement-item *ngFor="let org of orgs" [org]="org"></sk-admin-orgs-mamagement-item>
+</div>

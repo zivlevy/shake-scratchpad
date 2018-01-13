@@ -127,6 +127,11 @@ export class OrgService {
       }));
   }
 
+  getALlOrgUsers$(orgId: string) {
+    const usersRef = this.afs.collection('org').doc(orgId).collection('users');
+    return usersRef.valueChanges();
+  }
+
 
   /***************************
    Private functions
@@ -212,8 +217,35 @@ export class OrgService {
 
   deleteOrg(orgId: string) {
     // TODO handle collections removal
-    const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
-    return org.delete();
+    // Algolia data deletion is performed by the cloud function triggered by this org deletion
+
+    // Delete org documents
+    // this.getAllOrgDocs$(orgId)
+    //   .map(docsArray => {
+    //     return docsArray.map(doc => {
+    //       return this.firestoreService.deleteCollection(`org/${orgId}/docs/${doc.uid}/versions`, 5);
+    //     });
+    //   })
+    //   .subscribe(res => console.log(res));
+
+
+    // delete org users
+    this.getALlOrgUsers$(orgId)
+      .map(usersArray => {
+        return usersArray.map( user => {
+          const userOrgRef = this.afs.collection('users').doc(user.uid).collection('orgs').doc(orgId);
+          userOrgRef.delete()
+            .then()
+            .catch();
+        });
+      })
+      .subscribe(res => console.log('out', res));
+
+    // this.firestoreService.deleteCollection(`org/${orgId}/docs`, 5)
+    //   .subscribe(res => console.log(res));
+
+    // const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
+    // return org.delete();
   }
 
   /************************
@@ -235,6 +267,18 @@ export class OrgService {
    ************************/
   getAllDocs$(): Observable<SkDoc[]> {
     const orgDocsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/docs`);
+    return orgDocsRef.snapshotChanges()
+      .map(docs => {
+        return docs.map(a => {
+          const data = a.payload.doc.data() as SkDoc;
+          const id = a.payload.doc.id;
+          return {uid: id, ...data};
+        });
+      });
+  }
+
+  getAllOrgDocs$(orgId): Observable<SkDoc[]> {
+    const orgDocsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${orgId}/docs`);
     return orgDocsRef.snapshotChanges()
       .map(docs => {
         return docs.map(a => {

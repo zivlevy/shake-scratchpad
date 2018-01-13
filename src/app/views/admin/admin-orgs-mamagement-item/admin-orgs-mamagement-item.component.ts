@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ImageService} from "../../../core/image.service";
+import {OrgService} from "../../organization/org.service";
 
 @Component({
   selector: 'sk-admin-orgs-mamagement-item',
@@ -8,11 +9,19 @@ import {ImageService} from "../../../core/image.service";
 })
 export class AdminOrgsMamagementItemComponent implements OnInit {
   @Input() org;
-  logoURL: string
-  constructor(public imgService: ImageService) { }
+  logoUrl = '';
+  constructor(public imgService: ImageService,
+              public orgService: OrgService) { }
 
   ngOnInit() {
-    this.imgService.getOrgLogo$(this.org.orgId).take(1).subscribe( url => (this.logoURL = url));
+    this.imgService.getOrgLogo$(this.org.orgId)
+      .take(1)
+      .subscribe( url => {
+        this.logoUrl = url;
+      });
   }
 
+  deleteClicked(org) {
+    this.orgService.deleteOrg(org.orgId);
+  }
 }
