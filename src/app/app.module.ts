@@ -34,6 +34,7 @@ import {DocumentModule} from './views/document/document.module';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import {MaterialModule} from "./material/material.module";
 import {AdminModule} from "./views/admin/admin.module";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import {AdminModule} from "./views/admin/admin.module";
     BsDropdownModule.forRoot(),
     BrowserModule,
     MaterialModule,
+    FlexLayoutModule,
     RouterModule,
     HttpClientModule,
     FormsModule,
