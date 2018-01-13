@@ -34,8 +34,6 @@ export class AuthService {
           this.currentSkUser = user;
         }
       });
-
-
     }
 
 
@@ -62,7 +60,6 @@ export class AuthService {
                 if (! user) {
                     return false;
                 }
-
                 return !user.isAnonymous && user.emailVerified  ;
               });
     }
@@ -82,18 +79,12 @@ export class AuthService {
         displayName = displayName ? displayName : this.currentSkUser.displayName;
         photoURL = photoURL ? photoURL : this.currentSkUser.photoURL;
       }
-
       return this.afs.doc(`users/${uid}`).update({displayName, photoURL});
-
     }
 
     updateUserEmail(newEmail: string): Promise<any> {
       return this.afAuth.auth.currentUser.updateEmail(newEmail).then(() => {
         this.afs.doc(`users/${this.currentSkUser.uid}`).update({email: newEmail});
       });
-
     }
-
-
-
 }
