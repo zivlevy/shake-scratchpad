@@ -127,7 +127,7 @@ export class OrgService {
       }));
   }
 
-  getALlOrgUsers$(orgId: string) {
+  getAllOrgUsers$(orgId: string) {
     const usersRef = this.afs.collection('org').doc(orgId).collection('users');
     return usersRef.valueChanges();
   }
@@ -219,6 +219,8 @@ export class OrgService {
     // TODO handle collections removal
     // Algolia data deletion is performed by the cloud function triggered by this org deletion
 
+    const docsToDelete = new Array<string>();
+
     // Delete org documents
     // this.getAllOrgDocs$(orgId)
     //   .map(docsArray => {
@@ -228,16 +230,26 @@ export class OrgService {
     //   })
     //   .subscribe(res => console.log(res));
 
+    this.getAllOrgDocs$(orgId)
+      .subscribe((docsArray) => {
+        docsArray.forEach((doc: any) => {
+          
+        })
+      });
 
     // delete org users
-    this.getALlOrgUsers$(orgId)
+    this.getAllOrgUsers$(orgId)
       .subscribe((usersArray) => {
           usersArray.forEach( (user: OrgUser) => {
-          const userOrgRef = this.afs.collection('users').doc(user.uid).collection('orgs').doc(orgId);
-          userOrgRef.delete()
-            .then()
-            .catch();
+            docsToDelete.push('users/' + user.uid + '/orgs/' + orgId);
+          // const userOrgRef = this.afs.collection('users').doc(user.uid).collection('orgs').doc(orgId);
+          // userOrgRef.delete()
+          //   .then()
+          //   .catch();
           });
+          this.firestoreService.atomicBatchDelete(docsToDelete)
+            .then(() => console.log('delete completed'))
+            .catch(err => console.log(err));
       });
 
     // this.firestoreService.deleteCollection(`org/${orgId}/docs`, 5)
