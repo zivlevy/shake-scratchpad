@@ -1,12 +1,14 @@
 <h1 class="h1 text-center">Organizations Management</h1>
 
-<div class="container">
-  <div class="row">
-    <p class="h6 col-2">orgId</p>
-    <p class="h6 col-2">Logo</p>
-    <p class="h6 col-4">Name</p>
-    <p class="h6 col-2">Actions</p>
+<div fxLayout="column" >
+  <div fxLayout="row" fxLayoutAlign="start start">
+    <div fxFlex="1 1 15%" class="h6">orgId</div>
+    <div fxFlex="1 1 15%" class="h6">Logo</div>
+    <div fxFlex="1 1 40%" class="h6">Name</div>
+    <div fxFlex="1 1 15%" class="h6">Actions</div>
   </div>
-  <hr>
+  <div>
+    <hr>
+  </div>
   <sk-admin-orgs-mamagement-item *ngFor="let org of orgs" [org]="org"></sk-admin-orgs-mamagement-item>
 </div>
