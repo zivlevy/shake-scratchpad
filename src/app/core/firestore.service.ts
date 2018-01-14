@@ -59,6 +59,7 @@ export class FirestoreService {
   get timestamp() {
     return firebase.firestore.FieldValue.serverTimestamp();
   }
+
   set<T>(ref: DocPredicate<T>, data: any) {
     const timestamp = this.timestamp;
     return this.doc(ref).set({

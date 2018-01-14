@@ -9,7 +9,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import * as firebase from 'firebase';
 import UserCredential = firebase.auth.UserCredential;
 import {User} from 'firebase';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 
 
