@@ -233,8 +233,12 @@ export class OrgService {
     this.getAllOrgDocs$(orgId)
       .subscribe((docsArray) => {
         docsArray.forEach((doc: any) => {
-          
-        })
+          // console.log(orgId, doc);
+          this.getAllDocVersions$(orgId, doc.id)
+            .subscribe(docVersion => {
+              console.log('ver', docVersion);
+            });
+        });
       });
 
     // delete org users
@@ -242,14 +246,10 @@ export class OrgService {
       .subscribe((usersArray) => {
           usersArray.forEach( (user: OrgUser) => {
             docsToDelete.push('users/' + user.uid + '/orgs/' + orgId);
-          // const userOrgRef = this.afs.collection('users').doc(user.uid).collection('orgs').doc(orgId);
-          // userOrgRef.delete()
-          //   .then()
-          //   .catch();
           });
-          this.firestoreService.atomicBatchDelete(docsToDelete)
-            .then(() => console.log('delete completed'))
-            .catch(err => console.log(err));
+          // this.firestoreService.atomicBatchDelete(docsToDelete)
+          //   .then(() => console.log('delete completed'))
+          //   .catch(err => console.log(err));
       });
 
     // this.firestoreService.deleteCollection(`org/${orgId}/docs`, 5)
@@ -289,23 +289,18 @@ export class OrgService {
   }
 
   getAllOrgDocs$(orgId): Observable<SkDoc[]> {
-    const orgDocsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${orgId}/docs`);
-    return orgDocsRef.snapshotChanges()
-      .map(docs => {
-        return docs.map(a => {
-          const data = a.payload.doc.data() as SkDoc;
-          const id = a.payload.doc.id;
-          return {uid: id, ...data};
-        });
-      });
+    return this.firestoreService.colWithIds$(`org/${orgId}/docs`);
+  }
+
+  getAllDocVersions$(orgId: string, docId: string) {
+    return this.firestoreService.colWithIds$(`org/${orgId}/docs/${docId}/versions`);
   }
 
   getDoc$(docId: string): Observable<SkDoc> {
     const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
     return docRef.snapshotChanges()
       .map(res => {
-        console.log(res.payload.data());
-        console.log(res.payload.data());
+
         const doc: SkDoc = {uid: res.payload.id, ... res.payload.data()};
         return doc;
       });
