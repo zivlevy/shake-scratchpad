@@ -7,4 +7,5 @@
 <button [disabled]="isSaving" class="btn btn-sm btn-primary" (click)="publishDocument()">Publish Doc</button>
 <button [disabled]="isSaving" class="btn btn-sm btn-primary" (click)="deleteDocument()">Delete Doc</button>
 
-<sk-doc-editor #editor [docData]="currentEditData" ></sk-doc-editor>
+<!--<sk-doc-editor #editor [docData]="currentEditData" ></sk-doc-editor>-->
+<sk-tree-doc #editor [docData]="currentEditData" [isRTL]="true" ></sk-tree-doc>

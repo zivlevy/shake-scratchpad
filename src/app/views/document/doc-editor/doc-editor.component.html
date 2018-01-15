@@ -1,8 +1,6 @@
 <div id="treeViewContainer">
-  <sk-tree-view *ngIf="skTree.length>0" [treeNode]="skTree[0]"
-                [identMargin]="'25'"
-                [isRTL]="true">
-
-  </sk-tree-view>
-
+  <sk-tree-doc
+    *ngIf="skTree.length>0"
+    [nodes]="treeRoot"
+    [isRTL]="false"></sk-tree-doc>
 </div>

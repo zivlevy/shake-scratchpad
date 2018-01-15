@@ -15,6 +15,15 @@
       </li>
     </ul>
 
+
+     <!--TODO = remove, just for test-->
+    <ul class="navbar-nav">
+      <li  class="nav-item">
+        <a class="nav-link" (click)="gotoTreeTest()">Tree test</a>
+      </li>
+    </ul>
+
+
     <!-- Right nav bar -->
     <ul class="navbar-nav" [ngClass]="{'ml-auto':!rtl, 'mr-auto': rtl}">
       <li *ngIf="!user.isLoadingOrgUser && !user.currentOrgUser && user.isAuthenticated" class="nav-item">

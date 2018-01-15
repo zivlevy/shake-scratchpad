@@ -1,0 +1,117 @@
+.set-rtl {
+  text-align: right;
+  direction: rtl;
+}
+
+.section-editor-ltr {
+  padding-right: 20px;
+  padding-left: 20px;
+  font-size: 20px;
+  &:before {
+    font-family: FontAwesome;
+    vertical-align: middle;
+    color: black;
+    text-align: center;
+    content: "\f07b";
+    display: block;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: -4px;
+    font-size: 16px;
+  }
+}
+
+.section-editor-rtl {
+  padding-right: 20px;
+  padding-left: 20px;
+  font-size: 20px;
+  &:after {
+    font-family: FontAwesome;
+    vertical-align: middle;
+    color: black;
+    text-align: center;
+    content: "\f07b";
+    display: block;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    top: 3px;
+    right: -4px;
+    font-size: 16px;
+  }
+}
+
+.section-expanded-rtl{
+  &:after {
+    content: "\f07c";
+  }
+}
+
+.section-expanded-ltr{
+  &:before {
+    content: "\f07c";
+  }
+}
+
+.item-editor-ltr {
+  margin: 0;
+  padding-right: 12px;
+  padding-left: 12px;
+  font-size: 16px;
+  &:before {
+    font-family: FontAwesome;
+    vertical-align: middle;
+    color: #888888;
+    text-align: center;
+    content: "\f142";
+    display: block;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    background-color: aliceblue;
+    top: 0px;
+    left: -4px;
+  }
+}
+
+.item-editor-rtl {
+  margin: 0;
+  padding-right: 20px;
+  padding-left: 20px;
+  font-size: 16px;
+  &:after {
+    font-family: FontAwesome;
+    vertical-align: middle;
+    color: #888888;
+    text-align: center;
+    content: "\f142";
+    display: block;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    background-color: aliceblue;
+    top: 0px;
+    right: -4px;
+  }
+}
+
+::ng-deep .node-content-wrapper {
+  width: 90%;
+  max-width: 700px;
+  min-width: 300px;
+}
+
+#tree-wrapper {
+  margin: 40px auto;
+  width: 90%;
+  max-width: 700px;
+  min-width: 300px;
+  background-color: whitesmoke;
+}
+.editor {
+  width: 100%;
+}
+
+

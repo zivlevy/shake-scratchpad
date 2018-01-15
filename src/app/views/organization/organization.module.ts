@@ -16,10 +16,11 @@ import { OrgAdminUsersComponent } from './org-admin-users/org-admin-users.compon
 import { OrgAdminOrgComponent } from './org-admin-org/org-admin-org.component';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {ImageCropperModule} from 'ng2-img-cropper';
-import {AlgoliaService} from "../../core/algolia.service";
+import {AlgoliaService} from '../../core/algolia.service';
 import { OrgHomeContentComponent } from './org-home-content/org-home-content.component';
 import { OrgDocManagerComponent } from './org-doc-manager/org-doc-manager.component';
-import {DocumentModule} from "../document/document.module";
+import {DocumentModule} from '../document/document.module';
+import {FroalaEditorModule, FroalaViewModule} from "angular-froala-wysiwyg";
 
 @NgModule({
   imports: [
@@ -33,6 +34,9 @@ import {DocumentModule} from "../document/document.module";
     ReactiveFormsModule,
     LazyLoadImageModule,
     ImageCropperModule,
+    FroalaEditorModule,
+    FroalaViewModule,
+    FormsModule
 
   ],
   declarations: [

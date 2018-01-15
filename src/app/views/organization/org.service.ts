@@ -233,7 +233,7 @@ export class OrgService {
     this.getAllOrgDocs$(orgId)
       .subscribe((docsArray) => {
         docsArray.forEach((doc: any) => {
-          
+
         })
       });
 
@@ -369,18 +369,10 @@ export class OrgService {
   deleteDoc(docId: string) {
     const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
     const verRef = `org/${this.localCurrentOrg}/docs/${docId}/versions/`;
-    this.firestoreService.deleteCollection(verRef, 5).subscribe(res => console.log(res));
+    this.firestoreService.deleteCollection(verRef, 5)
+      .subscribe(res => console.log(res), null, () => {docRef.delete(); }
+      );
 
-    // this.getAllVersions$(docId).subscribe((versions => {
-    //   versions.forEach(version => {
-    //     const versionRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}/versions/${version.uid}`);
-    //     versionRef.delete();
-    //   });
-    //   docRef.delete();
-    // }), null, () => {
-    //   console.log('compleated');
-    //   docRef.delete();
-    // });
     // TODO remove from public as well
   }
 

@@ -8,6 +8,8 @@ import {FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
 import {ContextMenuModule} from 'ngx-contextmenu';
 import {MaterialModule} from '../../material/material.module';
 import {DocEditorComponent} from './doc-editor/doc-editor.component';
+import { TreeDocComponent } from './tree-doc/tree-doc.component';
+import {TreeModule} from "angular-tree-component";
 
 @NgModule({
   imports: [
@@ -17,14 +19,17 @@ import {DocEditorComponent} from './doc-editor/doc-editor.component';
     FormsModule,
     FroalaEditorModule,
     FroalaViewModule,
-    MaterialModule
+    MaterialModule,
+    TreeModule,
   ],
   declarations: [
     TreeViewComponent,
-    DocEditorComponent
+    DocEditorComponent,
+    TreeDocComponent,
   ],
   exports: [TreeViewComponent,
-    DocEditorComponent]
+    DocEditorComponent,
+    TreeDocComponent]
 })
 export class DocumentModule {
 }

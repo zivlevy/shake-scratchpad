@@ -6,8 +6,8 @@ import {OrgAdminOrgComponent} from './org-admin-org/org-admin-org.component';
 import {UserProfileComponent} from '../../shared/user-profile/user-profile.component';
 import {LoginComponent} from '../../shared/login/login.component';
 import {SignupComponent} from '../../shared/signup/signup.component';
-import {OrgHomeContentComponent} from "./org-home-content/org-home-content.component";
-import {OrgDocManagerComponent} from "./org-doc-manager/org-doc-manager.component";
+import {OrgHomeContentComponent} from './org-home-content/org-home-content.component';
+import {OrgDocManagerComponent} from './org-doc-manager/org-doc-manager.component';
 
 const routes: Routes = [
   {
@@ -23,7 +23,7 @@ const routes: Routes = [
               {path: 'user-profile', component: UserProfileComponent},
               {path: 'admin-users', component: OrgAdminUsersComponent},
               {path: 'admin-org', component: OrgAdminOrgComponent},
-              {path: 'doc-manage', component: OrgDocManagerComponent}
+              {path: 'doc-manage', component: OrgDocManagerComponent},
             ]},
 
 

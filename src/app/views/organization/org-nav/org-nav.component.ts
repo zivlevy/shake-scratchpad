@@ -67,6 +67,10 @@ export class OrgNavComponent implements OnInit, OnDestroy {
   docManager() {
     this.router.navigate([`org/${this.org.orgId}/doc-manage`]);
   }
+  gotoTreeTest(){
+    this.router.navigate([`org/${this.org.orgId}/tree-test`]);
+  }
+
 
   ngOnDestroy() {
     console.log('unsub =======');
