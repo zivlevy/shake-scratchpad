@@ -10,9 +10,12 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [ {
-      "source": "/bigben", "function": "bigben"
-    } ]
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   },
   "storage": {
     "rules": "storage.rules"

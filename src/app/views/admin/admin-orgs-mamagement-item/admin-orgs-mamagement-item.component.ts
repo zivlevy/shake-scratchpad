@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ImageService} from "../../../core/image.service";
-import {OrgService} from "../../organization/org.service";
+import {ImageService} from '../../../core/image.service';
+import {OrgService} from '../../organization/org.service';
 
 @Component({
   selector: 'sk-admin-orgs-mamagement-item',
