@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
-import {
-  AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument,
-  DocumentChangeAction
-} from 'angularfire2/firestore';
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/observable/merge';
 import {ChildActivationEnd, Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
@@ -15,6 +13,7 @@ import {OrgUser} from '../../model/org-user';
 import * as firebase from 'firebase';
 import {SkDoc, SkDocData} from '../../model/document';
 import {FirestoreService} from '../../core/firestore.service';
+import {ImageService} from '../../core/image.service';
 
 @Injectable()
 export class OrgService {
@@ -29,6 +28,7 @@ export class OrgService {
               private afs: AngularFirestore,
               private afAuth: AngularFireAuth,
               private router: Router,
+              private imageService: ImageService,
               private firestoreService: FirestoreService) {
 
     this.router.events
@@ -128,10 +128,27 @@ export class OrgService {
   }
 
   getAllOrgUsers$(orgId: string) {
-    const usersRef = this.afs.collection('org').doc(orgId).collection('users');
-    return usersRef.valueChanges();
+    return this.firestoreService.colWithIds$(`org/${orgId}/users`)
+      .switchMap(data => {
+        return Observable.of({'type': 'user', 'data': data});
+      })
+      .take(1);
   }
 
+  deleteUserOrgRefP(orgId: string, uid: string) {
+    const userOrgRef = this.afs.collection('users').doc(uid).collection('orgs').doc(orgId);
+    return userOrgRef.delete();
+  }
+
+  deleteOrgUsersP(orgId: string) {
+    return new Promise((resolve, reject) => {
+      this.firestoreService.deleteCollection(`org/${orgId}/users`, 5)
+        .subscribe(
+          res => console.log(res),
+          err => reject(err),
+          () => resolve());
+    });
+  }
 
   /***************************
    Private functions
@@ -201,6 +218,10 @@ export class OrgService {
     return document.update(newData);
   }
 
+  deleteOrgPublicDataP(orgId) {
+    const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
+    return document.delete();
+  }
   getOrgDocs$(orgId: string): Observable<any> {
     const docsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${orgId}/docs`);
 
@@ -231,48 +252,62 @@ export class OrgService {
       });
   }
 
-  deleteOrg(orgId: string) {
+  getOrgData$(orgId: string): Observable<any> {
+    return Observable.merge(
+      this.getAllOrgDocs$(orgId),
+      this.getAllOrgUsers$(orgId)
+    );
+  }
+
+    deleteOrg(orgId: string) {
     // TODO handle collections removal
     // Algolia data deletion is performed by the cloud function triggered by this org deletion
 
-    const docsToDelete = new Array<string>();
+    const deleteArray = new Array<Promise<any>>();
 
     // Documents are nested deepest, so we start here
-    this.getAllOrgDocs$(orgId)
-      .subscribe((docsArray) => {
+    this.getOrgData$(orgId)
+      .subscribe(
+        (orgDataArray) => {
 
-        // set 1st deletion stage
-        const deleteArray = new Array<Promise<any>>();
-        docsArray.forEach(doc => {
-          deleteArray.push(this.deleteDocP(orgId, doc.id));
+          // set 1st deletion stage
+
+          if (orgDataArray.type === 'doc') {
+            orgDataArray.data.forEach(doc => {
+              deleteArray.push(this.deleteDocP(orgId, doc.id));
+            });
+          }
+
+          if (orgDataArray.type === 'user') {
+            orgDataArray.data.forEach(user => {
+              deleteArray.push(this.deleteUserOrgRefP(orgId, user.uid));
+            });
+          }
+        },
+        null,
+        () => {
+          console.log('completed');
+          deleteArray.push(this.deleteOrgPublicDataP(orgId));
+
+          deleteArray.push(this.deleteOrgUsersP(orgId));
+
+          // ToDo - find a way to delete the folder (not only the files)
+          deleteArray.push(this.imageService.deleteOrgLogoP(orgId));
+          deleteArray.push(this.imageService.deleteOrgBannerP(orgId));
+
+          Promise.all(deleteArray)
+            .then(() => {
+              console.log('finished 1st deletion stage');
+
+              // final stage
+
+              const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
+              return org.delete();
+            })
+            .then(() => console.log('org deleted'))
+            .catch((err) => console.log('Document deletion problem', err));
         });
 
-        Promise.all(deleteArray)
-          .then(() => console.log('deleted all documents'))
-          .catch(err => 'Document deletion problem');
-      });
-
-
-    // delete org users
-    this.getAllOrgUsers$(orgId)
-      .subscribe((usersArray) => {
-          usersArray.forEach( (user: OrgUser) => {
-            docsToDelete.push('users/' + user.uid + '/orgs/' + orgId);
-          // const userOrgRef = this.afs.collection('users').doc(user.uid).collection('orgs').doc(orgId);
-          // userOrgRef.delete()
-          //   .then()
-          //   .catch();
-          });
-          // this.firestoreService.atomicBatchDelete(docsToDelete)
-          //   .then(() => console.log('delete completed'))
-          //   .catch(err => console.log(err));
-      });
-
-    // this.firestoreService.deleteCollection(`org/${orgId}/docs`, 5)
-    //   .subscribe(res => console.log(res));
-
-    // const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
-    // return org.delete();
   }
 
   /************************
@@ -305,12 +340,12 @@ export class OrgService {
   }
 
   getAllOrgDocs$(orgId): Observable<any> {
-    return this.firestoreService.colWithIds$(`org/${orgId}/docs`);
+    return this.firestoreService.colWithIds$(`org/${orgId}/docs`)
+      .switchMap(data => {
+        return Observable.of({'type': 'doc', 'data': data});
+      }).take(1);
   }
 
-  getAllDocVersions$(orgId: string, docId: string) {
-    return this.firestoreService.colWithIds$(`org/${orgId}/docs/${docId}/versions`);
-  }
 
   getDoc$(docId: string): Observable<SkDoc> {
     const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
