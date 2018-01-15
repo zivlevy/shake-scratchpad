@@ -1,4 +1,4 @@
-<div id="tree-wrapper">
+<div id="tree-wrapper" *ngIf="docData">
   <tree-root #tree [nodes]="nodes" [options]="tree_options"
              (activate)="nodeMoved($event)">
 

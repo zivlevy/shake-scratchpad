@@ -46,13 +46,14 @@ export class TreeDocComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.docData);
     if (this.docData) {
       console.log(JSON.parse(this.docData.data));
       this.nodes = [];
       this.nodes.push(JSON.parse(this.docData.data));
+
       setTimeout(() => {
         this.tree.treeModel.expandAll();
+        console.log(this.tree);
       }, 0);
     }
   }
@@ -150,7 +151,6 @@ export class TreeDocComponent implements OnInit, OnChanges {
       events: {
         'froalaEditor.click': (e, editor) => {
           e.stopPropagation();
-          console.log('click');
           this.inEditorClick = true;
 
         },
