@@ -96,7 +96,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
   }
 
   private addBrotherItem(tree, node, section?: boolean, above?: boolean) {
-
+    if (!node.parent.parent) {return; }
     const indexInsert = above ? node.index : node.index + 1;
     if (section) {
       node.parent.data.nodes.splice(indexInsert, 0, {data: '', nodes: []});
@@ -110,6 +110,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   private deleteItem(tree, node) {
     node.parent.data.nodes.splice(node.index, 1);
+    tree.update();
   }
 
   private getTreeActionMapping(): IActionMapping {
@@ -153,7 +154,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
           this.inEditorClick = true;
 
         },
-        'froalaEditor.focus':  (e, editor) =>{
+        'froalaEditor.focus':  (e, editor) => {
           console.log(node.data.data);
           this.tree.treeModel.setSelectedNode(node);
           this.tree.treeModel.setFocusedNode(node);
@@ -179,13 +180,11 @@ export class TreeDocComponent implements OnInit, OnChanges {
    *  API
    *****************/
   reset() {
-    this.nodes = [];
+    this.nodes = [{data: '', nodes: []}];
   }
 
   newDoc() {
     this.nodes = [{data: '', nodes: []}];
-    this.tree.update();
-    console.log(this.nodes)
   }
 
   getDoc() {

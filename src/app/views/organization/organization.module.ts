@@ -20,9 +20,11 @@ import {AlgoliaService} from '../../core/algolia.service';
 import { OrgHomeContentComponent } from './org-home-content/org-home-content.component';
 import { OrgDocManagerComponent } from './org-doc-manager/org-doc-manager.component';
 import {DocumentModule} from '../document/document.module';
-import {FroalaEditorModule, FroalaViewModule} from "angular-froala-wysiwyg";
+import {FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
 import { OrgTreeEditComponent } from './org-tree-edit/org-tree-edit.component';
-import {TreeModule} from "angular-tree-component";
+import {TreeModule} from 'angular-tree-component';
+import {MaterialModule} from '../../material/material.module';
+import {OrgTreeService} from "./org-tree.service";
 
 @NgModule({
   imports: [
@@ -39,7 +41,8 @@ import {TreeModule} from "angular-tree-component";
     FroalaEditorModule,
     FroalaViewModule,
     FormsModule,
-    TreeModule
+    TreeModule,
+    MaterialModule
 
   ],
   declarations: [
@@ -57,7 +60,8 @@ import {TreeModule} from "angular-tree-component";
   providers: [
     OrgGuard,
     OrgService,
-    AlgoliaService
+    AlgoliaService,
+    OrgTreeService
   ]
 })
 export class OrganizationModule {

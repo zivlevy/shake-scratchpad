@@ -161,6 +161,10 @@ export class FirestoreService {
     return batch.commit();
   }
 
+
+  /// **************
+  /// Delete Collection
+  /// **************
   deleteCollection(path: string, batchSize: number): Observable<any> {
     const source = this.deleteBatch(path, batchSize);
     // expand will call deleteBatch recursively until the collection is deleted
