@@ -201,6 +201,22 @@ export class OrgService {
     return document.update(newData);
   }
 
+  getOrgDocs$(orgId: string): Observable<any> {
+    const docsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${orgId}/docs`);
+
+    return docsRef.snapshotChanges()
+      .switchMap((result: Array<any>) => {
+        console.log('a', result);
+        return Observable.forkJoin(
+          result.map(doc => {
+            console.log('b', doc);
+            const docVersionsRef: AngularFirestoreCollection<any> = this.afs.collection( `org/${orgId}/docs/${doc.payload.doc.id}/versions`);
+            return docVersionsRef.valueChanges();
+          })
+        );
+      });
+  }
+
   getOrgs$(): Observable<any> {
 
     const orgsRef: AngularFirestoreCollection<any> = this.afs.collection<any>('org');
@@ -221,25 +237,21 @@ export class OrgService {
 
     const docsToDelete = new Array<string>();
 
-    // Delete org documents
-    // this.getAllOrgDocs$(orgId)
-    //   .map(docsArray => {
-    //     return docsArray.map(doc => {
-    //       return this.firestoreService.deleteCollection(`org/${orgId}/docs/${doc.uid}/versions`, 5);
-    //     });
-    //   })
-    //   .subscribe(res => console.log(res));
-
+    // Documents are nested deepest, so we start here
     this.getAllOrgDocs$(orgId)
       .subscribe((docsArray) => {
-        docsArray.forEach((doc: any) => {
-          // console.log(orgId, doc);
-          this.getAllDocVersions$(orgId, doc.id)
-            .subscribe(docVersion => {
-              console.log('ver', docVersion);
-            });
+
+        // set 1st deletion stage
+        const deleteArray = new Array<Promise<any>>();
+        docsArray.forEach(doc => {
+          deleteArray.push(this.deleteDocP(orgId, doc.id));
         });
+
+        Promise.all(deleteArray)
+          .then(() => console.log('deleted all documents'))
+          .catch(err => 'Document deletion problem');
       });
+
 
     // delete org users
     this.getAllOrgUsers$(orgId)
@@ -251,9 +263,9 @@ export class OrgService {
           //   .then()
           //   .catch();
           });
-          this.firestoreService.atomicBatchDelete(docsToDelete)
-            .then(() => console.log('delete completed'))
-            .catch(err => console.log(err));
+          // this.firestoreService.atomicBatchDelete(docsToDelete)
+          //   .then(() => console.log('delete completed'))
+          //   .catch(err => console.log(err));
       });
 
     // this.firestoreService.deleteCollection(`org/${orgId}/docs`, 5)
@@ -292,7 +304,7 @@ export class OrgService {
       });
   }
 
-  getAllOrgDocs$(orgId): Observable<SkDoc[]> {
+  getAllOrgDocs$(orgId): Observable<any> {
     return this.firestoreService.colWithIds$(`org/${orgId}/docs`);
   }
 
@@ -373,6 +385,27 @@ export class OrgService {
       );
 
     // TODO remove from public as well
+  }
+
+  deleteDocP(orgId: string, docId: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${orgId}/docs/${docId}`);
+      const verRef =   `org/${orgId}/docs/${docId}/versions/`;
+      console.log(orgId, docId);
+      this.firestoreService.deleteCollection(verRef, 5)
+        .subscribe(
+          res => console.log(res),
+          err => {
+            console.log(err);
+            reject(err);
+          },
+          () => {
+            docRef.delete()
+              .then(() => resolve())
+              .catch(err => reject(err));
+          }
+        );
+    });
   }
 
   getAllVersions$(docId: string): Observable<any> {
