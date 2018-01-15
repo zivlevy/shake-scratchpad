@@ -1,0 +1,9 @@
+<tree-root #tree [nodes]="nodes" [options]="tree_options">
+  <ng-template #treeNodeTemplate let-node let-index="index">
+    <span *ngIf="node.data.type"><i class="fa fa-file-text"></i></span>
+    <span *ngIf="!node.data.type && node.isExpanded"><i class="fa fa-folder-open-o"></i></span>
+    <span *ngIf="!node.data.type && !node.isExpanded"><i class="fa fa-folder-o"></i></span>
+    <span>{{ node.data.name }}</span>
+  </ng-template>
+
+</tree-root>
