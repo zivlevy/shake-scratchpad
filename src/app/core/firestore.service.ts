@@ -155,7 +155,7 @@ export class FirestoreService {
   atomicBatchDelete(docArray: Array<string>) {
     const batch = firebase.firestore().batch();
 
-    for (let docPath of docArray) {
+    for (const docPath of docArray) {
       batch.delete(firebase.firestore().doc(docPath));
     }
     return batch.commit();
