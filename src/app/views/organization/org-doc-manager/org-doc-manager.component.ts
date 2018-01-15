@@ -64,7 +64,6 @@ export class OrgDocManagerComponent implements OnInit {
   }
 
   deleteDocument() {
-    debugger
     if (this.currentDoc && this.currentDoc.uid) {
       this.orgService.deleteDoc(this.currentDoc.uid);
       this.currentEditData = null;

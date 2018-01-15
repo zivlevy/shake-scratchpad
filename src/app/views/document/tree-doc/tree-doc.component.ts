@@ -110,7 +110,6 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   private deleteItem(tree, node) {
     node.parent.data.nodes.splice(node.index, 1);
-    tree.update();
   }
 
   private getTreeActionMapping(): IActionMapping {
@@ -180,11 +179,13 @@ export class TreeDocComponent implements OnInit, OnChanges {
    *  API
    *****************/
   reset() {
-    this.nodes = [{data: '', nodes: []}];
+    this.nodes = [];
   }
 
   newDoc() {
     this.nodes = [{data: '', nodes: []}];
+    this.tree.update();
+    console.log(this.nodes)
   }
 
   getDoc() {

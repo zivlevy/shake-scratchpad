@@ -21,6 +21,8 @@ import { OrgHomeContentComponent } from './org-home-content/org-home-content.com
 import { OrgDocManagerComponent } from './org-doc-manager/org-doc-manager.component';
 import {DocumentModule} from '../document/document.module';
 import {FroalaEditorModule, FroalaViewModule} from "angular-froala-wysiwyg";
+import { OrgTreeEditComponent } from './org-tree-edit/org-tree-edit.component';
+import {TreeModule} from "angular-tree-component";
 
 @NgModule({
   imports: [
@@ -36,7 +38,8 @@ import {FroalaEditorModule, FroalaViewModule} from "angular-froala-wysiwyg";
     ImageCropperModule,
     FroalaEditorModule,
     FroalaViewModule,
-    FormsModule
+    FormsModule,
+    TreeModule
 
   ],
   declarations: [
@@ -48,6 +51,7 @@ import {FroalaEditorModule, FroalaViewModule} from "angular-froala-wysiwyg";
     OrgAdminOrgComponent,
     OrgHomeContentComponent,
     OrgDocManagerComponent,
+    OrgTreeEditComponent,
   ],
   exports: [OrgHomePageComponent],
   providers: [
