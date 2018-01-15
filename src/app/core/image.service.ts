@@ -50,6 +50,19 @@ export class ImageService {
     });
   }
 
+  deleteOrgLogoP(orgId: string) {
+    const storageRef = firebase.storage().ref();
+    return storageRef.child(`${this.orgImagePath}/${orgId}/logo`)
+      .delete();
+  }
+
+  deleteOrgBannerP(orgId: string) {
+    const storageRef = firebase.storage().ref();
+    console.log('delete banner');
+    return storageRef.child(`${this.orgImagePath}/${orgId}/banner`)
+      .delete();
+  }
+
   uploadOrgBanner(img, orgId: string) {
     return new Promise((resolve, reject) => {
       const storageRef = firebase.storage().ref();
