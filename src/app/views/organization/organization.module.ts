@@ -25,6 +25,9 @@ import { OrgTreeEditComponent } from './org-tree-edit/org-tree-edit.component';
 import {TreeModule} from 'angular-tree-component';
 import {MaterialModule} from '../../material/material.module';
 import {OrgTreeService} from "./org-tree.service";
+import {FlexLayoutModule} from "@angular/flex-layout";
+import { OrgSearchPanelComponent } from './org-search-panel/org-search-panel.component';
+import { OrgSearchResultsComponent } from './org-search-results/org-search-results.component';
 
 @NgModule({
   imports: [
@@ -42,6 +45,7 @@ import {OrgTreeService} from "./org-tree.service";
     FroalaViewModule,
     FormsModule,
     TreeModule,
+    FlexLayoutModule,
     MaterialModule
 
   ],
@@ -55,6 +59,8 @@ import {OrgTreeService} from "./org-tree.service";
     OrgHomeContentComponent,
     OrgDocManagerComponent,
     OrgTreeEditComponent,
+    OrgSearchPanelComponent,
+    OrgSearchResultsComponent,
   ],
   exports: [OrgHomePageComponent],
   providers: [

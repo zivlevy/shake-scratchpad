@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from "@angular/core";
 import {AlgoliaService} from '../../../core/algolia.service';
 import {OrgService} from '../org.service';
 import {Subject} from 'rxjs/Subject';
@@ -15,10 +15,7 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
   orgName: string;
   currentOrg: string;
 
-  searchEdited: boolean;
-  searchPublished: boolean;
-  searchVersions: boolean;
-  searchResults = new Array<AlgoliaDoc>();
+  searchResults: Array<AlgoliaDoc>;
 
   constructor(
     private orgService: OrgService,
@@ -50,33 +47,19 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
         }
       });
 
-    // test TODO remove
-    // this.orgService.getAllDocs$()
-    //   .subscribe(docs => {
-    //     console.log(docs);
-    //     this.orgService.getDoc$(docs[0].uid)
-    //       .subscribe(doc => { console.log( doc); });
-    //   });
-    //
-    // this.orgService.addDoc({ name: 'the name of me'})
-    //   .then(res => {
-    //     console.log(res);
-    //     // this.orgService.deleteDoc(res.id);
-    //
-    //   });
   }
 
-  searchClicked(searchString: string, namesOnly: boolean, edited: boolean, published: boolean, versions: boolean) {
-
-    this.algoliaService.searchDocs(this.currentOrg, this.orgSearchKey, searchString, namesOnly, edited, published, versions)
-      .then((res) => {
-        this.searchResults = res;
-        console.log('result ==', res);
-      })
-      .catch((err) => {
-        console.log('some problem with search results', err);
-      });
-  }
+  // searchClicked(searchString: string, namesOnly: boolean, edited: boolean, published: boolean, versions: boolean) {
+  //
+  //   this.algoliaService.searchDocs(this.currentOrg, this.orgSearchKey, searchString, namesOnly, edited, published, versions)
+  //     .then((res) => {
+  //       this.searchResults1 = res;
+  //       console.log('result ==', res);
+  //     })
+  //     .catch((err) => {
+  //       console.log('some problem with search results', err);
+  //     });
+  // }
 
   ngOnDestroy() {
     // force unsubscribe

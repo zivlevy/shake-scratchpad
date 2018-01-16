@@ -1,7 +1,13 @@
-<sk-org-nav [org]="org" [user]="user"></sk-org-nav>
-<img class="bannerImage" [src]="org.bannerUrl" >
-
 <sk-spinner *ngIf="user.isLoadingOrgUser"></sk-spinner>
-<router-outlet></router-outlet>
+
+<div fxLayout="column">
+  <div>
+    <sk-org-nav [org]="org" [user]="user"></sk-org-nav>
+    <img class="bannerImage" [src]="org.bannerUrl" >
+  </div>
+
+  <router-outlet></router-outlet>
+</div>
+
 
 
