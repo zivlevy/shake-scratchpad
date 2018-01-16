@@ -61,6 +61,10 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
   //     });
   // }
 
+  getSearchResults(event) {
+    this.searchResults = event;
+  }
+
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);

@@ -4,7 +4,7 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="start start" >
     <div style="background-color: #eceeef" fxFlex="20%">
-      <sk-org-search-panel [currentOrg]="currentOrg" [orgSearchKey]="orgSearchKey"></sk-org-search-panel>
+      <sk-org-search-panel [currentOrg]="currentOrg" [orgSearchKey]="orgSearchKey" (searchResults)="getSearchResults($event)"></sk-org-search-panel>
       <!--<div>-->
         <!--<input type="radio" name="searchType" value="names only" checked #namesOnly> Names Only-->
         <!--<input type="radio" name="searchType" value="names & text" #namesAndText> Names & Text-->
@@ -24,11 +24,12 @@
       <!--</div>-->
     </div>
     <div fxFlex="80%">
-      <ul>
-        <li *ngFor="let result of searchResults">
-          {{ result.name }} {{ result.docType}} {{ result.version}}
-        </li>
-      </ul>
+      <sk-org-search-results [searchResults]="searchResults"></sk-org-search-results>
+      <!--<ul>-->
+        <!--<li *ngFor="let result of searchResults">-->
+          <!--{{ result.name }} {{ result.docType}} {{ result.version}}-->
+        <!--</li>-->
+      <!--</ul>-->
     </div>
   </div>
 </div>

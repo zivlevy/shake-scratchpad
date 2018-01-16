@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {AlgoliaService} from '../../../core/algolia.service';
 import {AlgoliaDoc} from '../../../model/algolia-doc';
 
@@ -16,7 +16,7 @@ export class OrgSearchPanelComponent implements OnInit {
   orgSearchKey;
 
   @Output()
-  searchResults = new Array<AlgoliaDoc>();
+  searchResults: EventEmitter<Array<AlgoliaDoc>> = new EventEmitter() ;
 
 
 
@@ -29,7 +29,7 @@ export class OrgSearchPanelComponent implements OnInit {
 
     this.algoliaService.searchDocs(this.currentOrg, this.orgSearchKey, searchString, namesOnly, edited, published, versions)
       .then((res) => {
-        this.searchResults = res;
+        this.searchResults.emit(res);
         console.log('result ==', res);
       })
       .catch((err) => {
