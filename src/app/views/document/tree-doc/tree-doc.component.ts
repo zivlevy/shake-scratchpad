@@ -95,7 +95,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
     }
   }
 
-  private addBrotherItem(tree, node, section?: boolean, above?: boolean) {
+  addBrotherItem(tree, node, section?: boolean, above?: boolean) {
     if (!node.parent.parent) {return; }
     const indexInsert = above ? node.index : node.index + 1;
     if (section) {

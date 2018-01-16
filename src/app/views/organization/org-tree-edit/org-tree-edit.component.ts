@@ -109,7 +109,7 @@ export class OrgTreeEditComponent implements OnInit {
     }
   }
 
-  private addBrotherItem(node, above?: boolean) {
+  addBrotherItem(node, above?: boolean) {
     if (!node.type) {
       const indexInsert = above ? node.index : node.index + 1;
       node.parent.data.children.splice(indexInsert, 0, {name: '', children: []});
