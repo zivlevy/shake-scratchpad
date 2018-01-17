@@ -1,10 +1,10 @@
 import {Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
 import {IActionMapping, ITreeOptions, KEYS, TREE_ACTIONS, TreeNode} from 'angular-tree-component';
-import {OrgTreeService} from '../org-tree.service';
 import 'rxjs/add/operator/take';
 import * as v4 from 'uuid';
 import {SK_ITEM_TYPE, SkItem, SkSection} from '../../../model/document';
 import {OrgTreeNode} from '../../../model/org-tree';
+import {OrgService} from '../org.service';
 
 @Component({
   selector: 'sk-org-tree-edit',
@@ -21,7 +21,7 @@ export class OrgTreeEditComponent implements OnInit {
   tree_options: ITreeOptions;
 
   constructor(private zone: NgZone,
-              private orgTreeService: OrgTreeService) {
+              private orgService: OrgService) {
   }
 
   ngOnInit() {
@@ -35,13 +35,26 @@ export class OrgTreeEditComponent implements OnInit {
         return true;
       },
       allowDrop: (element: any, to: any) => {
-        // console.log(to)
-        return !to.parent.data.type;
+
+        if (to.parent.children) {
+          const itemInParent = to.parent.children.find(item =>
+          {
+            console.log(item);
+            return item.data.docId === element.data.docId;
+          });
+          if (itemInParent && itemInParent !== element) {
+            return false;
+          }
+        }
+        return !to.parent.data.isDoc;
       }
     };
 
-    this.orgTreeService.getOrgTreeFromJson$()
-      .subscribe( orgTree => this.nodes = orgTree);
+    this.orgService.getOrgTreeFromJson$()
+      .subscribe( orgTree => {
+        console.log(orgTree);
+        this.nodes = orgTree;
+      });
   }
 
   private getTreeActionMapping(): IActionMapping {
@@ -90,9 +103,16 @@ export class OrgTreeEditComponent implements OnInit {
 
   // called when a node was moved in the tree
   moveNode(ev) {
-    console.log(this.nodes[0]);
-    const tree = this.makeTempDoc(this.nodes[0]);
-    this.orgTreeService.saveOrgTree(tree);
+    console.log(ev);
+  }
+
+  copyNode(ev) {
+    console.log(ev);
+  }
+
+  saveTree() {
+    const tree = this.orgService.makeJsonTree(this.tree.treeModel.roots);
+    this.orgService.saveOrgTree(tree);
   }
 
 
@@ -122,53 +142,16 @@ export class OrgTreeEditComponent implements OnInit {
     this.tree.treeModel.update();
   }
 
-  /******************
-   *  API
-   *****************/
-  reset() {
-    this.nodes = [{name: '', children: []}];
-  }
+  // /******************
+  //  *  API
+  //  *****************/
+  // reset() {
+  //   this.nodes = [{name: '', children: []}];
+  // }
+  //
+  // newTree() {
+  //   this.nodes = [{name: '', children: []}];
+  // }
 
-  newTree() {
-    this.nodes = [{name: '', children: []}];
-  }
-
-  getTree() {
-    // create saved representation of doc
-    // const docToSave = this.makeTempDoc(this.nodes[0]);
-    //
-    // // add doc name from root node
-    // return docToSave;
-
-  }
-
-  /*******************
-   * build JSON tree
-   ******************/
-
-  private makeTempDoc = (sk): string => {
-    const roots = this.tree.treeModel.roots;
-    const result = [];
-    roots.forEach( root => result.push(this.treeNodeToSkSection(root))) ;
-    return JSON.stringify(result);
-  }
-
-  private treeNodeToSkSection(treeNode: TreeNode) {
-      const node: OrgTreeNode = {};
-      node.name = treeNode.data.name;
-      if (treeNode.children) {
-        node.children = [];
-        treeNode.children.forEach(childNode => {
-          node.children.push(this.treeNodeToSkSection(childNode));
-        });
-      }
-      if (treeNode.data.isDoc) {
-        node.docId = treeNode.data.docId;
-        node.isDoc = true;
-      } else {
-        node.isDoc = false;
-      }
-      return node;
-    }
 
 }

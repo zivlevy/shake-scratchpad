@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AlgoliaService} from '../../../core/algolia.service';
 import {AlgoliaDoc} from '../../../model/algolia-doc';
-import {OrgService} from "../org.service";
+import {OrgService} from '../org.service';
 
 @Component({
   selector: 'sk-org-search-panel',

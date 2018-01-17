@@ -14,6 +14,8 @@ import * as firebase from 'firebase';
 import {SkDoc, SkDocData} from '../../model/document';
 import {FirestoreService} from '../../core/firestore.service';
 import {ImageService} from '../../core/image.service';
+import {TreeNode} from 'angular-tree-component';
+import {OrgTreeNode} from '../../model/org-tree';
 
 @Injectable()
 export class OrgService {
@@ -29,7 +31,8 @@ export class OrgService {
               private afAuth: AngularFireAuth,
               private router: Router,
               private imageService: ImageService,
-              private firestoreService: FirestoreService) {
+              private firestoreService: FirestoreService,
+              private fs: FirestoreService) {
 
     this.router.events
       .filter((event) => {
@@ -370,6 +373,7 @@ export class OrgService {
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
     return docsRef.valueChanges().take(1).toPromise()
       .then(res => {
+        if (res.name !== editVersion.name) { this.editDocNameInTree(uid, editVersion.name); }
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
         const nameObj = res.publishVersion ? {} : {name: editVersion.name};
         editVersion.createdBy = this.currentSkUser.uid;
@@ -416,7 +420,9 @@ export class OrgService {
     const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
     const verRef = `org/${this.localCurrentOrg}/docs/${docId}/versions/`;
     this.firestoreService.deleteCollection(verRef, 5)
-      .subscribe(res => console.log(res), null, () => {docRef.delete(); }
+      .subscribe(res => console.log(res), null, () => {
+        this.deleteDocFromTree(docId);
+        docRef.delete(); }
       );
 
     // TODO remove from public as well
@@ -454,6 +460,149 @@ export class OrgService {
         });
       });
   }
+
+  /****************************
+   * Org Tree
+   ***************************/
+
+  /**********************************
+   * build JSON tree from screen tree
+   *********************************/
+
+  makeJsonTree = (roots: Array<any>): string => {
+    const result = [];
+    roots.forEach( root => result.push(this.treeNodeToDBObject(root))) ;
+    return JSON.stringify(result);
+  }
+
+  private treeNodeToDBObject(treeNode: TreeNode) {
+    const node: OrgTreeNode = {};
+    node.name = treeNode.data.name;
+    if (treeNode.children) {
+      node.children = [];
+      treeNode.children.forEach(childNode => {
+        node.children.push(this.treeNodeToDBObject(childNode));
+      });
+    }
+    if (treeNode.data.isDoc) {
+      console.log(treeNode)
+      node.id = treeNode.data.id;
+      node.docId = treeNode.data.docId;
+      node.isDoc = true;
+    } else {
+      node.isDoc = false;
+    }
+    return node;
+  }
+
+  /**********************************
+   * build JSON tree from memory tree
+   *********************************/
+
+  makeJsonTreeFromMemory = (roots: Array<any>): string => {
+    const result = [];
+    roots.forEach( root => result.push(this.treeNodeToDBObjectFromMemory(root))) ;
+    return JSON.stringify(result);
+  }
+
+  private treeNodeToDBObjectFromMemory(treeNode: any) {
+    const node: OrgTreeNode = {};
+    node.name = treeNode.name;
+    if (treeNode.children) {
+      node.children = [];
+      treeNode.children.forEach(childNode => {
+        node.children.push(this.treeNodeToDBObjectFromMemory(childNode));
+      });
+    }
+    if (treeNode.isDoc) {
+      node.id = treeNode.id;
+      node.docId = treeNode.docId;
+      node.isDoc = true;
+    } else {
+      node.isDoc = false;
+    }
+    return node;
+  }
+
+  /***************************************/
+
+  getOrgTreeFromJson$() {
+    return this.fs.doc$(`org/${this.localCurrentOrg}`)
+      .map((result: any) => {
+        return JSON.parse(result.orgTreeJson);
+      });
+  }
+
+  getTreeOrgDocs$() {
+    return this.getAllDocs$()
+      .switchMap(docs => {
+        const freeDocs = [];
+        docs.forEach((doc: SkDoc) => {
+          const docItem = {
+            id: doc.uid,
+            name: doc.name,
+            isDoc: true,
+            docId: doc.uid
+          };
+          console.log(docItem)
+          freeDocs.push(docItem);
+        });
+        return Observable.of(freeDocs);
+
+      });
+  }
+
+
+  saveOrgTree(orgTreeJson: string) {
+    this.fs.update(`org/${this.localCurrentOrg}`, {orgTreeJson});
+  }
+
+
+  // handle manuel doc removal from tree
+  deleteDocFromTree( docId: string) {
+    this.getOrgTreeFromJson$()
+      .take(1)
+      .subscribe( tree => {
+        tree.forEach((item, index, array ) => {
+          this.deleteOrgDocRecurtion(item, index, array, docId);
+        });
+        const treeJson = this.makeJsonTreeFromMemory(tree);
+        this.saveOrgTree(treeJson);
+      });
+  }
+
+  private deleteOrgDocRecurtion( treeNode, index, array, docId) {
+    if (treeNode.children) {
+      treeNode.children.forEach( (child, childIndex, childParent) => this.deleteOrgDocRecurtion(child, childIndex, childParent, docId));
+    } else {
+      if (treeNode.id === docId) {
+        array.splice(index, 1 );
+      }
+    }
+  }
+
+  // handle manuel change of tree doc name
+  editDocNameInTree( docId: string, newDocName: string ) {
+    this.getOrgTreeFromJson$()
+      .take(1)
+      .subscribe( tree => {
+        tree.forEach((item, index, array ) => {
+          this.editOrgDocRecurtion(item, index, array, docId, newDocName);
+        });
+        const treeJson = this.makeJsonTreeFromMemory(tree);
+        this.saveOrgTree(treeJson);
+      });
+  }
+  private editOrgDocRecurtion( treeNode, index, array, docId, newDocName) {
+    if (treeNode.children) {
+      treeNode.children.forEach( (child, childIndex, childParent) => this.editOrgDocRecurtion(child, childIndex, childParent, docId, newDocName));
+    } else {
+      if (treeNode.id === docId) {
+        treeNode.name = newDocName;
+      }
+    }
+  }
+
 
 }
 

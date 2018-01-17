@@ -24,11 +24,12 @@ import {FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
 import { OrgTreeEditComponent } from './org-tree-edit/org-tree-edit.component';
 import {TreeModule} from 'angular-tree-component';
 import {MaterialModule} from '../../material/material.module';
-import {OrgTreeService} from "./org-tree.service";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import { OrgSearchPanelComponent } from './org-search-panel/org-search-panel.component';
 import { OrgSearchResultsComponent } from './org-search-results/org-search-results.component';
 import {OrgMessagesComponent} from "./org-messages/org-messages.component";
+import { OrgTreeEditFreeDocsComponent } from './org-tree-edit-free-docs/org-tree-edit-free-docs.component';
+import { OrgTreeEditManagerComponent } from './org-tree-edit-manager/org-tree-edit-manager.component';
 
 @NgModule({
   imports: [
@@ -62,14 +63,15 @@ import {OrgMessagesComponent} from "./org-messages/org-messages.component";
     OrgTreeEditComponent,
     OrgSearchPanelComponent,
     OrgSearchResultsComponent,
-    OrgMessagesComponent
+    OrgMessagesComponent,
+    OrgTreeEditFreeDocsComponent,
+    OrgTreeEditManagerComponent
   ],
   exports: [OrgHomePageComponent],
   providers: [
     OrgGuard,
     OrgService,
     AlgoliaService,
-    OrgTreeService
   ]
 })
 export class OrganizationModule {
