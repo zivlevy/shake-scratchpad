@@ -1,0 +1,9 @@
+<tree-root #tree [nodes]="nodes" [options]="tree_options">
+
+  <tree-root #tree [nodes]="nodes" [options]="tree_options" >
+    <ng-template #treeNodeTemplate let-node let-index="index">
+        <span fxFlex="20px"><i class="fa fa-file-text"></i></span>
+        <span fxFlex="calc(100% - 20px">{{node.data.name}}</span>
+    </ng-template>
+
+  </tree-root>
