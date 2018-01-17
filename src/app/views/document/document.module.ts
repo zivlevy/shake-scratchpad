@@ -10,6 +10,7 @@ import {MaterialModule} from '../../material/material.module';
 import {DocEditorComponent} from './doc-editor/doc-editor.component';
 import { TreeDocComponent } from './tree-doc/tree-doc.component';
 import {TreeModule} from "angular-tree-component";
+import { DocViewerComponent } from './doc-viewer/doc-viewer.component';
 
 @NgModule({
   imports: [
@@ -26,9 +27,11 @@ import {TreeModule} from "angular-tree-component";
     TreeViewComponent,
     DocEditorComponent,
     TreeDocComponent,
+    DocViewerComponent,
   ],
   exports: [TreeViewComponent,
     DocEditorComponent,
+    DocViewerComponent,
     TreeDocComponent]
 })
 export class DocumentModule {

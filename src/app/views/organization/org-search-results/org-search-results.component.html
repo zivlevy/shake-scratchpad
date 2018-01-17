@@ -1,5 +1,9 @@
+<div class="text-center">
+  <H1> Search Results </H1>
+</div>
+
 <ul>
-  <li *ngFor="let result of searchResults">
+  <li *ngFor="let result of searchResults" (click)="resultClicked(result)">
     {{ result.name }} {{ result.docType}} {{ result.version}}
   </li>
 </ul>

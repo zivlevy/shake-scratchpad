@@ -1,3 +1,5 @@
+<sk-org-tree-edit-manager></sk-org-tree-edit-manager>
+
 <div *ngFor="let doc of orgDocs$ | async"
       (click)="docSelected(doc)">
   {{doc.name}}

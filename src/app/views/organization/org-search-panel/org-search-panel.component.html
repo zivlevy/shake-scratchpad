@@ -15,12 +15,5 @@
   <input id="searchBox" #searchBox>
   <button (click)="searchClicked(searchBox.value, namesOnly.checked, edited.checked, published.checked, versions.checked)">Search</button>
 </div>
-<br>
-<br>
-<div>
-  <h4>Perliminary Tree</h4>
-</div>
-<div *ngFor="let doc of orgDocs$ | async"
-     (click)="docSelected(doc)">
-  {{doc.name}}
-</div>
+<hr>
+<sk-org-tree-view (selectedDoc)="getSelectedDoc($event)"></sk-org-tree-view>
