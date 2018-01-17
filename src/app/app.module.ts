@@ -35,6 +35,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import {MaterialModule} from "./material/material.module";
 import {AdminModule} from "./views/admin/admin.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import { OrgMessagesComponent } from './views/organization/org-messages/org-messages.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     NotFoundComponent,
     LoginComponent,
     SignupComponent,
-    ScrpComponent
+    ScrpComponent,
   ],
   imports: [
     FroalaEditorModule.forRoot(),

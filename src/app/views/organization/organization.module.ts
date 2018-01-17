@@ -28,6 +28,7 @@ import {OrgTreeService} from "./org-tree.service";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import { OrgSearchPanelComponent } from './org-search-panel/org-search-panel.component';
 import { OrgSearchResultsComponent } from './org-search-results/org-search-results.component';
+import {OrgMessagesComponent} from "./org-messages/org-messages.component";
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import { OrgSearchResultsComponent } from './org-search-results/org-search-resul
     OrgTreeEditComponent,
     OrgSearchPanelComponent,
     OrgSearchResultsComponent,
+    OrgMessagesComponent
   ],
   exports: [OrgHomePageComponent],
   providers: [

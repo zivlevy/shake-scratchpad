@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {AlgoliaService} from '../../../core/algolia.service';
 import {AlgoliaDoc} from '../../../model/algolia-doc';
+import {OrgService} from "../org.service";
 
 @Component({
   selector: 'sk-org-search-panel',
@@ -17,12 +18,16 @@ export class OrgSearchPanelComponent implements OnInit {
 
   @Output()
   searchResults: EventEmitter<Array<AlgoliaDoc>> = new EventEmitter() ;
+  orgDocs$;
 
 
 
-  constructor(private algoliaService: AlgoliaService) { }
+  constructor(private algoliaService: AlgoliaService,
+              private orgService: OrgService) { }
 
   ngOnInit() {
+    this.orgDocs$ = this.orgService.getAllDocs$();
+
   }
 
   searchClicked(searchString: string, namesOnly: boolean, edited: boolean, published: boolean, versions: boolean) {

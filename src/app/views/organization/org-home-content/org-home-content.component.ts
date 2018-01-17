@@ -16,6 +16,7 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
   currentOrg: string;
 
   searchResults: Array<AlgoliaDoc>;
+  maindisplay: string;
 
   constructor(
     private orgService: OrgService,
@@ -47,6 +48,8 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.maindisplay = 'messages';
+
   }
 
   // searchClicked(searchString: string, namesOnly: boolean, edited: boolean, published: boolean, versions: boolean) {
@@ -62,6 +65,7 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
   // }
 
   getSearchResults(event) {
+    this.maindisplay = 'results';
     this.searchResults = event;
   }
 

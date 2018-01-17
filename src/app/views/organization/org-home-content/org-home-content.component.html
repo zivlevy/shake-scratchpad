@@ -24,7 +24,8 @@
       <!--</div>-->
     </div>
     <div fxFlex="80%">
-      <sk-org-search-results [searchResults]="searchResults"></sk-org-search-results>
+      <sk-org-messages *ngIf="maindisplay==='messages'"></sk-org-messages>
+      <sk-org-search-results *ngIf="maindisplay==='results'" [searchResults]="searchResults"></sk-org-search-results>
       <!--<ul>-->
         <!--<li *ngFor="let result of searchResults">-->
           <!--{{ result.name }} {{ result.docType}} {{ result.version}}-->
