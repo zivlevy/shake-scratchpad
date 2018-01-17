@@ -4,6 +4,7 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/merge';
+import 'rxjs/add/observable/combineLatest';
 import {ChildActivationEnd, Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
@@ -64,7 +65,6 @@ export class OrgService {
   }
 
   private setOrganization(orgID: string) {
-    console.log('setting current org to:' + orgID);
     this.localCurrentOrg = orgID;
     this.currentOrg$.next(orgID);
 
@@ -123,7 +123,6 @@ export class OrgService {
         if (!user) {
           return Observable.of(null);
         } else {
-          // console.log(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
           const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
           return userRef.valueChanges();
         }
@@ -168,7 +167,6 @@ export class OrgService {
         const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}/publicData/info`);
         return document.valueChanges()
           .map(orgData => {
-            console.log('here');
             if (orgData) {
               return orgData;
             } else {
@@ -485,7 +483,6 @@ export class OrgService {
       });
     }
     if (treeNode.data.isDoc) {
-      console.log(treeNode)
       node.id = treeNode.data.id;
       node.docId = treeNode.data.docId;
       node.isDoc = true;
@@ -534,21 +531,23 @@ export class OrgService {
   }
 
   getTreeOrgDocs$() {
-    return this.getAllDocs$()
-      .switchMap(docs => {
+    return Observable.combineLatest(this.getAllDocs$(), this.getOrgTreeFromJson$())
+      .switchMap(res => {
+        const docs = res[0];
+        const orgTree = JSON.stringify(res[1]);
         const freeDocs = [];
         docs.forEach((doc: SkDoc) => {
-          const docItem = {
-            id: doc.uid,
-            name: doc.name,
-            isDoc: true,
-            docId: doc.uid
-          };
-          console.log(docItem)
-          freeDocs.push(docItem);
+          if (orgTree.indexOf(doc.uid) === -1) {
+            const docItem = {
+              id: doc.uid,
+              name: doc.name,
+              isDoc: true,
+              docId: doc.uid
+            };
+            freeDocs.push(docItem);
+          }
         });
         return Observable.of(freeDocs);
-
       });
   }
 
@@ -602,7 +601,5 @@ export class OrgService {
       }
     }
   }
-
-
 }
 

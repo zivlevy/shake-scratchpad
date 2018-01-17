@@ -1,5 +1,6 @@
 <button class="btn btn-sm btn-success" (click)="saveTree()">Save</button>
-
+<input id="filter" #filter (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="filter nodes"/>
+<button (click)="tree.treeModel.clearFilter()">Clear Filter</button>
 <tree-root #tree [nodes]="nodes" [options]="tree_options" (moveNode)="moveNode($event)" (copyNode)="copyNode($event)">
   <ng-template #treeNodeTemplate let-node let-index="index">
     <div (click)="treeEditorClick($event, node)" fxLayout="row">

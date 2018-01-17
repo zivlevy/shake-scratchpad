@@ -37,7 +37,6 @@ export class OrgTreeEditFreeDocsComponent implements OnInit, OnDestroy {
     this.orgService.getTreeOrgDocs$()
       .takeUntil(this.destroy$)
       .subscribe( docs => {
-        console.log( docs);
         this.nodes = docs;
       });
   }
