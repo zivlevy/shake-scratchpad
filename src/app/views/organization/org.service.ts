@@ -427,6 +427,8 @@ export class OrgService {
   }
 
   deleteDocP(orgId: string, docId: string): Promise<any> {
+
+    // TODO add remove from tree
     return new Promise((resolve, reject) => {
       const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${orgId}/docs/${docId}`);
       const verRef =   `org/${orgId}/docs/${docId}/versions/`;
