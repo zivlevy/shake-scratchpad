@@ -10,17 +10,21 @@ import { NavUserComponent } from './nav-user/nav-user.component';
 import {BsDropdownModule} from 'ngx-bootstrap';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {CoreModule} from '../core/core.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    CoreModule,
     ReactiveFormsModule,
     FormsModule,
     TranslateModule,
     RouterModule,
     BsDropdownModule,
     NgxSpinnerModule,
-    ImageCropperModule
+    ImageCropperModule,
+    FlexLayoutModule,
 
   ],
   declarations: [

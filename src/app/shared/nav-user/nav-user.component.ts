@@ -3,6 +3,7 @@ import {AuthService} from '../../core/auth.service';
 import {Subject} from 'rxjs/Subject';
 import {Router} from '@angular/router';
 import {LanguageService} from '../../core/language.service';
+import {UserService} from '../../core/user.service';
 
 @Component({
   selector: 'sk-nav-user',
@@ -16,10 +17,14 @@ export class NavUserComponent implements OnInit, OnDestroy {
   currentLng;
   isAuthenticated: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  myOrgs: Array<any> = new Array<any>();
 
   constructor(private authService: AuthService,
               private router: Router,
-              public lngService: LanguageService) {
+              public lngService: LanguageService,
+              private userService: UserService) {}
+
+  ngOnInit() {
     this.lngService.getLanguadge$()
       .takeUntil(this.destroy$)
       .subscribe(lng => this.currentLng = lng );
@@ -36,17 +41,23 @@ export class NavUserComponent implements OnInit, OnDestroy {
 
     this.authService.getSkUser$()
       .takeUntil(this.destroy$)
-      .subscribe(user => this.currentSkUser = user);
+      .subscribe(user => {
+        this.currentSkUser = user;
+        this.userService.getUserOrgs$(user.uid)
+          .subscribe(res => {
+            res.forEach(orgIdObj => this.myOrgs.push(orgIdObj.id));
+          });
+      });
   }
-
 
   logout() {
     console.log(this.logoutRoute);
     this.router.navigate([this.logoutRoute]);
     this.authService.logout();
-
   }
-  ngOnInit() {
+
+  orgClicked(orgId: string) {
+    this.router.navigate(['org/' + orgId]);
   }
 
   ngOnDestroy() {
