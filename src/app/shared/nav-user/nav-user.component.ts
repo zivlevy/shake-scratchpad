@@ -4,6 +4,7 @@ import {Subject} from 'rxjs/Subject';
 import {Router} from '@angular/router';
 import {LanguageService} from '../../core/language.service';
 import {UserService} from '../../core/user.service';
+import {OrgService} from "../../views/organization/org.service";
 
 @Component({
   selector: 'sk-nav-user',
@@ -22,6 +23,7 @@ export class NavUserComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService,
               private router: Router,
               public lngService: LanguageService,
+              private orgService: OrgService,
               private userService: UserService) {}
 
   ngOnInit() {
@@ -45,7 +47,15 @@ export class NavUserComponent implements OnInit, OnDestroy {
         this.currentSkUser = user;
         this.userService.getUserOrgs$(user.uid)
           .subscribe(res => {
-            res.forEach(orgIdObj => this.myOrgs.push(orgIdObj.id));
+            res.forEach(orgIdObj => {
+              this.orgService.getOrgNameP(orgIdObj.id)
+                .then(orgName => {
+                  this.myOrgs.push({
+                    'id': orgIdObj.id,
+                    'name': orgName
+                  });
+                });
+            });
           });
       });
   }

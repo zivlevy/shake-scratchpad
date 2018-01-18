@@ -16,7 +16,7 @@
       <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a></li>
       <li class="divider dropdown-divider"></li>
       <li class="dropdown-header">My organisations</li>
-      <li class="dropdown-item" *ngFor="let orgId of myOrgs" (click)="orgClicked(orgId)">{{orgId}}</li>
+      <li class="dropdown-item" *ngFor="let org of myOrgs" (click)="orgClicked(org.id)">{{org.name}}</li>
     </ul>
   </div>
 </div>
@@ -38,7 +38,7 @@
       <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a></li>
       <li class="divider dropdown-divider"></li>
       <li class="dropdown-header">My organisations</li>
-      <li class="dropdown-item" *ngFor="let orgId of myOrgs" (click)="orgClicked(orgId)">{{orgId}}</li>
+      <li class="dropdown-item" *ngFor="let org of myOrgs" (click)="orgClicked(org.id)">{{org.name}}</li>
     </ul>
   </div>
 

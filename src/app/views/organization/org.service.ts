@@ -214,6 +214,17 @@ export class OrgService {
   }
 
   // Written by Ran
+
+  getOrgNameP(orgId: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
+      document.valueChanges()
+        .take(1)
+        .subscribe(res => {
+          resolve(res.orgName);
+        });
+    });
+  }
   setOrgPublicData(orgId, newData) {
     const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
     return document.update(newData);
@@ -261,7 +272,6 @@ export class OrgService {
   }
 
     deleteOrg(orgId: string) {
-    // TODO handle collections removal
     // Algolia data deletion is performed by the cloud function triggered by this org deletion
 
     const deleteArray = new Array<Promise<any>>();
