@@ -12,7 +12,6 @@ export class AppComponent implements OnInit {
 
 
     rtl = true;
-    param = {value: 'world'};
     content;
     constructor(private translate: TranslateService,
                 private authService: AuthService,
