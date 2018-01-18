@@ -3,6 +3,7 @@ import {AlgoliaService} from '../../../core/algolia.service';
 import {OrgService} from '../org.service';
 import {Subject} from 'rxjs/Subject';
 import {AlgoliaDoc} from "../../../model/algolia-doc";
+import {SkDoc} from "../../../model/document";
 
 @Component({
   selector: 'sk-org-home-content',
@@ -16,7 +17,8 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
   currentOrg: string;
 
   searchResults: Array<AlgoliaDoc>;
-  maindisplay: string;
+  mainDisplay: string;
+  selectedDoc: SkDoc;
 
   constructor(
     private orgService: OrgService,
@@ -48,7 +50,7 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.maindisplay = 'messages';
+    this.mainDisplay = 'messages';
 
   }
 
@@ -65,10 +67,15 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
   // }
 
   getSearchResults(event) {
-    this.maindisplay = 'results';
+    this.mainDisplay = 'results';
     this.searchResults = event;
   }
 
+  getSelectedDoc(event) {
+    this.mainDisplay = 'doc';
+    this.selectedDoc = event;
+
+  }
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);

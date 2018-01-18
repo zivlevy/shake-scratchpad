@@ -4,33 +4,18 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="start start" >
     <div style="background-color: #eceeef" fxFlex="20%">
-      <sk-org-search-panel [currentOrg]="currentOrg" [orgSearchKey]="orgSearchKey" (searchResults)="getSearchResults($event)"></sk-org-search-panel>
-      <!--<div>-->
-        <!--<input type="radio" name="searchType" value="names only" checked #namesOnly> Names Only-->
-        <!--<input type="radio" name="searchType" value="names & text" #namesAndText> Names & Text-->
-      <!--</div>-->
-      <!--<div>-->
-        <!--<input type="checkbox" name="edited" value="edited" #edited>docs in Edit-->
-      <!--</div>-->
-      <!--<div>-->
-        <!--<input type="checkbox" name="published" value="published" checked #published>published docs-->
-      <!--</div>-->
-      <!--<div>-->
-        <!--<input type="checkbox" name="versions" value="versions" #versions>older versions-->
-      <!--</div>-->
-      <!--<div>-->
-        <!--<input id="searchBox" #searchBox>-->
-        <!--<button (click)="searchClicked(searchBox.value, namesOnly.checked, edited.checked, published.checked, versions.checked)">Search</button>-->
-      <!--</div>-->
+      <sk-org-search-panel [currentOrg]="currentOrg" [orgSearchKey]="orgSearchKey"
+                           (searchResults)="getSearchResults($event)"
+                           (selectedDoc)="getSelectedDoc($event)"
+      ></sk-org-search-panel>
     </div>
     <div fxFlex="80%">
-      <sk-org-messages *ngIf="maindisplay==='messages'"></sk-org-messages>
-      <sk-org-search-results *ngIf="maindisplay==='results'" [searchResults]="searchResults"></sk-org-search-results>
-      <!--<ul>-->
-        <!--<li *ngFor="let result of searchResults">-->
-          <!--{{ result.name }} {{ result.docType}} {{ result.version}}-->
-        <!--</li>-->
-      <!--</ul>-->
+      <sk-org-messages *ngIf="mainDisplay==='messages'"></sk-org-messages>
+      <sk-org-search-results *ngIf="mainDisplay==='results'"
+                             [searchResults]="searchResults"
+                             (selectedDoc)="getSelectedDoc($event)"
+      ></sk-org-search-results>
+      <sk-doc-viewer *ngIf="mainDisplay==='doc'" [doc]="selectedDoc"></sk-doc-viewer>
     </div>
   </div>
 </div>

@@ -136,7 +136,8 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   private editorOptions(node) {
     return {
-      key: 'flhg1ifwftfB-13jbH-9miA11iycwqufsvhiF3xsp==',
+      // key: 'flhg1ifwftfB-13jbH-9miA11iycwqufsvhiF3xsp==',
+      key: 'lvnfclG5eiyyd1bz==',
       fontSizeSelection: true,
       multiLine: !node.children,
       fontSize: ['8', '10', '12', '14', '18', '20', '24'],

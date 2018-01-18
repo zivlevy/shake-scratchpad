@@ -36,6 +36,7 @@ import {MaterialModule} from "./material/material.module";
 import {AdminModule} from "./views/admin/admin.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import { OrgMessagesComponent } from './views/organization/org-messages/org-messages.component';
+import { OrgTreeViewComponent } from './views/organization/org-tree-view/org-tree-view.component';
 
 @NgModule({
   declarations: [

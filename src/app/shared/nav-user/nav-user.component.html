@@ -1,4 +1,4 @@
-<!-- User drop down-->
+<!-- User drop down - English-->
 <div *ngIf="currentLng === 'en'">
   <div class="btn-group" dropdown *ngIf="currentAuthUser">
     <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
@@ -13,11 +13,15 @@
     <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu">
       <li role="menuitem" [routerLink]="'user-profile'"><a class="dropdown-item">Profile</a></li>
       <li class="divider dropdown-divider"></li>
-      <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a>
-      </li>
+      <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a></li>
+      <li class="divider dropdown-divider"></li>
+      <li class="dropdown-header">My organisations</li>
+      <li class="dropdown-item" *ngFor="let org of myOrgs" (click)="orgClicked(org.id)">{{org.name}}</li>
     </ul>
   </div>
 </div>
+
+<!-- User drop down - Hebrew-->
 <div *ngIf="currentLng === 'he'">
   <div class="btn-group" dropdown *ngIf="currentAuthUser">
     <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
@@ -31,8 +35,10 @@
     <ul *dropdownMenu class="dropdown-menu dropdown-menu-left" role="menu">
       <li role="menuitem" [routerLink]="'user-profile'"><a class="dropdown-item">Profile</a></li>
       <li class="divider dropdown-divider"></li>
-      <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a>
-      </li>
+      <li role="menuitem"><a class="dropdown-item" (click)="logout()">Log out</a></li>
+      <li class="divider dropdown-divider"></li>
+      <li class="dropdown-header">My organisations</li>
+      <li class="dropdown-item" *ngFor="let org of myOrgs" (click)="orgClicked(org.id)">{{org.name}}</li>
     </ul>
   </div>
 

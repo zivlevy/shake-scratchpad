@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AlgoliaService} from '../../../core/algolia.service';
 import {AlgoliaDoc} from '../../../model/algolia-doc';
 import {OrgService} from '../org.service';
+import {SkDoc} from "../../../model/document";
 
 @Component({
   selector: 'sk-org-search-panel',
@@ -18,6 +19,10 @@ export class OrgSearchPanelComponent implements OnInit {
 
   @Output()
   searchResults: EventEmitter<Array<AlgoliaDoc>> = new EventEmitter() ;
+
+  @Output()
+  selectedDoc: EventEmitter<SkDoc> = new EventEmitter() ;
+
   orgDocs$;
 
 
@@ -40,5 +45,9 @@ export class OrgSearchPanelComponent implements OnInit {
       .catch((err) => {
         console.log('some problem with search results', err);
       });
+  }
+
+  getSelectedDoc(event) {
+    this.selectedDoc.emit(event);
   }
 }
