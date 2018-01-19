@@ -41,6 +41,7 @@ export enum SK_ITEM_TYPE {
 export class SkSection implements Serializable<SkSection> {
   nodes: Array<SkSection | SkItem> = [];
   data: string;
+  numbering?: string;
   constructor (data?: string) {
     if (data) { this.data = data; }
   }
@@ -62,6 +63,7 @@ export class SkSection implements Serializable<SkSection> {
 
 export class SkItem implements Serializable<SkItem>  {
   data: string = '';
+  numbering?: string;
   constructor (public type: SK_ITEM_TYPE = SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, data?: string) {
     if (data) { this.data = data; }
   }

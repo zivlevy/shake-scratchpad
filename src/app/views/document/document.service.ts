@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SkItem, SkSection} from '../../model/document';
+import {SkDocData, SkItem, SkSection} from '../../model/document';
 
 @Injectable()
 export class DocumentService {
@@ -12,15 +12,22 @@ export class DocumentService {
     const docTree = new SkSection().deserialize(docObject);
     console.log(docTree);
     const resultArry = [];
-    return this.makeTreeList(docTree, resultArry);
+    return this.makeTreeList(docTree, resultArry, docTree, 0);
   }
 
 
-  makeTreeList(docTreeItem: SkSection | SkItem, resultArray) {
+  makeTreeList(docTreeItem: SkSection | SkItem, resultArray, parent: SkSection, index) {
     if (docTreeItem instanceof SkSection) {
+      if (docTreeItem !== parent) {
+        docTreeItem.numbering = parent.numbering ?  `${parent.numbering}.${index}` : index;
+      }
       resultArray.push(docTreeItem);
-      docTreeItem.nodes.forEach(item => {
-        this.makeTreeList(item, resultArray);
+      index = 0;
+      docTreeItem.nodes.forEach((item) => {
+        if (item instanceof SkSection) {
+          index ++;
+        }
+        this.makeTreeList(item, resultArray, docTreeItem, index);
       });
     } else {
       resultArray.push(docTreeItem);

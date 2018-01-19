@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {SkDoc, SkDocData, SkItem, SkSection, SK_ITEM_TYPE} from '../../../model/document';
-import {DocumentService} from "../document.service";
+import {DocumentService} from '../document.service';
 
 @Component({
   selector: 'sk-doc-viewer',
@@ -9,8 +9,9 @@ import {DocumentService} from "../document.service";
 })
 export class DocViewerComponent implements OnInit, OnChanges {
   @Input() isRTL: boolean;
+  @Input() isNumbering: boolean = true;
   @Input() docJson: string;
-  docList: Array<SkSection | SkItem>
+  docList: Array<SkSection | SkItem>;
   constructor(private docService: DocumentService) { }
 
   ngOnInit() {

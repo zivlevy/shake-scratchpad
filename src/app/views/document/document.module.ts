@@ -12,6 +12,7 @@ import {TreeModule} from 'angular-tree-component';
 import { DocViewerComponent } from './doc-viewer/doc-viewer.component';
 import {DocumentService} from "./document.service";
 import {CoreModule} from "../../core/core.module";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import {CoreModule} from "../../core/core.module";
     FroalaViewModule,
     MaterialModule,
     TreeModule,
-    CoreModule
+    CoreModule,
+    FlexLayoutModule
   ],
   declarations: [
     TreeViewComponent,
