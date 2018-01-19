@@ -21,7 +21,7 @@ const routes: Routes = [
               {path: 'login', component: LoginComponent},
               {path: 'register', component: SignupComponent},
               {path: 'user-profile', component: UserProfileComponent},
-              {path: 'admin-users', component: OrgAdminUsersComponent},
+              {path: 'org-admin-users', component: OrgAdminUsersComponent},
               {path: 'org-admin', component: OrgAdminOrgComponent},
               {path: 'doc-manage', component: OrgDocManagerComponent},
             ]},
