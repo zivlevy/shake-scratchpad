@@ -8,8 +8,6 @@ import {OrgAdminOrgComponent} from '../organization/org-admin-org/org-admin-org.
 import {HomeContentComponent} from './home-content/home-content.component';
 import {LoginComponent} from '../../shared/login/login.component';
 import {SignupComponent} from '../../shared/signup/signup.component';
-import {AdminOrgsManagementComponent} from "../admin/admin-orgs-management/admin-orgs-management.component";
-import {AdminUsersManagementComponent} from "../admin/admin-users-management/admin-users-management.component";
 
 
 // const routes: Routes = [
@@ -31,8 +29,6 @@ const routes: Routes = [
         {path: 'add-org', component: AddOrgComponent},
         {path: 'org-admin', component: OrgAdminOrgComponent},
         {path: 'org-admin-users', component: OrgAdminUsersComponent},
-        {path: 'admin-orgs', component: AdminOrgsManagementComponent},
-        {path: 'admin-users', component: AdminUsersManagementComponent},
 
         ]
     }

@@ -13,7 +13,6 @@ const routes: Routes = [
           {path: 'user-profile', component: UserProfileComponent},
           {path: 'admin-users', component: AdminUsersManagementComponent},
           {path: 'admin-orgs', component: AdminOrgsManagementComponent},
-
         ],
       },
     ]
