@@ -1,10 +1,12 @@
+<button class="btn btn-sm" (click)="changeIdent()">ident</button>
 <div id="doc-wrapper" [ngClass]="{'set-rtl': isRTL}">
   <div *ngFor="let item of docList">
     <div fxLayout [ngClass]="{
        'item-warning': item.type === 1,
        'section' : item.nodes,
        'section-rtl' : item.nodes && isRTL,
-       'item' : !item.nodes}">
+       'item' : !item.nodes}"
+        [ngStyle]="{'margin-right': (item.level * ident) + 'px' }">
       <div *ngIf="item.nodes &&  item.numbering && isNumbering" [innerHTML]="'<p>' + item.numbering + ' &nbsp;&nbsp; </p>'"></div>
       <div [innerHTML]="item.data | safeHtml"
            >
@@ -14,6 +16,4 @@
   </div>
 
 </div>
-<div fxLayout="row">
-  <div>1. One</div> <div>2. Two</div> <div>3. Three</div> <div>4. Four</div>
-</div>
+

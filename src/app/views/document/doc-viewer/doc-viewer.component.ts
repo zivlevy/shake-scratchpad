@@ -11,6 +11,8 @@ export class DocViewerComponent implements OnInit, OnChanges {
   @Input() isRTL: boolean;
   @Input() isNumbering: boolean = true;
   @Input() docJson: string;
+  @Input() ident: number = 0;
+
   docList: Array<SkSection | SkItem>;
   constructor(private docService: DocumentService) { }
 
@@ -21,6 +23,14 @@ export class DocViewerComponent implements OnInit, OnChanges {
     console.log(this.docJson);
     if (this.docJson) {
       this.docList = this.docService.SkTreeListFronJSON(this.docJson);
+    }
+  }
+
+  changeIdent() {
+    console.log(this.ident)
+    this.ident += 5;
+    if (this.ident === 30) {
+      this.ident = 0;
     }
   }
 

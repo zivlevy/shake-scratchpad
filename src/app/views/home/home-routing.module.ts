@@ -29,7 +29,6 @@ const routes: Routes = [
         {path: 'add-org', component: AddOrgComponent},
         {path: 'org-admin', component: OrgAdminOrgComponent},
         {path: 'org-admin-users', component: OrgAdminUsersComponent},
-
         ]
     }
     ]
