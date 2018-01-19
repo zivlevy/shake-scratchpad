@@ -147,7 +147,10 @@ export class TreeDocComponent implements OnInit, OnChanges {
       initOnClick: true,
       toolbarInline: true,
       direction: this.isRTL ? 'rtl' : 'ltr',
-      toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'align', 'subscript', 'superscript', '-', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '-', 'insertImage', 'insertLink', 'insertFile', 'insertVideo', 'undo', 'redo'],
+      toolbarButtons: ['bold', 'italic', 'underline', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL',
+        'insertLink', 'insertTable', 'undo', 'redo'],
+      toolbarButtonsSM: ['bold', 'italic', 'underline', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL',
+        'insertLink', 'insertTable', 'undo', 'redo'],
       toolbarVisibleWithoutSelection: false,
       events: {
         'froalaEditor.click': (e, editor) => {
