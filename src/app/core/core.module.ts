@@ -6,8 +6,9 @@ import {AuthService} from './auth.service';
 import { HomeService } from '../views/home/home.service';
 import {LanguageService} from './language.service';
 import {ImageService} from './image.service';
-import {FirestoreService} from "./firestore.service";
-import {UserService} from "./user.service";
+import {FirestoreService} from './firestore.service';
+import {UserService} from './user.service';
+import { SafeHtmlPipe } from './safe-html.pipe';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import {UserService} from "./user.service";
       FirestoreService,
       UserService,
     ImageService],
-    declarations: []
+    declarations: [SafeHtmlPipe],
+  exports: [SafeHtmlPipe]
 })
 export class CoreModule {
 }

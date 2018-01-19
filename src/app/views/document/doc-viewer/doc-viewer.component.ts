@@ -8,7 +8,7 @@ import {DocumentService} from "../document.service";
   styleUrls: ['./doc-viewer.component.scss']
 })
 export class DocViewerComponent implements OnInit, OnChanges {
-
+  @Input() isRTL: boolean;
   @Input() docJson: string;
   docList: Array<SkSection | SkItem>
   constructor(private docService: DocumentService) { }

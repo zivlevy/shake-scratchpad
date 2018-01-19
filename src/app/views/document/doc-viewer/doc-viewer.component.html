@@ -1,4 +1,11 @@
-<div id="doc-wrapper">
+<div id="doc-wrapper" [ngClass]="{'set-rtl': isRTL}">
+  <div *ngFor="let item of docList" [innerHTML]="item.data | safeHtml"
+       [ngClass]="{
+       'item-warning': item.type === 1,
+       'section' : item.nodes,
+       'section-rtl' : item.nodes && isRTL,
+       'item' : !item.nodes
+       }">
 
-  <div *ngFor="let item of docList" [innerHTML]="item.data" [ngClass]="{'item-warning': item.type === 1}"></div>
+  </div>
 </div>

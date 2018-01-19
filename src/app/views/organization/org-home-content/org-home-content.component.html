@@ -15,7 +15,7 @@
                              [searchResults]="searchResults"
                              (selectedDoc)="getSelectedDoc($event)"
       ></sk-org-search-results>
-      <sk-doc-viewer *ngIf="mainDisplay==='doc'" [docJson]="selectedDoc?.editVersion.data"></sk-doc-viewer>
+      <sk-doc-viewer *ngIf="mainDisplay==='doc'" [docJson]="selectedDoc?.editVersion.data" [isRTL]="true"></sk-doc-viewer>
     </div>
   </div>
 </div>
