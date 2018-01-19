@@ -1,4 +1,6 @@
-<button class="btn btn-sm" (click)="changeIdent()">ident</button>
+<button class="btn btn-sm btn-primary" (click)="changeIdent()">Ident</button> <span>{{ ident }}</span>
+<button class="btn btn-sm btn-primary" (click)="toggleNumbering()">Numbering</button>
+
 <div id="doc-wrapper" [ngClass]="{'set-rtl': isRTL}">
   <div *ngFor="let item of docList">
     <div fxLayout [ngClass]="{
@@ -6,8 +8,8 @@
        'section' : item.nodes,
        'section-rtl' : item.nodes && isRTL,
        'item' : !item.nodes}"
-        [ngStyle]="{'margin-right': (item.level * ident) + 'px' }">
-      <div *ngIf="item.nodes &&  item.numbering && isNumbering" [innerHTML]="'<p>' + item.numbering + ' &nbsp;&nbsp; </p>'"></div>
+        [ngStyle]="{'margin-right': ((item.level - 1) < 0 ? 0 : (item.level - 1)) * ident + 'px' }">
+      <div *ngIf="item.nodes &&  item.numbering && isNumbering" [innerHTML]="'<p>' + item.numbering + ' &nbsp; </p>'"></div>
       <div [innerHTML]="item.data | safeHtml"
            >
 

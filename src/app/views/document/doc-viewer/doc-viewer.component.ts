@@ -34,5 +34,9 @@ export class DocViewerComponent implements OnInit, OnChanges {
     }
   }
 
+  toggleNumbering() {
+    this.isNumbering = !this.isNumbering;
+  }
+
 
 }
