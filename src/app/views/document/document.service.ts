@@ -12,6 +12,7 @@ export class DocumentService {
     const docTree = new SkSection().deserialize(docObject);
     console.log(docTree);
     const resultArry = [];
+    docTree.level = 0;
     return this.makeTreeList(docTree, resultArry, docTree, 0);
   }
 
@@ -20,6 +21,7 @@ export class DocumentService {
     if (docTreeItem instanceof SkSection) {
       if (docTreeItem !== parent) {
         docTreeItem.numbering = parent.numbering ?  `${parent.numbering}.${index}` : index;
+        docTreeItem.level = parent.level + 1;
       }
       resultArray.push(docTreeItem);
       index = 0;
@@ -30,6 +32,7 @@ export class DocumentService {
         this.makeTreeList(item, resultArray, docTreeItem, index);
       });
     } else {
+      docTreeItem.level = parent.level + 1;
       resultArray.push(docTreeItem);
     }
     return resultArray;

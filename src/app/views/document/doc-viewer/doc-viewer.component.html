@@ -4,9 +4,8 @@
        'item-warning': item.type === 1,
        'section' : item.nodes,
        'section-rtl' : item.nodes && isRTL,
-       'item' : !item.nodes
-       }">
-      <div *ngIf="item.nodes && item.numbering && isNumbering" [innerHTML]="'<p>' + item.numbering + ' &nbsp;&nbsp; </p>'"></div>
+       'item' : !item.nodes}">
+      <div *ngIf="item.nodes &&  item.numbering && isNumbering" [innerHTML]="'<p>' + item.numbering + ' &nbsp;&nbsp; </p>'"></div>
       <div [innerHTML]="item.data | safeHtml"
            >
 
