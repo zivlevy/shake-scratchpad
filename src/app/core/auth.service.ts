@@ -87,4 +87,22 @@ export class AuthService {
         this.afs.doc(`users/${this.currentSkUser.uid}`).update({email: newEmail});
       });
     }
+
+    isSkAdmin(uid: string): Observable<boolean> {
+      console.log('a', uid);
+      return this.afs.doc(`skAdmins/${uid}`).valueChanges()
+        .map(res => {
+          return res === null ? false : true;
+        });
+      ;
+    }
+
+  isSkEditor(uid: string): Observable<boolean> {
+    console.log('a', uid);
+    return this.afs.doc(`skEditors/${uid}`).valueChanges()
+      .map(res => {
+        return res === null ? false : true;
+      });
+    ;
+  }
 }

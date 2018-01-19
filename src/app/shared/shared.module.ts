@@ -12,6 +12,7 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {CoreModule} from '../core/core.module';
+import { NavAdminComponent } from './nav-admin/nav-admin.component';
 
 @NgModule({
   imports: [
@@ -31,12 +32,14 @@ import {CoreModule} from '../core/core.module';
     SpinnerComponent,
     UserProfileComponent,
     NavUserComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    NavAdminComponent
   ],
   exports: [
     SpinnerComponent,
     UserProfileComponent,
     NavUserComponent,
+    NavAdminComponent,
     CheckboxComponent
   ]})
 

@@ -45,6 +45,9 @@ export class NavUserComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(user => {
         this.currentSkUser = user;
+        if (user === null) {
+          return null;
+        }
         this.userService.getUserOrgs$(user.uid)
           .subscribe(res => {
             res.forEach(orgIdObj => {
