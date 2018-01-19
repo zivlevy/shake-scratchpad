@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {SkDoc, SkDocData} from '../../../model/document';
+import {SkDoc, SkDocData, SkItem, SkSection, SK_ITEM_TYPE} from '../../../model/document';
 import {DocumentService} from "../document.service";
 
 @Component({
@@ -10,7 +10,7 @@ import {DocumentService} from "../document.service";
 export class DocViewerComponent implements OnInit, OnChanges {
 
   @Input() docJson: string;
-
+  docList: Array<SkSection | SkItem>
   constructor(private docService: DocumentService) { }
 
   ngOnInit() {
@@ -19,7 +19,7 @@ export class DocViewerComponent implements OnInit, OnChanges {
   ngOnChanges() {
     console.log(this.docJson);
     if (this.docJson) {
-      this.docService.SkTreeListFronJSON(this.docJson);
+      this.docList = this.docService.SkTreeListFronJSON(this.docJson);
     }
   }
 

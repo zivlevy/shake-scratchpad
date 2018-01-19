@@ -1,1 +1,4 @@
+<div id="doc-wrapper">
 
+  <div *ngFor="let item of docList" [innerHTML]="item.data" [ngClass]="{'item-warning': item.type === 1}"></div>
+</div>

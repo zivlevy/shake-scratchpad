@@ -7,12 +7,12 @@ export class DocumentService {
   constructor() { }
 
 
-  SkTreeListFronJSON(docJson: string) {
+  SkTreeListFronJSON(docJson: string): Array <SkSection | SkItem> {
     const docObject = JSON.parse(docJson);
     const docTree = new SkSection().deserialize(docObject);
     console.log(docTree);
     const resultArry = [];
-    console.log(this.makeTreeList(docTree, resultArry));
+    return this.makeTreeList(docTree, resultArry);
   }
 
 
