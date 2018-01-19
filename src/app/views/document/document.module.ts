@@ -7,10 +7,10 @@ import {FormsModule} from '@angular/forms';
 import {FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
 import {ContextMenuModule} from 'ngx-contextmenu';
 import {MaterialModule} from '../../material/material.module';
-import {DocEditorComponent} from './doc-editor/doc-editor.component';
 import { TreeDocComponent } from './tree-doc/tree-doc.component';
-import {TreeModule} from "angular-tree-component";
+import {TreeModule} from 'angular-tree-component';
 import { DocViewerComponent } from './doc-viewer/doc-viewer.component';
+import {DocumentService} from "./document.service";
 
 @NgModule({
   imports: [
@@ -25,14 +25,16 @@ import { DocViewerComponent } from './doc-viewer/doc-viewer.component';
   ],
   declarations: [
     TreeViewComponent,
-    DocEditorComponent,
     TreeDocComponent,
     DocViewerComponent,
   ],
   exports: [TreeViewComponent,
-    DocEditorComponent,
     DocViewerComponent,
-    TreeDocComponent]
+    TreeDocComponent
+  ],
+  providers: [
+    DocumentService
+  ]
 })
 export class DocumentModule {
 }

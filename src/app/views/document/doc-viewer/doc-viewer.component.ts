@@ -1,19 +1,27 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {SkDoc} from "../../../model/document";
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {SkDoc, SkDocData} from '../../../model/document';
+import {DocumentService} from "../document.service";
 
 @Component({
   selector: 'sk-doc-viewer',
   templateUrl: './doc-viewer.component.html',
   styleUrls: ['./doc-viewer.component.scss']
 })
-export class DocViewerComponent implements OnInit {
+export class DocViewerComponent implements OnInit, OnChanges {
 
-  @Input()
-  doc: SkDoc;
+  @Input() docJson: string;
 
-  constructor() { }
+  constructor(private docService: DocumentService) { }
 
   ngOnInit() {
   }
+
+  ngOnChanges() {
+    console.log(this.docJson);
+    if (this.docJson) {
+      this.docService.SkTreeListFronJSON(this.docJson);
+    }
+  }
+
 
 }

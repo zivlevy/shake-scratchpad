@@ -62,7 +62,7 @@ export class SkSection implements Serializable<SkSection> {
 
 export class SkItem implements Serializable<SkItem>  {
   data: string = '';
-  constructor (public type: SK_ITEM_TYPE, data?: string) {
+  constructor (public type: SK_ITEM_TYPE = SK_ITEM_TYPE.SK_ITEM_TYPE_INFO, data?: string) {
     if (data) { this.data = data; }
   }
   deserialize(input): SkItem {

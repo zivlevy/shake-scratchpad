@@ -222,7 +222,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
       });
       return section;
     } else {
-      const item: SkItem = new SkItem(SK_ITEM_TYPE.SK_ITEM_TYPE_INFO);
+      const item: SkItem = new SkItem();
       item.data = treeNode.data;
       plainText.plainText += ' ' + this.stripHtml(treeNode.data);
       item.type = treeNode.type;

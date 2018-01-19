@@ -4,6 +4,7 @@ import {OrgService} from '../org.service';
 import {Subject} from 'rxjs/Subject';
 import {AlgoliaDoc} from "../../../model/algolia-doc";
 import {SkDoc} from "../../../model/document";
+import {FirestoreService} from "../../../core/firestore.service";
 
 @Component({
   selector: 'sk-org-home-content',
@@ -22,7 +23,8 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
 
   constructor(
     private orgService: OrgService,
-    private algoliaService: AlgoliaService) { }
+    private algoliaService: AlgoliaService,
+    private fs: FirestoreService) { }
 
   ngOnInit() {
     // get current org
@@ -73,7 +75,8 @@ export class OrgHomeContentComponent implements OnInit, OnDestroy {
 
   getSelectedDoc(event) {
     this.mainDisplay = 'doc';
-    this.selectedDoc = event;
+    this.fs.doc$(`org/${this.currentOrg}/docs/${event.uid}`).take(1).subscribe((doc: SkDoc) => this.selectedDoc = doc)
+    ;
 
   }
   ngOnDestroy() {
