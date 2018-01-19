@@ -97,6 +97,15 @@
   }
 }
 
+.item-warning {
+  &:after {
+    background-color: red;
+  }
+  &:before {
+    background-color: red;
+  }
+}
+
 ::ng-deep .node-content-wrapper {
   width: 90%;
   max-width: 700px;

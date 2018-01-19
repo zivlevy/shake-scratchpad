@@ -94,6 +94,13 @@ export class TreeDocComponent implements OnInit, OnChanges {
       tree.focusDrillDown();
     }
   }
+  makeWarning (node) {
+    node.data.type = SK_ITEM_TYPE.SK_ITEM_TYPE_WARNING;
+  }
+
+  makeInfo( node){
+    node.data.type = SK_ITEM_TYPE.SK_ITEM_TYPE_INFO;
+  }
 
   addBrotherItem(tree, node, section?: boolean, above?: boolean) {
     if (!node.parent.parent) {return; }
@@ -228,7 +235,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
       const item: SkItem = new SkItem();
       item.data = treeNode.data;
       plainText.plainText += ' ' + this.stripHtml(treeNode.data);
-      item.type = treeNode.type;
+      item.type = treeNode.type ? treeNode.type : SK_ITEM_TYPE.SK_ITEM_TYPE_INFO;
       return item;
     }
   }
