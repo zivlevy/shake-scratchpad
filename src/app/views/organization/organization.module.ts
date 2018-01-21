@@ -16,7 +16,6 @@ import { OrgAdminUsersComponent } from './org-admin-users/org-admin-users.compon
 import { OrgAdminOrgComponent } from './org-admin-org/org-admin-org.component';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {ImageCropperModule} from 'ng2-img-cropper';
-import {AlgoliaService} from '../../core/algolia.service';
 import { OrgHomeContentComponent } from './org-home-content/org-home-content.component';
 import { OrgDocManagerComponent } from './org-doc-manager/org-doc-manager.component';
 import {DocumentModule} from '../document/document.module';
@@ -24,13 +23,14 @@ import {FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
 import { OrgTreeEditComponent } from './org-tree-edit/org-tree-edit.component';
 import {TreeModule} from 'angular-tree-component';
 import {MaterialModule} from '../../material/material.module';
-import {FlexLayoutModule} from "@angular/flex-layout";
+import {FlexLayoutModule} from '@angular/flex-layout';
 import { OrgSearchPanelComponent } from './org-search-panel/org-search-panel.component';
 import { OrgSearchResultsComponent } from './org-search-results/org-search-results.component';
-import {OrgMessagesComponent} from "./org-messages/org-messages.component";
+import {OrgMessagesComponent} from './org-messages/org-messages.component';
 import { OrgTreeEditFreeDocsComponent } from './org-tree-edit-free-docs/org-tree-edit-free-docs.component';
 import { OrgTreeEditManagerComponent } from './org-tree-edit-manager/org-tree-edit-manager.component';
-import {OrgTreeViewComponent} from "./org-tree-view/org-tree-view.component";
+import {OrgTreeViewComponent} from './org-tree-view/org-tree-view.component';
+import { OrgSearchDocsComponent } from './org-search-docs/org-search-docs.component';
 
 @NgModule({
   imports: [
@@ -67,13 +67,13 @@ import {OrgTreeViewComponent} from "./org-tree-view/org-tree-view.component";
     OrgMessagesComponent,
     OrgTreeEditFreeDocsComponent,
     OrgTreeEditManagerComponent,
-    OrgTreeViewComponent
+    OrgTreeViewComponent,
+    OrgSearchDocsComponent
   ],
   exports: [OrgHomePageComponent],
   providers: [
     OrgGuard,
-    OrgService,
-    AlgoliaService,
+    OrgService
   ]
 })
 export class OrganizationModule {

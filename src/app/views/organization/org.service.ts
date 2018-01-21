@@ -17,6 +17,7 @@ import {FirestoreService} from '../../core/firestore.service';
 import {ImageService} from '../../core/image.service';
 import {TreeNode} from 'angular-tree-component';
 import {OrgTreeNode} from '../../model/org-tree';
+import {AlgoliaService} from "../../core/algolia.service";
 
 @Injectable()
 export class OrgService {
@@ -33,7 +34,8 @@ export class OrgService {
               private router: Router,
               private imageService: ImageService,
               private firestoreService: FirestoreService,
-              private fs: FirestoreService) {
+              private fs: FirestoreService,
+              private algoliaService: AlgoliaService) {
 
     this.router.events
       .filter((event) => {
@@ -173,7 +175,9 @@ export class OrgService {
               return null;
             }
           });
-      }).subscribe(orgPublicData => this.orgPublicData$.next(orgPublicData));
+      }).subscribe(orgPublicData => {
+        this.orgPublicData$.next(orgPublicData);
+    });
   }
 
   private updateOrgPrivateData() {
@@ -415,6 +419,11 @@ export class OrgService {
         };
         return docsRef.update(objToSave);
       });
+  }
+
+  serachDocsByTerm(searchString: string, namesOnly: boolean, edited: boolean, published: boolean, version: boolean ) {
+    const orgPrivateData = this.orgPrivateData$.getValue();
+    return  this.algoliaService.searchDocs(this.localCurrentOrg, orgPrivateData.searchKey, searchString, namesOnly, edited, published, version );
   }
 
   moveDocToPublic(doc: SkDoc) {

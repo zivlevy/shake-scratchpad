@@ -8,6 +8,7 @@ import {LoginComponent} from '../../shared/login/login.component';
 import {SignupComponent} from '../../shared/signup/signup.component';
 import {OrgHomeContentComponent} from './org-home-content/org-home-content.component';
 import {OrgDocManagerComponent} from './org-doc-manager/org-doc-manager.component';
+import {OrgSearchDocsComponent} from './org-search-docs/org-search-docs.component';
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
         path: ':id', children: [
           {
             path: '', component: OrgHomePageComponent, children: [
-              {path: '', component: OrgHomeContentComponent},
+              // {path: '', component: OrgHomeContentComponent},
+              {path: '', component: OrgSearchDocsComponent},
               {path: 'login', component: LoginComponent},
               {path: 'register', component: SignupComponent},
               {path: 'user-profile', component: UserProfileComponent},
