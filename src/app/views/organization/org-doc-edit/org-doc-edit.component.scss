@@ -1,0 +1,26 @@
+.wrapper {
+  padding-bottom: 20px;
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: whitesmoke;
+}
+.header {
+  height: 50px;
+  min-height: 50px;
+  max-height: 50px;
+  background-color: #03a9f4;
+  color: white;
+}
+
+.back-button {
+  margin: 20px
+}
+
+.rightside-buttons {
+  margin:5px;
+}
+
+.fillsapce {
+  flex: 1 1 auto;
+
+}
