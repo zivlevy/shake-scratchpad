@@ -17,7 +17,7 @@ const routes: Routes = [
       {
         path: ':id', children: [
           {
-            path: '', component: OrgHomePageComponent, children: [
+             path: '', component: OrgHomePageComponent, children: [
               // {path: '', component: OrgHomeContentComponent},
               {path: '', component: OrgSearchDocsComponent},
               {path: 'login', component: LoginComponent},
