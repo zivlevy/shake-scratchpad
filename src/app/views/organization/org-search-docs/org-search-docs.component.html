@@ -1,85 +1,86 @@
-<div id="academy-courses" class="page-layout simple">
+<mat-sidenav-container id="container">
 
-  <!-- HEADER -->
-  <div class="header mat-accent-bg p-16 p-sm-24" fxLayout="column" fxLayoutAlign="center center">
-    <div class="hero-text">
-      <h3>Find Documents</h3>
-    </div>
+  <!-- SIDENAV -->
+  <mat-sidenav align="start" [opened]="sideOpen" [mode]="sideMode" class="wrap mat-elevation-z12">
+    <sk-org-tree-view></sk-org-tree-view>
+  </mat-sidenav>
 
-  </div>
-  <!-- / HEADER -->
-
-   <!--CONTENT -->
-  <div class="content p-24">
-
-    <div fxLayout="column" fxLayoutAlign="center">
-
-      <div class="filters" fxLayout="column" fxLayoutAlign="center center"
-           fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
-        <div>
-
-          <mat-form-field class="docs-search">
-            <input #search matInput placeholder="Search for a document" [(ngModel)]="searchTerm">
-          </mat-form-field>
-
-          <mat-checkbox [(ngModel)]="docNameOnly" (change)="checkboxClick$.next()">Doc name only</mat-checkbox>
-        </div>
-
-        <div fxLayout="row" fxLayoutGap="20px">
-          <mat-checkbox [(ngModel)]="published" (change)="checkboxClick$.next()">Publish</mat-checkbox>
-          <mat-checkbox [(ngModel)]="edited" (change)="checkboxClick$.next()">Edit</mat-checkbox>
-          <mat-checkbox [(ngModel)]="version" (change)="checkboxClick$.next()">Version</mat-checkbox>
-
-        </div>
-
+  <mat-sidenav-content >
+    <!-- HEADER -->
+    <div class="header mat-accent-bg p-16 p-sm-24">
+      <div class="hero-text" fxLayout="row" fxLayoutAlign="start center">
+        <button mat-button class="menu-btn" fxHide.gt-sm (click)="toogleMenu()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <h3>Find Documents</h3>
       </div>
 
-      <!-- Documents -->
-      <div class="documents" fxLayout="row" fxLayoutAlign="center" fxLayoutWrap>
+    </div>
+    <!-- / HEADER -->
 
-        <div class="document" *ngFor="let doc of documents" fxFlex="100" fxFlex.gt-xs="50"
-             fxFlex.gt-sm="33" >
+    <!--CONTENT -->
+    <div class="content p-24">
 
-          <div class="document-content" fxLayout="column">
+      <div fxLayout="column" fxLayoutAlign="center">
 
-            <div class="header" fxLayout="row" fxLayoutAlign="center center"
-                 [ngClass]="doc.docType + '-bg'">
+        <div class="filters" fxLayout="column" fxLayoutAlign="center center"
+             fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+          <div>
+            <mat-form-field class="docs-search">
+              <input #search matInput placeholder="Search for a document" [(ngModel)]="searchTerm">
+            </mat-form-field>
+            <mat-checkbox [(ngModel)]="docNameOnly" (change)="checkboxClick$.next()">Doc name only</mat-checkbox>
+          </div>
 
-              <!--<div class="category" fxFlex>-->
-                <!--{{doc.name}}-->
-              <!--</div>-->
-
-
-            </div>
-
-            <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex>
-              <div class="h1">{{doc.name}}</div>
-              <div class="updated">Version {{doc.version}}</div>
-            </div>
-
-            <div class="footer" fxLayout="row" fxLayoutAlign="center center">
-              <button mat-button color="accent">
-                      <!--[routerLink]="'/apps/academy/courses/' + course.id + '/' + course.slug">-->
-                OPEN
-              </button>
-            </div>
-
+          <div fxLayout="row" fxLayoutGap="20px">
+            <mat-checkbox [(ngModel)]="published" (change)="checkboxClick$.next()">Publish</mat-checkbox>
+            <mat-checkbox [(ngModel)]="edited" (change)="checkboxClick$.next()">Edit</mat-checkbox>
+            <mat-checkbox [(ngModel)]="version" (change)="checkboxClick$.next()">Version</mat-checkbox>
           </div>
 
         </div>
 
-        <div class="no-documents" *ngIf="documents?.length === 0 && searchTerm !== ''">
-          No document found!
-        </div>
-        <div class="no-documents" *ngIf="documents?.length === 0 && searchTerm === ''">
-          Insert search term
+        <!-- Documents -->
+        <div class="documents" fxLayout="row" fxLayoutAlign="center" fxLayoutWrap>
+
+          <div class="document" *ngFor="let doc of documents" fxFlex="100" fxFlex.gt-xs="50"
+               fxFlex.gt-sm="33">
+
+            <div class="document-content" fxLayout="column">
+
+              <div class="header" fxLayout="row" fxLayoutAlign="center center"
+                   [ngClass]="doc.docType + '-bg'">
+              </div>
+
+              <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex>
+                <div class="h1">{{doc.name}}</div>
+                <div class="updated">Version {{doc.version}}</div>
+              </div>
+
+              <div class="footer" fxLayout="row" fxLayoutAlign="center center">
+                <button mat-button color="accent" (click)="openDoc(doc.docId)">
+                  <!--[routerLink]="'/apps/academy/courses/' + course.id + '/' + course.slug">-->
+                  OPEN
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="no-documents" *ngIf="documents?.length === 0 && searchTerm !== ''">
+            No document found!
+          </div>
+          <div class="no-documents" *ngIf="documents?.length === 0 && searchTerm === ''">
+            Insert search term
+          </div>
+
         </div>
 
       </div>
 
     </div>
+    <!--/ CONTENT -->
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
-  </div>
-   <!--/ CONTENT -->
-
-</div>

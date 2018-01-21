@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {SkDoc} from '../../../model/document';
 import {OrgService} from '../org.service';
 import {Observable} from 'rxjs/Observable';
@@ -6,6 +6,9 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/merge';
 import {Subject} from 'rxjs/Subject';
+import {MediaChange, ObservableMedia} from '@angular/flex-layout';
+import {Subscription} from 'rxjs/Subscription';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'sk-org-search-docs',
@@ -13,7 +16,11 @@ import {Subject} from 'rxjs/Subject';
   styleUrls: ['./org-search-docs.component.scss']
 })
 export class OrgSearchDocsComponent implements OnInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
+  activeMediaQuery = '';
+  sideMode: string = 'side';
+  sideOpen: boolean = true;
   @ViewChild('search') searchInput: ElementRef;
 
   documents: any[];
@@ -24,7 +31,24 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
   version: boolean = false;
   checkboxClick$: Subject<any> = new Subject();
 
-  constructor(private orgService: OrgService) {
+  constructor(private orgService: OrgService,
+              public media: ObservableMedia,
+              public route: ActivatedRoute,
+              public router: Router) {
+
+     this.media.asObservable()
+       .takeUntil(this.destroy$)
+      .subscribe((change: MediaChange) => {
+        console.log(change.mqAlias);
+        if (change.mqAlias !== 'xs' && change.mqAlias !== 'sm') {
+          this.sideOpen = true;
+          this.sideMode = 'side';
+        } else {
+          this.sideOpen = false;
+          this.sideMode = 'over';
+        }
+        this.activeMediaQuery = change.mqAlias;
+    });
   }
 
   ngOnInit() {
@@ -40,6 +64,11 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    // force unsubscribe
+    this.destroy$.next(true);
+    // Now let's also unsubscribe from the subject itself:
+    this.destroy$.unsubscribe();
+
   }
 
   filterDocumentsByTerm() {
@@ -49,6 +78,14 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
     } else {
       return Promise.resolve([]);
     }
+  }
+
+  toogleMenu(){
+    this.sideOpen = !this.sideOpen;
+  }
+
+  openDoc( docId: string) {
+    this.router.navigate(['doc-doc-view', docId], { relativeTo: this.route});
   }
 
 }

@@ -9,6 +9,7 @@ import {SignupComponent} from '../../shared/signup/signup.component';
 import {OrgHomeContentComponent} from './org-home-content/org-home-content.component';
 import {OrgDocManagerComponent} from './org-doc-manager/org-doc-manager.component';
 import {OrgSearchDocsComponent} from './org-search-docs/org-search-docs.component';
+import {OrgDocViewComponent} from "./org-doc-view/org-doc-view.component";
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
               {path: 'org-admin-users', component: OrgAdminUsersComponent},
               {path: 'org-admin', component: OrgAdminOrgComponent},
               {path: 'doc-manage', component: OrgDocManagerComponent},
+              {path: 'doc-doc-view/:docId', component: OrgDocViewComponent},
             ]},
 
 

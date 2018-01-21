@@ -1,21 +1,21 @@
-<input id="filter" #filter (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="filter nodes"/>
-<button (click)="tree.treeModel.clearFilter()">Clear Filter</button>
+<div class="wrap">
+  <tree-root #tree [nodes]="nodes" [options]="tree_options">
+    <ng-template #treeNodeTemplate let-node let-index="index">
+      <div (click)="treeClicked($event, node)" fxLayout="row">
+        <div *ngIf="treeNode === node" [dir]="isRTL ? 'rtl' : 'ltr'"></div>
+        <span *ngIf="node.data.isDoc" fxFlex="20px"><i class="fa fa-file-text"></i></span>
+        <span *ngIf="!node.data.isDoc && node.isExpanded" fxFlex="20px"><i class="fa fa-folder-open-o"></i></span>
+        <span *ngIf="!node.data.isDoc && !node.isExpanded" fxFlex="20px"><i class="fa fa-folder-o"></i></span>
 
-<tree-root #tree [nodes]="nodes" [options]="tree_options">
-  <ng-template #treeNodeTemplate let-node let-index="index">
-    <div (click)="treeClicked($event, node)" fxLayout="row">
-      <div *ngIf="treeNode === node" [dir]="isRTL ? 'rtl' : 'ltr'"></div>
-      <span *ngIf="node.data.isDoc" fxFlex="20px"><i class="fa fa-file-text"></i></span>
-      <span *ngIf="!node.data.isDoc && node.isExpanded" fxFlex="20px"><i class="fa fa-folder-open-o"></i></span>
-      <span *ngIf="!node.data.isDoc && !node.isExpanded" fxFlex="20px"><i class="fa fa-folder-o"></i></span>
-
-      <span *ngIf="node.data.isDoc" fxFlex="calc(100% - 20px">{{node.data.name}}</span>
-      <span *ngIf="!node.data.isDoc" fxFlex="calc(100% - 20px">
+        <span *ngIf="node.data.isDoc" fxFlex="calc(100% - 20px">{{node.data.name}}</span>
+        <span *ngIf="!node.data.isDoc" fxFlex="calc(100% - 20px">
         {{node.data.name}}
       </span>
-    </div>
-  </ng-template>
+      </div>
+    </ng-template>
 
-</tree-root>
+  </tree-root>
+</div>
+
 
 

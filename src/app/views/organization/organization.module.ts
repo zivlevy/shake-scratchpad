@@ -31,6 +31,7 @@ import { OrgTreeEditFreeDocsComponent } from './org-tree-edit-free-docs/org-tree
 import { OrgTreeEditManagerComponent } from './org-tree-edit-manager/org-tree-edit-manager.component';
 import {OrgTreeViewComponent} from './org-tree-view/org-tree-view.component';
 import { OrgSearchDocsComponent } from './org-search-docs/org-search-docs.component';
+import { OrgDocViewComponent } from './org-doc-view/org-doc-view.component';
 
 @NgModule({
   imports: [
@@ -68,7 +69,8 @@ import { OrgSearchDocsComponent } from './org-search-docs/org-search-docs.compon
     OrgTreeEditFreeDocsComponent,
     OrgTreeEditManagerComponent,
     OrgTreeViewComponent,
-    OrgSearchDocsComponent
+    OrgSearchDocsComponent,
+    OrgDocViewComponent
   ],
   exports: [OrgHomePageComponent],
   providers: [
