@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import * as algoliasearch from 'algoliasearch';
 import {AlgoliaDoc} from '../model/algolia-doc';
-import {reject} from 'q';
 
 @Injectable()
 export class AlgoliaService {
