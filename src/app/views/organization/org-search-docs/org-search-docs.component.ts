@@ -36,10 +36,17 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
               public route: ActivatedRoute,
               public router: Router) {
 
-     this.media.asObservable()
-       .takeUntil(this.destroy$)
+    if (this.media.isActive('gt-sm')) {
+      this.sideOpen = true;
+      this.sideMode = 'side';
+    } else {
+      this.sideOpen = false;
+      this.sideMode = 'over';
+    }
+
+    this.media.asObservable()
+      .takeUntil(this.destroy$)
       .subscribe((change: MediaChange) => {
-        console.log(change.mqAlias);
         if (change.mqAlias !== 'xs' && change.mqAlias !== 'sm') {
           this.sideOpen = true;
           this.sideMode = 'side';
@@ -48,7 +55,7 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
           this.sideMode = 'over';
         }
         this.activeMediaQuery = change.mqAlias;
-    });
+      });
   }
 
   ngOnInit() {
@@ -56,20 +63,13 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
     Observable.merge(
       this.checkboxClick$.asObservable(),
       Observable.fromEvent(this.searchInput.nativeElement, 'keyup')
-      .debounceTime(500)
-      .distinctUntilChanged())
+        .debounceTime(500)
+        .distinctUntilChanged())
       .switchMap(() => {
         return Observable.fromPromise(this.filterDocumentsByTerm());
       }).subscribe((res: any) => this.documents = res);
   }
 
-  ngOnDestroy() {
-    // force unsubscribe
-    this.destroy$.next(true);
-    // Now let's also unsubscribe from the subject itself:
-    this.destroy$.unsubscribe();
-
-  }
 
   filterDocumentsByTerm() {
     const value = this.searchTerm;
@@ -80,12 +80,21 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
     }
   }
 
-  toogleMenu(){
+  toogleMenu() {
     this.sideOpen = !this.sideOpen;
   }
 
-  openDoc( docId: string) {
-    this.router.navigate(['doc-doc-view', docId], { relativeTo: this.route});
+  openDoc(docId: string) {
+    this.router.navigate(['org-doc-view', docId], {relativeTo: this.route});
+  }
+
+
+  ngOnDestroy() {
+    // force unsubscribe
+    this.destroy$.next(true);
+    // Now let's also unsubscribe from the subject itself:
+    this.destroy$.unsubscribe();
+
   }
 
 }

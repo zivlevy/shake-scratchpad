@@ -1,21 +1,20 @@
-<button class="btn btn-sm btn-primary" (click)="changeIdent()">Ident</button> <span>{{ ident }}</span>
-<button class="btn btn-sm btn-primary" (click)="toggleNumbering()">Numbering</button>
-
-<div id="doc-wrapper" [ngClass]="{'set-rtl': isRTL}">
+<div *ngIf="docJson" id="doc-wrapper" class="mat-elevation-z8" [ngClass]="{'set-rtl': isRTL}">
   <div *ngFor="let item of docList">
     <div fxLayout [ngClass]="{
        'item-warning': item.type === 1,
        'section' : item.nodes,
        'section-rtl' : item.nodes && isRTL,
        'item' : !item.nodes}"
-        [ngStyle]="{'margin-right': ((item.level - 1) < 0 ? 0 : (item.level - 1)) * ident + 'px' }">
-      <div *ngIf="item.nodes &&  item.numbering && isNumbering" [innerHTML]="'<p>' + item.numbering + ' &nbsp; </p>'"></div>
+         [ngStyle]="{'margin-right': ((item.level - 1) < 0 ? 0 : (item.level - 1)) * ident + 'px' }">
+      <div *ngIf="item.nodes &&  item.numbering && isNumbering"
+           [innerHTML]="'<p>' + item.numbering + ' &nbsp; </p>'"></div>
       <div [innerHTML]="item.data | safeHtml"
-           >
+      >
 
       </div>
     </div>
   </div>
 
 </div>
+
 
