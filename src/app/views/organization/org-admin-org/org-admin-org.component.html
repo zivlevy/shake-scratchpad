@@ -36,86 +36,71 @@
           <h1 [innerHTML]="'Organization Management' | translate"></h1>
         </div>
 
-
-        <nav class="navbar  navbar-expand bg-primary navbar-dark">
-
-
-          <a class="navbar-brand" [href]="orgHome">
-            <img *ngIf="logoData.image" [src]="logoData.image" class="orgLogo">
-            <img *ngIf="!logoData.image" [src]="logoUrl" class="orgLogo">
-            {{orgName}}
-          </a>
-
-          <img *ngIf="tempData.image" [src]="tempData.image" class="orgLogo">
-
-          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                  data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                  aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-
-            <!-- Right nav bar -->
-            <ul class="navbar-nav" [ngClass]="{'ml-auto':!rtl, 'mr-auto': rtl}">
-
-            </ul>
-          </div>
-        </nav>
-
-        <img class="bannerImage" [src]="bannerUrl" *ngIf="!bannerData.image">
-        <img class="bannerImage" [src]="bannerData.image" *ngIf="bannerData.image">
-
-
         <div class="form-body">
 
-          <div class="form-group row">
-            <label for="orgId" class="col-sm-3 col-form-label" [innerHTML]="'orgId' | translate" ></label>
-            <input class="form-control col-sm-7" type="text" id="orgId" [(ngModel)]="orgId"
-                   formControlName="orgId">
+          <div >
+            <mat-form-field>
+            <input matInput type="text" id="orgId" [(ngModel)]="orgId" formControlName="orgId">
+            </mat-form-field>
           </div>
 
-          <div class="form-group row">
-            <label for="orgName" class="col-sm-3 col-form-label"  [innerHTML]="'Organization Name' | translate" ></label>
-            <input class="form-control col-sm-7" type="text" id="orgName" [(ngModel)]="orgName"
-                   formControlName="orgName">
+          <div>
+            <mat-form-field>
+              <input matInput type="text" id="orgName" [(ngModel)]="orgName"
+                     formControlName="orgName" placeholder="org Name">
+            </mat-form-field>
+            <button *ngIf="currentOrg && currentOrg.orgName !== orgName" mat-button color="primary"
+                    (click)="nameUpdateClicked()"
+            >Update</button>
+            <button *ngIf="currentOrg && currentOrg.orgName !== orgName" mat-button color="primary"
+                    (click)="nameUpdateCanceled()"
+            >Cancel</button>
           </div>
 
-          <div class="form-group row">
-            <label for="language" class="col-sm-3 col-form-label" [innerHTML]="'Language' | translate"  ></label>
-            <select formControlName="language" class="form-control custom-select  col-sm-7"
-                    id="language" (change)="languageSelectorClicked($event.target.value)">
-              <option disabled selected value style="display:none"></option>
-              <option value="Hebrew">עברית</option>
-              <option value="English">English</option>
-            </select>
+          <div>
+            <mat-form-field>
+              <mat-select formControlName="language" placeholder="Language" id="language"
+                          [(value)]="lang">
+                <mat-option value="Hebrew">עברית</mat-option>
+                <mat-option value="English">English</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button *ngIf="currentOrg && currentOrg.language !== lang" mat-button color="primary"
+                    (click)="langUpdateClicked()"
+            >Update</button>
+            <button *ngIf="currentOrg && currentOrg.language !== lang" mat-button color="primary"
+                    (click)="langUpdateCanceled()"
+            >Cancel</button>
           </div>
 
-          <div class="form-group row">
-            <label for="orgLogoUpload" class="col-sm-3 col-form-label" [innerHTML]="'Organization Logo' | translate" ></label>
-            <button class="btn btn-primary form-control col-sm-4" id="orgLogoUpload" (click)="logoUploadClicked()"
-                    [innerHTML]="'Upload' | translate"></button>
+          <div>
+            <button mat-raised-button color="primary" class="raised-buttons" (click)="logoUploadClicked()">Logo Update</button>
           </div>
 
-          <div class="form-group row">
-            <label for="orgBGImage" class="col-sm-3 col-form-label" [innerHTML]="'Banner Image' | translate" ></label>
-            <button class="btn btn-primary form-control col-sm-4" id="orgBGImage" (click)="bannerUploadClicked()"
-                    [innerHTML]="'Upload' | translate"></button>
+          <div>
+            <button mat-raised-button color="primary" class="raised-buttons" (click)="bannerUploadClicked()">Banner Update</button>
           </div>
+
+          <!--<div class="form-group row">-->
+            <!--<label for="orgLogoUpload" class="col-sm-3 col-form-label" [innerHTML]="'Organization Logo' | translate" ></label>-->
+            <!--<button class="btn btn-primary form-control col-sm-4" id="orgLogoUpload" (click)="logoUploadClicked()"-->
+                    <!--[innerHTML]="'Upload' | translate"></button>-->
+          <!--</div>-->
+
+          <!--<div class="form-group row">-->
+            <!--<label for="orgBGImage" class="col-sm-3 col-form-label" [innerHTML]="'Banner Image' | translate" ></label>-->
+            <!--<button class="btn btn-primary form-control col-sm-4" id="orgBGImage" (click)="bannerUploadClicked()"-->
+                    <!--[innerHTML]="'Upload' | translate"></button>-->
+          <!--</div>-->
 
         </div>
       </form>
     </div>
 
-    <div class="d-flex justify-content-center">
-      <button class="btn btn-outline-danger"
-              (click)="saveClicked()" [innerHTML]="'Save' | translate">
-      </button>
-      <button class="btn btn-outline-primary" (click)="cancelClicked()" [innerHTML]="'Cancel' | translate"></button>
-    </div>
-
-    <div class="flags d-flex justify-content-center">
-      <img src="assets/img/il.png" (click)="setLng('he')">
-      <img src="assets/img/us.png" (click)="setLng('en')">
-    </div>
+    <!--<div class="flags d-flex justify-content-center">-->
+      <!--<img src="assets/img/il.png" (click)="setLng('he')">-->
+      <!--<img src="assets/img/us.png" (click)="setLng('en')">-->
+    <!--</div>-->
   </ng-template>
 
 </div>
