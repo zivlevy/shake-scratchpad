@@ -64,6 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   login() {
     this.auth.login(this.email.value, this.password.value).then(user => {
       this.router.navigate([this.returnRoute ? this.returnRoute : '']);
+      window.location.reload();
     })
       .catch(err => {
         this.toastr.error(err.message, '', {
