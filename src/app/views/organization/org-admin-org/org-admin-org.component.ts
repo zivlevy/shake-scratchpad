@@ -31,6 +31,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
   bannerUrl: string;
   orgHome: string;
   lang: string;
+  currentOrg;
 
   constructor(private fb: FormBuilder,
               private orgService: OrgService,
@@ -85,6 +86,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(org => {
         if (org) {
+          this.currentOrg = org;
           this.orgName = org.orgName;
           this.orgId = org.orgId;
           this.orgHome = '/org/' + org.orgId;
@@ -124,8 +126,15 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
     this.inLogoEdit = true;
   }
 
+
+  // TODO - replace window.location.reload() with different solution
   logoSavedClicked() {
-    this.inLogoEdit = false;
+    this.imageService.uploadOrgLogo(this.logoData.image, this.orgId)
+      .then(    () => {
+        this.inLogoEdit = false;
+        window.location.reload();
+      })
+      .catch();
   }
 
   logoCancelClicked() {
@@ -139,7 +148,12 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
   }
 
   bannerSaveClicked() {
-    this.inBannerEdit = false;
+    this.imageService.uploadOrgBanner(this.bannerData.image, this.orgId)
+      .then(() => {
+        window.location.reload();
+        this.inBannerEdit = false;
+      })
+      .catch();
   }
 
   bannerCancelClicked() {
@@ -147,58 +161,32 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
     this.inBannerEdit = false;
   }
 
-  saveClicked() {
-    let publicDataPromise: any;
-    let logoPromise: any;
-    let bannerPromise: any;
-
-    if (this.orgManagementForm.controls['orgName'].dirty ||
-    this.orgManagementForm.controls['language'].dirty) {
-      const newData = {
-        'orgName': this.orgManagementForm.controls['orgName'].value,
-        'language': this.orgManagementForm.controls['language'].value,
-      };
-      publicDataPromise = this.orgService.setOrgPublicData(this.orgId, newData);
-    } else {
-      publicDataPromise = Promise.resolve();
-    }
-
-
-    if (this.logoData.image) {
-      logoPromise = this.imageService.uploadOrgLogo(this.logoData.image, this.orgId);
-    } else {
-      logoPromise = Promise.resolve();
-
-    }
-
-    if (this.bannerData.image) {
-      bannerPromise = this.imageService.uploadOrgBanner(this.bannerData.image, this.orgId);
-    } else {
-      bannerPromise = Promise.resolve();
-    }
-
-
-    Promise.all([publicDataPromise, logoPromise, bannerPromise])
-      .then(() => {
-        console.log('all is well');
-        window.location.reload();
-        // this.router.navigate([this.orgHome]);
-      })
-      .catch(err => console.log(err));
-
+  nameUpdateClicked() {
+    const newData = {
+      'orgName': this.orgName
+    };
+    this.orgService.setOrgPublicData(this.orgId, newData)
+      .then()
+      .catch();
   }
 
-  cancelClicked() {
-    this.router.navigate([this.orgHome]);
+  nameUpdateCanceled() {
+    this.orgName = this.currentOrg.orgName;
   }
 
-  languageSelectorClicked(lang: string) {
-    if (lang === 'English') {
-      this.setLng('en');
-    } else {
-      this.setLng('he');
-    }
+  langUpdateClicked() {
+    const newData = {
+      'language': this.lang
+    };
+    this.orgService.setOrgPublicData(this.orgId, newData)
+      .then()
+      .catch();
   }
+
+  langUpdateCanceled() {
+    this.lang = this.currentOrg.language;
+  }
+
 
   setLng(lng) {
     this.lngService.setLanguadge(lng);
