@@ -82,17 +82,17 @@
 
         .document-content {
           background: white;
-          min-height: 240px;
+          min-height: 150px;
           transition: box-shadow 150ms ease-in-out;
 
           @include mat-elevation(1);
 
           .header {
             color: white;
-            padding: 16px 24px;
-            height: 64px !important;
-            min-height: 64px !important;
-            max-height: 64px !important;
+            //padding: 16px 24px;
+            height: 24px !important;
+            min-height: 24px !important;
+            max-height: 24px !important;
 
             &.e-bg {
               background: mat-color($mat-blue, 500);
