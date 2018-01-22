@@ -7,11 +7,15 @@
       <mat-icon>home</mat-icon>
     </button>
 
-    <button *ngIf="currentOrgUser?.roles.editor" mat-button class="back-button mat-icon-button" (click)="gotoEdit()">
+    <p>{{docVersiontitle}}</p>
+
+    <span class="fillsapce"></span>
+
+    <button *ngIf="currentOrgUser?.roles.editor" mat-button class="rightside-buttons mat-icon-button" (click)="gotoEdit()">
       <mat-icon>edit</mat-icon>
     </button>
 
-    <button mat-button class="back-button mat-icon-button" (click)="toggleNumbering()">
+    <button mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()">
       <mat-icon>format_list_numbered</mat-icon>
     </button>
 

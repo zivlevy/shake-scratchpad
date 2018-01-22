@@ -6,6 +6,8 @@
     <button mat-button class="back-button mat-icon-button" (click)="goToOrgHome()">
       <mat-icon>home</mat-icon>
     </button>
+    <p>{{docVersiontitle}}</p>
+    <span class="fillsapce"></span>
 
     <button *ngIf="!isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showPreview()">
       <mat-icon>pageview</mat-icon>
@@ -15,7 +17,7 @@
       <mat-icon>edit</mat-icon>
     </button>
 
-    <span class="fillsapce"></span>
+
 
 
     <button mat-button class="rightside-buttons mat-icon-button" (click)="saveDocument()">

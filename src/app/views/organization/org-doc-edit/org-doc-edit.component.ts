@@ -21,6 +21,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
   currentDocType: string;
   currentDocVersion: number;
   currentEditData: SkDocData;
+  docVersiontitle: string ='';
   isDirty: boolean = false;
 
   isPreview: boolean = false;
@@ -50,22 +51,38 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
         this.currentDocId = params.docId;
         this.currentDocType = params.docType;
         this.currentDocVersion = params.docVersion;
-        return this.orgService.getDoc$(params.docId);
-      })
-      .switchMap((doc: SkDoc) => {
-        this.currentDoc = doc;
-        if (this.currentDocType === 'p') {
-          return Observable.of(doc.publishVersion);
-        } else if (this.currentDocType === 'e') {
-          return Observable.of(doc.editVersion);
+        if (params.docType === 'n') {
+          return Observable.of(null);
         } else {
-          return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion)
-            .take(1);
+          return this.orgService.getDoc$(params.docId);
         }
+      })
+      .switchMap((doc: SkDoc | null) => {
+        if (doc) {
+          this.currentDoc = doc;
+          if (this.currentDocType === 'p') {
+            this.docVersiontitle = `Published version ${doc.version}`;
+            return Observable.of(doc.publishVersion);
+          } else if (this.currentDocType === 'e') {
+            this.docVersiontitle = `Edit version`;
+            return Observable.of(doc.editVersion);
+          } else {
+            this.docVersiontitle = `Archive version ${this.currentDocVersion}`;
+            return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion)
+              .take(1);
+          }
+        } else {
+          // this is a new doc
+          this.docVersiontitle = 'New doc';
+          this.currentDoc = null;
+          this.editor.newDoc();
+          return Observable.of(null);
+        }
+
       })
       .takeUntil(this.destroy$)
       .subscribe((docData) => {
-        this.currentEditData = docData;
+        if (docData) {this.currentEditData = docData;}
       });
 
   }
@@ -82,9 +99,10 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
         });
     } else {
       this.isSaving = true;
-      this.orgService.addDoc(docData).then((res) => {
+      this.orgService.addDoc(docData).then((res: any) => {
         // go to edit of new version
-        this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, 'e', 0])
+        console.log(res)
+        this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, res.id, 'e', 0]);
         this.isSaving = false;
       })
         .catch(err => {
@@ -101,7 +119,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
       this.orgService.publishDoc(this.currentDoc.uid, docData)
         .then(() => {
           // go to edit of new version
-          this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, 'e', 0]);
+          this.router.navigate([`org/${this.currentOrg}`]);
           this.isSaving = false;
         })
         .catch((err) => console.log(err));
@@ -111,7 +129,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
           this.orgService.publishDoc(doc.id, docData)
             .then(() => {
               // go to edit of new version
-              this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, 'e', 0]);
+              this.router.navigate([`org/${this.currentOrg}`]);
               this.isSaving = false;
             })
             .catch((err) => console.log(err));

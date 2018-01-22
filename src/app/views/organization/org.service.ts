@@ -443,8 +443,10 @@ export class OrgService {
         this.deleteDocFromTree(docId);
         docRef.delete(); }
       );
+  }
 
-    // TODO remove from public as well
+  deleteDocVersion(docId: string, version: string) {
+    return this.fs.delete( `org/${this.localCurrentOrg}/docs/${docId}/versions/${version}`);
   }
 
   deleteDocP(orgId: string, docId: string): Promise<any> {

@@ -13,6 +13,13 @@
           <mat-icon>menu</mat-icon>
         </button>
         <h3>Find Documents</h3>
+
+        <span class="fillsapce"></span>
+
+        <button *ngIf="currentOrgUser?.roles.editor" mat-button class="rightside-buttons mat-icon-button" (click)="newDoc()">
+          <mat-icon>add_circle_outline</mat-icon>
+        </button>
+
       </div>
 
     </div>
@@ -60,7 +67,15 @@
               <div class="footer" fxLayout="row" fxLayoutAlign="center center">
                 <button mat-button color="accent" (click)="openDoc(doc.docId, doc.docType, doc.version)">
                   <!--[routerLink]="'/apps/academy/courses/' + course.id + '/' + course.slug">-->
-                  OPEN
+                  VIEW
+                </button>
+                <button *ngIf="currentOrgUser.roles.editor" mat-button color="accent" (click)="editDoc(doc.docId, doc.docType, doc.version)">
+                  <!--[routerLink]="'/apps/academy/courses/' + course.id + '/' + course.slug">-->
+                  EDIT
+                </button>
+                <button *ngIf="currentOrgUser.roles.editor && doc.docType === 'v'" mat-button color="accent" (click)="deleteDocVersion(doc.docId, doc.docType, doc.version)">
+                  <!--[routerLink]="'/apps/academy/courses/' + course.id + '/' + course.slug">-->
+                  DELETE
                 </button>
               </div>
 

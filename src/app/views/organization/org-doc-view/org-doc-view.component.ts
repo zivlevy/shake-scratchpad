@@ -20,6 +20,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   currentDocType: string;
   currentDocVersion: number;
   currentEditData: SkDocData;
+  docVersiontitle: string = '';
   isNumbering: boolean = true;
 
   constructor(private route: ActivatedRoute,
@@ -50,10 +51,13 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
       .switchMap( (doc: SkDoc) => {
         this.currentDoc = doc;
         if (this.currentDocType === 'p') {
+          this.docVersiontitle = `Published version ${doc.version}`;
           return Observable.of(doc.publishVersion);
         } else if (this.currentDocType === 'e') {
+          this.docVersiontitle = `Edit version`;
           return Observable.of(doc.editVersion);
         } else {
+          this.docVersiontitle = `Archive version ${this.currentDocVersion}`;
           return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion)
             .take(1);
         }

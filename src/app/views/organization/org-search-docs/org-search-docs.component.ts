@@ -104,10 +104,26 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
     this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion]);
   }
 
+  editDoc(docId: string, docType: string, docVersion: string) {
+    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, docType, docVersion]);
+  }
+
+  deleteDocVersion(docId: string, docType: string, docVersion: string) {
+      this.orgService.deleteDocVersion(docId, docVersion)
+        .then()
+        .catch();
+  }
+
+
+  newDoc() {
+    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, '', 'n', 0]);
+  }
+
   treeDocClicked(ev) {
     console.log(ev);
     this.openDoc(ev.uid, 'p', '0');
   }
+
 
   ngOnDestroy() {
     // force unsubscribe
