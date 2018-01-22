@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'sk-admin',
@@ -11,7 +12,9 @@ export class AdminComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   currentUser: any;
 
-  constructor(public authService: AuthService) {}
+  constructor(
+    private router: Router,
+    public authService: AuthService) {}
 
   ngOnInit() {
     this.authService.getUser$()
@@ -21,6 +24,13 @@ export class AdminComponent implements OnInit, OnDestroy {
       });
   }
 
+  login() {
+    this.router.navigate([`/login`]);
+  }
+
+  signup() {
+    this.router.navigate([`/register`]);
+  }
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);
