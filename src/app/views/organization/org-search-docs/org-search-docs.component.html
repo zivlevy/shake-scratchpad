@@ -2,7 +2,7 @@
 
   <!-- SIDENAV -->
   <mat-sidenav align="start" [opened]="sideOpen" [mode]="sideMode" class="wrap mat-elevation-z12">
-    <sk-org-tree-view></sk-org-tree-view>
+    <sk-org-tree-view (selectedDoc)="treeDocClicked($event)"></sk-org-tree-view>
   </mat-sidenav>
 
   <mat-sidenav-content >
@@ -58,7 +58,7 @@
               </div>
 
               <div class="footer" fxLayout="row" fxLayoutAlign="center center">
-                <button mat-button color="accent" (click)="openDoc(doc.docId)">
+                <button mat-button color="accent" (click)="openDoc(doc.docId, doc.docType, doc.version)">
                   <!--[routerLink]="'/apps/academy/courses/' + course.id + '/' + course.slug">-->
                   OPEN
                 </button>

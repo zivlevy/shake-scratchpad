@@ -3,8 +3,8 @@
   <!-- HEADER -->
   <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
 
-    <button mat-button class="back-button mat-icon-button" (click)="location.back()">
-      <mat-icon>arrow_back</mat-icon>
+    <button mat-button class="back-button mat-icon-button" (click)="goToOrgHome()">
+      <mat-icon>home</mat-icon>
     </button>
 
     <button *ngIf="currentOrgUser?.roles.editor" mat-button class="back-button mat-icon-button" (click)="gotoEdit()">
@@ -18,5 +18,5 @@
   </div>
 
   <!-- DOC VIEWER-->
-  <sk-doc-viewer [docJson]="doc?.editVersion.data" [isRTL]="true" [isNumbering]="isNumbering"></sk-doc-viewer>
+  <sk-doc-viewer [docJson]="currentEditData?.data" [isRTL]="true" [isNumbering]="isNumbering"></sk-doc-viewer>
 </div>

@@ -9,6 +9,7 @@ import {Subject} from 'rxjs/Subject';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
 import {Subscription} from 'rxjs/Subscription';
 import {ActivatedRoute, Router} from '@angular/router';
+import {OrgUser} from '../../../model/org-user';
 
 @Component({
   selector: 'sk-org-search-docs',
@@ -24,6 +25,7 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
   @ViewChild('search') searchInput: ElementRef;
 
   documents: any[];
+  // search related
   searchTerm = '';
   docNameOnly: boolean = false;
   published: boolean = true;
@@ -31,10 +33,24 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
   version: boolean = false;
   checkboxClick$: Subject<any> = new Subject();
 
+  currentOrg: string;
+  currentOrgUser: OrgUser;
+
   constructor(private orgService: OrgService,
               public media: ObservableMedia,
               public route: ActivatedRoute,
               public router: Router) {
+
+    // get current org
+    this.orgService.getCurrentOrg$()
+      .takeUntil(this.destroy$)
+      .subscribe(org => this.currentOrg = org);
+
+    this.orgService.getOrgUser$()
+      .takeUntil(this.destroy$)
+      .subscribe( user => this.currentOrgUser = user);
+
+
 
     if (this.media.isActive('gt-sm')) {
       this.sideOpen = true;
@@ -84,10 +100,14 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
     this.sideOpen = !this.sideOpen;
   }
 
-  openDoc(docId: string) {
-    this.router.navigate(['org-doc-view', docId], {relativeTo: this.route});
+  openDoc(docId: string, docType: string, docVersion: string) {
+    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion]);
   }
 
+  treeDocClicked(ev) {
+    console.log(ev);
+    this.openDoc(ev.uid, 'p', '0');
+  }
 
   ngOnDestroy() {
     // force unsubscribe

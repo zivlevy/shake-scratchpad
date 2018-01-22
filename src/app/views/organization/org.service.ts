@@ -385,7 +385,7 @@ export class OrgService {
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
     return docsRef.valueChanges().take(1).toPromise()
       .then(res => {
-        if (res.name !== editVersion.name) { this.editDocNameInTree(uid, editVersion.name); }
+        // if (res.name !== editVersion.name) { this.editDocNameInTree(uid, editVersion.name); }
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
         const nameObj = res.publishVersion ? {} : {name: editVersion.name};
         editVersion.createdBy = this.currentSkUser.uid;
@@ -400,6 +400,8 @@ export class OrgService {
     return docsRef.valueChanges().take(1).toPromise()
       .then(res => {
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+        // change name in tree
+        if (res.name !== editVersion.name) { this.editDocNameInTree(uid, editVersion.name); }
         // if current published - move to versions
         if (!res.publishVersion) {
           res['publishVersion'] = {...res.editVersion};
@@ -466,6 +468,9 @@ export class OrgService {
           }
         );
     });
+  }
+  getDocVersion$ (docId: string, versionNo: number) {
+    return this.fs.doc$(`org/${this.localCurrentOrg}/docs/${docId}/versions/${versionNo}`);
   }
 
   getAllVersions$(docId: string): Observable<any> {

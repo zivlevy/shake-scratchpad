@@ -26,8 +26,8 @@ const routes: Routes = [
               {path: 'org-admin-users', component: OrgAdminUsersComponent},
               {path: 'org-admin', component: OrgAdminOrgComponent},
               {path: 'doc-manage', component: OrgDocManagerComponent},
-              {path: 'org-doc-edit/:docId', component: OrgDocEditComponent},
-              {path: 'org-doc-view/:docId', component: OrgDocViewComponent},
+              {path: 'org-doc-edit/:docId/:docType/:docVersion', component: OrgDocEditComponent},
+              {path: 'org-doc-view/:docId/:docType/:docVersion', component: OrgDocViewComponent},
             ]},
 
 

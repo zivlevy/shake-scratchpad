@@ -3,20 +3,20 @@
   <!-- HEADER -->
   <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
 
-    <button mat-button class="back-button mat-icon-button" (click)="location.back()">
-      <mat-icon>arrow_back</mat-icon>
+    <button mat-button class="back-button mat-icon-button" (click)="goToOrgHome()">
+      <mat-icon>home</mat-icon>
     </button>
 
-
-    <button mat-button class="rightside-buttons mat-icon-button" (click)="gotoPreview()">
+    <button *ngIf="!isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showPreview()">
       <mat-icon>pageview</mat-icon>
+    </button>
+
+    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showEdit()">
+      <mat-icon>edit</mat-icon>
     </button>
 
     <span class="fillsapce"></span>
 
-    <button mat-button class="rightside-buttons mat-icon-button" (click)="newDocument()">
-      <mat-icon>note_add</mat-icon>
-    </button>
 
     <button mat-button class="rightside-buttons mat-icon-button" (click)="saveDocument()">
       <mat-icon>save</mat-icon>
@@ -26,12 +26,17 @@
       <mat-icon>publish</mat-icon>
     </button>
 
-    <button mat-button class="rightside-buttons mat-icon-button" (click)="deleteDocument()">
-      <mat-icon>delete</mat-icon>
-    </button>
   </div>
 
+  <!-- EDITOR -->
+  <div [hidden]="isPreview" >
+    <sk-tree-doc #editor [docData]="currentEditData" [isRTL]="true"></sk-tree-doc>
 
+  </div>
 
-  <sk-tree-doc #editor [docData]="currentEditData" [isRTL]="true"></sk-tree-doc>
+  <!-- VIEWER -->
+  <div [hidden]="!isPreview">
+    <sk-doc-viewer [docJson]="previewData" [isRTL]="true" [isNumbering]="true"></sk-doc-viewer>
+  </div>
+
 </div>
