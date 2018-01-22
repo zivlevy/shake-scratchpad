@@ -10,6 +10,7 @@ import * as firebase from 'firebase';
 import UserCredential = firebase.auth.UserCredential;
 import {User} from 'firebase';
 import {Observable} from 'rxjs/Observable';
+import {FirestoreService} from "./firestore.service";
 
 
 
@@ -20,6 +21,7 @@ export class AuthService {
 
     constructor(private afAuth: AngularFireAuth,
                 private afs: AngularFirestore,
+                private firestoreService: FirestoreService,
                 private router: Router) {
 
       this.getUser$().subscribe(user => {
@@ -88,21 +90,21 @@ export class AuthService {
       });
     }
 
-    isSkAdmin(uid: string): Observable<boolean> {
-      console.log('a', uid);
+    isSkAdmin$(uid: string): Observable<boolean> {
       return this.afs.doc(`skAdmins/${uid}`).valueChanges()
-        .map(res => {
-          return res === null ? false : true;
+        .map((res: any) => {
+          return res.isSkAdmin;
         });
-      ;
     }
 
-  isSkEditor(uid: string): Observable<boolean> {
-    console.log('a', uid);
-    return this.afs.doc(`skEditors/${uid}`).valueChanges()
-      .map(res => {
-        return res === null ? false : true;
-      });
-    ;
-  }
+    isSkEditor$(uid: string): Observable<boolean> {
+      return this.afs.doc(`skAdmins/${uid}`).valueChanges()
+        .map((res: any) => {
+          return res.isSkEditor;
+        });
+    }
+
+    getUsers$(): Observable<any> {
+      return this.firestoreService.colWithIds$(`users`);
+    }
 }

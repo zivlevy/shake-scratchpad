@@ -1,31 +1,39 @@
 <div class="users-container mat-elevation-z8">
+
+  <div class="table-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+
   <mat-table #table [dataSource]="dataSource">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-      <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+    <!-- photo URL Column -->
+    <ng-container matColumnDef="photoURL">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element"> <img *ngIf="element.photoURL" id="user-img"
+                                                class="rounded-circle img-fluid" [src]="element.photoURL" alt=""> </mat-cell>
     </ng-container>
+
+    <!-- uid Column -->
+    <!--<ng-container matColumnDef="uid">-->
+      <!--<mat-header-cell *matHeaderCellDef> uid </mat-header-cell>-->
+      <!--<mat-cell *matCellDef="let element"> {{element.uid}} </mat-cell>-->
+    <!--</ng-container>-->
 
     <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    <ng-container matColumnDef="displayName">
+      <mat-header-cell *matHeaderCellDef> Display Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.displayName}} </mat-cell>
     </ng-container>
 
-    <!-- Weight Column -->
-    <ng-container matColumnDef="weight">
-      <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
-    </ng-container>
-
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="symbol">
-      <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+    <!-- email Column -->
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> email </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
