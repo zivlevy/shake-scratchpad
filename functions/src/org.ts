@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
-import {algoliaInitIndex, algoliaGetSearchKey, algoliaSaveDoc, AlgoliaDoc, algoliaOrgDelete} from "./algolia";
+import {algoliaInitIndex, algoliaGetSearchKey, algoliaSaveDoc, AlgoliaDoc, algoliaOrgDelete, algoliaDeleteVersionDoc} from "./algolia";
 
 
 const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
@@ -103,6 +103,17 @@ export const onPrivateDocVersionCreated = functions.firestore.document('org/{org
 
 });
 
+export const onPrivateDocVersionDeleted = functions.firestore.document('org/{orgId}/docs/{docId}/versions/{version}').onDelete((event) => {
+
+  const orgId = event.resource.match("org/(.*)/docs")[1];
+  const docId = event.resource.match("docs/(.*)/versions")[1];
+  const version = event.resource.match("/versions/(.*)")[1];
+
+  return algoliaDeleteVersionDoc(orgId, docId, version)
+    .catch(err => console.log(err));
+
+
+});
 export const newOrgRequest = functions.firestore
   .document('orgRequested/{doc}').onCreate((event) => {
     const newOrg = event.data.data();

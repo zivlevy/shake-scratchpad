@@ -20,6 +20,11 @@ export const algoliaSaveDoc = function (orgId, algoliaDoc) {
   return index.saveObject(algoliaDoc);
 };
 
+export const algoliaDeleteVersionDoc = function(orgId, docId, version) {
+  const index = client.initIndex(orgId);
+  return index.deleteObject(docId + version);
+}
+
 export const algoliaInitIndex = function (orgId) {
   const index = client.initIndex(orgId);
   return index.setSettings({
