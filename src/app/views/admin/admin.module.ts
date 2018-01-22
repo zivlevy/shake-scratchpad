@@ -9,6 +9,8 @@ import {CoreModule} from '../../core/core.module';
 import { AdminOrgsMamagementItemComponent } from './admin-orgs-mamagement-item/admin-orgs-mamagement-item.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { AdminUsersManagementComponent } from './admin-users-management/admin-users-management.component';
+import {MaterialModule} from "../../material/material.module";
+import { AdminUsersManagementItemComponent } from './admin-users-management-item/admin-users-management-item.component';
 
 @NgModule({
   imports: [
@@ -16,11 +18,13 @@ import { AdminUsersManagementComponent } from './admin-users-management/admin-us
     SharedModule,
     AdminRoutingModule,
     CoreModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MaterialModule
   ],
   declarations: [AdminComponent,
     AdminOrgsManagementComponent,
     AdminOrgsMamagementItemComponent,
-    AdminUsersManagementComponent]
+    AdminUsersManagementComponent,
+    AdminUsersManagementItemComponent]
 })
 export class AdminModule { }

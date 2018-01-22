@@ -44,7 +44,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatSortModule,
     MatTableModule,
     MatTabsModule,
-    MatStepperModule
+    MatStepperModule,
+    MatToolbarModule,
   ],
   exports: [
     MatAutocompleteModule,
@@ -77,7 +78,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatSortModule,
     MatTableModule,
     MatTabsModule,
-    MatStepperModule
+    MatStepperModule,
+    MatToolbarModule,
   ],
 
   declarations: []

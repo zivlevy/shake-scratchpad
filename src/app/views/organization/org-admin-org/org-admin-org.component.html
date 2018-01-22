@@ -28,7 +28,7 @@
   </div>
 
   <ng-template #orgManagement>
-    <div class="container">
+    <div id="wrapper" class="container">
 
       <form [formGroup]="orgManagementForm">
 
@@ -47,7 +47,7 @@
           <div>
             <mat-form-field>
               <input matInput type="text" id="orgName" [(ngModel)]="orgName"
-                     formControlName="orgName" placeholder="org Name">
+                     formControlName="orgName" placeholder="Organization Name">
             </mat-form-field>
             <button *ngIf="currentOrg && currentOrg.orgName !== orgName" mat-button color="primary"
                     (click)="nameUpdateClicked()"
@@ -81,26 +81,11 @@
             <button mat-raised-button color="primary" class="raised-buttons" (click)="bannerUploadClicked()">Banner Update</button>
           </div>
 
-          <!--<div class="form-group row">-->
-            <!--<label for="orgLogoUpload" class="col-sm-3 col-form-label" [innerHTML]="'Organization Logo' | translate" ></label>-->
-            <!--<button class="btn btn-primary form-control col-sm-4" id="orgLogoUpload" (click)="logoUploadClicked()"-->
-                    <!--[innerHTML]="'Upload' | translate"></button>-->
-          <!--</div>-->
-
-          <!--<div class="form-group row">-->
-            <!--<label for="orgBGImage" class="col-sm-3 col-form-label" [innerHTML]="'Banner Image' | translate" ></label>-->
-            <!--<button class="btn btn-primary form-control col-sm-4" id="orgBGImage" (click)="bannerUploadClicked()"-->
-                    <!--[innerHTML]="'Upload' | translate"></button>-->
-          <!--</div>-->
 
         </div>
       </form>
     </div>
 
-    <!--<div class="flags d-flex justify-content-center">-->
-      <!--<img src="assets/img/il.png" (click)="setLng('he')">-->
-      <!--<img src="assets/img/us.png" (click)="setLng('en')">-->
-    <!--</div>-->
   </ng-template>
 
 </div>
