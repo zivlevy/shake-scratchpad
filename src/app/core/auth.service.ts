@@ -105,6 +105,47 @@ export class AuthService {
     }
 
     getUsers$(): Observable<any> {
-      return this.firestoreService.colWithIds$(`users`);
+      return this.firestoreService.colWithIds$(`users`)
+        .map(users => users.filter(user => !user.isSkAdmin));
+    }
+
+    getSkAdmins$(): Observable<any> {
+      return this.firestoreService.colWithIds$('skAdmins')
+        .map(resArray => {
+          resArray.forEach(res => {
+            this.afs.doc(`users/${res.id}`).valueChanges()
+              .take(1)
+              .subscribe((userData: any) => {
+                res.displayName = userData.displayName;
+                res.photoURL = userData.photoURL;
+                res.email = userData.email;
+              });
+          });
+          return resArray;
+        });
+    }
+
+    set2Admin(uid: string, isSkAdmin: boolean, isSkEditor: boolean): Promise<any> {
+      const addToSkAdmins = this.afs.collection('skAdmins').doc(uid).set({uid, 'isSkAdmin': isSkAdmin, 'isSkEditor': isSkEditor});
+
+      const addToUsers = this.afs.doc(`users/${uid}`).update({
+        'isSkAdmin': true
+      });
+
+      return Promise.all([addToSkAdmins, addToUsers])
+        .then()
+        .catch();
+    }
+
+    setAdmin2User(uid: string): Promise<any> {
+      const removeFromSkAdmins = this.afs.collection('skAdmins').doc(uid).delete();
+
+      const addToUsers = this.afs.doc(`users/${uid}`).update({
+        'isSkAdmin': false
+      });
+
+      return Promise.all([removeFromSkAdmins, addToUsers])
+        .then()
+        .catch();
     }
 }

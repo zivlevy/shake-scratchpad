@@ -1,28 +1,21 @@
-<div class="users-container mat-elevation-z8">
+<h1>Administrators</h1>
+
+<div class="admins-container mat-elevation-z8">
 
   <div class="table-header">
     <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      <input matInput (keyup)="applyAdminsFilter($event.target.value)" placeholder="Filter">
     </mat-form-field>
   </div>
 
-  <mat-table #table [dataSource]="dataSource">
+  <mat-table #table1 class="admins-table" [dataSource]="adminsDataSource">
 
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
-    <!-- photo URL Column -->
+    <!-- Name Column -->
     <ng-container matColumnDef="photoURL">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let element"> <img *ngIf="element.photoURL" id="user-img"
-                                                class="rounded-circle img-fluid" [src]="element.photoURL" alt=""> </mat-cell>
+      <mat-cell *matCellDef="let element"> <img *ngIf="element.photoURL"
+                                                class="user-img rounded-circle img-fluid" [src]="element.photoURL" alt=""> </mat-cell>
     </ng-container>
-
-    <!-- uid Column -->
-    <!--<ng-container matColumnDef="uid">-->
-      <!--<mat-header-cell *matHeaderCellDef> uid </mat-header-cell>-->
-      <!--<mat-cell *matCellDef="let element"> {{element.uid}} </mat-cell>-->
-    <!--</ng-container>-->
 
     <!-- Name Column -->
     <ng-container matColumnDef="displayName">
@@ -36,7 +29,74 @@
       <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <ng-container matColumnDef="isSkAdmin">
+      <mat-header-cell *matHeaderCellDef> SHAKE admin </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-checkbox
+        [disabled]="currentUser && currentUser.uid === element.id"
+        (change) = "adminsAdminClicked(element.id, $event)"
+        [checked]="element.isSkAdmin"></mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isSkEditor">
+      <mat-header-cell *matHeaderCellDef> SHAKE Editor </mat-header-cell>
+      <mat-cell *matCellDef="let element"><mat-checkbox
+        (change) = "adminsEditorClicked(element.id, $event)"
+        [checked]="element.isSkEditor"></mat-checkbox></mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="adminsDisplayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: adminsDisplayedColumns;"></mat-row>
+  </mat-table>
+</div>
+
+<h1>Users</h1>
+
+<div class="users-container mat-elevation-z8">
+
+  <div class="table-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyUsersFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+
+  <mat-table #table class="users-table" [dataSource]="usersDataSource">
+
+    <!-- photo URL Column -->
+    <ng-container matColumnDef="photoURL">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element"> <img *ngIf="element.photoURL"
+                                                class="user-img rounded-circle img-fluid" [src]="element.photoURL" alt=""> </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="displayName">
+      <mat-header-cell *matHeaderCellDef> Display Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.displayName}} </mat-cell>
+    </ng-container>
+
+    <!-- email Column -->
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> email </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isSkAdmin">
+      <mat-header-cell *matHeaderCellDef> SHAKE admin </mat-header-cell>
+      <mat-cell *matCellDef="let element"><mat-checkbox
+         (change) = "usersAdminClicked(element.id, $event)"
+        [checked]="element.isSkAdmin"></mat-checkbox></mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isSkEditor">
+      <mat-header-cell *matHeaderCellDef> SHAKE Editor </mat-header-cell>
+      <mat-cell *matCellDef="let element"><mat-checkbox
+        (change) = "usersEditorsClicked(element.id, $event)"
+        [checked]="element.isSkEditor"></mat-checkbox></mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="usersDisplayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: usersDisplayedColumns;"></mat-row>
   </mat-table>
 </div>
