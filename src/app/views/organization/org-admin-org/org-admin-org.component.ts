@@ -132,7 +132,6 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
     this.imageService.uploadOrgLogo(this.logoData.image, this.orgId)
       .then(    () => {
         this.inLogoEdit = false;
-        this.orgName = this.orgName;
         window.location.reload();
       })
       .catch();

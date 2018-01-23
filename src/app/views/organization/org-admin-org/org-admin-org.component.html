@@ -4,25 +4,25 @@
 
     <div id="logoWrapper" class="img-input" *ngIf="inLogoEdit">
       <img-cropper [image]="logoData" [settings]="logoCropperSettings"></img-cropper>
-      <button id="logoHide" class="btn btn-primary"> Choose Logo image</button>
+      <button id="logoHide" mat-raised-button color="primary"> Click to choose logo image</button>
       <div class="cropper-buttons">
 
-        <button class="btn btn-outline-danger" [disabled]="!logoData.image"
+        <button mat-raised-button color="primary" [disabled]="!logoData.image"
                 (click)="logoSavedClicked()">save
         </button>
-        <button class="btn btn-outline-primary" (click)="logoCancelClicked()">cancel</button>
+        <button mat-raised-button color="basic" (click)="logoCancelClicked()">cancel</button>
       </div>
     </div>
 
     <div id="bannerWraper" class="img-input" *ngIf="inBannerEdit">
       <img-cropper [image]="bannerData" [settings]="bannerCropperSettings"></img-cropper>
-      <button id="bannerHide" class="btn btn-primary"> Choose Banner image</button>
+      <button id="bannerHide" mat-raised-button color="primary" > Click to choose banner image</button>
       <div class="cropper-buttons">
 
-        <button class="btn btn-outline-danger" [disabled]="!bannerData.image"
+        <button mat-raised-button color="primary" [disabled]="!bannerData.image"
                 (click)="bannerSaveClicked()">save
         </button>
-        <button class="btn btn-outline-primary" (click)="bannerCancelClicked()">cancel</button>
+        <button mat-raised-button color="basic" (click)="bannerCancelClicked()">cancel</button>
       </div>
     </div>
   </div>
