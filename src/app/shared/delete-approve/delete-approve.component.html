@@ -1,0 +1,25 @@
+<div fxLayout="column">
+  <div mat-dialog-title>
+    <h4>Delete Organization</h4>
+    <span class="orgId" >{{ data.orgId }}</span>
+  </div>
+
+  <div mat-dialog-content>
+    <div class="alert alert-warning">
+      <i class="fa fa-warning"></i> This operation cannot be undone
+    </div>
+    <form >
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Please confirm by typing the orgId (in red above)" #verifyText>
+      </mat-form-field>
+
+    </form>
+  </div>
+
+  <div mat-dialog-actions fxLayoutAlign="end end">
+    <button mat-raised-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="warn" [disabled]="verifyText.value !== data.verifyPhrase"
+            (click)="confirmClicked()">Confirm</button>
+  </div>
+</div>
+

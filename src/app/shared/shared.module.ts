@@ -13,6 +13,8 @@ import {NgxSpinnerModule} from 'ngx-spinner';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {CoreModule} from '../core/core.module';
 import { NavAdminComponent } from './nav-admin/nav-admin.component';
+import { DeleteApproveComponent } from './delete-approve/delete-approve.component';
+import {MaterialModule} from "../material/material.module";
 
 @NgModule({
   imports: [
@@ -26,21 +28,23 @@ import { NavAdminComponent } from './nav-admin/nav-admin.component';
     NgxSpinnerModule,
     ImageCropperModule,
     FlexLayoutModule,
-
+    MaterialModule,
   ],
   declarations: [
     SpinnerComponent,
     UserProfileComponent,
     NavUserComponent,
     CheckboxComponent,
-    NavAdminComponent
+    NavAdminComponent,
+    DeleteApproveComponent
   ],
   exports: [
     SpinnerComponent,
     UserProfileComponent,
     NavUserComponent,
     NavAdminComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    DeleteApproveComponent
   ]})
 
 export class SharedModule {

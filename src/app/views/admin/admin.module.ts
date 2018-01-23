@@ -10,6 +10,7 @@ import { AdminOrgsMamagementItemComponent } from './admin-orgs-mamagement-item/a
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { AdminUsersManagementComponent } from './admin-users-management/admin-users-management.component';
 import {MaterialModule} from '../../material/material.module';
+import {DeleteApproveComponent} from "../../shared/delete-approve/delete-approve.component";
 
 @NgModule({
   imports: [
@@ -18,12 +19,15 @@ import {MaterialModule} from '../../material/material.module';
     AdminRoutingModule,
     CoreModule,
     FlexLayoutModule,
-    MaterialModule
+    MaterialModule,
   ],
   declarations: [AdminComponent,
     AdminOrgsManagementComponent,
     AdminOrgsMamagementItemComponent,
     AdminUsersManagementComponent,
+  ],
+  entryComponents: [
+    DeleteApproveComponent
   ]
 })
 export class AdminModule { }
