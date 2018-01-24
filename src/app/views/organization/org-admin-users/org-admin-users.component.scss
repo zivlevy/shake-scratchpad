@@ -23,3 +23,21 @@
 
 
 button:focus {outline:0;}
+
+.org-users-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+}
+
+.org-users-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.user-img {
+  height: auto;
+  width: 36px;
+
+}

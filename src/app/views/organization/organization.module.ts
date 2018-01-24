@@ -7,8 +7,6 @@ import {OrgGuard} from './guards/org.guard';
 import {OrgService} from './org.service';
 import {TranslateModule} from '@ngx-translate/core';
 import {ReactiveFormsModule , FormsModule} from '@angular/forms';
-import { OrgAdminComponent } from './org-admin/org-admin.component';
-import { OrgAdminUserItemComponent } from './org-admin-user-item/org-admin-user-item.component';
 import {SharedModule} from '../../shared/shared.module';
 import { OrgNavComponent } from './org-nav/org-nav.component';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
@@ -53,8 +51,6 @@ import { OrgDocEditComponent } from './org-doc-edit/org-doc-edit.component';
   ],
   declarations: [
     OrgHomePageComponent,
-    OrgAdminComponent,
-    OrgAdminUserItemComponent,
     OrgNavComponent,
     OrgAdminUsersComponent,
     OrgAdminOrgComponent,

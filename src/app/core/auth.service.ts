@@ -125,6 +125,22 @@ export class AuthService {
         });
     }
 
+    getOrgUsers$(orgId: string): Observable<any> {
+      return this.firestoreService.colWithIds$(`org/${orgId}/users`)
+        .map(resArray => {
+          resArray.forEach(res => {
+            this.afs.doc(`users/${res.id}`).valueChanges()
+              .take(1)
+              .subscribe((userData: any) => {
+                res.displayName = userData.displayName;
+                res.photoURL = userData.photoURL;
+                res.email = userData.email;
+              });
+          });
+          return resArray;
+        });
+    }
+
     set2Admin(uid: string, isSkAdmin: boolean, isSkEditor: boolean): Promise<any> {
       const addToSkAdmins = this.afs.collection('skAdmins').doc(uid).set({uid, 'isSkAdmin': isSkAdmin, 'isSkEditor': isSkEditor});
 

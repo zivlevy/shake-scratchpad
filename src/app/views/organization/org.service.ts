@@ -18,6 +18,7 @@ import {ImageService} from '../../core/image.service';
 import {TreeNode} from 'angular-tree-component';
 import {OrgTreeNode} from '../../model/org-tree';
 import {AlgoliaService} from "../../core/algolia.service";
+import {user} from "firebase-functions/lib/providers/auth";
 
 @Injectable()
 export class OrgService {
@@ -115,8 +116,10 @@ export class OrgService {
 
   // Delete additional user data
   deleteOrgUser(uid: string) {
-    const userRef = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${uid}`);
-    return userRef.delete();
+    const orgUserDelete = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${uid}`).delete();
+    const userOrgDelete = this.afs.doc(`users/${uid}/orgs/${this.currentOrg$.getValue()}`).delete();
+
+    return Promise.all([orgUserDelete, userOrgDelete]);
   }
 
   getOrgUser$() {
