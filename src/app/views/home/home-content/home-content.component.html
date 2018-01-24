@@ -5,8 +5,11 @@
         <h1 class="display-3 mb-4">Your Business Operating Procedures</h1>
         <h1 class="display-3 mb-4">Smartly Delivered</h1>
         <br>
-        <a [class.disabled]="!currentUser || !currentUser.emailVerified " class="btn btn-lg btn-primary mx-1"
-           (click)="addOrganization()">Create new organization</a>
+        <button mat-raised-button color="primary" [disabled]="!currentUser || !currentUser.emailVerified" (click)="addOrganization()">
+          Create new organization
+        </button>
+        <!--<a [class.disabled]="!currentUser || !currentUser.emailVerified " class="btn btn-lg btn-primary mx-1"-->
+           <!--(click)="addOrganization()">Create new organization</a>-->
         <br>
         <small *ngIf="!currentUser" class="text-white"> Login to enable button</small>
         <small *ngIf="currentUser && !currentUser.emailVerified " class="text-white">Verify your account to enable button</small>

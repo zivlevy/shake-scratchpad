@@ -33,6 +33,8 @@ export class NavAdminComponent implements OnInit, OnDestroy {
 
         this.currentAuthUser = user;
         if (user === null) {
+          this.isSkEditor = false;
+          this.isSkAdmin = false;
           return null;
         }
         this.authService.isSkAdmin$(user.uid)

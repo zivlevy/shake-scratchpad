@@ -3,7 +3,12 @@
   height: 30px;
 }
 
-#orgLogo {
+.orgLogo {
   height: 30px;
   width: auto;
+}
+
+.fill-remaining-space {
+
+  flex: 1 1 auto;
 }
