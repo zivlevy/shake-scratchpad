@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
 
         this.lngService.getLanguadge$()
             .subscribe(lng => {
-              console.log(lng);
                 // the lang to use, if the lang isn't available, it will use the current loader to get them
                 this.translate.use(lng);
                 lng === 'he' ? this.rtl = true : this.rtl = false;

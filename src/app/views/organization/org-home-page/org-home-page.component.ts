@@ -73,7 +73,6 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(orgData => {
         if (orgData) {
-          console.log('org data change', orgData);
           this.org.orgName = orgData.orgName;
           this.org.language = orgData.language;
           if (this.org.language === 'Hebrew') {
@@ -81,7 +80,6 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
             this.rtl = true;
             this.lngService.setLanguadge('he');
           } else {
-            console.log('an english org');
             this.rtl = false;
             this.lngService.setLanguadge('en');
 
@@ -104,14 +102,15 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
       .subscribe(
         (url) => {
           this.org.logoUrl = url;
-          console.log('url = ', url);
           },
         (err) => console.log('Error: ' + err));
 
     this.org.bannerUrl = 'assets/img/shake banner.png';
     this.imageService.getOrgBanner$(this.org.orgId)
       .subscribe(
-        (url) => this.org.bannerUrl = url,
+        (url) => {
+          this.org.bannerUrl = url;
+          },
         (err) => console.log('Error: ' + err));
 
   }

@@ -1,9 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AuthService} from '../../../core/auth.service';
 import {LanguageService} from '../../../core/language.service';
 import {OrgService} from '../org.service';
-import {OrgUser} from '../../../model/org-user';
 import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/observable/defer';
@@ -38,8 +36,8 @@ export class OrgNavComponent implements OnInit, OnDestroy {
 
     // get current language
     this.lngService.getLanguadge$()
-      .takeUntil(this.destroy$).subscribe(lng => {
-        console.log(lng);
+      .takeUntil(this.destroy$)
+      .subscribe(lng => {
       this.rtl = lng === 'he' ? true : false;
     });
 

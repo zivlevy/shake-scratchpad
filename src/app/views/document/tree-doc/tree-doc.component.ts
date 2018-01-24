@@ -147,7 +147,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
       key: 'lvnfclG5eiyyd1bz==',
       fontSizeSelection: true,
       multiLine: !node.children,
-      fontSize: ['8', '10', '12', '14', '18', '20', '24'],
+      fontSize: ['8', '10', '12', '14', '16', '18', '20', '24'],
       disableRightClick: true,
       placeholderText: this.isRTL ? 'הכנס טקסט...' : 'Insert text',
       charCounterCount: false,

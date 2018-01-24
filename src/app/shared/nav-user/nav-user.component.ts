@@ -18,7 +18,7 @@ export class NavUserComponent implements OnInit, OnDestroy {
   currentLng;
   isAuthenticated: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  myOrgs: Array<any> = new Array<any>();
+  myOrgs: Array<any>; // = new Array<any>();
 
   constructor(private authService: AuthService,
               private router: Router,
@@ -50,6 +50,7 @@ export class NavUserComponent implements OnInit, OnDestroy {
         }
         this.userService.getUserOrgs$(user.uid)
           .subscribe(res => {
+            this.myOrgs = new Array<any>();
             res.forEach(orgIdObj => {
               this.orgService.getOrgNameP(orgIdObj.id)
                 .then(orgName => {
