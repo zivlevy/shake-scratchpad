@@ -9,7 +9,8 @@ import {ImageService} from './image.service';
 import {FirestoreService} from './firestore.service';
 import {UserService} from './user.service';
 import {SafeHtmlPipe} from './safe-html.pipe';
-import {AlgoliaService} from "./algolia.service";
+import {AlgoliaService} from './algolia.service';
+import { SetDirectionDirective } from './set-direction.directive';
 
 @NgModule({
   imports: [
@@ -24,9 +25,10 @@ import {AlgoliaService} from "./algolia.service";
     FirestoreService,
     UserService,
     ImageService,
-    AlgoliaService
+    AlgoliaService,
+    SetDirectionDirective
   ],
-  declarations: [SafeHtmlPipe],
+  declarations: [SafeHtmlPipe, SetDirectionDirective],
   exports: [SafeHtmlPipe]
 })
 export class CoreModule {

@@ -28,26 +28,11 @@ export class OrgNavComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private orgService: OrgService,
-              private lngService: LanguageService) {
+              private orgService: OrgService) {
   }
 
   ngOnInit() {
-    console.log('org', this.org);
-    console.log('user', this.user);
 
-    // get current language
-    this.lngService.getLanguadge$()
-      .takeUntil(this.destroy$)
-      .subscribe(lng => {
-      this.rtl = lng === 'he' ? true : false;
-    });
-
-  }
-
-  setLang(lng) {
-    this.lngService.setLanguadge(lng);
-    this.rtl = lng === 'he' ? true : false;
   }
 
   login() {
@@ -71,7 +56,6 @@ export class OrgNavComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    console.log('unsub =======');
     // force unsubscribe
     this.destroy$.next(true);
     // Now let's also unsubscribe from the subject itself:

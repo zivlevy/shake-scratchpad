@@ -17,8 +17,8 @@ import {FirestoreService} from '../../core/firestore.service';
 import {ImageService} from '../../core/image.service';
 import {TreeNode} from 'angular-tree-component';
 import {OrgTreeNode} from '../../model/org-tree';
-import {AlgoliaService} from "../../core/algolia.service";
-import {user} from "firebase-functions/lib/providers/auth";
+import {AlgoliaService} from '../../core/algolia.service';
+import {LanguageService} from '../../core/language.service';
 
 @Injectable()
 export class OrgService {
@@ -36,7 +36,8 @@ export class OrgService {
               private imageService: ImageService,
               private firestoreService: FirestoreService,
               private fs: FirestoreService,
-              private algoliaService: AlgoliaService) {
+              private algoliaService: AlgoliaService,
+              private lngService: LanguageService) {
 
     this.router.events
       .filter((event) => {
@@ -179,7 +180,10 @@ export class OrgService {
             }
           });
       }).subscribe(orgPublicData => {
-        this.orgPublicData$.next(orgPublicData);
+        if (orgPublicData) {
+          this.lngService.setLanguadge(orgPublicData.language);
+        }
+      this.orgPublicData$.next(orgPublicData);
     });
   }
 
@@ -555,9 +559,12 @@ export class OrgService {
   /***************************************/
 
   getOrgTreeFromJson$() {
-    return this.fs.doc$(`org/${this.localCurrentOrg}`)
-      .map((result: any) => {
-        return JSON.parse(result.orgTreeJson);
+    return this.getCurrentOrg$()
+      .switchMap(currentOrg => {
+        return this.fs.doc$(`org/${currentOrg}`)
+          .map((result: any) => {
+            return JSON.parse(result.orgTreeJson);
+          });
       });
   }
 

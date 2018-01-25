@@ -10,6 +10,7 @@ import {MediaChange, ObservableMedia} from '@angular/flex-layout';
 import {Subscription} from 'rxjs/Subscription';
 import {ActivatedRoute, Router} from '@angular/router';
 import {OrgUser} from '../../../model/org-user';
+import {LanguageService} from "../../../core/language.service";
 
 @Component({
   selector: 'sk-org-search-docs',
@@ -18,7 +19,7 @@ import {OrgUser} from '../../../model/org-user';
 })
 export class OrgSearchDocsComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
-
+  rtl: boolean = false;
   activeMediaQuery = '';
   sideMode: string = 'side';
   sideOpen: boolean = true;
@@ -39,7 +40,8 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
   constructor(private orgService: OrgService,
               public media: ObservableMedia,
               public route: ActivatedRoute,
-              public router: Router) {
+              public router: Router,
+              private lngService: LanguageService) {
 
     // get current org
     this.orgService.getCurrentOrg$()
@@ -48,9 +50,12 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
 
     this.orgService.getOrgUser$()
       .takeUntil(this.destroy$)
-      .subscribe( user => this.currentOrgUser = user);
+      .subscribe(user => this.currentOrgUser = user);
 
-
+    // directions
+    this.lngService.getDirection$()
+      .takeUntil(this.destroy$)
+      .subscribe(dir => this.rtl = (dir === 'rtl'));
 
     if (this.media.isActive('gt-sm')) {
       this.sideOpen = true;
@@ -98,6 +103,11 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
 
   toogleMenu() {
     this.sideOpen = !this.sideOpen;
+    if (this.sideOpen) {
+      this.sideMode = 'over';
+    } else {
+      this.sideMode = 'side';
+    }
   }
 
   openDoc(docId: string, docType: string, docVersion: string) {
@@ -109,9 +119,9 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
   }
 
   deleteDocVersion(docId: string, docType: string, docVersion: string) {
-      this.orgService.deleteDocVersion(docId, docVersion)
-        .then()
-        .catch();
+    this.orgService.deleteDocVersion(docId, docVersion)
+      .then()
+      .catch();
   }
 
 
@@ -130,7 +140,6 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     // Now let's also unsubscribe from the subject itself:
     this.destroy$.unsubscribe();
-
   }
 
 }

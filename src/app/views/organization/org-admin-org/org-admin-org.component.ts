@@ -92,13 +92,6 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
           this.orgHome = '/org/' + org.orgId;
           this.lang = org.language;
           this.orgManagementForm.controls['language'].setValue(this.lang);
-          if (org.language === 'Hebrew') {
-            console.log('a hebrew org');
-            this.lngService.setLanguadge('he');
-          } else {
-            console.log('an english org');
-            this.lngService.setLanguadge('en');
-          }
 
           // get Logo
         this.imageService.getOrgLogo$(this.orgId)

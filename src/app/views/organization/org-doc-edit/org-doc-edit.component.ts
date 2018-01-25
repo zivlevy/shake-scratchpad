@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {OrgUser} from '../../../model/org-user';
 import {Observable} from 'rxjs/Observable';
+import {LanguageService} from "../../../core/language.service";
 
 @Component({
   selector: 'sk-org-doc-edit',
@@ -28,15 +29,24 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
   previewData: string;
   isSaving: boolean;
   isNumbering: boolean = false;
+  rtl: boolean = false;
 
   constructor(public orgService: OrgService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private lngService: LanguageService) {
 
 
   }
 
   ngOnInit() {
+
+    // direcrtion
+    this.lngService.getDirection$()
+      .takeUntil(this.destroy$)
+      .subscribe(dir => this.rtl = (dir === 'rtl'));
+
+
     // get current org
     this.orgService.getCurrentOrg$()
       .takeUntil(this.destroy$)

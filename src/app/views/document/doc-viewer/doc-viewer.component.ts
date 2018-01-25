@@ -26,7 +26,4 @@ export class DocViewerComponent implements OnInit, OnChanges {
     }
   }
 
-
-
-
 }

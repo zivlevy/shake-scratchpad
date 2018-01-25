@@ -1,15 +1,15 @@
-<mat-sidenav-container id="container">
+<mat-sidenav-container  id="container">
 
   <!-- SIDENAV -->
-  <mat-sidenav align="start" [opened]="sideOpen" [mode]="sideMode" class="wrap mat-elevation-z12">
+  <mat-sidenav #sidenav align="start" [opened]="sideOpen" [mode]="sideMode" class="wrap mat-elevation-z12">
     <sk-org-tree-view (selectedDoc)="treeDocClicked($event)"></sk-org-tree-view>
   </mat-sidenav>
 
-  <mat-sidenav-content >
+  <mat-sidenav-content [ngClass]="{'mat-content-rtl': rtl && sideOpen, 'mat-content-ltr': !rtl && sideOpen}">
     <!-- HEADER -->
-    <div class="header mat-accent-bg p-16 p-sm-24">
+    <div class="header">
       <div class="hero-text" fxLayout="row" fxLayoutAlign="start center">
-        <button mat-button class="menu-btn" fxHide.gt-sm (click)="toogleMenu()">
+        <button mat-button class="menu-btn" fxHide.gt-sm (click)="sidenav.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
         <h3>Find Documents</h3>
@@ -28,7 +28,7 @@
     <!--CONTENT -->
     <div class="content p-24">
 
-      <div fxLayout="column" fxLayoutAlign="center">
+      <div fxLayout="column" fxLayoutAlign="end center">
 
         <div class="filters" fxLayout="column" fxLayoutAlign="center center"
              fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">

@@ -81,15 +81,10 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
           this.org.language = orgData.language;
           this.org.logoUrl = orgData.logoURL;
           this.org.bannerUrl = orgData.bannerURL;
-          console.log(orgData);
-          if (this.org.language === 'Hebrew') {
-            console.log('org', orgData);
+          if (this.org.language === 'he') {
             this.rtl = true;
-            this.lngService.setLanguadge('he');
           } else {
             this.rtl = false;
-            this.lngService.setLanguadge('en');
-
           }
         }
       });

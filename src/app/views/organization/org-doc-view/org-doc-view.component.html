@@ -3,13 +3,10 @@
   <!-- HEADER -->
   <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
 
-    <button mat-button class="back-button mat-icon-button" (click)="goToOrgHome()">
-      <mat-icon>home</mat-icon>
+    <!-- NUMBERING BUTTON-->
+    <button mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()">
+      <mat-icon>format_list_numbered</mat-icon>
     </button>
-
-    <p>{{docVersiontitle}}</p>
-
-    <span class="fillsapce"></span>
 
     <!-- EDIT BUTTON -->
 
@@ -17,13 +14,24 @@
       <mat-icon>edit</mat-icon>
     </button>
 
-    <!-- NUMBERING BUTTON-->
-    <button mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()">
-      <mat-icon>format_list_numbered</mat-icon>
+    <span class="fillsapce"></span>
+
+    <p>{{docVersiontitle}}</p>
+
+    <button mat-button class="back-button mat-icon-button" (click)="goToOrgHome()">
+      <mat-icon>home</mat-icon>
     </button>
+
+
+
+
+
+
+
+
 
   </div>
 
   <!-- DOC VIEWER-->
-  <sk-doc-viewer [docJson]="currentEditData?.data" [isRTL]="true" [isNumbering]="isNumbering"></sk-doc-viewer>
+  <sk-doc-viewer [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-doc-viewer>
 </div>

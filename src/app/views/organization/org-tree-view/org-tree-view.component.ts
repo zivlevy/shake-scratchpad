@@ -1,20 +1,23 @@
-import {Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild} from "@angular/core";
+import {Component, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {OrgService} from '../org.service';
 import {IActionMapping, ITreeOptions, TREE_ACTIONS, TreeNode} from 'angular-tree-component';
-import {SkDoc} from "../../../model/document";
-import {AlgoliaDoc} from "../../../model/algolia-doc";
+import {SkDoc} from '../../../model/document';
+import {AlgoliaDoc} from '../../../model/algolia-doc';
+import {LanguageService} from '../../../core/language.service';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'sk-org-tree-view',
   templateUrl: './org-tree-view.component.html',
   styleUrls: ['./org-tree-view.component.scss']
 })
-export class OrgTreeViewComponent implements OnInit {
-  @Input() isRTL: boolean;
+export class OrgTreeViewComponent implements OnInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  isRTL: boolean = false;
   @ViewChild('tree') tree;
 
   @Output()
-  selectedDoc: EventEmitter<SkDoc> = new EventEmitter() ;
+  selectedDoc: EventEmitter<SkDoc> = new EventEmitter();
 
   treeNode: TreeNode;
   nodes: Array<any> = [{id: '0', name: 'root', children: []}];
@@ -22,26 +25,36 @@ export class OrgTreeViewComponent implements OnInit {
 
 
   constructor(private zone: NgZone,
-              private orgService: OrgService) {
+              private orgService: OrgService,
+              private lngService: LanguageService) {
   }
 
   ngOnInit() {
-    this.tree_options = {
-      rtl: this.isRTL,
-      idField: 'id',
-      displayField: 'name',
-      childrenField: 'children',
-      actionMapping: this.getTreeActionMapping(),
-      allowDrag: false,
-      allowDrop: false,
-    };
+    this.lngService.getDirection$()
+      .takeUntil(this.destroy$)
+      .subscribe(dir => {
+        this.isRTL = (dir === 'rtl');
+      });
+
+
 
     this.orgService.getOrgTreeFromJson$()
-      .subscribe( orgTree => {
-        console.log(orgTree);
+      .subscribe(orgTree => {
+        this.tree_options = {
+          rtl: this.isRTL,
+          idField: 'id',
+          displayField: 'name',
+          childrenField: 'children',
+          actionMapping: this.getTreeActionMapping(),
+          allowDrag: this.isRTL,
+          allowDrop: false,
+        };
         this.nodes = orgTree;
       });
+
+
   }
+
 
   private getTreeActionMapping(): IActionMapping {
     return {
@@ -72,6 +85,13 @@ export class OrgTreeViewComponent implements OnInit {
       doc.uid = node.data.id;
       this.selectedDoc.emit(doc);
     }
+  }
+
+  ngOnDestroy() {
+    // force unsubscribe
+    this.destroy$.next(true);
+    // Now let's also unsubscribe from the subject itself:
+    this.destroy$.unsubscribe();
   }
 
 

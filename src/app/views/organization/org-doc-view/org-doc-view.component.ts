@@ -5,6 +5,7 @@ import {SkDoc, SkDocData} from '../../../model/document';
 import {OrgService} from '../org.service';
 import {OrgUser} from '../../../model/org-user';
 import {Observable} from 'rxjs/Observable';
+import {LanguageService} from '../../../core/language.service';
 
 @Component({
   selector: 'sk-org-doc-view',
@@ -22,15 +23,22 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   currentEditData: SkDocData;
   docVersiontitle: string = '';
   isNumbering: boolean = true;
+  rtl: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private orgService: OrgService,
-              public router: Router) {
+              public router: Router,
+              private lngService: LanguageService) {
 
 
   }
 
   ngOnInit() {
+    // direcrtion
+    this.lngService.getDirection$()
+      .takeUntil(this.destroy$)
+      .subscribe(dir => this.rtl = (dir === 'rtl'));
+
     // get current org
     this.orgService.getCurrentOrg$()
       .takeUntil(this.destroy$)

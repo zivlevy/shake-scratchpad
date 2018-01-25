@@ -2,21 +2,12 @@
 
   <!-- HEADER -->
   <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
-
-    <button mat-button class="back-button mat-icon-button" (click)="goToOrgHome()">
-      <mat-icon>home</mat-icon>
-    </button>
-    <p>{{docVersiontitle}}</p>
-    <span class="fillsapce"></span>
-
-    <!-- PREVIEW BUTTON -->
-    <button *ngIf="!isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showPreview()">
-      <mat-icon>pageview</mat-icon>
+    <button mat-button class="rightside-buttons mat-icon-button" (click)="publishDocument()">
+      <mat-icon>publish</mat-icon>
     </button>
 
-    <!-- NUMBERING BUTTON-->
-    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()">
-      <mat-icon>format_list_numbered</mat-icon>
+    <button mat-button class="rightside-buttons mat-icon-button" (click)="saveDocument()">
+      <mat-icon>save</mat-icon>
     </button>
 
     <!-- EDIT BUTTON -->
@@ -24,16 +15,38 @@
       <mat-icon>edit</mat-icon>
     </button>
 
-
-
-
-    <button mat-button class="rightside-buttons mat-icon-button" (click)="saveDocument()">
-      <mat-icon>save</mat-icon>
+    <!-- NUMBERING BUTTON-->
+    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()">
+      <mat-icon>format_list_numbered</mat-icon>
     </button>
 
-    <button mat-button class="rightside-buttons mat-icon-button" (click)="publishDocument()">
-      <mat-icon>publish</mat-icon>
+    <!-- PREVIEW BUTTON -->
+    <button *ngIf="!isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showPreview()">
+      <mat-icon>pageview</mat-icon>
     </button>
+
+    <span class="fillsapce"></span>
+
+    <p>{{docVersiontitle}}</p>
+
+    <button mat-button class="back-button mat-icon-button" (click)="goToOrgHome()">
+      <mat-icon>home</mat-icon>
+    </button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   </div>
 
@@ -45,7 +58,7 @@
 
   <!-- VIEWER -->
   <div [hidden]="!isPreview">
-    <sk-doc-viewer [docJson]="previewData" [isRTL]="true" [isNumbering]="isNumbering"></sk-doc-viewer>
+    <sk-doc-viewer [docJson]="previewData" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-doc-viewer>
   </div>
 
 </div>
