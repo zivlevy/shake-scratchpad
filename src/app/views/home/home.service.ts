@@ -36,7 +36,8 @@ export class HomeService {
   }
 
   waitForOrg(orgId) {
-    const docRef: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/users/${this.currentSkUser.uid}`);
+    // const docRef: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/users/${this.currentSkUser.uid}`);
+    const docRef: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
     return docRef.valueChanges();
   }
 

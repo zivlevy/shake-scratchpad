@@ -309,7 +309,6 @@ export class OrgService {
 
           deleteArray.push(this.deleteOrgUsersP(orgId));
 
-          // ToDo - find a way to delete the folder (not only the files)
           deleteArray.push(this.imageService.deleteOrgLogoP(orgId));
           deleteArray.push(this.imageService.deleteOrgBannerP(orgId));
 

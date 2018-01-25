@@ -3,22 +3,6 @@ import * as admin from 'firebase-admin'
 import {algoliaInitIndex, algoliaGetSearchKey, algoliaSaveDoc, AlgoliaDoc, algoliaOrgDelete, algoliaDeleteVersionDoc} from "./algolia";
 
 
-const copyInitialDataPackage = function (newOrg, orgInfoRef, dataPackageRef) {
-  return dataPackageRef.get().then (doc =>  {
-
-    const logo = admin.storage().bucket().file('dataPackages/logos/' + doc.data().logoFileName);
-    const banner = admin.storage().bucket().file('dataPackages/banners/' + doc.data().bannerFileName);
-
-    const newLogoLocation = 'orgs/' + newOrg.orgId + '/logo';
-    const newBannerLocation = 'orgs/' + newOrg.orgId + '/banner';
-
-    const logoP =  logo.copy(newLogoLocation);
-    const bannerP = banner.copy(newBannerLocation)
-    return Promise.all([logoP, bannerP])
-      .catch( )
-  })
-};
-
 const saveEditDoc = function (orgId, docId, data) {
   const editedDoc = new AlgoliaDoc;
   if ( data.editVersion !== undefined) {
@@ -122,7 +106,6 @@ export const newOrgRequest = functions.firestore
     const orgInfoRef = db.collection('org').doc(newOrg.orgId).collection('publicData').doc('info');
     const orgUserRef = db.collection('org').doc(newOrg.orgId).collection('users').doc(newOrg.createdBy);
     const usersRef = db.collection('users').doc(newOrg.createdBy).collection('orgs').doc(newOrg.orgId);
-    const dataPackageRef = db.collection('dataPackages').doc(newOrg.language).collection('sectors').doc(newOrg.sector);
 
     // set the root org
     return orgRootRef.set({'searchKey': ''}, {merge: true})
@@ -150,9 +133,6 @@ export const newOrgRequest = functions.firestore
         // set org data in user
         const  setOrgInUserRecord = usersRef.set({}).catch();
 
-        // copy logo and banner package
-        const  copyImages = copyInitialDataPackage(newOrg, orgInfoRef, dataPackageRef);
-
         // init algolia Index
         const initAlgoliaIndex = algoliaInitIndex(newOrg.orgId);
 
@@ -164,7 +144,7 @@ export const newOrgRequest = functions.firestore
           searchKey: searchKey
         });
 
-        return Promise.all([setPublicInfo, setUserInfo, setOrgInUserRecord, copyImages, setAlgoliaSearcKey, initAlgoliaIndex])
+        return Promise.all([setPublicInfo, setUserInfo, setOrgInUserRecord, setAlgoliaSearcKey, initAlgoliaIndex])
           .catch(err => console.log(err))
 
       })

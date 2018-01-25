@@ -27,8 +27,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
 
   orgName: string;
   orgId: string;
-  logoUrl: string;
-  bannerUrl: string;
+
   orgHome: string;
   lang: string;
   currentOrg;
@@ -78,9 +77,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
       ]]
     });
 
-    // default logo
-    this.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
-    this.bannerUrl = 'assets/img/shake banner.png';
+
     // get current org
     this.orgService.getOrgPublicData$()
       .takeUntil(this.destroy$)
@@ -92,33 +89,13 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
           this.orgHome = '/org/' + org.orgId;
           this.lang = org.language;
           this.orgManagementForm.controls['language'].setValue(this.lang);
-          if (org.language === 'Hebrew') {
-            console.log('a hebrew org');
+          if (org.language === 'he') {
             this.lngService.setLanguadge('he');
           } else {
-            console.log('an english org');
             this.lngService.setLanguadge('en');
           }
-
-          // get Logo
-        this.imageService.getOrgLogo$(this.orgId)
-          .subscribe(
-            (url) => {
-              this.logoUrl = url;
-            },
-            (err) => console.log('Error: ' + err));
-
-        // get banner
-        this.imageService.getOrgBanner$(this.orgId)
-          .subscribe(
-            (url) => {
-              this.bannerUrl = url;
-            },
-            (err) => console.log('Error: ' + err));
-
-      }}) ;
-
-
+        }
+      });
   }
 
   logoUploadClicked() {
@@ -127,12 +104,16 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
   }
 
 
-  // TODO - replace window.location.reload() with different solution
   logoSavedClicked() {
     this.imageService.uploadOrgLogo(this.logoData.image, this.orgId)
-      .then(    () => {
+      .then(    (downloadUrl) => {
         this.inLogoEdit = false;
-        window.location.reload();
+        const newData = {
+          'logoURL': downloadUrl
+        };
+        this.orgService.setOrgPublicData(this.orgId, newData)
+          .then()
+          .catch();
       })
       .catch();
   }
@@ -149,9 +130,14 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
 
   bannerSaveClicked() {
     this.imageService.uploadOrgBanner(this.bannerData.image, this.orgId)
-      .then(() => {
-        window.location.reload();
+      .then((downloadUrl) => {
         this.inBannerEdit = false;
+        const newData = {
+          'bannerURL': downloadUrl
+        };
+        this.orgService.setOrgPublicData(this.orgId, newData)
+          .then()
+          .catch();
       })
       .catch();
   }

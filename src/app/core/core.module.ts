@@ -9,13 +9,14 @@ import {ImageService} from './image.service';
 import {FirestoreService} from './firestore.service';
 import {UserService} from './user.service';
 import {SafeHtmlPipe} from './safe-html.pipe';
-import {AlgoliaService} from "./algolia.service";
+import {AlgoliaService} from './algolia.service';
+import {DataPackageService} from './data-package.service';
 
 @NgModule({
   imports: [
     CommonModule,
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
   ],
   providers: [
     AuthService,
@@ -24,7 +25,8 @@ import {AlgoliaService} from "./algolia.service";
     FirestoreService,
     UserService,
     ImageService,
-    AlgoliaService
+    AlgoliaService,
+    DataPackageService
   ],
   declarations: [SafeHtmlPipe],
   exports: [SafeHtmlPipe]
