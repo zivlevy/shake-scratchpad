@@ -6,6 +6,7 @@ import {AuthService} from './auth.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/retryWhen';
 import 'rxjs/add/operator/delay';
+// import {OrgService} from "../views/organization/org.service";
 
 
 @Injectable()
@@ -13,6 +14,7 @@ export class ImageService {
   currentAuthUser;
 
   constructor(private afs: AngularFirestore,
+              // private orgService: OrgService,
               private authService: AuthService) {
 
     authService.getUser$().subscribe(user => {
@@ -31,13 +33,29 @@ export class ImageService {
       const storageRef = firebase.storage().ref();
       storageRef.child(`${this.usersImagePath}/${userId}`)
         .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
-          console.log(snapshot);
+        console.log(snapshot);
         this.authService.updateUserProfile( this.currentAuthUser.uid, null,  snapshot.downloadURL).then(() => {
-           resolve();
+          resolve();
         });
       }).catch(err => reject(err));
     });
   }
+
+  // uploadOrgLogo(img, orgId: string) {
+  //   return new Promise((resolve, reject) => {
+  //     const storageRef = firebase.storage().ref();
+  //     storageRef.child(`${this.orgImagePath}/${orgId}logo.png`)
+  //       .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
+  //       console.log(snapshot.downloadURL);
+  //       const newData = {
+  //         'logoURL': snapshot.downloadURL
+  //       };
+  //       this.orgService.setOrgPublicData(orgId, newData).then(() => {
+  //         resolve();
+  //       });
+  //     }).catch(err => reject(err));
+  //   });
+  // }
 
   uploadOrgLogo(img, orgId: string) {
     return new Promise((resolve, reject) => {
