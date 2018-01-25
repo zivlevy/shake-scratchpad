@@ -6,7 +6,6 @@ import {AuthService} from './auth.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/retryWhen';
 import 'rxjs/add/operator/delay';
-// import {OrgService} from "../views/organization/org.service";
 
 
 @Injectable()
@@ -14,7 +13,6 @@ export class ImageService {
   currentAuthUser;
 
   constructor(private afs: AngularFirestore,
-              // private orgService: OrgService,
               private authService: AuthService) {
 
     authService.getUser$().subscribe(user => {
@@ -41,82 +39,51 @@ export class ImageService {
     });
   }
 
-  // uploadOrgLogo(img, orgId: string) {
-  //   return new Promise((resolve, reject) => {
-  //     const storageRef = firebase.storage().ref();
-  //     storageRef.child(`${this.orgImagePath}/${orgId}logo.png`)
-  //       .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
-  //       console.log(snapshot.downloadURL);
-  //       const newData = {
-  //         'logoURL': snapshot.downloadURL
-  //       };
-  //       this.orgService.setOrgPublicData(orgId, newData).then(() => {
-  //         resolve();
-  //       });
-  //     }).catch(err => reject(err));
-  //   });
-  // }
-
   uploadOrgLogo(img, orgId: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
       const storageRef = firebase.storage().ref();
-      storageRef.child(`${this.orgImagePath}/${orgId}/logo`)
+      storageRef.child(`${this.orgImagePath}/${orgId}logo.png`)
         .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
-          console.log(snapshot.downloadURL);
-          resolve();
-        }).catch(err => reject(err));
+        console.log(snapshot.downloadURL);
+        resolve(snapshot.downloadURL);
+      }).catch(err => reject(err));
     });
   }
 
   deleteOrgLogoP(orgId: string) {
     const storageRef = firebase.storage().ref();
-    return storageRef.child(`${this.orgImagePath}/${orgId}/logo`)
+    return storageRef.child(`orgs/${orgId}logo.png`)
       .delete();
   }
 
   deleteOrgBannerP(orgId: string) {
     const storageRef = firebase.storage().ref();
-    console.log('delete banner');
-    return storageRef.child(`${this.orgImagePath}/${orgId}/banner`)
+    return storageRef.child(`orgs/${orgId}banner.png`)
       .delete();
   }
 
   uploadOrgBanner(img, orgId: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
       const storageRef = firebase.storage().ref();
-      storageRef.child(`${this.orgImagePath}/${orgId}/banner`)
+      storageRef.child(`${this.orgImagePath}/${orgId}banner.png`)
         .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
         console.log(snapshot.downloadURL);
-        resolve();
+        resolve(snapshot.downloadURL);
       }).catch(err => reject(err));
     });
   }
 
-  getOrgLogo$(orgId: string) {
-    const storageRef = firebase.storage().ref();
-    return Observable.defer(() => {
-      return storageRef
-        .child(`${this.orgImagePath}/${orgId}/logo`)
-        .getDownloadURL();
-    })
-      .retryWhen((err) => {
-        return err
-          .delay(2000)
-          .take(5);
-      });
+
+  getDataPackageLogoUrl$(fileName: string) {
+    return firebase.storage().ref()
+      .child(`dataPackages/logos/${fileName}`)
+      .getDownloadURL();
   }
 
-  getOrgBanner$(orgId: string) {
-    const storageRef = firebase.storage().ref();
-    return Observable.defer(() => {
-      return storageRef
-        .child(`${this.orgImagePath}/${orgId}/banner`)
-        .getDownloadURL();
-    })
-      .retryWhen((err) => {
-        return err
-          .delay(2000)
-          .take(5);
-      });
+  getDataPackageBannerUrl$(fileName: string) {
+    return firebase.storage().ref()
+      .child(`dataPackages/banners/${fileName}`)
+      .getDownloadURL();
   }
+
 }

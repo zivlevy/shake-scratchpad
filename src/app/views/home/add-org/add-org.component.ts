@@ -6,6 +6,9 @@ import {AuthService} from '../../../core/auth.service';
 import {HomeService} from '../home.service';
 import {LanguageService} from '../../../core/language.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {DataPackageService} from "../../../core/data-package.service";
+import {ImageService} from "../../../core/image.service";
+import {OrgService} from "../../organization/org.service";
 
 @Component({
   selector: 'sk-add-org',
@@ -27,6 +30,9 @@ export class AddOrgComponent implements OnInit, OnDestroy {
               public router: Router,
               private lngService: LanguageService,
               private homeService: HomeService,
+              private dataPackageService: DataPackageService,
+              private imageService: ImageService,
+              private orgService: OrgService,
               private spinner: NgxSpinnerService) {
     this.orgIdAvailable = false;
   }
@@ -87,21 +93,35 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   }
 
   addOrg() {
+
     this.spinner.show();
     this.isWaiting = true;
-    this.homeService.setNewOrg(this.orgId.value, this.orgName.value, this.language, this.sector)
-      .then(() => {
+
+    const newOrgP = this.homeService.setNewOrg(this.orgId.value, this.orgName.value, this.language, this.sector);
+    const imageUrlP = this.dataPackageService.getDataPackageImagesUrl(this.language, this.sector);
+
+    Promise.all([newOrgP, imageUrlP])
+      .then((res) => {
+        const imagesUrls = res[1];
+        console.log(imagesUrls);
         this.homeService.waitForOrg(this.orgId.value)
           .takeUntil(this.destroy$)
-          .subscribe(res => {
-            if (res != null) {
-              this.spinner.hide();
-              this.isWaiting = false;
-              this.router.navigate([`org/${this.orgId.value}`]);
+          .subscribe(res1 => {
+            console.log(res1);
+            if (res1 && res1.orgId) {
+              console.log(this.orgId, imagesUrls);
+              this.orgService.setOrgPublicData(res1.orgId, imagesUrls)
+                .then(() => {
+                  this.spinner.hide();
+                  this.isWaiting = false;
+                  this.router.navigate([`org/${this.orgId.value}`]);
+                })
+                .catch(err => console.log(err));
             }
           });
       });
   }
+
 
 
   setLng(lng) {

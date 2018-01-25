@@ -61,8 +61,8 @@
             <mat-form-field>
               <mat-select formControlName="language" placeholder="Language" id="language"
                           [(value)]="lang">
-                <mat-option value="Hebrew">עברית</mat-option>
-                <mat-option value="English">English</mat-option>
+                <mat-option value="he">עברית</mat-option>
+                <mat-option value="en">English</mat-option>
               </mat-select>
             </mat-form-field>
             <button *ngIf="currentOrg && currentOrg.language !== lang" mat-button color="primary"

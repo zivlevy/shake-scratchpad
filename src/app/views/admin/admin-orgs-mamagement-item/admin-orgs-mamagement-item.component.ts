@@ -17,11 +17,7 @@ export class AdminOrgsMamagementItemComponent implements OnInit {
               private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.imgService.getOrgLogo$(this.org.orgId)
-      .take(1)
-      .subscribe( url => {
-        this.logoUrl = url;
-      });
+    this.logoUrl = this.org.logoURL;
   }
 
   deleteClicked(org) {

@@ -36,8 +36,8 @@
         <label for="language" [innerHTML]="'Language' | translate"  ></label>
         <select formControlName="language" class="form-control custom-select" id="language" (change)="languageChanged($event.target.value)">
           <option disabled selected value style="display:none"></option>
-          <option value="Hebrew">עברית</option>
-          <option value="English">English</option>
+          <option value="he">עברית</option>
+          <option value="en">English</option>
         </select>
 
       </div>

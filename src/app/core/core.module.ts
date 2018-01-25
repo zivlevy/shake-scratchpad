@@ -11,6 +11,7 @@ import {UserService} from './user.service';
 import {SafeHtmlPipe} from './safe-html.pipe';
 import {AlgoliaService} from './algolia.service';
 import { SetDirectionDirective } from './set-direction.directive';
+import {DataPackageService} from './data-package.service';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { SetDirectionDirective } from './set-direction.directive';
     UserService,
     ImageService,
     AlgoliaService,
-    SetDirectionDirective
+    SetDirectionDirective,
+    DataPackageService
   ],
   declarations: [SafeHtmlPipe, SetDirectionDirective],
   exports: [SafeHtmlPipe]
