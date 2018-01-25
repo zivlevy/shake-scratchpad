@@ -33,6 +33,8 @@ export class OrgNavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log('org', this.org);
+    console.log('user', this.user);
 
     // get current language
     this.lngService.getLanguadge$()

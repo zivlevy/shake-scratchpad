@@ -93,14 +93,14 @@ export class AuthService {
     isSkAdmin$(uid: string): Observable<boolean> {
       return this.afs.doc(`skAdmins/${uid}`).valueChanges()
         .map((res: any) => {
-          return res.isSkAdmin;
+          return res ? res.isSkAdmin : null;
         });
     }
 
     isSkEditor$(uid: string): Observable<boolean> {
       return this.afs.doc(`skAdmins/${uid}`).valueChanges()
         .map((res: any) => {
-          return res.isSkEditor;
+          return res ? res.isSkEditor : null;
         });
     }
 

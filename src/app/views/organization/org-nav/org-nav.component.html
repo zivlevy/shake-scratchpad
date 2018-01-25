@@ -9,6 +9,9 @@
     Join
   </button>
 
+  <button mat-button *ngIf="!user.currentAuthUser" (click)="login()">Login</button>
+  <button mat-button *ngIf="!user.currentAuthUser" (click)="signup()">Signup</button>
+
   <button mat-button [matMenuTriggerFor]="menu"  *ngIf="user.currentOrgUser &&  user.currentOrgUser?.roles?.admin && user.currentAuthUser">
     <i class="fa fa-gear"></i> <span class="fa fa-caret-down"></span>
   </button>
