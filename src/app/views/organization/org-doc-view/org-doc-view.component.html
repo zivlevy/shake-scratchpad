@@ -11,10 +11,13 @@
 
     <span class="fillsapce"></span>
 
+    <!-- EDIT BUTTON -->
+
     <button *ngIf="currentOrgUser?.roles.editor" mat-button class="rightside-buttons mat-icon-button" (click)="gotoEdit()">
       <mat-icon>edit</mat-icon>
     </button>
 
+    <!-- NUMBERING BUTTON-->
     <button mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()">
       <mat-icon>format_list_numbered</mat-icon>
     </button>

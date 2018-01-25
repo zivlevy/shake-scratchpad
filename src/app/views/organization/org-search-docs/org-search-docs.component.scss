@@ -18,6 +18,12 @@
   }
 }
 
+.mat-icon-button {
+  &:focus {
+    outline: none;
+  }
+}
+
 .rightside-buttons {
   margin:5px;
   color: white;

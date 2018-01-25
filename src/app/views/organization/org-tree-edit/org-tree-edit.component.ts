@@ -68,7 +68,7 @@ export class OrgTreeEditComponent implements OnInit {
         // [KEYS.ENTER]: null
       },
       mouse: {
-        click: TREE_ACTIONS.TOGGLE_ACTIVE,
+        click: TREE_ACTIONS.TOGGLE_EXPANDED,
         dblClick: null,
         contextMenu: null,
         expanderClick: TREE_ACTIONS.TOGGLE_EXPANDED,
@@ -84,6 +84,8 @@ export class OrgTreeEditComponent implements OnInit {
    *****************/
 
   treeEditorClick(ev, node) {
+    ev.preventDefault();
+    ev.stopPropagation();
     if (node.data.type) {
       return;
     }
@@ -93,12 +95,13 @@ export class OrgTreeEditComponent implements OnInit {
 
   openTreeMenu(ev) {
     ev.preventDefault();
+    ev.stopPropagation();
     this.treeMenuTrigger.openMenu();
   }
 
 
   inputClicked(ev) {
-    ev.stopPropagation();
+    // ev.stopPropagation();
   }
 
   // called when a node was moved in the tree

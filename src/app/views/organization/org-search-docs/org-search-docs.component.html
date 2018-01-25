@@ -64,19 +64,20 @@
                 <div class="updated">Version {{doc.version}}</div>
               </div>
 
-              <div class="footer" fxLayout="row" fxLayoutAlign="center center">
-                <button mat-button color="accent" (click)="openDoc(doc.docId, doc.docType, doc.version)">
-                  <!--[routerLink]="'/apps/academy/courses/' + course.id + '/' + course.slug">-->
-                  VIEW
+              <div class="footer" fxLayout="row" fxLayoutAlign="space-evenly center">
+
+                <button *ngIf="currentOrgUser.roles.editor"  mat-button class="mat-icon-button" color="primary" (click)="editDoc(doc.docId, doc.docType, doc.version)">
+                  <mat-icon>edit</mat-icon>
                 </button>
-                <button *ngIf="currentOrgUser.roles.editor" mat-button color="accent" (click)="editDoc(doc.docId, doc.docType, doc.version)">
-                  <!--[routerLink]="'/apps/academy/courses/' + course.id + '/' + course.slug">-->
-                  EDIT
+
+                <button fxFlexAlign="center" mat-button class="mat-icon-button" color="primary" (click)="openDoc(doc.docId, doc.docType, doc.version)">
+                  <mat-icon>pageview</mat-icon>
                 </button>
-                <button *ngIf="currentOrgUser.roles.editor && doc.docType === 'v'" mat-button color="accent" (click)="deleteDocVersion(doc.docId, doc.docType, doc.version)">
-                  <!--[routerLink]="'/apps/academy/courses/' + course.id + '/' + course.slug">-->
-                  DELETE
+
+                <button *ngIf="currentOrgUser.roles.editor && doc.docType === 'v'" mat-button class="mat-icon-button" color="accent" (click)="deleteDocVersion(doc.docId, doc.docType, doc.version)">
+                  <mat-icon>delete</mat-icon>
                 </button>
+
               </div>
 
             </div>

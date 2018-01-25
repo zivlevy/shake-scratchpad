@@ -9,10 +9,17 @@
     <p>{{docVersiontitle}}</p>
     <span class="fillsapce"></span>
 
+    <!-- PREVIEW BUTTON -->
     <button *ngIf="!isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showPreview()">
       <mat-icon>pageview</mat-icon>
     </button>
 
+    <!-- NUMBERING BUTTON-->
+    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()">
+      <mat-icon>format_list_numbered</mat-icon>
+    </button>
+
+    <!-- EDIT BUTTON -->
     <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showEdit()">
       <mat-icon>edit</mat-icon>
     </button>
@@ -38,7 +45,7 @@
 
   <!-- VIEWER -->
   <div [hidden]="!isPreview">
-    <sk-doc-viewer [docJson]="previewData" [isRTL]="true" [isNumbering]="true"></sk-doc-viewer>
+    <sk-doc-viewer [docJson]="previewData" [isRTL]="true" [isNumbering]="isNumbering"></sk-doc-viewer>
   </div>
 
 </div>

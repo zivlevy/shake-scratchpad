@@ -54,7 +54,7 @@ export class OrgTreeViewComponent implements OnInit {
         // [KEYS.ENTER]: null
       },
       mouse: {
-        click: TREE_ACTIONS.TOGGLE_ACTIVE,
+        click: TREE_ACTIONS.TOGGLE_EXPANDED,
         dblClick: null,
         contextMenu: null,
         expanderClick: TREE_ACTIONS.TOGGLE_EXPANDED,

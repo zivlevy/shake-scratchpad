@@ -21,12 +21,13 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
   currentDocType: string;
   currentDocVersion: number;
   currentEditData: SkDocData;
-  docVersiontitle: string ='';
+  docVersiontitle: string = '';
   isDirty: boolean = false;
 
   isPreview: boolean = false;
   previewData: string;
   isSaving: boolean;
+  isNumbering: boolean = false;
 
   constructor(public orgService: OrgService,
               private route: ActivatedRoute,
@@ -147,6 +148,11 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
     this.isPreview = true;
 
     // this.router.navigate([`org/${this.currentOrg}/org-doc-view`, this.currentDoc.uid, this.currentDoc.uid, this.currentDocType, this.currentDocVersion]);
+  }
+
+
+  toggleNumbering() {
+    this.isNumbering = !this.isNumbering;
   }
 
   showEdit() {
