@@ -69,6 +69,9 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
         this.org.orgHome = '/org/' + org;
       });
 
+    this.org.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
+    this.org.bannerUrl = 'assets/img/shake banner.png';
+
     // get org public data
     this.orgService.getOrgPublicData$()
       .takeUntil(this.destroy$)
@@ -76,8 +79,11 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
         if (orgData) {
           this.org.orgName = orgData.orgName;
           this.org.language = orgData.language;
+          this.org.logoUrl = orgData.logoURL;
+          this.org.bannerUrl = orgData.bannerURL;
+          console.log(orgData);
           if (this.org.language === 'Hebrew') {
-            console.log('a hebrew org');
+            console.log('org', orgData);
             this.rtl = true;
             this.lngService.setLanguadge('he');
           } else {
@@ -98,21 +104,21 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
       });
 
     // default logo
-    this.org.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
-    this.imageService.getOrgLogo$(this.org.orgId)
-      .subscribe(
-        (url) => {
-          this.org.logoUrl = url;
-          },
-        (err) => console.log('Error: ' + err));
-
-    this.org.bannerUrl = 'assets/img/shake banner.png';
-    this.imageService.getOrgBanner$(this.org.orgId)
-      .subscribe(
-        (url) => {
-          this.org.bannerUrl = url;
-          },
-        (err) => console.log('Error: ' + err));
+    // this.org.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
+    // this.imageService.getOrgLogo$(this.org.orgId)
+    //   .subscribe(
+    //     (url) => {
+    //       this.org.logoUrl = url;
+    //       },
+    //     (err) => console.log('Error: ' + err));
+    //
+    // this.org.bannerUrl = 'assets/img/shake banner.png';
+    // this.imageService.getOrgBanner$(this.org.orgId)
+    //   .subscribe(
+    //     (url) => {
+    //       this.org.bannerUrl = url;
+    //       },
+    //     (err) => console.log('Error: ' + err));
 
   }
 
