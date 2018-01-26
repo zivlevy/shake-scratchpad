@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {OrgUser} from '../../../model/org-user';
 import {Observable} from 'rxjs/Observable';
-import {LanguageService} from "../../../core/language.service";
+import {LanguageService} from '../../../core/language.service';
 
 @Component({
   selector: 'sk-org-doc-edit',
@@ -93,7 +93,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
       })
       .takeUntil(this.destroy$)
       .subscribe((docData) => {
-        if (docData) {this.currentEditData = docData;}
+        if (docData) {this.currentEditData = docData; }
       });
 
   }
@@ -106,14 +106,14 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
         .then(res => {
           // go to edit of new version
           this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, 'e', 0])
-          this.isSaving = false;
+            .then(() => this.isSaving = false );
         });
     } else {
       this.isSaving = true;
-      this.orgService.addDoc(docData).then((res: any) => {
+      this.orgService.addDoc(docData)
+        .then((docId: any) => {
         // go to edit of new version
-        console.log(res)
-        this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, res.id, 'e', 0]);
+        this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, 'e', 0]);
         this.isSaving = false;
       })
         .catch(err => {
@@ -136,8 +136,8 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
         .catch((err) => console.log(err));
     } else {
       this.orgService.addDoc(docData)
-        .then((doc) => {
-          this.orgService.publishDoc(doc.id, docData)
+        .then((docId) => {
+          this.orgService.publishDoc(docId, docData)
             .then(() => {
               // go to edit of new version
               this.router.navigate([`org/${this.currentOrg}`]);

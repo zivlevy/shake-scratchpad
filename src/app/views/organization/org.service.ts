@@ -379,12 +379,16 @@ export class OrgService {
   }
 
   addDoc(editVersion: SkDocData) {
-    const docsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/docs`);
-    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-    editVersion.createdBy = this.currentSkUser.uid;
-    editVersion.createdAt = timestamp;
-    const objToSave: SkDoc = {editVersion: editVersion, name: editVersion.name, version: 0};
-    return docsRef.add(objToSave);
+    return new Promise<string> ((resolve, reject) => {
+      const docsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/docs`);
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+      editVersion.createdBy = this.currentSkUser.uid;
+      editVersion.createdAt = timestamp;
+      const objToSave: SkDoc = {editVersion: editVersion, name: editVersion.name, version: 0};
+      docsRef.add(objToSave)
+        .then( doc => resolve (doc.id))
+        .catch( err => reject (err));
+    });
   }
 
   saveDoc(uid: string, editVersion: SkDocData) {
@@ -637,6 +641,14 @@ export class OrgService {
         treeNode.name = newDocName;
       }
     }
+  }
+
+  addDocToTreeRoot (docId: string, doc: SkDoc) {
+    this.getOrgTreeFromJson$()
+      .take(1)
+      .subscribe(tree => {
+        console.log(tree);
+      });
   }
 }
 
