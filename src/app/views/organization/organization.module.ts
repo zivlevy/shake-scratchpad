@@ -28,6 +28,7 @@ import {OrgTreeViewComponent} from './org-tree-view/org-tree-view.component';
 import { OrgSearchDocsComponent } from './org-search-docs/org-search-docs.component';
 import { OrgDocViewComponent } from './org-doc-view/org-doc-view.component';
 import { OrgDocEditComponent } from './org-doc-edit/org-doc-edit.component';
+import { OrgAdminUsersInviteComponent } from './org-admin-users-invite/org-admin-users-invite.component';
 
 @NgModule({
   imports: [
@@ -62,7 +63,8 @@ import { OrgDocEditComponent } from './org-doc-edit/org-doc-edit.component';
     OrgTreeViewComponent,
     OrgSearchDocsComponent,
     OrgDocViewComponent,
-    OrgDocEditComponent
+    OrgDocEditComponent,
+    OrgAdminUsersInviteComponent,
   ],
   exports: [OrgHomePageComponent],
   providers: [
