@@ -27,6 +27,7 @@
   padding-right: 20px;
   padding-left: 20px;
   font-size: 20px;
+
   &:after {
     font-family: FontAwesome;
     vertical-align: middle;
@@ -94,6 +95,9 @@
     background-color: aliceblue;
     top: 0px;
     right: -4px;
+  }
+  & ul {
+    background-color: red;
   }
 }
 

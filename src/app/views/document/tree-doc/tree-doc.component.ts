@@ -147,6 +147,9 @@ export class TreeDocComponent implements OnInit, OnChanges {
       key: 'lvnfclG5eiyyd1bz==',
       fontSizeSelection: true,
       multiLine: !node.children,
+      paragraphStyles: {
+        class1: 'class1'
+      },
       fontSize: ['8', '10', '12', '14', '16', '18', '20', '24'],
       disableRightClick: true,
       placeholderText: this.isRTL ? 'הכנס טקסט...' : 'Insert text',
@@ -154,9 +157,9 @@ export class TreeDocComponent implements OnInit, OnChanges {
       initOnClick: true,
       toolbarInline: true,
       direction: this.isRTL ? 'rtl' : 'ltr',
-      toolbarButtons: ['bold', 'italic', 'underline', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL',
+      toolbarButtons: ['bold', 'italic', 'underline',  'outdent', 'indent', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL',
         'insertLink', 'insertTable', 'undo', 'redo'],
-      toolbarButtonsSM: ['bold', 'italic', 'underline', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL',
+      toolbarButtonsSM: ['bold', 'italic', 'underline', 'outdent', 'indent', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL',
         'insertLink', 'insertTable', 'undo', 'redo'],
       toolbarVisibleWithoutSelection: false,
       events: {
