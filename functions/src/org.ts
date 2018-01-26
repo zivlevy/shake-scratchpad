@@ -127,7 +127,7 @@ export const newOrgRequest = functions.firestore
             email: newOrg.email,
             photoURL: newOrg.photoURL,
             uid: newOrg.uid,
-            roles: {admin: true, editor: false, viewer: false}
+            roles: {admin: true, editor: true, viewer: true}
           }).catch();
 
         // set org data in user

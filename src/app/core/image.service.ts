@@ -51,15 +51,27 @@ export class ImageService {
   }
 
   deleteOrgLogoP(orgId: string) {
-    const storageRef = firebase.storage().ref();
-    return storageRef.child(`orgs/${orgId}logo.png`)
-      .delete();
+    const storageRef = firebase.storage().ref().child(`orgs/${orgId}logo.png`);
+    storageRef
+      .getDownloadURL()             // used to test if file exists
+      .then(() => {
+        return storageRef.delete();
+      })
+      .catch((err) => {
+        return Promise.resolve;
+      });                     // File doesn't exist so the promise is resolved
   }
 
   deleteOrgBannerP(orgId: string) {
-    const storageRef = firebase.storage().ref();
-    return storageRef.child(`orgs/${orgId}banner.png`)
-      .delete();
+    const storageRef = firebase.storage().ref().child(`orgs/${orgId}banner.png`);
+    storageRef
+      .getDownloadURL()             // used to test if file exists
+      .then(() => {
+        return storageRef.delete();
+      })
+      .catch((err) => {
+        return Promise.resolve;
+      });                     // File doesn't exist so the promise is resolved
   }
 
   uploadOrgBanner(img, orgId: string) {
