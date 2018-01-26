@@ -27,7 +27,8 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
 
   orgName: string;
   orgId: string;
-
+  logoUrl: string;
+  bannerUrl: string;
   orgHome: string;
   lang: string;
   currentOrg;
@@ -77,7 +78,9 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
       ]]
     });
 
-
+    // default logo
+    this.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
+    this.bannerUrl = 'assets/img/shake banner.png';
     // get current org
     this.orgService.getOrgPublicData$()
       .takeUntil(this.destroy$)
@@ -89,22 +92,6 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
           this.orgHome = '/org/' + org.orgId;
           this.lang = org.language;
           this.orgManagementForm.controls['language'].setValue(this.lang);
-
-          // get Logo
-        this.imageService.getOrgLogo$(this.orgId)
-          .subscribe(
-            (url) => {
-              this.logoUrl = url;
-            },
-            (err) => console.log('Error: ' + err));
-
-        // get banner
-        this.imageService.getOrgBanner$(this.orgId)
-          .subscribe(
-            (url) => {
-              this.bannerUrl = url;
-            },
-            (err) => console.log('Error: ' + err));
 
       }}) ;
 
