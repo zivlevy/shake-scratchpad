@@ -37,8 +37,8 @@ export class OrgDocManagerComponent implements OnInit {
       this.orgService.saveDoc(this.currentDoc.uid, docData);
     } else {
       this.isSaving = true;
-      this.orgService.addDoc(docData).then((res) =>
-        this.orgService.getDoc$(res.id).take(1)
+      this.orgService.addDoc(docData).then((docId) =>
+        this.orgService.getDoc$(docId).take(1)
         .subscribe(doc => {
           this.currentDoc = doc;
           this.currentEditData = doc.editVersion;
@@ -58,7 +58,7 @@ export class OrgDocManagerComponent implements OnInit {
     } else {
       this.orgService.addDoc(docData)
         .then((doc) => {
-          this.orgService.publishDoc(doc.id, docData);
+          this.orgService.publishDoc(doc, docData);
         });
     }
   }

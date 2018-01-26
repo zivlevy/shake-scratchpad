@@ -313,8 +313,8 @@ export class OrgService {
 
           deleteArray.push(this.deleteOrgUsersP(orgId));
 
-          deleteArray.push(this.imageService.deleteOrgLogoP(orgId));
-          deleteArray.push(this.imageService.deleteOrgBannerP(orgId));
+          // deleteArray.push(this.imageService.deleteOrgLogoP(orgId));
+          // deleteArray.push(this.imageService.deleteOrgBannerP(orgId));
 
           Promise.all(deleteArray)
             .then(() => {
@@ -387,7 +387,7 @@ export class OrgService {
       editVersion.createdAt = timestamp;
       const objToSave: SkDoc = {editVersion: editVersion, name: editVersion.name, version: 0};
       docsRef.add(objToSave)
-        .then( doc => resolve (doc.id))
+        .then( doc => this.addDocToTreeRoot(doc.id, objToSave))
         .catch( err => reject (err));
     });
   }
