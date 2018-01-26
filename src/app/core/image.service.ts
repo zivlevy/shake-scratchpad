@@ -52,19 +52,19 @@ export class ImageService {
 
   deleteOrgLogoP(orgId: string) {
     const storageRef = firebase.storage().ref().child(`orgs/${orgId}logo.png`);
-    storageRef
+    return storageRef
       .getDownloadURL()             // used to test if file exists
       .then(() => {
         return storageRef.delete();
       })
       .catch((err) => {
-        return Promise.resolve;
+        return Promise.resolve(err);
       });                     // File doesn't exist so the promise is resolved
   }
 
   deleteOrgBannerP(orgId: string) {
     const storageRef = firebase.storage().ref().child(`orgs/${orgId}banner.png`);
-    storageRef
+    return storageRef
       .getDownloadURL()             // used to test if file exists
       .then(() => {
         return storageRef.delete();
