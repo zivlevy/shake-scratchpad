@@ -130,6 +130,7 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
   }
 
   treeDocClicked(ev) {
+    // TODO change here to show correct doc version
     console.log(ev);
     this.openDoc(ev.uid, 'p', '0');
   }

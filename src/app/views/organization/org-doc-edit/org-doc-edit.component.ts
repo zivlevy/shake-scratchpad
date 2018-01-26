@@ -6,6 +6,10 @@ import {Subject} from 'rxjs/Subject';
 import {OrgUser} from '../../../model/org-user';
 import {Observable} from 'rxjs/Observable';
 import {LanguageService} from '../../../core/language.service';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {PublishDialogComponent} from '../dialogs/publish-dialog/publish-dialog.component';
+
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-org-doc-edit',
@@ -31,10 +35,14 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
   isNumbering: boolean = false;
   rtl: boolean = false;
 
+  // dialogs
+  publishDialogRef: MatDialogRef<PublishDialogComponent>;
+
   constructor(public orgService: OrgService,
               private route: ActivatedRoute,
               private router: Router,
-              private lngService: LanguageService) {
+              private lngService: LanguageService,
+              private dialog: MatDialog) {
 
 
   }
@@ -93,7 +101,9 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
       })
       .takeUntil(this.destroy$)
       .subscribe((docData) => {
-        if (docData) {this.currentEditData = docData; }
+        if (docData) {
+          this.currentEditData = docData;
+        }
       });
 
   }
@@ -106,16 +116,16 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
         .then(res => {
           // go to edit of new version
           this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, 'e', 0])
-            .then(() => this.isSaving = false );
+            .then(() => this.isSaving = false);
         });
     } else {
       this.isSaving = true;
       this.orgService.addDoc(docData)
         .then((docId: any) => {
-        // go to edit of new version
-        this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, 'e', 0]);
-        this.isSaving = false;
-      })
+          // go to edit of new version
+          this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, 'e', 0]);
+          this.isSaving = false;
+        })
         .catch(err => {
           console.log(err);
           this.isSaving = false;
@@ -124,16 +134,25 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
   }
 
   publishDocument() {
+
     const docData = this.editor.getDoc();
     if (this.currentDoc && this.currentDoc.uid) {
-      this.isSaving = true;
-      this.orgService.publishDoc(this.currentDoc.uid, docData)
-        .then(() => {
-          // go to edit of new version
-          this.router.navigate([`org/${this.currentOrg}`]);
-          this.isSaving = false;
-        })
-        .catch((err) => console.log(err));
+      this.publishDialogRef = this.dialog.open(PublishDialogComponent);
+
+      this.publishDialogRef
+        .afterClosed()
+        .pipe(filter(answer => answer))
+        .subscribe(name => {
+          this.isSaving = true;
+          this.orgService.publishDoc(this.currentDoc.uid, docData, name === 'publish')
+            .then(() => {
+              // go to edit of new version
+              this.router.navigate([`org/${this.currentOrg}`]);
+              this.isSaving = false;
+            })
+            .catch((err) => console.log(err));
+        });
+
     } else {
       this.orgService.addDoc(docData)
         .then((docId) => {

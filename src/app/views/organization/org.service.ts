@@ -388,6 +388,7 @@ export class OrgService {
       const objToSave: SkDoc = {editVersion: editVersion, name: editVersion.name, version: 0};
       docsRef.add(objToSave)
         .then( doc => this.addDocToTreeRoot(doc.id, objToSave))
+        .then( docId => resolve(docId))
         .catch( err => reject (err));
     });
   }
@@ -404,8 +405,45 @@ export class OrgService {
         return docsRef.update({...nameObj, editVersion});
       });
   }
+  publishDoc(uid: string, editVersion: SkDocData, updateVersionNo: boolean = true) {
+    const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
 
-  publishDoc(uid: string, editVersion: SkDocData) {
+    return docsRef.valueChanges().take(1).toPromise()
+      .then(res => {
+        const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+        // change name in tree
+        if (res.name !== editVersion.name) { this.editDocNameInTree(uid, editVersion.name); }
+
+        // save editedVersion to PublishVersion
+        editVersion.publishAt = timestamp;
+        editVersion.publishBy = this.currentSkUser.uid;
+
+        const objToSave = {
+          editVersion,
+          publishVersion: editVersion,
+          name: editVersion.name,
+          isPublish: true
+        };
+
+        // if we only want to update the published version without adding new version
+        if (! updateVersionNo) {
+
+        } else {
+          objToSave['version'] = (res.version || 0) + 1;
+
+          // if current published - move to versions
+          if (!res.publishVersion) {
+            res['publishVersion'] = {...res.editVersion};
+          } else {
+            const docVersionsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}/versions/${res.version}`);
+            docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0});
+          }
+        }
+        return docsRef.update(objToSave);
+      });
+  }
+
+  publishDocOld(uid: string, editVersion: SkDocData) {
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
 
     return docsRef.valueChanges().take(1).toPromise()
@@ -595,7 +633,7 @@ export class OrgService {
 
 
   saveOrgTree(orgTreeJson: string) {
-    this.fs.update(`org/${this.localCurrentOrg}`, {orgTreeJson});
+    return this.fs.update(`org/${this.localCurrentOrg}`, {orgTreeJson});
   }
 
 
@@ -605,16 +643,16 @@ export class OrgService {
       .take(1)
       .subscribe( tree => {
         tree.forEach((item, index, array ) => {
-          this.deleteOrgDocRecurtion(item, index, array, docId);
+          this.deleteOrgDocRecursion(item, index, array, docId);
         });
         const treeJson = this.makeJsonTreeFromMemory(tree);
         this.saveOrgTree(treeJson);
       });
   }
 
-  private deleteOrgDocRecurtion( treeNode, index, array, docId) {
+  private deleteOrgDocRecursion( treeNode, index, array, docId) {
     if (treeNode.children) {
-      treeNode.children.forEach( (child, childIndex, childParent) => this.deleteOrgDocRecurtion(child, childIndex, childParent, docId));
+      treeNode.children.forEach( (child, childIndex, childParent) => this.deleteOrgDocRecursion(child, childIndex, childParent, docId));
     } else {
       if (treeNode.id === docId) {
         array.splice(index, 1 );
@@ -644,12 +682,17 @@ export class OrgService {
     }
   }
 
-  addDocToTreeRoot (docId: string, doc: SkDoc) {
-    this.getOrgTreeFromJson$()
-      .take(1)
-      .subscribe(tree => {
-        console.log(tree);
-      });
+  private addDocToTreeRoot (docId: string, doc: SkDoc): Promise<string> {
+    return new Promise <string>((resolve, reject) => {
+      this.getOrgTreeFromJson$()
+        .take(1)
+        .subscribe(tree => {
+          tree[0].children.push({name: doc.name, id: docId, docId: docId, isDoc: true});
+          const treeJson = this.makeJsonTreeFromMemory(tree);
+          this.saveOrgTree(treeJson)
+            .then(() => resolve(docId));
+        });
+    });
   }
 }
 
