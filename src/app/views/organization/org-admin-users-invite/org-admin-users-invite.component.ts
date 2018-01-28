@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
 
-class InviteRecord {
+export class InviteRecord {
+  recNumber: number;
   displayName: string;
   email: string;
   isAdmin: boolean;
   isEditor: boolean;
   isViewer: boolean;
 
-  constructor() {
+  constructor(recNumber: number) {
+    this.recNumber = recNumber;
     this.displayName = '';
     this.email = '';
     this.isAdmin = false;
@@ -17,18 +18,6 @@ class InviteRecord {
   }
 }
 
-export interface Element {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: Element[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-
-];
 
 @Component({
   selector: 'sk-org-admin-users-invite',
@@ -36,24 +25,31 @@ const ELEMENT_DATA: Element[] = [
   styleUrls: ['./org-admin-users-invite.component.scss']
 })
 export class OrgAdminUsersInviteComponent implements OnInit {
-  newInvite: InviteRecord = new InviteRecord();
+
   invites: Array<InviteRecord> = new Array<InviteRecord>();
+  lastInvite: number;
 
-  // data: Array<Element> = new Array<Element>([{position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'}]);
-
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
-
-  constructor() { }
+  constructor() {
+    this.lastInvite = 0;
+    this.invites.push(new InviteRecord(this.lastInvite));
+    this.lastInvite += 1;
+  }
 
 
   ngOnInit() {
   }
 
   addNew() {
+    this.invites.push(new InviteRecord(this.lastInvite));
+    this.lastInvite += 1;
+  }
+
+  deleteRow (recNum) {
+    const indx = this.invites.findIndex(i => i.recNumber === recNum);
+    this.invites.splice(indx, 1);
   }
 
   invite() {
-    console.log('Invite!');
+    console.log(this.invites);
   }
 }
