@@ -147,21 +147,24 @@ export class TreeDocComponent implements OnInit, OnChanges {
       key: 'lvnfclG5eiyyd1bz==',
       fontSizeSelection: true,
       multiLine: !node.children,
-      paragraphStyles: {
-        class1: 'class1'
-      },
       fontSize: ['8', '10', '12', '14', '16', '18', '20', '24'],
-      disableRightClick: true,
       placeholderText: this.isRTL ? 'הכנס טקסט...' : 'Insert text',
+      language: this.isRTL ? 'he' : 'en',
       charCounterCount: false,
       initOnClick: true,
       toolbarInline: true,
+      toolbarVisibleWithoutSelection: true,
+      disableRightClick: true,
       direction: this.isRTL ? 'rtl' : 'ltr',
-      toolbarButtons: ['bold', 'italic', 'underline',  'outdent', 'indent', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL',
+      toolbarButtons: ['bold', 'italic', 'underline',  'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
         'insertLink', 'insertTable', 'undo', 'redo'],
-      toolbarButtonsSM: ['bold', 'italic', 'underline', 'outdent', 'indent', 'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL',
+      toolbarButtonsSM:  ['bold', 'italic', 'underline',  'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
         'insertLink', 'insertTable', 'undo', 'redo'],
-      toolbarVisibleWithoutSelection: false,
+      toolbarButtonsMD:  ['bold', 'italic', 'underline',  'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
+        'insertLink', 'insertTable', 'undo', 'redo'],
+      toolbarButtonsXS:  ['bold', 'italic', 'underline',  'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
+        'insertLink', 'insertTable', 'undo', 'redo'],
+      quickInsertTags: [''],
       events: {
         'froalaEditor.click': (e, editor) => {
           e.stopPropagation();
@@ -181,6 +184,11 @@ export class TreeDocComponent implements OnInit, OnChanges {
               console.log('add item');
               this.zone.run(() => {
                 this.addBrotherItem(this.tree.treeModel, this.currentTreeNode, false);
+              });
+            } else if ( ev.originalEvent.key === 'Enter' && node.children) {
+              const event = ev;
+              this.zone.run(() => {
+                this.addChildItem( this.tree.treeModel, this.currentTreeNode, false);
               });
             }
           });

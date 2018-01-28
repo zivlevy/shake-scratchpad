@@ -65,7 +65,7 @@ import { OrgAdminUsersInviteComponent } from './org-admin-users-invite/org-admin
     OrgSearchDocsComponent,
     OrgDocViewComponent,
     OrgDocEditComponent,
-    PublishDialogComponent
+    PublishDialogComponent,
     OrgDocEditComponent,
     OrgAdminUsersInviteComponent,
   ],
