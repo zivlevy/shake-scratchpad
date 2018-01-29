@@ -14,7 +14,9 @@
   "main": "lib/index.js",
   "dependencies": {
     "@google-cloud/storage": "^1.5.1",
+    "@sendgrid/mail": "^6.2.1",
     "algoliasearch": "^3.24.9",
+    "cors": "^2.8.4",
     "firebase-admin": "^5.5.1",
     "firebase-functions": "^0.7.1"
   },
