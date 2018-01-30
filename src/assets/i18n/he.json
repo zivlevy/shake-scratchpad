@@ -1,11 +1,13 @@
 {
   "login component":"========= LogIn Component=========",
-  "Login to Shake": "הכנס לShake",
+  "Login to Shake": "כניסה ל Shake",
   "Email": "אימייל",
   "Please enter a valid email": "הכנס אימייל חוקי",
   "Password": "סיסמה",
   "Password must be between 6 and 24 chars and have at least one number":"סיסמה צריכה להיות בין 6 ל24 תוים ולהכיל לפחות מספר אחד",
-  "Login": "היכנס",
+  "Login": "כניסה למערכת",
+  "Signup": "הרשמה למערכת",
+  "Logout": "יציאה מהמערכת",
   "Create an account": "צור חשבון",
   "New to Shake?": "משתמש חדש?",
 
@@ -21,6 +23,7 @@
 
   "UserProfile component":"========= User-Profile Component=========",
   "User Profile": "פרופיל משתמש",
+  "My Organizations": "הארגונים שלי",
 
 
   "New org component": "========= NewOrg Component=========",
@@ -35,6 +38,7 @@
 
   "New org component": "========= org-admin-org Component=========",
   "Organization Management": "ניהול ארגון",
+  "Users Management": "ניהול משתמשים",
   "Organization Logo": "לוגו ארגוני",
   "Upload": "טען",
   "Banner Image": "תמונת כרזה",
@@ -52,5 +56,13 @@
   "Editor": "עורך",
   "Viewer": "צופה",
 
-  "Users Roles":"משתמשים ותפקידים"
+  "Users Roles":"משתמשים ותפקידים",
+
+  "Document Search": "========= Doc Search =========",
+  "Documents": "מסמכים",
+  "Search for a document": "חיפוש מסמך",
+  "Doc name only": "שם מסמך בלבד",
+  "Publish": "פרסום",
+  "Edit": "עריכה",
+  "Previous Versions": "גרסאות קודמות"
 }

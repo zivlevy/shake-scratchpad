@@ -12,7 +12,7 @@
         <button mat-button class="menu-btn" fxHide.gt-sm (click)="sidenav.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
-        <h3>Find Documents</h3>
+        <h3 [innerHTML]="'Documents' | translate"></h3>
 
         <span class="fillsapce"></span>
 
@@ -34,15 +34,15 @@
              fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
           <div>
             <mat-form-field class="docs-search">
-              <input #search matInput placeholder="Search for a document" [(ngModel)]="searchTerm">
+              <input #search matInput placeholder="{{'Search for a document' | translate }}" [(ngModel)]="searchTerm">
             </mat-form-field>
-            <mat-checkbox [(ngModel)]="docNameOnly" (change)="checkboxClick$.next()">Doc name only</mat-checkbox>
+            <mat-checkbox [(ngModel)]="docNameOnly" (change)="checkboxClick$.next()" >{{'Doc name only' | translate }}</mat-checkbox>
           </div>
 
-          <div fxLayout="row" fxLayoutGap="20px">
-            <mat-checkbox [(ngModel)]="published" (change)="checkboxClick$.next()">Publish</mat-checkbox>
-            <mat-checkbox [(ngModel)]="edited" (change)="checkboxClick$.next()">Edit</mat-checkbox>
-            <mat-checkbox [(ngModel)]="version" (change)="checkboxClick$.next()">Version</mat-checkbox>
+          <div *ngIf="currentOrgUser?.roles.editor" fxLayout="row" fxLayoutGap="20px">
+            <mat-checkbox [(ngModel)]="published" (change)="checkboxClick$.next()">{{'Publish' | translate }}</mat-checkbox>
+            <mat-checkbox [(ngModel)]="edited" (change)="checkboxClick$.next()">{{'Edit' | translate }}</mat-checkbox>
+            <mat-checkbox [(ngModel)]="version" (change)="checkboxClick$.next()">{{'Previous Versions' | translate }}</mat-checkbox>
           </div>
 
         </div>
