@@ -72,6 +72,9 @@ export class OrgInvitePageComponent implements OnInit, OnDestroy {
                     invite.isAdmin, invite.isEditor, invite.isViewer);
                 }
                 this.orgService.deleteOrgUserInviteP(this.org.orgId, this.user.currentAuthUser.email);
+              } else {
+                console.log('navigating');
+                this.router.navigate([this.org.orgHome]);
               }
             });
         }
