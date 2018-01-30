@@ -1,8 +1,11 @@
-// const functions = require('firebase-functions');
+const functions = require('firebase-functions');
 // const admin = require('firebase-admin');
 
+// admin.initializeApp(functions.config().firebase);
+const SENDGRID_API_KEY = functions.config().sendgrid.key;
+
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey("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");
+sgMail.setApiKey(SENDGRID_API_KEY);
 
 const orgInviteEn = 'd51d046f-dd17-411a-8135-a5e810a307e1';
 const orgInviteHe = 'a246b010-1bb4-4d22-b23d-244f645e5989';

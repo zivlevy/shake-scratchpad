@@ -104,7 +104,9 @@ export class SignupComponent implements OnInit, OnDestroy {
   gotoLogin() {
 
     if (this.returnRoute) {
-      this.router.navigate([`${this.returnRoute}/login`], {queryParams: {returnUrl: this.returnRoute}});
+      // this.router.navigate([`${this.returnRoute}/login`], {queryParams: {returnUrl: this.returnRoute}});
+      const orgId = this.router.routerState.snapshot.url.match('org/(.*)/')[1];
+      this.router.navigate(['org/' + orgId + '/login'], {queryParams: {returnUrl: this.returnRoute}});
     } else {
       this.router.navigate(['login']);
     }

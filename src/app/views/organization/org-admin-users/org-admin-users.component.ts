@@ -2,10 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {OrgUser} from '../../../model/org-user';
-import {ToastrService} from 'ngx-toastr';
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../org.service';
-import {MatTableDataSource} from '@angular/material';
+import {MatSnackBar, MatTableDataSource} from "@angular/material";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'sk-org-admin-users',
@@ -23,7 +23,8 @@ export class OrgAdminUsersComponent implements OnInit, OnDestroy {
   constructor(public auth: AuthService,
               public orgService: OrgService,
               public router: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -124,12 +125,9 @@ export class OrgAdminUsersComponent implements OnInit, OnDestroy {
     console.log(user);
     this.orgService.updateOrgUser(user.uid, user)
       .then(() => {
-        // this.toastr.success('User updated successfully', '', {
-        //   timeOut: 2000,
-
-        // });
       })
       .catch(err => {
+        // this.snackBar.open('User updated failed', '', {duration: 2000,   panelClass: ['snackbar-fail']});
         this.toastr.error(err.message, 'User updated failed', {
           timeOut: 2000
         });
@@ -139,11 +137,15 @@ export class OrgAdminUsersComponent implements OnInit, OnDestroy {
   userDeleted(userId) {
     this.orgService.deleteOrgUser(userId)
       .then(() => {
+        // this.snackBar.open('User successfully removed from org', '', {duration: 5000,   panelClass: ['snackbar-success']});
+
         this.toastr.success('User successfully removed from org', '', {
           timeOut: 5000
         });
       })
       .catch(err => {
+        // this.snackBar.open('User removal failed', '', {duration: 5000,   panelClass: ['snackbar-fail']});
+
         this.toastr.error(err.message, 'User removal failed', {
           timeOut: 5000
         });

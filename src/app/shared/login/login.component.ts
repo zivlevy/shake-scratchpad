@@ -76,7 +76,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   gotoRegister() {
     if (this.returnRoute) {
-      this.router.navigate([`${this.returnRoute}/register`], {queryParams: {returnUrl: this.returnRoute}});
+      // this.router.navigate([`${this.returnRoute}/register`], {queryParams: {returnUrl: this.returnRoute}});
+      const orgId = this.router.routerState.snapshot.url.match('org/(.*)/')[1];
+      this.router.navigate(['org/' + orgId + `/register`], {queryParams: {returnUrl: this.returnRoute}});
     } else {
       this.router.navigate(['register']);
     }

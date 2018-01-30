@@ -1,6 +1,7 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {OrgService} from "../org.service";
-import {Subject} from "rxjs/Subject";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {OrgService} from '../org.service';
+import {Subject} from 'rxjs/Subject';
+import {ToastrService} from 'ngx-toastr';
 
 export class InviteRecord {
   recNumber: number;
@@ -28,15 +29,14 @@ export class InviteRecord {
 })
 export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
 
-  invites: Array<InviteRecord> = new Array<InviteRecord>();
+  invites: Array<InviteRecord>;
   lastInvite: number;
   orgId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private orgService: OrgService) {
-    this.lastInvite = 0;
-    this.invites.push(new InviteRecord(this.lastInvite));
-    this.lastInvite += 1;
+  constructor(private orgService: OrgService,
+              private toastr: ToastrService) {
+    this.initInvites();
   }
 
 
@@ -46,6 +46,12 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
       .subscribe(orgId => {
         this.orgId = orgId;
       });
+  }
+
+  initInvites() {
+    this.invites = new Array<InviteRecord>();
+    this.invites.push(new InviteRecord(0));
+    this.lastInvite = 1;
   }
 
   addNew() {
@@ -61,7 +67,12 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
   invite() {
     for (const invite of this.invites) {
       this.orgService.setOrgInvites(this.orgId, invite.displayName, invite.email, invite.isAdmin, invite.isEditor, invite.isViewer)
-        .then(() => console.log('done'));
+        .then(() => {
+          this.toastr.success('Invitations Sent', '', {
+            timeOut: 2000
+          });
+          this.initInvites();
+        });
     }
   }
 
