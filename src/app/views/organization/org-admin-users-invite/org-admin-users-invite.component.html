@@ -1,22 +1,4 @@
-<!--<div>-->
-  <!--<button mat-raised-button color="primary" (click)="addNew()">Add Row</button>-->
-<!--</div>-->
 
-<!--<div fxLayout="row" fxLayoutGap="5px">-->
-  <!--<mat-label fxFlex="1 1 200px">display name</mat-label>-->
-  <!--<mat-label fxFlex="1 1 200px">email</mat-label>-->
-  <!--<mat-label fxFlex="1 1 100px" fxLayoutAlign="center" >Admin</mat-label>-->
-  <!--<mat-label fxFlex="1 1 100px" fxLayoutAlign="center" >Editor</mat-label>-->
-  <!--<mat-label fxFlex="1 1 100px" fxLayoutAlign="center" >Viewer</mat-label>-->
-  <!--<mat-label fxFlex="1 1 200px" fxLayoutAlign="center" >Delete</mat-label>-->
-<!--</div>-->
-
-
-<!--<div *ngFor="let invite of invites">-->
-  <!--<hr>-->
-  <!--<sk-org-admin-users-invite-item [invite]="invite" (rowToDelete)="deleteRow($event)"></sk-org-admin-users-invite-item>-->
-<!--</div>-->
-<!--<hr>-->
 
 <mat-card fxFlex="1 1 30%">
   <mat-card-title>
@@ -132,10 +114,5 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 </mat-card>
-<!--<div id="wrapper" class="container">-->
 
-
-
-
-<!--</div>-->
 

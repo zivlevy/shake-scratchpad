@@ -161,6 +161,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
 
     return false;
   }
+
   selectFile(event) {
     const inFile = event.target.files[0];
     const reader: FileReader = new FileReader();
@@ -189,8 +190,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
           this.dataSource.data = this.invites;
         }
       }
-      // all rows in the csv file
-      // console.log('>>>>>>>>>>>>>>>>>', lines);
+
     };
   }
 

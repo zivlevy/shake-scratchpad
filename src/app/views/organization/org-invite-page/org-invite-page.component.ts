@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
-import {Org} from "../../../model/org";
-import {User} from "../../../model/user";
-import {OrgUser} from "../../../model/org-user";
-import {AuthService} from "../../../core/auth.service";
-import {OrgService} from "../org.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Org} from '../../../model/org';
+import {User} from '../../../model/user';
+import {OrgUser} from '../../../model/org-user';
+import {AuthService} from '../../../core/auth.service';
+import {OrgService} from '../org.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'sk-org-invite-page',
@@ -59,7 +59,8 @@ export class OrgInvitePageComponent implements OnInit, OnDestroy {
         this.user.currentSkUser = user;
 
         // user is registered & loggen on
-        if (this.user.currentSkUser.uid && this.user.currentAuthUser.uid) {
+        if (this.user.currentSkUser && this.user.currentSkUser.uid &&
+          this.user.currentAuthUser && this.user.currentAuthUser.uid) {
           console.log(this.org.orgId, this.user.currentAuthUser.email);
           this.orgService.getOrgUserInvite$(this.org.orgId, this.user.currentAuthUser.email)
             .takeUntil(this.destroy$)

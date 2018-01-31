@@ -162,6 +162,11 @@ export class OrgService {
     return this.afs.collection('org').doc(orgId).collection('invites').doc(email).valueChanges();
   }
 
+  getOrgUsersInvites$(orgId: string) {
+    return this.firestoreService.colWithIds$(`org/${orgId}/invites`);
+    // return this.afs.collection('org').doc(orgId).collection('invites').valueChanges();
+  }
+
   deleteOrgUserInviteP(orgId: string, email: string): Promise<any> {
     return this.afs.collection('org').doc(orgId).collection('invites').doc(email).delete();
   }

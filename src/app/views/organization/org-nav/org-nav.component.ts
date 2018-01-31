@@ -25,6 +25,7 @@ export class OrgNavComponent implements OnInit, OnDestroy {
 
 
   destroy$: Subject<boolean> = new Subject<boolean>();
+  returnRoute: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -32,17 +33,23 @@ export class OrgNavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.returnRoute = this.router.routerState.snapshot.url;
 
   }
 
   login() {
     const orgId = this.route.snapshot.params['id'];
-    this.router.navigate([`org/${this.org.orgId}/login`], {queryParams: {returnUrl: 'org/' + orgId}});
+
+    // this.router.navigate([`org/${this.org.orgId}/login`], {queryParams: {returnUrl: 'org/' + orgId}});
+    this.router.navigate([`org/${this.org.orgId}/login`], {queryParams: {returnUrl: this.returnRoute}});
+
   }
 
   signup() {
     const orgId = this.route.snapshot.params['id'];
-    this.router.navigate([`org/${this.org.orgId}/register`], {queryParams: {returnUrl: 'org/' + orgId}});
+    // this.router.navigate([`org/${this.org.orgId}/register`], {queryParams: {returnUrl: 'org/' + orgId}});
+    this.router.navigate([`org/${this.org.orgId}/register`], {queryParams: {returnUrl: this.returnRoute}});
+
   }
 
   join() {
