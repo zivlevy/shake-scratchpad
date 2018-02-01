@@ -116,6 +116,7 @@ export const newOrgRequest = functions.firestore
         const setPublicInfo =  orgInfoRef.set({
           orgId: newOrg.orgId,
           orgName: newOrg.orgName,
+          orgEmail: newOrg.email,
           language: newOrg.language,
           sector: newOrg.sector,
           createdBy: newOrg.createdBy

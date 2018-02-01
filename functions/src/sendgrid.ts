@@ -13,7 +13,7 @@ const orgInviteHe = 'a246b010-1bb4-4d22-b23d-244f645e5989';
 export const sendOrgInvite = function(orgId, orgPublicData, inviteEmail, inviteData) {
   const msg = {
     to: inviteEmail,
-    from: 'hello@angularfirebase.com',
+    from: orgPublicData.orgEmail,
     subject: 'Invite',
     // text: `Hey ${toName}. You have a new follower!!! `,
     // html: `<strong>Hey ${toName}. You have a new follower!!!</strong>`,
@@ -36,6 +36,7 @@ export const sendOrgInvite = function(orgId, orgPublicData, inviteEmail, inviteD
     }
     case 'he': {
       msg.templateId = orgInviteHe;
+      msg.subject = 'הזמנה';
       break;
     }
   }

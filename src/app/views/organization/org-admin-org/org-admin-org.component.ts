@@ -27,6 +27,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
 
   orgName: string;
   orgId: string;
+  orgEmail: string;
   logoUrl: string;
   bannerUrl: string;
   orgHome: string;
@@ -75,6 +76,10 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
       ]],
       'language': ['', [
         Validators.required
+      ]],
+      'orgEmail': ['', [
+        Validators.required,
+        Validators.email
       ]]
     });
 
@@ -89,6 +94,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
           this.currentOrg = org;
           this.orgName = org.orgName;
           this.orgId = org.orgId;
+          this.orgEmail = org.orgEmail;
           this.orgHome = '/org/' + org.orgId;
           this.lang = org.language;
           this.orgManagementForm.controls['language'].setValue(this.lang);
@@ -158,6 +164,19 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
 
   nameUpdateCanceled() {
     this.orgName = this.currentOrg.orgName;
+  }
+
+  emailUpdateClicked() {
+    const newData = {
+      'orgEmail': this.orgEmail
+    };
+    this.orgService.setOrgPublicData(this.orgId, newData)
+      .then()
+      .catch();
+  }
+
+  emailUpdateCanceled() {
+    this.orgEmail = this.currentOrg.orgEmail;
   }
 
   langUpdateClicked() {

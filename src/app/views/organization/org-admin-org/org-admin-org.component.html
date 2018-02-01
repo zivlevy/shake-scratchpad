@@ -59,6 +59,19 @@
 
           <div>
             <mat-form-field>
+              <input matInput type="email" id="orgEmail" [(ngModel)]="orgEmail"
+                     formControlName="orgEmail" placeholder="Organization E-mail">
+            </mat-form-field>
+            <button *ngIf="currentOrg && currentOrg.orgEmail !== orgEmail" mat-button color="primary"
+                    (click)="emailUpdateClicked()"
+            >Update</button>
+            <button *ngIf="currentOrg && currentOrg.orgEmail !== orgEmail" mat-button color="primary"
+                    (click)="emailUpdateCanceled()"
+            >Cancel</button>
+          </div>
+
+          <div>
+            <mat-form-field>
               <mat-select formControlName="language" placeholder="Language" id="language"
                           [(value)]="lang">
                 <mat-option value="he">עברית</mat-option>
@@ -72,6 +85,8 @@
                     (click)="langUpdateCanceled()"
             >Cancel</button>
           </div>
+
+
 
           <div>
             <button mat-raised-button color="primary" class="raised-buttons" (click)="logoUploadClicked()">Logo Update</button>

@@ -143,6 +143,8 @@ export class OrgService {
       .take(1);
   }
 
+
+
   deleteUserOrgRefP(orgId: string, uid: string) {
     const userOrgRef = this.afs.collection('users').doc(uid).collection('orgs').doc(orgId);
     return userOrgRef.delete();
@@ -156,6 +158,14 @@ export class OrgService {
           err => reject(err),
           () => resolve());
     });
+  }
+
+  getAllOrgInvites$(orgId: string) {
+    return this.firestoreService.colWithIds$(`org/${orgId}/invites`)
+      .switchMap(data => {
+        return Observable.of({'type': 'invite', 'data': data});
+      })
+      .take(1);
   }
 
   getOrgUserInvite$(orgId: string, email: string) {
@@ -320,59 +330,67 @@ export class OrgService {
   getOrgData$(orgId: string): Observable<any> {
     return Observable.merge(
       this.getAllOrgDocs$(orgId),
-      this.getAllOrgUsers$(orgId)
+      this.getAllOrgUsers$(orgId),
+      this.getAllOrgInvites$(orgId)
     );
   }
 
-    deleteOrg(orgId: string) {
-    // Algolia data deletion is performed by the cloud function triggered by this org deletion
+  deleteOrg(orgId: string) {
+  // Algolia data deletion is performed by the cloud function triggered by this org deletion
 
-    const deleteArray = new Array<Promise<any>>();
+  const deleteArray = new Array<Promise<any>>();
 
-    // Documents are nested deepest, so we start here
-    this.getOrgData$(orgId)
-      .subscribe(
-        (orgDataArray) => {
+  // Documents are nested deepest, so we start here
+  this.getOrgData$(orgId)
+    .subscribe(
+      (orgDataArray) => {
 
-          // set 1st deletion stage
+        // set 1st deletion stage
 
-          if (orgDataArray.type === 'doc') {
-            orgDataArray.data.forEach(doc => {
-              deleteArray.push(this.deleteDocP(orgId, doc.id));
-            });
-          }
+        if (orgDataArray.type === 'doc') {
+          orgDataArray.data.forEach(doc => {
+            deleteArray.push(this.deleteDocP(orgId, doc.id));
+          });
+        }
 
-          if (orgDataArray.type === 'user') {
-            orgDataArray.data.forEach(user => {
-              deleteArray.push(this.deleteUserOrgRefP(orgId, user.uid));
-            });
-          }
-        },
-        null,
-        () => {
-          console.log('completed');
-          deleteArray.push(this.deleteOrgPublicDataP(orgId));
+        if (orgDataArray.type === 'user') {
+          orgDataArray.data.forEach(user => {
+            deleteArray.push(this.deleteUserOrgRefP(orgId, user.uid));
+          });
+        }
 
-          deleteArray.push(this.deleteOrgUsersP(orgId));
+        if (orgDataArray.type === 'invite') {
+          orgDataArray.data.forEach(invite => {
+            deleteArray.push(this.deleteUserOrgRefP(orgId, invite.id));
+          });
+        }
+      },
 
-          // deleteArray.push(this.imageService.deleteOrgLogoP(orgId));
-          // deleteArray.push(this.imageService.deleteOrgBannerP(orgId));
+      null,
+      () => {
+        console.log('completed');
+        deleteArray.push(this.deleteOrgPublicDataP(orgId));
 
-          Promise.all(deleteArray)
-            .then(() => {
-              console.log('finished 1st deletion stage');
+        deleteArray.push(this.deleteOrgUsersP(orgId));
 
-              // final stage
+        // deleteArray.push(this.imageService.deleteOrgLogoP(orgId));
+        // deleteArray.push(this.imageService.deleteOrgBannerP(orgId));
 
-              const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
-              return org.delete()
-                .then(() => console.log('Deletion complete'))
-                .catch(() => console.log('2nd stage deletion problem'));
-            })
-            .catch((err) => console.log('1st stage deletion problem', err));
-        });
+        Promise.all(deleteArray)
+          .then(() => {
+            console.log('finished 1st deletion stage');
 
-  }
+            // final stage
+
+            const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
+            return org.delete()
+              .then(() => console.log('Deletion complete'))
+              .catch(() => console.log('2nd stage deletion problem'));
+          })
+          .catch((err) => console.log('1st stage deletion problem', err));
+      });
+
+}
 
   /************************
    Org Admin API
