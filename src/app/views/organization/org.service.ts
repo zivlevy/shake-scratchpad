@@ -275,13 +275,12 @@ export class OrgService {
   }
 
   setOrgInvites(orgId, displayName, email, isAdmin, isEditor, isViewer) {
-    const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/invites/${email}`);
-    return document.set({
+    return this.firestoreService.upsert(`org/${orgId}/invites/${email}`, {
       'displayName': displayName,
       'isAdmin': isAdmin,
       'isEditor': isEditor,
-      'isViewer': isViewer
-    });
+       'isViewer': isViewer
+    } );
   }
 
   deleteOrgPublicDataP(orgId) {

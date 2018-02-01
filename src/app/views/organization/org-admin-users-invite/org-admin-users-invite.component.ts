@@ -4,6 +4,7 @@ import {Subject} from 'rxjs/Subject';
 import {ToastrService} from 'ngx-toastr';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material';
+import {FileService} from '../../../core/file.service';
 
 export class InviteRecord {
 
@@ -35,6 +36,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
 
   constructor(private orgService: OrgService,
               private fb: FormBuilder,
+              private fileService: FileService,
               private toastr: ToastrService) {
     this.initInvites();
   }
@@ -54,6 +56,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
         'isAdmin': [false],
         'isEditor': [false],
         'isViewer': [true],
+        'advanced': [false]
 
       }
     );
@@ -85,6 +88,10 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
     return this.inviteForm.get('isViewer').value;
   }
 
+  get advanced() {
+    return this.inviteForm.get('advanced').value;
+  }
+
   initNewInvite() {
     this.inviteForm.controls['displayName'].setValue('');
     this.inviteForm.controls['email'].setValue('');
@@ -98,14 +105,30 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
     this.invites = new Array<InviteRecord>();
   }
 
-  addNew() {
+  addInviteToTable() {
     const invite = new InviteRecord(this.displayName, this.email, this.isAdmin, this.isEditor, this.isViewer);
     this.invites.push(invite);
     this.dataSource.data = this.invites;
     this.initNewInvite();
   }
 
-  imiddiateSend() {
+  deleteInviteFromTable(emailToDelete: string) {
+    const index = this.invites.indexOf(this.findInviteInTable(emailToDelete));
+    this.invites.splice(index, 1);
+    this.dataSource.data = this.invites;
+  }
+
+  findInviteInTable(email: string) {
+    return this.invites.find( (obj) => {
+      return obj.email === email;
+    });
+  }
+
+  sendInvite(invite: InviteRecord) {
+    return this.orgService.setOrgInvites(this.orgId, invite.displayName, invite.email, invite.isAdmin, invite.isEditor, invite.isViewer);
+  }
+
+  manualSend() {
     const invite = new InviteRecord(this.displayName, this.email, this.isAdmin, this.isEditor, this.isViewer);
     this.initNewInvite();
     this.sendInvite(invite)
@@ -117,23 +140,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
       });
   }
 
-  inviteDelete(emailToDelete: string) {
-    const index = this.invites.indexOf(this.inviteFind(emailToDelete));
-    this.invites.splice(index, 1);
-    this.dataSource.data = this.invites;
-  }
-
-  inviteFind(email: string) {
-    return this.invites.find( (obj) => {
-      return obj.email === email;
-    });
-  }
-
-  sendInvite(invite: InviteRecord) {
-    return this.orgService.setOrgInvites(this.orgId, invite.displayName, invite.email, invite.isAdmin, invite.isEditor, invite.isViewer);
-  }
-
-  inviteTable() {
+  tableInvitesSend() {
     const sendInvitesP: Array<any> = new Array<any>();
     for (const invite of this.invites) {
       sendInvitesP.push(this.sendInvite(invite));
@@ -148,50 +155,29 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
       });
   }
 
-  testBoolean(value) {
-    console.log(value);
-
-    if (value === 1) {
-      return true;
-    }
-
-    if (value === 'true' || value === 'yes' || value === '1') {
-      return true;
-    }
-
-    return false;
-  }
-
-  selectFile(event) {
+  readInvitesFromFile(event) {
     const inFile = event.target.files[0];
-    const reader: FileReader = new FileReader();
+    this.fileService.readCsv(inFile)
+      .then((lines: any) => {
+        let isAdmin = false;
+        let isEditor = false;
+        let isViewer = false;
 
-    reader.readAsText(inFile);
-    reader.onload = (e) => {
-      const csv: string = reader.result;
-      const allTextLines = csv.split(/\r|\n|\r/);
-      const headers = allTextLines[0].split(',');
-      const lines = [];
+        console.log(lines);
+        console.log(lines.length);
 
-      for (let i = 0; i < allTextLines.length; i++) {
-        // split content based on comma
-        const data = allTextLines[i].split(',');
-        if (data.length === headers.length) {
-          const tarr = [];
-          for (let j = 0; j < headers.length; j++) {
-            tarr.push(data[j]);
+        for (const line of lines) {
+          console.log(line);
+          if (line.length >= 2) {
+            isAdmin = this.fileService.stringToBoolean(line[2]);
+            isEditor = this.fileService.stringToBoolean(line[3]);
+            isViewer = this.fileService.stringToBoolean(line[4]);
           }
-
-          const isAdmin = this.testBoolean(tarr[2]);
-          const isEditor = this.testBoolean(tarr[3]);
-          const isViewer = this.testBoolean(tarr[4]);
-          const invite = new InviteRecord(tarr[0], tarr[1], isAdmin, isEditor, isViewer );
+          const invite = new InviteRecord(line[0], line[1], isAdmin, isEditor, isViewer );
           this.invites.push(invite);
           this.dataSource.data = this.invites;
-        }
       }
-
-    };
+    });
   }
 
 

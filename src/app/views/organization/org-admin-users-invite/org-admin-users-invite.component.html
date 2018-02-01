@@ -7,14 +7,16 @@
 
 
 
-  <form [formGroup]="inviteForm" (ngSubmit)="addNew()">
+  <form [formGroup]="inviteForm" (ngSubmit)="manualSend()">
 
     <div>
       <button mat-raised-button color="primary" type="submit" [disabled]="!inviteForm.valid"
-              [innerHTML]="'Add invite to list' | translate"></button>
-      <button mat-raised-button color="primary" [disabled]="!inviteForm.valid" (click)="imiddiateSend()"
               [innerHTML]="'Send this invite' | translate"></button>
+      <button *ngIf="advanced" mat-raised-button color="primary"  [disabled]="!inviteForm.valid" (click)="addInviteToTable()"
+              [innerHTML]="'Add invite to list' | translate"></button>
+
     </div>
+    <small><mat-checkbox formControlName="advanced">Advanced</mat-checkbox></small>
 
     <div class="form-body">
 
@@ -53,18 +55,18 @@
   </form>
 
 </mat-card>
-<mat-card fxFlex="1 1 70%">
+<mat-card *ngIf="advanced" fxFlex="1 1 70%">
   <mat-card-title>
     Invites waiting to be sent
   </mat-card-title>
 
   <div>
-    <button mat-raised-button color="primary" (click)="inviteTable()"
+    <button mat-raised-button color="primary" (click)="tableInvitesSend()"
             [disabled]="invites.length === 0"
     >Send Table invitations</button>
 
     <button mat-raised-button color="primary" (click)="FileSelect.click()">Get From File</button>
-    <input hidden type="file" #FileSelect (change)="selectFile($event)">
+    <input hidden type="file" #FileSelect (change)="readInvitesFromFile($event)">
 
   </div>
 
@@ -105,7 +107,7 @@
       <mat-header-cell *matHeaderCellDef> Actions</mat-header-cell>
       <mat-cell  *matCellDef="let element">
         <button mat-raised-button color="warn"
-                (click)="inviteDelete(element.email)">
+                (click)="deleteInviteFromTable(element.email)">
           <i class="fa fa-trash"></i></button>
       </mat-cell>
     </ng-container>
