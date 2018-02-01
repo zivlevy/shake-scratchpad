@@ -30,6 +30,9 @@ import { OrgDocViewComponent } from './org-doc-view/org-doc-view.component';
 import { OrgDocEditComponent } from './org-doc-edit/org-doc-edit.component';
 import { PublishDialogComponent } from './dialogs/publish-dialog/publish-dialog.component';
 import { OrgAdminUsersInviteComponent } from './org-admin-users-invite/org-admin-users-invite.component';
+import { OrgInvitePageComponent } from './org-invite-page/org-invite-page.component';
+import { OrgAdminUsersExistingComponent } from './org-admin-users-existing/org-admin-users-existing.component';
+import { OrgAdminUsersInvitedComponent } from './org-admin-users-invited/org-admin-users-invited.component';
 
 @NgModule({
   imports: [
@@ -68,6 +71,9 @@ import { OrgAdminUsersInviteComponent } from './org-admin-users-invite/org-admin
     PublishDialogComponent,
     OrgDocEditComponent,
     OrgAdminUsersInviteComponent,
+    OrgInvitePageComponent,
+    OrgAdminUsersExistingComponent,
+    OrgAdminUsersInvitedComponent,
   ],
   exports: [OrgHomePageComponent],
   entryComponents:[

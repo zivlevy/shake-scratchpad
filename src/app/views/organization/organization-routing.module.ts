@@ -10,6 +10,7 @@ import {OrgDocManagerComponent} from './org-doc-manager/org-doc-manager.componen
 import {OrgSearchDocsComponent} from './org-search-docs/org-search-docs.component';
 import {OrgDocEditComponent} from './org-doc-edit/org-doc-edit.component';
 import {OrgDocViewComponent} from "./org-doc-view/org-doc-view.component";
+import {OrgInvitePageComponent} from "./org-invite-page/org-invite-page.component";
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
           {
              path: '', component: OrgHomePageComponent, children: [
               {path: '', component: OrgSearchDocsComponent},
+              {path: 'invite', component: OrgInvitePageComponent},
               {path: 'login', component: LoginComponent},
               {path: 'register', component: SignupComponent},
               {path: 'user-profile', component: UserProfileComponent},

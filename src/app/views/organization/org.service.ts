@@ -143,6 +143,8 @@ export class OrgService {
       .take(1);
   }
 
+
+
   deleteUserOrgRefP(orgId: string, uid: string) {
     const userOrgRef = this.afs.collection('users').doc(uid).collection('orgs').doc(orgId);
     return userOrgRef.delete();
@@ -157,6 +159,47 @@ export class OrgService {
           () => resolve());
     });
   }
+
+  getAllOrgInvites$(orgId: string) {
+    return this.firestoreService.colWithIds$(`org/${orgId}/invites`)
+      .switchMap(data => {
+        return Observable.of({'type': 'invite', 'data': data});
+      })
+      .take(1);
+  }
+
+  getOrgUserInvite$(orgId: string, email: string) {
+    return this.afs.collection('org').doc(orgId).collection('invites').doc(email).valueChanges();
+  }
+
+  getOrgUsersInvites$(orgId: string) {
+    return this.firestoreService.colWithIds$(`org/${orgId}/invites`);
+    // return this.afs.collection('org').doc(orgId).collection('invites').valueChanges();
+  }
+
+  deleteOrgUserInviteP(orgId: string, email: string): Promise<any> {
+    return this.afs.collection('org').doc(orgId).collection('invites').doc(email).delete();
+  }
+
+  addUserToOrg(orgId: string, uid: string, skUser, isOrgAdmin: boolean, isOrgEditor: boolean, isOrgViewer: boolean) {
+    this.afs.collection('users').doc(uid).collection('orgs').doc(orgId).set({});
+
+    const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${orgId}/users/${uid}`);
+    const data: OrgUser = {
+      uid: uid,
+      isPending: false,
+      roles: {
+        admin: isOrgAdmin,
+        editor: isOrgEditor,
+        viewer: isOrgViewer
+      },
+      displayName: skUser.displayName,
+      email: skUser.email,
+      photoURL: skUser.photoURL ? skUser.photoURL : ''
+    };
+    return userRef.set(data);
+  }
+
 
   /***************************
    Private functions
@@ -241,6 +284,15 @@ export class OrgService {
     return document.update(newData);
   }
 
+  setOrgInvites(orgId, displayName, email, isAdmin, isEditor, isViewer) {
+    return this.firestoreService.upsert(`org/${orgId}/invites/${email}`, {
+      'displayName': displayName,
+      'isAdmin': isAdmin,
+      'isEditor': isEditor,
+       'isViewer': isViewer
+    } );
+  }
+
   deleteOrgPublicDataP(orgId) {
     const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
     return document.delete();
@@ -278,59 +330,67 @@ export class OrgService {
   getOrgData$(orgId: string): Observable<any> {
     return Observable.merge(
       this.getAllOrgDocs$(orgId),
-      this.getAllOrgUsers$(orgId)
+      this.getAllOrgUsers$(orgId),
+      this.getAllOrgInvites$(orgId)
     );
   }
 
-    deleteOrg(orgId: string) {
-    // Algolia data deletion is performed by the cloud function triggered by this org deletion
+  deleteOrg(orgId: string) {
+  // Algolia data deletion is performed by the cloud function triggered by this org deletion
 
-    const deleteArray = new Array<Promise<any>>();
+  const deleteArray = new Array<Promise<any>>();
 
-    // Documents are nested deepest, so we start here
-    this.getOrgData$(orgId)
-      .subscribe(
-        (orgDataArray) => {
+  // Documents are nested deepest, so we start here
+  this.getOrgData$(orgId)
+    .subscribe(
+      (orgDataArray) => {
 
-          // set 1st deletion stage
+        // set 1st deletion stage
 
-          if (orgDataArray.type === 'doc') {
-            orgDataArray.data.forEach(doc => {
-              deleteArray.push(this.deleteDocP(orgId, doc.id));
-            });
-          }
+        if (orgDataArray.type === 'doc') {
+          orgDataArray.data.forEach(doc => {
+            deleteArray.push(this.deleteDocP(orgId, doc.id));
+          });
+        }
 
-          if (orgDataArray.type === 'user') {
-            orgDataArray.data.forEach(user => {
-              deleteArray.push(this.deleteUserOrgRefP(orgId, user.uid));
-            });
-          }
-        },
-        null,
-        () => {
-          console.log('completed');
-          deleteArray.push(this.deleteOrgPublicDataP(orgId));
+        if (orgDataArray.type === 'user') {
+          orgDataArray.data.forEach(user => {
+            deleteArray.push(this.deleteUserOrgRefP(orgId, user.uid));
+          });
+        }
 
-          deleteArray.push(this.deleteOrgUsersP(orgId));
+        if (orgDataArray.type === 'invite') {
+          orgDataArray.data.forEach(invite => {
+            deleteArray.push(this.deleteUserOrgRefP(orgId, invite.id));
+          });
+        }
+      },
 
-          // deleteArray.push(this.imageService.deleteOrgLogoP(orgId));
-          // deleteArray.push(this.imageService.deleteOrgBannerP(orgId));
+      null,
+      () => {
+        console.log('completed');
+        deleteArray.push(this.deleteOrgPublicDataP(orgId));
 
-          Promise.all(deleteArray)
-            .then(() => {
-              console.log('finished 1st deletion stage');
+        deleteArray.push(this.deleteOrgUsersP(orgId));
 
-              // final stage
+        // deleteArray.push(this.imageService.deleteOrgLogoP(orgId));
+        // deleteArray.push(this.imageService.deleteOrgBannerP(orgId));
 
-              const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
-              return org.delete()
-                .then(() => console.log('Deletion complete'))
-                .catch(() => console.log('2nd stage deletion problem'));
-            })
-            .catch((err) => console.log('1st stage deletion problem', err));
-        });
+        Promise.all(deleteArray)
+          .then(() => {
+            console.log('finished 1st deletion stage');
 
-  }
+            // final stage
+
+            const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
+            return org.delete()
+              .then(() => console.log('Deletion complete'))
+              .catch(() => console.log('2nd stage deletion problem'));
+          })
+          .catch((err) => console.log('1st stage deletion problem', err));
+      });
+
+}
 
   /************************
    Org Admin API

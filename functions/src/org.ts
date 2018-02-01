@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import {algoliaInitIndex, algoliaGetSearchKey, algoliaSaveDoc, AlgoliaDoc, algoliaOrgDelete, algoliaDeleteVersionDoc} from "./algolia";
+import {sendOrgInvite} from "./sendgrid";
 
 
 const saveEditDoc = function (orgId, docId, data) {
@@ -115,6 +116,7 @@ export const newOrgRequest = functions.firestore
         const setPublicInfo =  orgInfoRef.set({
           orgId: newOrg.orgId,
           orgName: newOrg.orgName,
+          orgEmail: newOrg.email,
           language: newOrg.language,
           sector: newOrg.sector,
           createdBy: newOrg.createdBy
@@ -164,7 +166,20 @@ export const onOrgDelete = functions.firestore.document('org/{orgId}').onDelete(
   return algoliaOrgDelete(orgId)
     .catch(err => console.log(err));
 
-
 });
 
+export const onOrgInviteCreate = functions.firestore.document('org/{orgId}/invites/{email}').onCreate(event => {
+  const orgId = event.resource.match("org/(.*)/invites")[1];
+  const email = event.resource.match("invites/(.*)")[1];
+
+  const db = admin.firestore();
+  const orgPublicData = db.collection('org').doc(orgId).collection('publicData').doc('info').get();
+  const orgInviteData = db.collection('org').doc(orgId).collection('invites').doc(email).get();
+
+  return Promise.all([orgPublicData, orgInviteData])
+    .then(res => {
+      return sendOrgInvite(orgId, res[0].data(), email, res[1].data())
+    })
+    .catch(err => console.log(err));
+});
 
