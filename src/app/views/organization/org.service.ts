@@ -20,6 +20,8 @@ import {OrgTreeNode} from '../../model/org-tree';
 import {AlgoliaService} from '../../core/algolia.service';
 import {LanguageService} from '../../core/language.service';
 
+import * as _ from 'lodash';
+
 @Injectable()
 export class OrgService {
   private currentOrg$: BehaviorSubject<string> = new BehaviorSubject('');
@@ -62,9 +64,11 @@ export class OrgService {
         this.currentSkUser = skUser;
       });
 
+
     // set org public data updates
     this.updateOrgPublicData();
     this.updateOrgPrivateData();
+
 
   }
 
@@ -142,7 +146,6 @@ export class OrgService {
       })
       .take(1);
   }
-
 
 
   deleteUserOrgRefP(orgId: string, uid: string) {
@@ -223,9 +226,9 @@ export class OrgService {
             }
           });
       }).subscribe(orgPublicData => {
-        if (orgPublicData) {
-          this.lngService.setLanguadge(orgPublicData.language);
-        }
+      if (orgPublicData) {
+        this.lngService.setLanguadge(orgPublicData.language);
+      }
       this.orgPublicData$.next(orgPublicData);
     });
   }
@@ -279,6 +282,7 @@ export class OrgService {
         });
     });
   }
+
   setOrgPublicData(orgId, newData) {
     const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
     return document.update(newData);
@@ -289,14 +293,15 @@ export class OrgService {
       'displayName': displayName,
       'isAdmin': isAdmin,
       'isEditor': isEditor,
-       'isViewer': isViewer
-    } );
+      'isViewer': isViewer
+    });
   }
 
   deleteOrgPublicDataP(orgId) {
     const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
     return document.delete();
   }
+
   getOrgDocs$(orgId: string): Observable<any> {
     const docsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${orgId}/docs`);
 
@@ -306,7 +311,7 @@ export class OrgService {
         return Observable.forkJoin(
           result.map(doc => {
             console.log('b', doc);
-            const docVersionsRef: AngularFirestoreCollection<any> = this.afs.collection( `org/${orgId}/docs/${doc.payload.doc.id}/versions`);
+            const docVersionsRef: AngularFirestoreCollection<any> = this.afs.collection(`org/${orgId}/docs/${doc.payload.doc.id}/versions`);
             return docVersionsRef.valueChanges();
           })
         );
@@ -336,61 +341,61 @@ export class OrgService {
   }
 
   deleteOrg(orgId: string) {
-  // Algolia data deletion is performed by the cloud function triggered by this org deletion
+    // Algolia data deletion is performed by the cloud function triggered by this org deletion
 
-  const deleteArray = new Array<Promise<any>>();
+    const deleteArray = new Array<Promise<any>>();
 
-  // Documents are nested deepest, so we start here
-  this.getOrgData$(orgId)
-    .subscribe(
-      (orgDataArray) => {
+    // Documents are nested deepest, so we start here
+    this.getOrgData$(orgId)
+      .subscribe(
+        (orgDataArray) => {
 
-        // set 1st deletion stage
+          // set 1st deletion stage
 
-        if (orgDataArray.type === 'doc') {
-          orgDataArray.data.forEach(doc => {
-            deleteArray.push(this.deleteDocP(orgId, doc.id));
-          });
-        }
+          if (orgDataArray.type === 'doc') {
+            orgDataArray.data.forEach(doc => {
+              deleteArray.push(this.deleteDocP(orgId, doc.id));
+            });
+          }
 
-        if (orgDataArray.type === 'user') {
-          orgDataArray.data.forEach(user => {
-            deleteArray.push(this.deleteUserOrgRefP(orgId, user.uid));
-          });
-        }
+          if (orgDataArray.type === 'user') {
+            orgDataArray.data.forEach(user => {
+              deleteArray.push(this.deleteUserOrgRefP(orgId, user.uid));
+            });
+          }
 
-        if (orgDataArray.type === 'invite') {
-          orgDataArray.data.forEach(invite => {
-            deleteArray.push(this.deleteUserOrgRefP(orgId, invite.id));
-          });
-        }
-      },
+          if (orgDataArray.type === 'invite') {
+            orgDataArray.data.forEach(invite => {
+              deleteArray.push(this.deleteUserOrgRefP(orgId, invite.id));
+            });
+          }
+        },
 
-      null,
-      () => {
-        console.log('completed');
-        deleteArray.push(this.deleteOrgPublicDataP(orgId));
+        null,
+        () => {
+          console.log('completed');
+          deleteArray.push(this.deleteOrgPublicDataP(orgId));
 
-        deleteArray.push(this.deleteOrgUsersP(orgId));
+          deleteArray.push(this.deleteOrgUsersP(orgId));
 
-        // deleteArray.push(this.imageService.deleteOrgLogoP(orgId));
-        // deleteArray.push(this.imageService.deleteOrgBannerP(orgId));
+          // deleteArray.push(this.imageService.deleteOrgLogoP(orgId));
+          // deleteArray.push(this.imageService.deleteOrgBannerP(orgId));
 
-        Promise.all(deleteArray)
-          .then(() => {
-            console.log('finished 1st deletion stage');
+          Promise.all(deleteArray)
+            .then(() => {
+              console.log('finished 1st deletion stage');
 
-            // final stage
+              // final stage
 
-            const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
-            return org.delete()
-              .then(() => console.log('Deletion complete'))
-              .catch(() => console.log('2nd stage deletion problem'));
-          })
-          .catch((err) => console.log('1st stage deletion problem', err));
-      });
+              const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
+              return org.delete()
+                .then(() => console.log('Deletion complete'))
+                .catch(() => console.log('2nd stage deletion problem'));
+            })
+            .catch((err) => console.log('1st stage deletion problem', err));
+        });
 
-}
+  }
 
   /************************
    Org Admin API
@@ -440,16 +445,16 @@ export class OrgService {
   }
 
   addDoc(editVersion: SkDocData) {
-    return new Promise<string> ((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
       const docsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/docs`);
       const timestamp = firebase.firestore.FieldValue.serverTimestamp();
       editVersion.createdBy = this.currentSkUser.uid;
       editVersion.createdAt = timestamp;
       const objToSave: SkDoc = {editVersion: editVersion, name: editVersion.name, version: 0};
       docsRef.add(objToSave)
-        .then( doc => this.addDocToTreeRoot(doc.id, objToSave))
-        .then( docId => resolve(docId))
-        .catch( err => reject (err));
+        .then(doc => this.addDocToTreeRoot(doc.id, objToSave))
+        .then(docId => resolve(docId))
+        .catch(err => reject(err));
     });
   }
 
@@ -465,14 +470,13 @@ export class OrgService {
         return docsRef.update({...nameObj, editVersion});
       });
   }
+
   publishDoc(uid: string, editVersion: SkDocData, updateVersionNo: boolean = true) {
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
 
     return docsRef.valueChanges().take(1).toPromise()
       .then(res => {
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-        // change name in tree
-        if (res.name !== editVersion.name) { this.editDocNameInTree(uid, editVersion.name); }
 
         // save editedVersion to PublishVersion
         editVersion.publishAt = timestamp;
@@ -486,7 +490,7 @@ export class OrgService {
         };
 
         // if we only want to update the published version without adding new version
-        if (! updateVersionNo) {
+        if (!updateVersionNo) {
 
         } else {
           objToSave['version'] = (res.version || 0) + 1;
@@ -499,6 +503,9 @@ export class OrgService {
             docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0});
           }
         }
+        // change  in tree
+        this.editDocInTree(uid, objToSave);
+
         return docsRef.update(objToSave);
       });
   }
@@ -510,7 +517,9 @@ export class OrgService {
       .then(res => {
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
         // change name in tree
-        if (res.name !== editVersion.name) { this.editDocNameInTree(uid, editVersion.name); }
+        if (res.name !== editVersion.name) {
+          this.editDocNameInTree(uid, editVersion.name);
+        }
         // if current published - move to versions
         if (!res.publishVersion) {
           res['publishVersion'] = {...res.editVersion};
@@ -532,9 +541,9 @@ export class OrgService {
       });
   }
 
-  serachDocsByTerm(searchString: string, namesOnly: boolean, edited: boolean, published: boolean, version: boolean ) {
+  serachDocsByTerm(searchString: string, namesOnly: boolean, edited: boolean, published: boolean, version: boolean) {
     const orgPrivateData = this.orgPrivateData$.getValue();
-    return  this.algoliaService.searchDocs(this.localCurrentOrg, orgPrivateData.searchKey, searchString, namesOnly, edited, published, version );
+    return this.algoliaService.searchDocs(this.localCurrentOrg, orgPrivateData.searchKey, searchString, namesOnly, edited, published, version);
   }
 
   moveDocToPublic(doc: SkDoc) {
@@ -549,13 +558,14 @@ export class OrgService {
     const verRef = `org/${this.localCurrentOrg}/docs/${docId}/versions/`;
     this.firestoreService.deleteCollection(verRef, 5)
       .subscribe(res => console.log(res), null, () => {
-        this.deleteDocFromTree(docId);
-        docRef.delete(); }
+          this.deleteDocFromTree(docId);
+          docRef.delete();
+        }
       );
   }
 
   deleteDocVersion(docId: string, version: string) {
-    return this.fs.delete( `org/${this.localCurrentOrg}/docs/${docId}/versions/${version}`);
+    return this.fs.delete(`org/${this.localCurrentOrg}/docs/${docId}/versions/${version}`);
   }
 
   deleteDocP(orgId: string, docId: string): Promise<any> {
@@ -563,7 +573,7 @@ export class OrgService {
     // TODO add remove from tree
     return new Promise((resolve, reject) => {
       const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${orgId}/docs/${docId}`);
-      const verRef =   `org/${orgId}/docs/${docId}/versions/`;
+      const verRef = `org/${orgId}/docs/${docId}/versions/`;
       console.log(orgId, docId);
       this.firestoreService.deleteCollection(verRef, 5)
         .subscribe(
@@ -580,7 +590,8 @@ export class OrgService {
         );
     });
   }
-  getDocVersion$ (docId: string, versionNo: number) {
+
+  getDocVersion$(docId: string, versionNo: number) {
     return this.fs.doc$(`org/${this.localCurrentOrg}/docs/${docId}/versions/${versionNo}`);
   }
 
@@ -606,7 +617,7 @@ export class OrgService {
 
   makeJsonTree = (roots: Array<any>): string => {
     const result = [];
-    roots.forEach( root => result.push(this.treeNodeToDBObject(root))) ;
+    roots.forEach(root => result.push(this.treeNodeToDBObject(root)));
     return JSON.stringify(result);
   }
 
@@ -635,7 +646,7 @@ export class OrgService {
 
   makeJsonTreeFromMemory = (roots: Array<any>): string => {
     const result = [];
-    roots.forEach( root => result.push(this.treeNodeToDBObjectFromMemory(root))) ;
+    roots.forEach(root => result.push(this.treeNodeToDBObjectFromMemory(root)));
     return JSON.stringify(result);
   }
 
@@ -660,14 +671,45 @@ export class OrgService {
 
   /***************************************/
 
-  getOrgTreeFromJson$() {
+  private getOrgTreeFromJson$(): Observable<Array<OrgTreeNode>> {
+
     return this.getCurrentOrg$()
       .switchMap(currentOrg => {
         return this.fs.doc$(`org/${currentOrg}`)
           .map((result: any) => {
-            return JSON.parse(result.orgTreeJson);
+            const tree = JSON.parse(result.orgTreeJson);
+            return tree;
           });
       });
+  }
+
+  getOrgTreeByUser$(): Observable<any> {
+    return Observable.combineLatest(this.getOrgUser$(), this.getOrgTreeFromJson$())
+      .map(res => {
+        const user = res[0];
+        const tree = res [1];
+        if (user.roles.editor) {
+          return tree;
+        } else {
+          const publicTree = [];
+          publicTree.push(this.makePublishTree(tree[0]));
+          return publicTree;
+        }
+      });
+  }
+
+  // helper - take an org tree and removes non publish docs
+  private makePublishTree(treeNode: OrgTreeNode) {
+    if (treeNode.children) {
+      const clean = treeNode.children.filter(node => node.children || node.isPublish);
+      clean.forEach(node => {
+        if (node.children) {
+          this.makePublishTree(node);
+        }
+      });
+      treeNode.children = clean;
+      return treeNode;
+    }
   }
 
   getTreeOrgDocs$() {
@@ -698,11 +740,11 @@ export class OrgService {
 
 
   // handle manuel doc removal from tree
-  deleteDocFromTree( docId: string) {
+  deleteDocFromTree(docId: string) {
     this.getOrgTreeFromJson$()
       .take(1)
-      .subscribe( tree => {
-        tree.forEach((item, index, array ) => {
+      .subscribe(tree => {
+        tree.forEach((item, index, array) => {
           this.deleteOrgDocRecursion(item, index, array, docId);
         });
         const treeJson = this.makeJsonTreeFromMemory(tree);
@@ -710,31 +752,32 @@ export class OrgService {
       });
   }
 
-  private deleteOrgDocRecursion( treeNode, index, array, docId) {
+  private deleteOrgDocRecursion(treeNode, index, array, docId) {
     if (treeNode.children) {
-      treeNode.children.forEach( (child, childIndex, childParent) => this.deleteOrgDocRecursion(child, childIndex, childParent, docId));
+      treeNode.children.forEach((child, childIndex, childParent) => this.deleteOrgDocRecursion(child, childIndex, childParent, docId));
     } else {
       if (treeNode.id === docId) {
-        array.splice(index, 1 );
+        array.splice(index, 1);
       }
     }
   }
 
   // handle manuel change of tree doc name
-  editDocNameInTree( docId: string, newDocName: string ) {
+  editDocNameInTree(docId: string, newDocName: string) {
     this.getOrgTreeFromJson$()
       .take(1)
-      .subscribe( tree => {
-        tree.forEach((item, index, array ) => {
-          this.editOrgDocRecurtion(item, index, array, docId, newDocName);
+      .subscribe(tree => {
+        tree.forEach((item, index, array) => {
+          this.editOrgDocNameRecurtion(item, index, array, docId, newDocName);
         });
         const treeJson = this.makeJsonTreeFromMemory(tree);
         this.saveOrgTree(treeJson);
       });
   }
-  private editOrgDocRecurtion( treeNode, index, array, docId, newDocName) {
+
+  private editOrgDocNameRecurtion(treeNode, index, array, docId, newDocName) {
     if (treeNode.children) {
-      treeNode.children.forEach( (child, childIndex, childParent) => this.editOrgDocRecurtion(child, childIndex, childParent, docId, newDocName));
+      treeNode.children.forEach((child, childIndex, childParent) => this.editOrgDocNameRecurtion(child, childIndex, childParent, docId, newDocName));
     } else {
       if (treeNode.id === docId) {
         treeNode.name = newDocName;
@@ -742,8 +785,37 @@ export class OrgService {
     }
   }
 
-  private addDocToTreeRoot (docId: string, doc: SkDoc): Promise<string> {
-    return new Promise <string>((resolve, reject) => {
+
+  // handel tree node update
+  editDocInTree(docId: string, docData: SkDoc) {
+    this.getOrgTreeFromJson$()
+      .take(1)
+      .subscribe(tree => {
+        tree.forEach((item, index, array) => {
+          this.editOrgDocRecurtion(item, index, array, docId, docData);
+        });
+        const treeJson = this.makeJsonTreeFromMemory(tree);
+        this.saveOrgTree(treeJson);
+      });
+  }
+
+
+  private editOrgDocRecurtion(treeNode, index, array, docId, docData) {
+    if (treeNode.children) {
+      treeNode.children.forEach((child, childIndex, childParent) => this.editOrgDocRecurtion(child, childIndex, childParent, docId, docData));
+    } else {
+      if (treeNode.id === docId) {
+        treeNode.name = docData.name;
+        treeNode.isPublish = docData.isPublish;
+        treeNode.isDoc = true;
+      }
+    }
+  }
+
+  ///////////////////////
+
+  private addDocToTreeRoot(docId: string, doc: SkDoc): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
       this.getOrgTreeFromJson$()
         .take(1)
         .subscribe(tree => {

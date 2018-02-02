@@ -5,6 +5,7 @@ import {SkDoc} from '../../../model/document';
 import {AlgoliaDoc} from '../../../model/algolia-doc';
 import {LanguageService} from '../../../core/language.service';
 import {Subject} from 'rxjs/Subject';
+import {OrgTreeNode} from '../../../model/org-tree';
 
 @Component({
   selector: 'sk-org-tree-view',
@@ -20,7 +21,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy {
   selectedDoc: EventEmitter<SkDoc> = new EventEmitter();
 
   treeNode: TreeNode;
-  nodes: Array<any> = [{id: '0', name: 'root', children: []}];
+  nodes: Array<OrgTreeNode> = [{id: '0', name: 'root', children: []}];
   tree_options: ITreeOptions;
 
 
@@ -36,9 +37,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy {
         this.isRTL = (dir === 'rtl');
       });
 
-
-
-    this.orgService.getOrgTreeFromJson$()
+    this.orgService.getOrgTreeByUser$()
       .subscribe(orgTree => {
         this.tree_options = {
           rtl: this.isRTL,
@@ -51,8 +50,6 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy {
         };
         this.nodes = orgTree;
       });
-
-
   }
 
 

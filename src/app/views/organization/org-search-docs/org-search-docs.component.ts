@@ -48,6 +48,7 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(org => this.currentOrg = org);
 
+    // get current orgUser
     this.orgService.getOrgUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => this.currentOrgUser = user);

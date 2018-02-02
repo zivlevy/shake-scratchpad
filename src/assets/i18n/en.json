@@ -1,6 +1,13 @@
 {
   "TXT_orgId_tooltip": "This is a unique identifier of your organization. It can't be changed after creation. ",
   "TXT_orgId_error": "Identifier must be between 4 and 12 chars / digits with no space",
-  "TXT_orgId_unavailable": "Identifier already in use. Please Choose another"
+  "TXT_orgId_unavailable": "Identifier already in use. Please Choose another",
 
+  "Document Search": "========= Doc Search =========",
+  "Documents": "Documents",
+  "Search for a document": "earch for a document",
+  "Doc name only": "Doc name only",
+  "Publish": "Publish",
+  "Edit": "Edit",
+  "Previous Versions": "Previous Versions"
 }

@@ -33,26 +33,11 @@
       <mat-icon>home</mat-icon>
     </button>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   </div>
 
   <!-- EDITOR -->
   <div [hidden]="isPreview" >
-    <sk-tree-doc #editor [docData]="currentEditData" [isRTL]="true"></sk-tree-doc>
+    <sk-tree-doc #editor [docData]="currentEditData" [isRTL]="rtl"></sk-tree-doc>
 
   </div>
 
