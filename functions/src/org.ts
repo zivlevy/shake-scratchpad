@@ -1,6 +1,9 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
-import {algoliaInitIndex, algoliaGetSearchKey, algoliaSaveDoc, AlgoliaDoc, algoliaOrgDelete, algoliaDeleteVersionDoc} from "./algolia";
+import {
+  algoliaInitIndex, algoliaGetSearchKey, algoliaSaveDoc, AlgoliaDoc, algoliaOrgDelete, algoliaDeleteVersionDoc,
+  algoliaDeletePublishedDoc
+} from "./algolia";
 import {sendOrgInvite} from "./sendgrid";
 
 
@@ -53,8 +56,13 @@ export const onPrivateDocUpdated = functions.firestore.document('org/{orgId}/doc
   // edited Version
   const saveEdit = saveEditDoc(orgId, docId, data);
 
+  let savePublish;
   // published Version
-  const savePublish = savePublishDoc(orgId, docId, data);
+  if (data.isPublished) {
+    savePublish = savePublishDoc(orgId, docId, data);
+  } else {
+    savePublish = algoliaDeletePublishedDoc(orgId, docId);
+  }
 
   return Promise.all([saveEdit, savePublish])
     .catch(err => console.log(err));

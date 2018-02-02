@@ -25,6 +25,10 @@ export const algoliaDeleteVersionDoc = function(orgId, docId, version) {
   return index.deleteObject(docId + version);
 }
 
+export const algoliaDeletePublishedDoc = function(orgId, docId) {
+  const index = client.initIndex(orgId);
+  return index.deleteObject(docId + 'p');
+}
 export const algoliaInitIndex = function (orgId) {
   const index = client.initIndex(orgId);
   return index.setSettings({
