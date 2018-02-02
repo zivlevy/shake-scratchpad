@@ -50,7 +50,7 @@ export class OrgTreeEditComponent implements OnInit {
       }
     };
 
-    this.orgService.getOrgTreeFromJson$()
+    this.orgService.getOrgTreeByUser$()
       .subscribe( orgTree => {
         console.log(orgTree);
         this.nodes = orgTree;

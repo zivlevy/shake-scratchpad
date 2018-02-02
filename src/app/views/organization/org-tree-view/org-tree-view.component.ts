@@ -84,6 +84,14 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy {
     }
   }
 
+  treeRightClick( ev, node) {
+    ev.preventDefault();
+    console.log(node);
+    if (node.data.isDoc && node.data.isPublish) {
+      this.orgService.unPublishDoc(node.data.id);
+    }
+  }
+
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);

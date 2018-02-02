@@ -1,7 +1,7 @@
 <div class="wrap" >
   <tree-root #tree [nodes]="nodes" [options]="tree_options" >
     <ng-template #treeNodeTemplate let-node let-index="index">
-      <div (click)="treeClicked($event, node)" fxLayout="row">
+      <div (click)="treeClicked($event, node)"  (contextmenu)="treeRightClick($event, node)" fxLayout="row">
         <div *ngIf="treeNode === node" skSetDirection></div>
         <span *ngIf="node.data.isDoc" fxFlex="20px"><i class="fa fa-file-text"></i></span>
         <span *ngIf="!node.data.isDoc && node.isExpanded" fxFlex="20px"><i class="fa fa-folder-open-o"></i></span>
@@ -18,4 +18,8 @@
 </div>
 
 
+<!-- Menu -->
+<mat-menu #treeMenu="matMenu" [overlapTrigger]="'false'" >
+  <button  mat-menu-item (click)="unPublish($event)"><mat-icon>create</mat-icon>Unpublish</button>
+</mat-menu>
 

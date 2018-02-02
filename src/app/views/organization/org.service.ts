@@ -510,33 +510,25 @@ export class OrgService {
       });
   }
 
-  publishDocOld(uid: string, editVersion: SkDocData) {
+  unPublishDoc(uid: string) {
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
 
     return docsRef.valueChanges().take(1).toPromise()
       .then(res => {
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-        // change name in tree
-        if (res.name !== editVersion.name) {
-          this.editDocNameInTree(uid, editVersion.name);
-        }
-        // if current published - move to versions
-        if (!res.publishVersion) {
-          res['publishVersion'] = {...res.editVersion};
-        }
+
+        const objToSave = {
+          editVersion: {...res.publishVersion},
+          publishVersion: null,
+          name: res.publishVersion.name,
+          isPublish: false
+        };
         const docVersionsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}/versions/${res.version}`);
         docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0});
 
-        // save editedVersion to PublishVersion
-        editVersion.publishAt = timestamp;
-        editVersion.publishBy = this.currentSkUser.uid;
-        const objToSave = {
-          version: (res.version || 0) + 1,
-          editVersion,
-          publishVersion: editVersion,
-          name: editVersion.name,
-          isPublish: true
-        };
+        // change  in tree
+        this.editDocInTree(uid, objToSave);
+
         return docsRef.update(objToSave);
       });
   }
@@ -545,13 +537,6 @@ export class OrgService {
     const orgPrivateData = this.orgPrivateData$.getValue();
     return this.algoliaService.searchDocs(this.localCurrentOrg, orgPrivateData.searchKey, searchString, namesOnly, edited, published, version);
   }
-
-  moveDocToPublic(doc: SkDoc) {
-    // const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/publicDocs/${doc.uid}`);
-    // return docsRef.set(doc);
-    // TODO implement
-  }
-
 
   deleteDoc(docId: string) {
     const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
@@ -663,6 +648,7 @@ export class OrgService {
       node.id = treeNode.id;
       node.docId = treeNode.docId;
       node.isDoc = true;
+      node.isPublish = treeNode.isPublish;
     } else {
       node.isDoc = false;
     }

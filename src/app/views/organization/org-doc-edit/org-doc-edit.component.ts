@@ -167,6 +167,8 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
     }
   }
 
+
+
   goToOrgHome() {
     this.router.navigate([`org/${this.currentOrg}`]);
   }
