@@ -40,6 +40,7 @@
 
           <div >
             <mat-form-field>
+              <mat-label [innerHTML]="'orgId' | translate"></mat-label>
             <input matInput type="text" id="orgId" [(ngModel)]="orgId" formControlName="orgId">
             </mat-form-field>
           </div>
@@ -47,7 +48,7 @@
           <div>
             <mat-form-field>
               <input matInput type="text" id="orgName" [(ngModel)]="orgName"
-                     formControlName="orgName" placeholder="Organization Name">
+                     formControlName="orgName" placeholder="{{'Organization Name' | translate}}">
             </mat-form-field>
             <button *ngIf="currentOrg && currentOrg.orgName !== orgName" mat-button color="primary"
                     (click)="nameUpdateClicked()"
@@ -60,7 +61,7 @@
           <div>
             <mat-form-field>
               <input matInput type="email" id="orgEmail" [(ngModel)]="orgEmail"
-                     formControlName="orgEmail" placeholder="Organization E-mail">
+                     formControlName="orgEmail" placeholder="{{'Organization E-mail' | translate}}">
             </mat-form-field>
             <button *ngIf="currentOrg && currentOrg.orgEmail !== orgEmail" mat-button color="primary"
                     (click)="emailUpdateClicked()"
@@ -72,7 +73,7 @@
 
           <div>
             <mat-form-field>
-              <mat-select formControlName="language" placeholder="Language" id="language"
+              <mat-select formControlName="language" placeholder="{{'Language' | translate}}" id="language"
                           [(value)]="lang">
                 <mat-option value="he">עברית</mat-option>
                 <mat-option value="en">English</mat-option>
@@ -89,11 +90,13 @@
 
 
           <div>
-            <button mat-raised-button color="primary" class="raised-buttons" (click)="logoUploadClicked()">Logo Update</button>
+            <button mat-raised-button color="primary" class="raised-buttons" (click)="logoUploadClicked()"
+                    [innerHTML]="'Logo Update' | translate"></button>
           </div>
 
           <div>
-            <button mat-raised-button color="primary" class="raised-buttons" (click)="bannerUploadClicked()">Banner Update</button>
+            <button mat-raised-button color="primary" class="raised-buttons" (click)="bannerUploadClicked()"
+                    [innerHTML]="'Banner Update' | translate">Banner Update</button>
           </div>
 
 

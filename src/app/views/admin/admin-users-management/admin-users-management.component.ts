@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {MatTableDataSource} from '@angular/material';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MatDialog, MatTableDataSource} from '@angular/material';
 import {AuthService} from '../../../core/auth.service';
-import {ToastrService} from "ngx-toastr";
-import {OrgService} from "../../organization/org.service";
-import {Subject} from "rxjs/Subject";
+import {ToastrService} from 'ngx-toastr';
+import {OrgService} from '../../organization/org.service';
+import {Subject} from 'rxjs/Subject';
+import {DeleteApproveComponent} from "../../../shared/delete-approve/delete-approve.component";
 
 export interface User {
   id: string;
@@ -27,10 +28,11 @@ export interface SkAdmin {
 })
 export class AdminUsersManagementComponent implements OnInit, OnDestroy {
 
+  // adminsDisplayedColumns = ['photoURL', 'displayName', 'email', 'isSkAdmin', 'isSkEditor', 'Actions'];
   adminsDisplayedColumns = ['photoURL', 'displayName', 'email', 'isSkAdmin', 'isSkEditor'];
   adminsDataSource = new MatTableDataSource<SkAdmin>();
 
-
+  // usersDisplayedColumns = ['photoURL', 'displayName', 'email', 'isSkAdmin', 'isSkEditor', 'Actions'];
   usersDisplayedColumns = ['photoURL', 'displayName', 'email', 'isSkAdmin', 'isSkEditor'];
   usersDataSource = new MatTableDataSource<User>();
 
@@ -39,6 +41,7 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthService,
               private orgService: OrgService,
+              private dialog: MatDialog,
               private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -148,6 +151,35 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  // *************
+  // Not implemented because can't delete user from FireBase Authentication list
+  // *************
+
+  // userDeleted(user) {
+  //   const dialogRef = this.dialog.open(DeleteApproveComponent, {
+  //     data: {
+  //       'orgId': user.email,
+  //       'verifyPhrase': user.email
+  //     },
+  //     height: '400px',
+  //     width: '600px',
+  //   });
+  //
+  //   dialogRef.afterClosed()
+  //     .subscribe(res => {
+  //       if (res) {
+  //
+  //         // Delete the user
+  //         this.authService.getUserOrgs$(user.id)
+  //           .takeUntil(this.destroy$)
+  //           .subscribe(orgs => {
+  //
+  //           });
+  //       }
+  //     });
+  // }
+
 
   ngOnDestroy() {
     // force unsubscribe

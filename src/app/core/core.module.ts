@@ -7,7 +7,6 @@ import {HomeService} from '../views/home/home.service';
 import {LanguageService} from './language.service';
 import {ImageService} from './image.service';
 import {FirestoreService} from './firestore.service';
-import {UserService} from './user.service';
 import {SafeHtmlPipe} from './safe-html.pipe';
 import {AlgoliaService} from './algolia.service';
 import { SetDirectionDirective } from './set-direction.directive';
@@ -25,7 +24,6 @@ import {FileService} from "./file.service";
     HomeService,
     LanguageService,
     FirestoreService,
-    UserService,
     ImageService,
     AlgoliaService,
     SetDirectionDirective,
