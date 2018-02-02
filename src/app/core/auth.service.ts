@@ -164,4 +164,10 @@ export class AuthService {
         .then()
         .catch();
     }
+
+  getUserOrgs$ (uid: string): Observable<any> {
+    return this.firestoreService.colWithIds$(`users/${uid}/orgs`);
+  }
+
+
 }

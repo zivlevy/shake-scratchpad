@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ImageService} from '../../../core/image.service';
 import {OrgService} from '../../organization/org.service';
-import {DeleteApproveComponent} from "../../../shared/delete-approve/delete-approve.component";
-import {MatDialog} from "@angular/material";
+import {DeleteApproveComponent} from '../../../shared/delete-approve/delete-approve.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'sk-admin-orgs-mamagement-item',
@@ -12,8 +12,7 @@ import {MatDialog} from "@angular/material";
 export class AdminOrgsMamagementItemComponent implements OnInit {
   @Input() org;
   logoUrl = '';
-  constructor(public imgService: ImageService,
-              public orgService: OrgService,
+  constructor(public orgService: OrgService,
               private dialog: MatDialog) { }
 
   ngOnInit() {
@@ -36,6 +35,6 @@ export class AdminOrgsMamagementItemComponent implements OnInit {
           this.orgService.deleteOrg(org.orgId);
         }
       });
-
   }
+
 }

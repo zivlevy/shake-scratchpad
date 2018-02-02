@@ -3,7 +3,6 @@ import {AuthService} from '../../core/auth.service';
 import {Subject} from 'rxjs/Subject';
 import {Router} from '@angular/router';
 import {LanguageService} from '../../core/language.service';
-import {UserService} from '../../core/user.service';
 import {OrgService} from "../../views/organization/org.service";
 
 @Component({
@@ -23,8 +22,7 @@ export class NavUserComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService,
               private router: Router,
               public lngService: LanguageService,
-              private orgService: OrgService,
-              private userService: UserService) {}
+              private orgService: OrgService) {}
 
   ngOnInit() {
     this.lngService.getLanguadge$()
@@ -48,7 +46,7 @@ export class NavUserComponent implements OnInit, OnDestroy {
         if (user === null) {
           return null;
         }
-        this.userService.getUserOrgs$(user.uid)
+        this.authService.getUserOrgs$(user.uid)
           .subscribe(res => {
             this.myOrgs = new Array<any>();
             res.forEach(orgIdObj => {
