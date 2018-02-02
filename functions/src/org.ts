@@ -58,7 +58,7 @@ export const onPrivateDocUpdated = functions.firestore.document('org/{orgId}/doc
 
   let savePublish;
   // published Version
-  if (data.isPublished) {
+  if (data.isPublish) {
     savePublish = savePublishDoc(orgId, docId, data);
   } else {
     savePublish = algoliaDeletePublishedDoc(orgId, docId);
