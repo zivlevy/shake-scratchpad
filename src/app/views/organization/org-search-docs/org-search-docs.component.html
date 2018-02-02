@@ -39,10 +39,10 @@
             <mat-checkbox [(ngModel)]="docNameOnly" (change)="checkboxClick$.next()" >{{'Doc name only' | translate }}</mat-checkbox>
           </div>
 
-          <div *ngIf="currentOrgUser?.roles.editor" fxLayout="row" fxLayoutGap="20px">
-            <mat-checkbox [(ngModel)]="published" (change)="checkboxClick$.next()">{{'Publish' | translate }}</mat-checkbox>
-            <mat-checkbox [(ngModel)]="edited" (change)="checkboxClick$.next()">{{'Edit' | translate }}</mat-checkbox>
-            <mat-checkbox [(ngModel)]="version" (change)="checkboxClick$.next()">{{'Previous Versions' | translate }}</mat-checkbox>
+          <div *ngIf="currentOrgUser?.roles.editor" fxLayout="row"  fxLayoutAlign="space-between center">
+            <mat-checkbox  class="margin-fix" [(ngModel)]="published" (change)="checkboxClick$.next()">{{'Publish' | translate }}</mat-checkbox>
+            <mat-checkbox  class="margin-fix" [(ngModel)]="edited" (change)="checkboxClick$.next()">{{'Edit' | translate }}</mat-checkbox>
+            <mat-checkbox  class="margin-fix" [(ngModel)]="version" (change)="checkboxClick$.next()">{{'Previous Versions' | translate }}</mat-checkbox>
           </div>
 
         </div>
