@@ -2,8 +2,6 @@
 
   <button mat-button class="navbar-brand" [routerLink]="org.orgHome"><img class="orgLogo"  [src]="org.logoUrl"> {{org.orgName}} </button>
 
-  <button mat-button (click)="docManager()">Manage Docs</button>
-
   <span class="fill-remaining-space"></span>
 
   <button mat-button *ngIf="!user.isLoadingOrgUser && !user.currentOrgUser && user.isAuthenticated" (click)="join()">

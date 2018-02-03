@@ -6,11 +6,10 @@ import {OrgAdminOrgComponent} from './org-admin-org/org-admin-org.component';
 import {UserProfileComponent} from '../../shared/user-profile/user-profile.component';
 import {LoginComponent} from '../../shared/login/login.component';
 import {SignupComponent} from '../../shared/signup/signup.component';
-import {OrgDocManagerComponent} from './org-doc-manager/org-doc-manager.component';
 import {OrgSearchDocsComponent} from './org-search-docs/org-search-docs.component';
 import {OrgDocEditComponent} from './org-doc-edit/org-doc-edit.component';
-import {OrgDocViewComponent} from "./org-doc-view/org-doc-view.component";
-import {OrgInvitePageComponent} from "./org-invite-page/org-invite-page.component";
+import {OrgDocViewComponent} from './org-doc-view/org-doc-view.component';
+import {OrgInvitePageComponent} from './org-invite-page/org-invite-page.component';
 
 const routes: Routes = [
   {
@@ -27,7 +26,6 @@ const routes: Routes = [
               {path: 'user-profile', component: UserProfileComponent},
               {path: 'org-admin-users', component: OrgAdminUsersComponent},
               {path: 'org-admin', component: OrgAdminOrgComponent},
-              {path: 'doc-manage', component: OrgDocManagerComponent},
               {path: 'org-doc-edit/:docId/:docType/:docVersion', component: OrgDocEditComponent},
               {path: 'org-doc-view/:docId/:docType/:docVersion', component: OrgDocViewComponent},
             ]},

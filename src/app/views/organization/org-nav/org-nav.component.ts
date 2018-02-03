@@ -1,6 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {LanguageService} from '../../../core/language.service';
 import {OrgService} from '../org.service';
 import {Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/retry';
@@ -55,11 +54,6 @@ export class OrgNavComponent implements OnInit, OnDestroy {
   join() {
     this.orgService.joinToOrg();
   }
-
-  docManager() {
-    this.router.navigate([`org/${this.org.orgId}/doc-manage`]);
-  }
-
 
 
   ngOnDestroy() {
