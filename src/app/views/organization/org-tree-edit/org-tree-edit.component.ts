@@ -112,11 +112,11 @@ export class OrgTreeEditComponent implements OnInit {
   copyNode(ev) {
     console.log(ev);
   }
-
   saveTree() {
     const tree = this.orgService.makeJsonTree(this.tree.treeModel.roots);
     this.orgService.saveOrgTree(tree);
   }
+
 
 
   /******************

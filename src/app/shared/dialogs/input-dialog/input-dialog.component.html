@@ -1,0 +1,10 @@
+<div [ngStyle]="{'direction': direction}">
+  <div mat-dialog-title >{{titleMessage | translate}}</div>
+  <div class="wrapper" fxLayout="column">
+    <input #input type="text" [value]="oldValue">
+    <div mat-dialog-actions class="pt-24" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="30px">
+      <button mat-raised-button class="mat-accent mr-16" (click)="dialogRef.close(input.value)" [innerHTML]="'Confirm' | translate"></button>
+      <button mat-button (click)="dialogRef.close(false)" [innerHTML]="'Cancel' | translate"></button>
+    </div>
+  </div>
+</div>

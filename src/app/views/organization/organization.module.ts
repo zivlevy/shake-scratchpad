@@ -76,7 +76,7 @@ import { OrgAdminUsersInvitedComponent } from './org-admin-users-invited/org-adm
     OrgAdminUsersInvitedComponent,
   ],
   exports: [OrgHomePageComponent],
-  entryComponents:[
+  entryComponents: [
     PublishDialogComponent
   ],
   providers: [

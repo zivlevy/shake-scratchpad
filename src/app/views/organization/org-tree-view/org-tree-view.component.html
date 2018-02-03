@@ -1,16 +1,14 @@
 <div class="wrap" >
-  <tree-root #tree [nodes]="nodes" [options]="tree_options" >
+  <tree-root #tree [nodes]="nodes" [options]="tree_options" (moveNode)="onMoveNode($event)">
     <ng-template #treeNodeTemplate let-node let-index="index">
       <div (click)="treeClicked($event, node)"  (contextmenu)="treeRightClick($event, node)" fxLayout="row">
-        <div *ngIf="treeNode === node" skSetDirection></div>
-        <span *ngIf="node.data.isDoc" fxFlex="20px"><i class="fa fa-file-text"></i></span>
+        <div *ngIf="treeNode === node" #itemTreeTrigger="matMenuTrigger" [matMenuTriggerFor]="treeMenu" skSetDirection [dir]="isRTL ? 'rtl' : 'ltr'"></div>
+        <span *ngIf="node.data.isDoc" fxFlex="20px"><i [ngClass]="{'publishDoc': node.data.isPublish}" class="fa fa-file-text"></i></span>
         <span *ngIf="!node.data.isDoc && node.isExpanded" fxFlex="20px"><i class="fa fa-folder-open-o"></i></span>
         <span *ngIf="!node.data.isDoc && !node.isExpanded" fxFlex="20px"><i class="fa fa-folder-o"></i></span>
 
         <span *ngIf="node.data.isDoc" fxFlex="calc(100% - 20px">{{node.data.name}}</span>
-        <span *ngIf="!node.data.isDoc" fxFlex="calc(100% - 20px">
-        {{node.data.name}}
-      </span>
+        <span *ngIf="!node.data.isDoc" fxFlex="calc(100% - 20px">{{node.data.name}}</span>
       </div>
     </ng-template>
 
@@ -19,7 +17,24 @@
 
 
 <!-- Menu -->
-<mat-menu #treeMenu="matMenu" [overlapTrigger]="'false'" >
-  <button  mat-menu-item (click)="unPublish($event)"><mat-icon>create</mat-icon>Unpublish</button>
+
+
+<mat-menu #treeMenu="matMenu">
+  <button  *ngIf="treeNode?.data.isDoc && treeNode?.data.isPublish" mat-menu-item (click)="unPublishDoc()"><mat-icon>create</mat-icon>Unpublish</button>
+  <button  *ngIf="treeNode?.data.isDoc && !treeNode?.data.isPublish" mat-menu-item (click)="publishDoc()"><mat-icon>create</mat-icon>Publish</button>
+  <button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(treeNode , true)"><mat-icon>create_new_folder</mat-icon>Add Section</button>
+  <button *ngIf="treeNode?.children" mat-menu-item (click)="renameSection(treeNode , true)"><mat-icon>shuffle</mat-icon>Rename</button>
+  <button *ngIf="(treeNode?.parent.parent && treeNode?.children) || (treeNode?.children && treeNode?.parent.children.length > 1) || treeNode?.data.isDoc" mat-menu-item (click)="deleteItem(treeNode)"><mat-icon>delete</mat-icon>Delete</button>
+  <button *ngIf="treeNode?.children" mat-menu-item [matMenuTriggerFor]="sectionSatMenu"><mat-icon>create_new_folder</mat-icon>Sections</button>
 </mat-menu>
 
+<mat-menu #itemSatMenu="matMenu" >
+  <button mat-menu-item (click)="addBrotherItem( treeNode, true)">Add above</button>
+  <button mat-menu-item (click)="addBrotherItem( treeNode)">Add below</button>
+</mat-menu>
+
+
+<mat-menu #sectionSatMenu="matMenu" >
+  <button mat-menu-item (click)="addBrotherItem( treeNode, true)">Add above</button>
+  <button mat-menu-item (click)="addBrotherItem( treeNode)">Add below</button>
+</mat-menu>

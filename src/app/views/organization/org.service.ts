@@ -471,6 +471,40 @@ export class OrgService {
       });
   }
 
+  publishDocById(docId: string){
+    const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
+    docsRef.valueChanges().take(1).toPromise()
+      .then(res => {
+        const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+        const editVersion = res.editVersion;
+        // save editedVersion to PublishVersion
+        editVersion.publishAt = timestamp;
+        editVersion.publishBy = this.currentSkUser.uid;
+
+        const objToSave = {
+          editVersion,
+          publishVersion: editVersion,
+          name: editVersion.name,
+          isPublish: true
+        };
+
+          objToSave['version'] = (res.version || 0) + 1;
+
+          // if current published - move to versions
+          if (!res.publishVersion) {
+            res['publishVersion'] = {...res.editVersion};
+          } else {
+            const docVersionsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}/versions/${res.version}`);
+            docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0});
+          }
+
+        // change  in tree
+        this.editDocInTree(docId, objToSave);
+
+        return docsRef.update(objToSave);
+      } );
+  }
+
   publishDoc(uid: string, editVersion: SkDocData, updateVersionNo: boolean = true) {
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
 
@@ -619,6 +653,7 @@ export class OrgService {
       node.id = treeNode.data.id;
       node.docId = treeNode.data.docId;
       node.isDoc = true;
+      node.isPublish = treeNode.data.isPublish;
     } else {
       node.isDoc = false;
     }

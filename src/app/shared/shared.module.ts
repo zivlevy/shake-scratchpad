@@ -1,20 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {SpinnerComponent} from './spinner/spinner.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import {UserProfileComponent} from './user-profile/user-profile.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {TranslateModule} from '@ngx-translate/core';
 import {RouterModule} from '@angular/router';
 import {ImageCropperModule} from 'ng2-img-cropper';
-import { NavUserComponent } from './nav-user/nav-user.component';
+import {NavUserComponent} from './nav-user/nav-user.component';
 import {BsDropdownModule} from 'ngx-bootstrap';
-import { CheckboxComponent } from './checkbox/checkbox.component';
+import {CheckboxComponent} from './checkbox/checkbox.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {CoreModule} from '../core/core.module';
-import { NavAdminComponent } from './nav-admin/nav-admin.component';
-import { DeleteApproveComponent } from './delete-approve/delete-approve.component';
+import {NavAdminComponent} from './nav-admin/nav-admin.component';
+import {DeleteApproveComponent} from './delete-approve/delete-approve.component';
 import {MaterialModule} from "../material/material.module";
+import {ConfirmDialogComponent} from "./dialogs/confirm-dialog/confirm-dialog.component";
+import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
 
 @NgModule({
   imports: [
@@ -36,7 +38,9 @@ import {MaterialModule} from "../material/material.module";
     NavUserComponent,
     CheckboxComponent,
     NavAdminComponent,
-    DeleteApproveComponent
+    DeleteApproveComponent,
+    ConfirmDialogComponent,
+    InputDialogComponent
   ],
   exports: [
     SpinnerComponent,
@@ -45,7 +49,12 @@ import {MaterialModule} from "../material/material.module";
     NavAdminComponent,
     CheckboxComponent,
     DeleteApproveComponent
-  ]})
+  ],
+  entryComponents: [
+    ConfirmDialogComponent,
+    InputDialogComponent
+  ]
+})
 
 export class SharedModule {
   static forRoot() {

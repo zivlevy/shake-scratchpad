@@ -1,4 +1,11 @@
 {
+
+
+  "General":"========= General =========",
+  "Cancel": "בטל",
+  "Confirm": "אשר",
+
+
   "login component":"========= LogIn Component=========",
   "Login to Shake": "כניסה ל Shake",
   "Email": "אימייל",
@@ -67,5 +74,12 @@
   "Doc name only": "שם מסמך בלבד",
   "Publish": "פרסום",
   "Edit": "עריכה",
-  "Previous Versions": "גרסאות קודמות"
+  "Previous Versions": "גרסאות קודמות",
+
+
+  "doc tree view": "========= Doc Tree View =========",
+  "Un-publish document?": "בטל פרסום מסמך ?",
+  "Publish document?": "פרסם מסמך ?",
+  "Insert directory name": "הכנס שם לספריה",
+  "Update directory name": "עדכן שם לספריה"
 }
