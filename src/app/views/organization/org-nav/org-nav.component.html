@@ -11,12 +11,21 @@
   <button mat-button *ngIf="!user.currentAuthUser" (click)="login()" [innerHTML]="'Login' | translate"></button>
   <button mat-button *ngIf="!user.currentAuthUser" (click)="signup()" [innerHTML]="'Signup' | translate"></button>
 
-  <button mat-button [matMenuTriggerFor]="menu"  *ngIf="user.currentOrgUser &&  user.currentOrgUser?.roles?.admin && user.currentAuthUser">
+  <button mat-button [matMenuTriggerFor]="menu"  *ngIf="user.currentOrgUser &&
+    (user.currentOrgUser?.roles?.admin || user.currentOrgUser?.roles?.editor) && user.currentAuthUser">
     <i class="fa fa-gear"></i> <span class="fa fa-caret-down"></span>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item [routerLink]="'org-admin'" [innerHTML]="'Organization Management' | translate">Organization Management</button>
-    <button mat-menu-item [routerLink]="'org-admin-users'" [innerHTML]="'Users Management' | translate">Users management</button>
+    <button mat-menu-item [routerLink]="'org-admin'" [innerHTML]="'Organization Management' | translate"
+            *ngIf="user.currentOrgUser && user.currentOrgUser?.roles?.admin && user.currentAuthUser"
+    ></button>
+    <button mat-menu-item [routerLink]="'org-admin-users'" [innerHTML]="'Users Management' | translate"
+            *ngIf="user.currentOrgUser && user.currentOrgUser?.roles?.admin && user.currentAuthUser"
+    ></button>
+    <button mat-menu-item [routerLink]="'org-admin-users'" [innerHTML]="'Docs Read & ack Management' | translate"
+            *ngIf="user.currentOrgUser && user.currentOrgUser?.roles?.editor && user.currentAuthUser"
+    ></button>
+
   </mat-menu>
 
   <sk-nav-user [logoutRoute]="org.orgHome"></sk-nav-user>

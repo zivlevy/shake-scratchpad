@@ -8,7 +8,6 @@ admin.initializeApp(functions.config().firebase);
 import * as orgFunctions from './org'
 import * as usersFunctions from './skusers'
 import * as serverFunctions from './server-http'
-// import * as sendGridFunctions from './sendgrid'
 
 // org
 
@@ -18,6 +17,7 @@ export const onPrivateDocUpdated = orgFunctions.onPrivateDocUpdated;
 export const onPrivateDocVersionCreated = orgFunctions.onPrivateDocVersionCreated;
 export const onOrgDelete = orgFunctions.onOrgDelete;
 export const onPrivateDocVersionDeleted = orgFunctions.onPrivateDocVersionDeleted;
+export const onPrivateDocDeleted = orgFunctions.onPrivateDocDeleted;
 export const onOrgInviteCreate = orgFunctions.onOrgInviteCreate;
 
 // users
@@ -27,6 +27,4 @@ export const updateUserInfo =  usersFunctions.updateUserInfo;
 
 export const bigben =  serverFunctions.bigben;
 
-// export const firestoreEmail = sendGridFunctions.firestoreEmail;
 
-//

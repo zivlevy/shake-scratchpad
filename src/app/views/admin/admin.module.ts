@@ -6,11 +6,11 @@ import { AdminComponent } from './admin/admin.component';
 import {SharedModule} from '../../shared/shared.module';
 import { AdminOrgsManagementComponent } from './admin-orgs-management/admin-orgs-management.component';
 import {CoreModule} from '../../core/core.module';
-import { AdminOrgsMamagementItemComponent } from './admin-orgs-mamagement-item/admin-orgs-mamagement-item.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { AdminUsersManagementComponent } from './admin-users-management/admin-users-management.component';
 import {MaterialModule} from '../../material/material.module';
-import {DeleteApproveComponent} from "../../shared/delete-approve/delete-approve.component";
+import {DeleteApproveComponent} from '../../shared/delete-approve/delete-approve.component';
+import {AdminService} from './admin.service';
 
 @NgModule({
   imports: [
@@ -23,11 +23,13 @@ import {DeleteApproveComponent} from "../../shared/delete-approve/delete-approve
   ],
   declarations: [AdminComponent,
     AdminOrgsManagementComponent,
-    AdminOrgsMamagementItemComponent,
     AdminUsersManagementComponent,
   ],
   entryComponents: [
     DeleteApproveComponent
+  ],
+  providers: [
+    AdminService
   ]
 })
 export class AdminModule { }

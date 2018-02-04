@@ -5,6 +5,9 @@ import {OrgService} from '../../organization/org.service';
 import {Observable} from 'rxjs/Observable';
 import {Org} from '../../../model/org';
 import {ImageService} from "../../../core/image.service";
+import {MatDialog, MatTableDataSource} from "@angular/material";
+import {DeleteApproveComponent} from "../../../shared/delete-approve/delete-approve.component";
+import {AdminService} from "../admin.service";
 
 @Component({
   selector: 'sk-admin-orgs-management',
@@ -15,10 +18,14 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   currentUser: any;
-  orgs: any;
 
-  constructor(public authService: AuthService,
-              public orgService: OrgService,
+  orgsDisplayColumns = ['orgId', 'Logo', 'org Name', 'Actions'];
+  orgsDataSource = new MatTableDataSource<Org>();
+
+  constructor(private authService: AuthService,
+              private adminService: AdminService,
+              private orgService: OrgService,
+              private dialog: MatDialog,
               ) {}
 
   ngOnInit() {
@@ -28,14 +35,38 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
         this.currentUser = authUser;
       });
 
-    this.orgService.getOrgs$()
+    this.adminService.getOrgs$()
       .takeUntil(this.destroy$)
       .subscribe( orgs => {
-           this.orgs = orgs;
+        this.orgsDataSource.data = orgs;
       });
   }
 
+  applyOrgsFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.orgsDataSource.filter = filterValue;
+    console.log(this.orgsDataSource);
 
+  }
+
+  deleteClicked(orgId) {
+    const dialogRef = this.dialog.open(DeleteApproveComponent, {
+      data: {
+        'orgId': orgId,
+        'verifyPhrase': orgId
+      },
+      height: '400px',
+      width: '600px',
+    });
+
+    dialogRef.afterClosed()
+      .subscribe(res => {
+        if (res) {
+          this.orgService.deleteOrg(orgId);
+        }
+      });
+  }
 
   ngOnDestroy() {
     // force unsubscribe

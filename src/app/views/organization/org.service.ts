@@ -318,19 +318,7 @@ export class OrgService {
       });
   }
 
-  getOrgs$(): Observable<any> {
 
-    const orgsRef: AngularFirestoreCollection<any> = this.afs.collection<any>('org');
-
-    return orgsRef.snapshotChanges()
-      .switchMap((result: Array<any>) => {
-        return Observable.forkJoin(
-          result.map(org => {
-            const orgsRefInfo: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${org.payload.doc.id}/publicData/info`);
-            return orgsRefInfo.valueChanges().take(1);
-          }));
-      });
-  }
 
   getOrgData$(orgId: string): Observable<any> {
     return Observable.merge(

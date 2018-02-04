@@ -1,20 +1,13 @@
-.orgs-container {
+.readAcks-container {
   display: flex;
   flex-direction: column;
-  //max-height: 500px;
+  max-height: 500px;
   min-width: 300px;
 }
 
-.orgs-table {
+.readAcks-table {
   overflow: auto;
-  //max-height: 500px;
-}
-
-
-.org-img {
-  height: auto;
-  width: 36px;
-
+  max-height: 250px;
 }
 
 .table-header {

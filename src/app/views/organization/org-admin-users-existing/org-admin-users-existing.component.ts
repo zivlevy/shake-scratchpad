@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {Subject} from "rxjs/Subject";
-import {AuthService} from "../../../core/auth.service";
-import {OrgService} from "../org.service";
-import {MatSnackBar, MatTableDataSource} from "@angular/material";
-import {Router} from "@angular/router";
-import {OrgUser} from "../../../model/org-user";
-import {ToastrService} from "ngx-toastr";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subject} from 'rxjs/Subject';
+import {AuthService} from '../../../core/auth.service';
+import {OrgService} from '../org.service';
+import {MatSnackBar, MatTableDataSource} from '@angular/material';
+import {Router} from '@angular/router';
+import {OrgUser} from '../../../model/org-user';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'sk-org-admin-users-existing',

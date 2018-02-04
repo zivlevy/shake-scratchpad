@@ -29,6 +29,7 @@ import { OrgAdminUsersInviteComponent } from './org-admin-users-invite/org-admin
 import { OrgInvitePageComponent } from './org-invite-page/org-invite-page.component';
 import { OrgAdminUsersExistingComponent } from './org-admin-users-existing/org-admin-users-existing.component';
 import { OrgAdminUsersInvitedComponent } from './org-admin-users-invited/org-admin-users-invited.component';
+import { OrgDocReadAcksComponent } from './org-doc-read-acks/org-doc-read-acks.component';
 
 @NgModule({
   imports: [
@@ -66,6 +67,7 @@ import { OrgAdminUsersInvitedComponent } from './org-admin-users-invited/org-adm
     OrgInvitePageComponent,
     OrgAdminUsersExistingComponent,
     OrgAdminUsersInvitedComponent,
+    OrgDocReadAcksComponent,
   ],
   exports: [OrgHomePageComponent],
   entryComponents: [

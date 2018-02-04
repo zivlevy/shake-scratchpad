@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import {
   algoliaInitIndex, algoliaGetSearchKey, algoliaSaveDoc, AlgoliaDoc, algoliaOrgDelete, algoliaDeleteVersionDoc,
-  algoliaDeletePublishedDoc
+  algoliaDeletePublishedDoc, algoliaDeleteEditedDoc
 } from "./algolia";
 import {sendOrgInvite} from "./sendgrid";
 
@@ -20,7 +20,7 @@ const saveEditDoc = function (orgId, docId, data) {
   } else {
     return Promise.resolve();
   }
-}
+};
 
 const savePublishDoc = function (orgId, docId, data) {
   const publishedDoc = new AlgoliaDoc;
@@ -35,7 +35,7 @@ const savePublishDoc = function (orgId, docId, data) {
   } else {
     return Promise.resolve();
   }
-}
+};
 
 const saveVersionDoc = function (orgId, docId, data) {
   const versionDoc = new AlgoliaDoc;
@@ -46,7 +46,8 @@ const saveVersionDoc = function (orgId, docId, data) {
   versionDoc.version = data.version;
   versionDoc.objectID = docId + data.version;
   return algoliaSaveDoc(orgId, versionDoc);
-}
+};
+
 export const onPrivateDocUpdated = functions.firestore.document('org/{orgId}/docs/{docId}').onUpdate((event) => {
 
   const orgId = event.resource.match("org/(.*)/docs")[1];
@@ -66,7 +67,7 @@ export const onPrivateDocUpdated = functions.firestore.document('org/{orgId}/doc
 
   return Promise.all([saveEdit, savePublish])
     .catch(err => console.log(err));
-})
+});
 
 export const onPrivateDocCreated = functions.firestore.document('org/{orgId}/docs/{docId}').onCreate((event) => {
 
@@ -104,9 +105,22 @@ export const onPrivateDocVersionDeleted = functions.firestore.document('org/{org
 
   return algoliaDeleteVersionDoc(orgId, docId, version)
     .catch(err => console.log(err));
-
-
 });
+
+export const onPrivateDocDeleted = functions.firestore.document('org/{orgId}/docs/{docId}').onDelete((event) => {
+  const orgId = event.resource.match("org/(.*)/docs")[1];
+  const docId = event.data.id;
+
+  // edited Version
+  const deleteEdit = algoliaDeleteEditedDoc(orgId, docId);
+
+  // published Version
+  const deletePublished = algoliaDeletePublishedDoc(orgId, docId);
+
+  return Promise.all([deleteEdit, deletePublished])
+    .catch(err => console.log(err));
+});
+
 export const newOrgRequest = functions.firestore
   .document('orgRequested/{doc}').onCreate((event) => {
     const newOrg = event.data.data();
@@ -165,7 +179,7 @@ export const newOrgRequest = functions.firestore
       .then(() => {return 0})
       .catch(() => { return 1}
       );
-  });
+});
 
 export const onOrgDelete = functions.firestore.document('org/{orgId}').onDelete((event) => {
   const orgId = event.data.id;
