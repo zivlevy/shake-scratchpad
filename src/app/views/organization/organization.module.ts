@@ -30,6 +30,7 @@ import { OrgInvitePageComponent } from './org-invite-page/org-invite-page.compon
 import { OrgAdminUsersExistingComponent } from './org-admin-users-existing/org-admin-users-existing.component';
 import { OrgAdminUsersInvitedComponent } from './org-admin-users-invited/org-admin-users-invited.component';
 import { OrgDocReadAcksComponent } from './org-doc-read-acks/org-doc-read-acks.component';
+import {OrgDocService} from "./org-doc.service";
 
 @NgModule({
   imports: [
@@ -75,7 +76,8 @@ import { OrgDocReadAcksComponent } from './org-doc-read-acks/org-doc-read-acks.c
   ],
   providers: [
     OrgGuard,
-    OrgService
+    OrgService,
+    OrgDocService
   ]
 })
 export class OrganizationModule {
