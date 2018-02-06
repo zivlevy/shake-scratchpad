@@ -31,6 +31,7 @@ import { OrgAdminUsersExistingComponent } from './org-admin-users-existing/org-a
 import { OrgAdminUsersInvitedComponent } from './org-admin-users-invited/org-admin-users-invited.component';
 import { OrgDocReadAcksComponent } from './org-doc-read-acks/org-doc-read-acks.component';
 import {OrgDocService} from "./org-doc.service";
+import { OrgDocReadAckEditComponent } from './org-doc-read-ack-edit/org-doc-read-ack-edit.component';
 
 @NgModule({
   imports: [
@@ -69,6 +70,7 @@ import {OrgDocService} from "./org-doc.service";
     OrgAdminUsersExistingComponent,
     OrgAdminUsersInvitedComponent,
     OrgDocReadAcksComponent,
+    OrgDocReadAckEditComponent,
   ],
   exports: [OrgHomePageComponent],
   entryComponents: [

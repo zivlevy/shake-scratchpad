@@ -1,0 +1,85 @@
+<mat-card fxFlex="1 1 30%">
+
+  <form [formGroup]="docAckForm">
+
+    <div>
+      <mat-form-field>
+        <input matInput type="text" id="name" [(ngModel)]="docAckName"
+               formControlName="name" placeholder="{{'Name' | translate}}">
+      </mat-form-field>
+      <button *ngIf="currentDocAck && currentDocAck.name !== docAckName" mat-button color="primary"
+              (click)="nameUpdateClicked()"
+      >Update</button>
+      <button *ngIf="currentDocAck && currentDocAck.name !== docAckName" mat-button color="primary"
+              (click)="nameUpdateCanceled()"
+      >Cancel</button>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <input matInput type="number" id="requiredSignatures" [(ngModel)]="docAckRequiredSignatures"
+               formControlName="requiredSignatures" placeholder="{{'requiredSignatures' | translate}}">
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <input matInput type="number" id="actualSignatures" [(ngModel)]="docAckActualSignatures"
+               formControlName="actualSignatures" placeholder="{{'actualSignatures' | translate}}">
+      </mat-form-field>
+    </div>
+
+  </form>
+
+</mat-card>
+
+<mat-card fxFlex="1 1 70%">
+  <div class="org-users-container mat-elevation-z8">
+
+    <mat-table #table class="org-users-table" [dataSource]="orgUsersDocAckSource">
+
+      <ng-container matColumnDef="isRequired">
+        <mat-header-cell *matHeaderCellDef> Required</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-checkbox [checked]="element.isRequired"
+                        (change) = "isRequiredClicked(element.id, $event)" >
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="photo">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let element"> <img *ngIf="element.photoURL"
+                                                  class="user-img rounded-circle img-fluid" [src]="element.photoURL" alt=""> </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="displayName">
+        <mat-header-cell *matHeaderCellDef> Display Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.displayName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="hasSigned">
+        <mat-header-cell *matHeaderCellDef> Has Signed</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-checkbox [checked]="element.hasSigned"
+                        disabled="true" >
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Debug">
+        <mat-header-cell *matHeaderCellDef> Debug</mat-header-cell>
+        <mat-cell  *matCellDef="let element">
+          <button mat-button="" color="primary"
+                  (click)="sign(element.id)">
+            sign</button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="orgUsersDocAckDisplayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: orgUsersDocAckDisplayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</mat-card>
+
+

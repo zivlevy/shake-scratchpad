@@ -4,6 +4,7 @@ import {Subject} from 'rxjs/Subject';
 import {OrgDocService} from '../org-doc.service';
 import {OrgService} from '../org.service';
 import {Org} from '../../../model/org';
+import {Router} from "@angular/router";
 
 export interface OrgAcks {
   name: string;
@@ -26,6 +27,7 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
   orgId: string;
 
   constructor(private orgService: OrgService,
+              public router: Router,
               private orgDocService: OrgDocService) { }
 
   ngOnInit() {
@@ -62,6 +64,15 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
 
   actualDec(readAck) {
     this.orgDocService.updateDocsAcksFieldP(this.orgId, readAck.id, 'actualSignatures', 'dec');
+
+  }
+
+  addReadAck() {
+    this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, '']);
+  }
+
+  editReadAck(readAck) {
+    this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, readAck.id]);
 
   }
 

@@ -11,6 +11,7 @@ import {OrgDocEditComponent} from './org-doc-edit/org-doc-edit.component';
 import {OrgDocViewComponent} from './org-doc-view/org-doc-view.component';
 import {OrgInvitePageComponent} from './org-invite-page/org-invite-page.component';
 import {OrgDocReadAcksComponent} from './org-doc-read-acks/org-doc-read-acks.component';
+import {OrgDocReadAckEditComponent} from "./org-doc-read-ack-edit/org-doc-read-ack-edit.component";
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
               {path: 'org-doc-edit/:docId/:docType/:docVersion', component: OrgDocEditComponent},
               {path: 'org-doc-view/:docId/:docType/:docVersion', component: OrgDocViewComponent},
               {path: 'org-doc-read-acks', component: OrgDocReadAcksComponent},
+              {path: 'org-doc-read-ack/:docAckId', component: OrgDocReadAckEditComponent},
 
             ]},
 

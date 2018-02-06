@@ -1,5 +1,7 @@
 <div class="readAcks-container mat-elevation-z8">
 
+  <button mat-raised-button color="primary" (click)="addReadAck()"><i class="fa fa-plus"></i> </button>
+
   <!--<div class="table-header">-->
     <!--<mat-form-field>-->
       <!--<input matInput (keyup)="applyAdminsFilter($event.target.value)" placeholder="Filter">-->
@@ -50,6 +52,11 @@
       (click)="readAckDelete(element)">
       <i class="fa fa-trash"></i>
     </button>
+    <button mat-raised-button color="primary"
+      (click)="editReadAck(element)">
+      <i class="fa fa-pencil"></i>
+    </button>
+
 
 
     </mat-cell>

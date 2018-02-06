@@ -25,6 +25,70 @@ export class OrgDocService {
       });
   }
 
+  getOrgUsersDocAck$(orgId: string, docAckId: string): Observable<any> {
+    return this.firestoreService.colWithIds$(`org/${orgId}/users`)
+      .map(resArray => {
+        resArray.forEach(res => {
+          this.afs.doc(`users/${res.id}`).valueChanges()
+            .take(1)
+            .subscribe((userData: any) => {
+              res.displayName = userData.displayName;
+              res.photoURL = userData.photoURL;
+              this.afs.doc(`org/${orgId}/users/${res.id}/docsAcks/${docAckId}`).valueChanges()
+                .take(1)
+                .subscribe((userSignature: any) => {
+                  if (userSignature) {
+                    res.isRequired = userSignature.isRequired ? userSignature.isRequired : false;
+                    res.hasSigned = userSignature.hasSigned ? userSignature.hasSigned : false;
+                  } else {
+                    res.isRequired = false;
+                    res.hasSigned = false;
+                  }
+                });
+            });
+        });
+        return resArray;
+      });
+  }
+
+  addOrgUserReqDocAck(orgId: string, docAckId: string, uid: string): Promise<any> {
+    const updateOrUserisRequired = this.firestoreService.upsert(`org/${orgId}/users/${uid}/docsAcks/${docAckId}`,{
+      isRequired: true
+    });
+    const updateDocsAcksField =  this.updateDocsAcksFieldP(orgId, docAckId, 'requiredSignatures', 'inc');
+
+    return Promise.all([updateDocsAcksField, updateOrUserisRequired])
+      .catch(err => console.log(err));
+  }
+
+  removeOrgUserReqDocAck(orgId: string, docAckId: string, uid: string): Promise<any> {
+    const updateOrUserisRequired = this.firestoreService.upsert(`org/${orgId}/users/${uid}/docsAcks/${docAckId}`,{
+      isRequired: false
+    });
+    const updateDocsAcksField = this.updateDocsAcksFieldP(orgId, docAckId, 'requiredSignatures', 'dec');
+
+    return Promise.all([updateDocsAcksField, updateOrUserisRequired])
+      .catch(err => console.log(err));
+  }
+
+  userDocAckSign(orgId: string, docAckId: string, uid: string): Promise<any> {
+    const updateOrUserHasSigned = this.firestoreService.upsert(`org/${orgId}/users/${uid}/docsAcks/${docAckId}`,{
+      hasSigned: true
+    });
+    const updateDocsAcksField = this.updateDocsAcksFieldP(orgId, docAckId, 'actualSignatures', 'inc');
+
+    return Promise.all([updateOrUserHasSigned, updateDocsAcksField])
+      .catch(err => console.log(err));
+  }
+  getOrgDocAck$(orgId: string, docAckId: string): Observable<any> {
+    return this.afs.doc(`org/${orgId}/docsAcks/${docAckId}`).valueChanges();
+  }
+
+  setDocAckData(orgId: string, docAckId: string, data ): Promise<any> {
+    return this.afs.doc(`org/${orgId}/docsAcks/${docAckId}`)
+      .update(data);
+  }
+
   updateDocsAcksFieldP(orgId: string, readAckId: string, fieldName: string, action: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       const ref = this.afs.collection('org').doc(orgId).collection('docsAcks').doc(readAckId);
