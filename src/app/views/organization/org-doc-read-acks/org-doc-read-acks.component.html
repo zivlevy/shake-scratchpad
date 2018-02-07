@@ -62,16 +62,6 @@
     </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="Debug">
-      <mat-header-cell *matHeaderCellDef> Debug</mat-header-cell>
-      <mat-cell  *matCellDef="let element">
-        <button (click)="reqInc(element)">req sig inc</button>
-        <button (click)="reqDec(element)">req sig dec</button>
-        <button (click)="actualInc(element)">actual sig inc</button>
-        <button (click)="actualDec(element)">actual sig dec</button>
-
-      </mat-cell>
-    </ng-container>
 
     <mat-header-row *matHeaderRowDef="readAcksDisplayColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: readAcksDisplayColumns;"></mat-row>

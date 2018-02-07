@@ -30,12 +30,12 @@ export class OrgDocService {
       .map(resArray => {
         resArray.forEach(res => {
           this.afs.doc(`users/${res.id}`).valueChanges()
-            .take(1)
+            // .take(1)
             .subscribe((userData: any) => {
               res.displayName = userData.displayName;
               res.photoURL = userData.photoURL;
               this.afs.doc(`org/${orgId}/users/${res.id}/docsAcks/${docAckId}`).valueChanges()
-                .take(1)
+                // .take(1)
                 .subscribe((userSignature: any) => {
                   if (userSignature) {
                     res.isRequired = userSignature.isRequired ? userSignature.isRequired : false;
@@ -48,6 +48,19 @@ export class OrgDocService {
             });
         });
         return resArray;
+      });
+  }
+
+  getOrgPublishedDocs$(orgId): Observable<any> {
+    return this.firestoreService.colWithIds$(`org/${orgId}/docs`)
+      .map(docsArray => {
+       const  res: Array<any> = new Array<any>();
+       docsArray.forEach(doc => {
+         if (doc.isPublish) {
+           res.push(doc);
+         }
+       });
+       return res;
       });
   }
 
@@ -81,7 +94,17 @@ export class OrgDocService {
       .catch(err => console.log(err));
   }
   getOrgDocAck$(orgId: string, docAckId: string): Observable<any> {
-    return this.afs.doc(`org/${orgId}/docsAcks/${docAckId}`).valueChanges();
+    return this.afs.doc(`org/${orgId}/docsAcks/${docAckId}`).valueChanges()
+      .map((orgDocAck: any) => {
+        console.log(`org/${orgId}/docs/${orgDocAck.docId}`);
+        this.afs.doc(`org/${orgId}/docs/${orgDocAck.docId}`).valueChanges()
+          .take(1)
+          .subscribe((doc: any) => {
+            console.log(doc);
+            orgDocAck.docName = doc.name;
+          })
+        return orgDocAck;
+      });
   }
 
   setDocAckData(orgId: string, docAckId: string, data ): Promise<any> {

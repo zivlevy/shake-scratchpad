@@ -307,10 +307,8 @@ export class OrgService {
 
     return docsRef.snapshotChanges()
       .switchMap((result: Array<any>) => {
-        console.log('a', result);
         return Observable.forkJoin(
           result.map(doc => {
-            console.log('b', doc);
             const docVersionsRef: AngularFirestoreCollection<any> = this.afs.collection(`org/${orgId}/docs/${doc.payload.doc.id}/versions`);
             return docVersionsRef.valueChanges();
           })

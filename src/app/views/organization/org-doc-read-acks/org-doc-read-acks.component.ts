@@ -20,7 +20,7 @@ export interface OrgAcks {
 })
 export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
 
-  readAcksDisplayColumns = ['name', 'docName', 'date Created', 'required Signatures', 'actual Signatures', 'isActive', 'Actions', 'Debug'];
+  readAcksDisplayColumns = ['name', 'docName', 'date Created', 'required Signatures', 'actual Signatures', 'isActive', 'Actions'];
   readAcksDataSource = new MatTableDataSource<OrgAcks>();
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -46,24 +46,6 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
   }
 
   readAckDelete(readAck) {
-
-  }
-
-  reqInc(readAck) {
-    this.orgDocService.updateDocsAcksFieldP(this.orgId, readAck.id, 'requiredSignatures', 'inc');
-  }
-
-  reqDec(readAck) {
-    this.orgDocService.updateDocsAcksFieldP(this.orgId, readAck.id, 'requiredSignatures', 'dec');
-  }
-
-  actualInc(readAck) {
-    this.orgDocService.updateDocsAcksFieldP(this.orgId, readAck.id, 'actualSignatures', 'inc');
-
-  }
-
-  actualDec(readAck) {
-    this.orgDocService.updateDocsAcksFieldP(this.orgId, readAck.id, 'actualSignatures', 'dec');
 
   }
 

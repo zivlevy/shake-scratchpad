@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {OrgService} from '../org.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
@@ -18,13 +18,16 @@ export interface UserDocAck {
 export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
+
   orgId: string;
   docAckId: string;
   docId: string;
   currentDocAck;
   docAckForm: FormGroup;
+  docs: Array<any>;
 
   docAckName: string;
+  docName: string;
   docAckRequiredSignatures: number;
   docAckActualSignatures: number;
 
@@ -43,10 +46,18 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
       'name': ['', [
         Validators.required
       ]],
+      'docName': [{
+        value: '',
+        disabled: true
+      }, [
+        Validators.required
+      ]],
       'requiredSignatures': [{
+        value: 0,
         disabled: true
       }, ''],
       'actualSignatures': [{
+        value: 0,
         disabled: true
       }, ''],
     });
@@ -55,6 +66,11 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(org => {
         this.orgId = org;
+        this.orgDocService.getOrgPublishedDocs$(org)
+          .takeUntil(this.destroy$)
+          .subscribe(docs => {
+            this.docs = docs;
+          });
       });
 
     this.route.params
@@ -72,13 +88,14 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(docAck => {
         this.currentDocAck = docAck;
-
+        console.log(docAck);
         this.loadData();
       });
   }
 
   loadData() {
     this.docAckForm.controls['name'].setValue(this.currentDocAck.name);
+    this.docAckForm.controls['docName'].setValue(this.currentDocAck.docName);
     this.docAckForm.controls['requiredSignatures'].setValue(this.currentDocAck.requiredSignatures);
     this.docAckForm.controls['actualSignatures'].setValue(this.currentDocAck.actualSignatures);
 

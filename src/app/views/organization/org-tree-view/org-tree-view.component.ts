@@ -16,7 +16,7 @@ import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/con
 import {InputDialogComponent} from '../../../shared/dialogs/input-dialog/input-dialog.component';
 
 @Component({
-  selector: 'sk-org-tree-view',
+    selector: 'sk-org-tree-view',
   templateUrl: './org-tree-view.component.html',
   styleUrls: ['./org-tree-view.component.scss']
 })
