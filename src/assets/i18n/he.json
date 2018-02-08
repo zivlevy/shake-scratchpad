@@ -67,7 +67,14 @@
   "Viewer": "צופה",
 
   "Org Editor DocAck management": "========= Org Editor DocAck management=========",
-  "Docs Read & ack Management": "ניהול קרא וחתום",
+  "Docs Read & Acknowledge Management": "ניהול קרא וחתום",
+  "Active only": "פעילים בלבד",
+  "Document name": "שם מסמך",
+  "Date Created": "תאריך יצירה",
+  "Active Read & Sign": "קרא וחתום פעיל",
+  "Required Signatures": "חתימות נדרשות",
+  "Actual Signatures": "חתימות בפועל",
+  "Actions": "פעולות",
 
   "Users Roles":"משתמשים ותפקידים",
 

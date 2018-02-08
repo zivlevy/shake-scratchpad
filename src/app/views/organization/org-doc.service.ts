@@ -25,26 +25,6 @@ export class OrgDocService {
       });
   }
 
-  // Todo - replace with a normal filter
-  getActiveOrgDocsAcks$ (orgId: string): Observable<any> {
-    return this.firestoreService.colWithIds$(`org/${orgId}/docsAcks`)
-      .map(docsAcks => {
-        docsAcks.forEach(docAck => {
-          if (docAck.isActive) {
-            this.afs.doc(`org/${orgId}/docs/${docAck.docId}`).valueChanges()
-              .take(1)
-              .subscribe((doc: any) => {
-                docAck.docName = doc.name;
-              });
-          } else {
-            const index = docsAcks.indexOf(docAck);
-            docsAcks.splice(index, 1);
-          }
-
-        });
-        return docsAcks;
-      });
-  }
 
   deleteOrgDocAckP(orgId: string, docAckId: string) {
     this.afs.collection(`org/${orgId}/users`).valueChanges()
@@ -133,8 +113,8 @@ export class OrgDocService {
     return Promise.all([updateOrUserHasSigned, updateDocsAcksField])
       .catch(err => console.log(err));
   }
-  getOrgDocAck$(orgId: string, docAckId: string): Observable<any> {
 
+  getOrgDocAck$(orgId: string, docAckId: string): Observable<any> {
     return this.afs.doc(`org/${orgId}/docsAcks/${docAckId}`).valueChanges();
   }
 
@@ -155,6 +135,10 @@ export class OrgDocService {
 
   createNewDocAck(orgId: string, data): Promise<any> {
     return this.afs.collection(`org/${orgId}/docsAcks`).add(data);
+  }
+
+  updateReadAck(orgId: string, readAckId: string, data) {
+    return this.firestoreService.upsert(`org/${orgId}/docsAcks/${readAckId}`, data);
   }
 
   updateDocsAcksFieldP(orgId: string, readAckId: string, fieldName: string, action: string): Promise<any> {

@@ -22,7 +22,7 @@
     <button mat-menu-item [routerLink]="'org-admin-users'" [innerHTML]="'Users Management' | translate"
             *ngIf="user.currentOrgUser && user.currentOrgUser?.roles?.admin && user.currentAuthUser"
     ></button>
-    <button mat-menu-item [routerLink]="'org-doc-read-acks'" [innerHTML]="'Docs Read & ack Management' | translate"
+    <button mat-menu-item [routerLink]="'org-doc-read-acks'" [innerHTML]="'Docs Read & Acknowledge Management' | translate"
             *ngIf="user.currentOrgUser && user.currentOrgUser?.roles?.editor && user.currentAuthUser"
     ></button>
 

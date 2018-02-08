@@ -22,8 +22,6 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
 
   readAcksDisplayColumns = ['name', 'docName', 'date Created', 'required Signatures', 'actual Signatures', 'isActive', 'Actions'];
   readAcksDataSource = new MatTableDataSource<OrgAcks>();
-  activeReadAcks;
-  allReadAcks;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   orgId: string;
@@ -38,17 +36,13 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.orgId = res;
 
+        this.readAcksDataSource.filter = 'true';
         this.orgDocService.getOrgDocsAcks$(this.orgId)
           .takeUntil(this.destroy$)
           .subscribe(readAcks => {
-            this.allReadAcks  = readAcks;
-          });
-
-        this.orgDocService.getActiveOrgDocsAcks$(this.orgId)
-          .takeUntil(this.destroy$)
-          .subscribe(readAcks => {
-            this.activeReadAcks  = readAcks;
-            this.readAcksDataSource.data = this.activeReadAcks;
+            this.readAcksDataSource.data = readAcks;
+            this.readAcksDataSource.filterPredicate =
+              (data: any, filter: string) => filter === 'true' ? data.isActive : true;
           });
       });
   }
@@ -63,22 +57,25 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
 
   editReadAck(readAck) {
     this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, readAck.id]);
-
   }
 
-  applyFilterFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.readAcksDataSource.filter = filterValue;
+  isActiveChanged(event, readAck) {
+    this.orgDocService.updateReadAck(this.orgId, readAck.id, {
+      isActive: event.checked
+    });
   }
+
+  // applyFilterFilter(filterValue: string) {
+  //   filterValue = filterValue.trim(); // Remove whitespace
+  //   filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+  //   this.readAcksDataSource.filter = filterValue;
+  // }
 
   activeOnlyChanged(event) {
-    if (event.checked) {
-      this.readAcksDataSource.data = this.activeReadAcks;
-    } else {
-      this.readAcksDataSource.data = this.allReadAcks;
-    }
+    this.readAcksDataSource.filter = event.checked.toString();
+
   }
+
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);
