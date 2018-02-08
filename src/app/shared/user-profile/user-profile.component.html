@@ -3,21 +3,26 @@
 
   <!-- image cropper -->
   <div id="img-input" *ngIf="isEditImage; else profile">
+
     <img-cropper [image]="data" [settings]="cropperSettings"></img-cropper>
-    <button id="hide" class="btn btn-primary"> Choose image</button>
+    <button id="hide"  mat-raised-button color="primary" > {{'Choose image' | translate }}</button>
     <div id="cropper-buttons">
 
-      <button class="btn btn-outline-danger"
+      <button mat-raised-button color="primary"
               [disabled]="!data.image"
-              (click)="isEditImage = false; uploadSingle()">save
+              (click)="isEditImage = false; uploadSingle()">{{'Save' | translate }}
       </button>
-      <button class="btn btn-outline-primary" (click)="data.image = tmpDataImage; isEditImage = false">cancel</button>
+      <button mat-raised-button color="basic" (click)="data.image = tmpDataImage; isEditImage = false">
+        {{'Cancel' | translate }}
+      </button>
     </div>
   </div>
 
   <!-- main profile section -->
   <ng-template #profile>
-    <h3 class="text-center text-primary">User profile</h3>
+    <div class="form-header text-center p-0">
+      <h1 [innerHTML]="'User profile' | translate"></h1>
+    </div>
 
     <div id="user-img-contianer">
       <img id="user-img" class="rounded-circle"
@@ -25,9 +30,51 @@
     </div>
 
     <div>
-      <button id="btn-update-img" class="btn btn-block btn-outline-primary btn-sm" (click)="isEditImage=true; tmpDataImage = data.image">Update
-        image
+      <button id="btn-update-img" mat-raised-button color="primary" (click)="isEditImage=true; tmpDataImage = data.image">
+        {{'Update Image' | translate }}
       </button>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <input matInput type="text" id="displayName" [(ngModel)]="displayName"
+               placeholder="{{'Display Name' | translate}}">
+      </mat-form-field>
+      <button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"
+              (click)="displayNameUpdateClicked()">
+        {{'Update' | translate }}
+      </button>
+      <button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"
+              (click)="displayNameUpdateCanceled()">
+        {{'Cancel' | translate }}
+      </button>
+    </div>
+
+    <div>
+      <mat-form-field>
+        <input matInput type="email" id="email" [(ngModel)]="email"
+               placeholder="{{'Email' | translate}}">
+      </mat-form-field>
+      <div *ngIf="currentAuthUser && currentAuthUser.email !== email">
+        <h6>Email change</h6>
+        <p>{{'TXT_email_change_message' | translate}}</p>
+        <button mat-button color="primary"
+                (click)="emailUpdateClicked()">
+          {{'Update' | translate }}
+        </button>
+        <button mat-button color="primary"
+                (click)="emailUpdateCanceled()">
+          {{'Cancel' | translate }}
+        </button>
+      </div>
+      <!--<button *ngIf="currentAuthUser && currentAuthUser.email !== email" mat-button color="primary"-->
+              <!--(click)="emailUpdateClicked()">-->
+        <!--{{'Update' | translate }}-->
+      <!--</button>-->
+      <!--<button *ngIf="currentAuthUser && currentAuthUser.email !== email" mat-button color="primary"-->
+              <!--(click)="emailUpdateCanceled()">-->
+        <!--{{'Cancel' | translate }}-->
+      <!--</button>-->
     </div>
 
     <hr>
@@ -63,7 +110,7 @@
         <p>After an email change, a verification email will be sent to the new address.</p>
         <input [(ngModel)]="newEmail" name="email"
                type="email" class="form-control"
-               id="email" required
+               id="email1" required
                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
                #email="ngModel">
         <div id="email-update-buttons" class="row">

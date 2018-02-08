@@ -8,7 +8,7 @@
 
   "login component":"========= LogIn Component=========",
   "Login to Shake": "כניסה ל Shake",
-  "Email": "אימייל",
+  "Email": "דואל",
   "Please enter a valid email": "הכנס אימייל חוקי",
   "Password": "סיסמה",
   "Password must be between 6 and 24 chars and have at least one number":"סיסמה צריכה להיות בין 6 ל24 תוים ולהכיל לפחות מספר אחד",
@@ -31,7 +31,8 @@
   "UserProfile component":"========= User-Profile Component=========",
   "User Profile": "פרופיל משתמש",
   "My Organizations": "הארגונים שלי",
-
+  "Update Image": "עדכון תמונה",
+  "TXT_email_change_message": "אחרי שינוי כתובת דואל, תשלח הודעת וידוא לכתובת החדשה",
 
   "New org component": "========= NewOrg Component=========",
   "Create Organization": "צור ארגון",
@@ -52,8 +53,8 @@
   "Banner Image": "באנר",
   "Language": "שפה",
   "Sector": "מגזר",
-  "Save": "שמור",
-  "Cancel": "בטל",
+  "Save": "שמירה",
+  "Cancel": "ביטול",
   "Logo Update": "עדכון לוגו",
   "Banner Update": "עדכון באנר",
 

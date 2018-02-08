@@ -6,7 +6,6 @@ import {AuthService} from '../../core/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {LanguageService} from '../../core/language.service';
 import {CropperSettings} from 'ng2-img-cropper';
-import {Upload} from '../../model/upload';
 import {ImageService} from '../../core/image.service';
 
 
@@ -28,8 +27,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   data: any;
   tmpDataImage: string;
 
-  selectedFiles: FileList;
-  currentUpload: Upload;
+  displayName: string;
+  email: string;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -63,6 +62,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         this.data.image = user.photoURL;
         this.currentSkUser = user;
         this.newDisplayName = user.displayName;
+        this.displayName = user.displayName;
+
       });
 
     this.authService.getUser$()
@@ -70,6 +71,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       .subscribe(user => {
         this.currentAuthUser = user;
         this.newEmail = user.email;
+        this.email = user.email;
       });
   }
 
@@ -79,6 +81,28 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       .catch();
   }
 
+  displayNameUpdateClicked() {
+    this.authService.updateUserProfile( this.currentAuthUser.uid, this.displayName, null)
+      .then(user => console.log(user))
+      .catch();
+  }
+
+  displayNameUpdateCanceled() {
+    this.displayName = this.currentSkUser.displayName;
+  }
+
+  emailUpdateClicked() {
+    this.authService.updateUserEmail(this.email)
+      .then(() => {
+        this.isEditEmail = false;
+        this.currentAuthUser.sendEmailVerification();
+      })
+      .catch();
+  }
+
+  emailUpdateCanceled() {
+    this.email = this.currentAuthUser.email;
+  }
   updateEmail() {
     this.authService.updateUserEmail(this.newEmail)
       .then(() => {
