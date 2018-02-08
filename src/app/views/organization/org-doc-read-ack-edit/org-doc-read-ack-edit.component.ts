@@ -1,10 +1,12 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrgService} from '../org.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {OrgDocService} from '../org-doc.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material';
+import {FirestoreService} from '../../../core/firestore.service';
+import {DatePipe} from '@angular/common';
 
 export interface UserDocAck {
   photo: string;
@@ -20,6 +22,8 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   orgId: string;
+  newDocAck: boolean;
+  docAckEditable: boolean;
   docAckId: string;
   docId: string;
   currentDocAck;
@@ -28,15 +32,17 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
 
   docAckName: string;
   docName: string;
+  dateCreated: string;
   docAckRequiredSignatures: number;
   docAckActualSignatures: number;
 
-  orgUsersDocAckDisplayedColumns = [ 'isRequired', 'photo', 'displayName', 'hasSigned', 'Debug'];
+  orgUsersDocAckDisplayedColumns = [ 'isRequired', 'photo', 'displayName', 'hasSigned', 'signedAt', 'Debug'];
   orgUsersDocAckSource = new MatTableDataSource<UserDocAck>();
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
               private orgService: OrgService,
+              private firestoreService: FirestoreService,
               private orgDocService: OrgDocService,
               public router: Router) { }
 
@@ -47,6 +53,12 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
         Validators.required
       ]],
       'docName': [{
+        value: '',
+        disabled: true
+      }, [
+        Validators.required
+      ]],
+      'dateCreated': [{
         value: '',
         disabled: true
       }, [
@@ -64,40 +76,87 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
 
     this.orgService.getCurrentOrg$()
       .takeUntil(this.destroy$)
-      .subscribe(org => {
-        this.orgId = org;
-        this.orgDocService.getOrgPublishedDocs$(org)
+      .subscribe(orgId => {
+        this.orgId = orgId;
+
+        this.route.params
+          .takeUntil(this.destroy$)
+          .subscribe(params => {
+            this.newDocAck = !params.docAckId;
+
+            if (!this.newDocAck) {
+              this.docAckId = params.docAckId;
+
+              this.orgDocService.getOrgDocAck$(this.orgId, this.docAckId)
+                .takeUntil(this.destroy$)
+                .subscribe(docAck => {
+                  this.currentDocAck = docAck;
+                  if (docAck.actualSignatures === 0) {
+                    this.docAckEditable = true;
+                  } else {
+                    this.docAckEditable = false;
+                  }
+                  this.loadData();
+                });
+
+              this.orgDocService.getOrgUsersDocAck$(this.orgId, this.docAckId)
+                .takeUntil(this.destroy$)
+                .subscribe(res => {
+                  this.orgUsersDocAckSource.data = res;
+                });
+            }
+          });
+
+        this.orgDocService.getOrgPublishedDocs$(orgId)
           .takeUntil(this.destroy$)
           .subscribe(docs => {
             this.docs = docs;
           });
       });
 
-    this.route.params
-      .takeUntil(this.destroy$)
-      .switchMap(params => {
-        this.docAckId = params.docAckId;
-
-        this.orgDocService.getOrgUsersDocAck$(this.orgId, this.docAckId)
-          .takeUntil(this.destroy$)
-          .subscribe(res => {
-            this.orgUsersDocAckSource.data = res;
-          });
-        return this.orgDocService.getOrgDocAck$(this.orgId, this.docAckId);
-      })
-      .takeUntil(this.destroy$)
-      .subscribe(docAck => {
-        this.currentDocAck = docAck;
-        console.log(docAck);
-        this.loadData();
-      });
   }
 
   loadData() {
+    const datePipe = new DatePipe('en-US');
+
     this.docAckForm.controls['name'].setValue(this.currentDocAck.name);
-    this.docAckForm.controls['docName'].setValue(this.currentDocAck.docName);
     this.docAckForm.controls['requiredSignatures'].setValue(this.currentDocAck.requiredSignatures);
     this.docAckForm.controls['actualSignatures'].setValue(this.currentDocAck.actualSignatures);
+
+    this.dateCreated = datePipe.transform(this.currentDocAck.dateCreated, 'MMM dd,yyyy');
+    this.docAckForm.controls['dateCreated'].setValue(this.dateCreated);
+
+    this.orgDocService.getDocNameP(this.orgId, this.currentDocAck.docId)
+      .then(docName => {
+        this.docAckForm.controls['docName'].setValue(docName);
+      });
+  }
+
+  docSelected(doc) {
+    if (this.newDocAck) {
+      this.orgDocService.createNewDocAck(this.orgId, {
+        name: doc.name + ' - ' + new Date().getFullYear(),
+        docId: doc.id,
+        requiredSignatures: 0,
+        actualSignatures: 0,
+        isActive: true,
+        dateCreated: this.firestoreService.timestamp
+      })
+      .then(res => {
+        this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, res.id]);
+      });
+    } else {
+      if (doc.id !== this.currentDocAck.docId) {
+        this.orgDocService.setDocAckData(this.orgId, this.docAckId, {docId: doc.id})
+          .then(() => {
+            this.orgDocService.getDocNameP(this.orgId, this.currentDocAck.docId)
+              .then(docName => {
+                this.docAckForm.controls['docName'].setValue(docName);
+              });
+          });
+      }
+    }
+
 
   }
 

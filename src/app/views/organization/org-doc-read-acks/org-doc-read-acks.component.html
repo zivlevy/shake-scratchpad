@@ -1,12 +1,17 @@
 <div class="readAcks-container mat-elevation-z8">
 
-  <button mat-raised-button color="primary" (click)="addReadAck()"><i class="fa fa-plus"></i> </button>
+  <span>
+    <button mat-raised-button color="primary" (click)="addReadAck()"><i class="fa fa-plus"></i> </button>
 
-  <!--<div class="table-header">-->
-    <!--<mat-form-field>-->
-      <!--<input matInput (keyup)="applyAdminsFilter($event.target.value)" placeholder="Filter">-->
-    <!--</mat-form-field>-->
-  <!--</div>-->
+    <mat-checkbox (change)="activeOnlyChanged($event)" [checked]="true">Active only</mat-checkbox>
+  </span>
+
+
+  <div class="table-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilterFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
 
   <mat-table #table1 class="readAcks-table" [dataSource]="readAcksDataSource">
 
@@ -23,13 +28,14 @@
 
     <ng-container matColumnDef="date Created">
       <mat-header-cell *matHeaderCellDef> Date Cteated </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.dateCreated}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.dateCreated | date}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="isActive">
       <mat-header-cell *matHeaderCellDef> is Active </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-checkbox
+          disabled
           [checked]="element.isActive"></mat-checkbox>
       </mat-cell>
     </ng-container>
@@ -52,6 +58,7 @@
       (click)="readAckDelete(element)">
       <i class="fa fa-trash"></i>
     </button>
+      &nbsp;
     <button mat-raised-button color="primary"
       (click)="editReadAck(element)">
       <i class="fa fa-pencil"></i>

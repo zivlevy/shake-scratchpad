@@ -22,6 +22,8 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
 
   readAcksDisplayColumns = ['name', 'docName', 'date Created', 'required Signatures', 'actual Signatures', 'isActive', 'Actions'];
   readAcksDataSource = new MatTableDataSource<OrgAcks>();
+  activeReadAcks;
+  allReadAcks;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   orgId: string;
@@ -39,14 +41,20 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
         this.orgDocService.getOrgDocsAcks$(this.orgId)
           .takeUntil(this.destroy$)
           .subscribe(readAcks => {
-            console.log(readAcks);
-            this.readAcksDataSource.data = readAcks;
+            this.allReadAcks  = readAcks;
+          });
+
+        this.orgDocService.getActiveOrgDocsAcks$(this.orgId)
+          .takeUntil(this.destroy$)
+          .subscribe(readAcks => {
+            this.activeReadAcks  = readAcks;
+            this.readAcksDataSource.data = this.activeReadAcks;
           });
       });
   }
 
   readAckDelete(readAck) {
-
+    this.orgDocService.deleteOrgDocAckP(this.orgId, readAck.id);
   }
 
   addReadAck() {
@@ -58,6 +66,19 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
 
   }
 
+  applyFilterFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.readAcksDataSource.filter = filterValue;
+  }
+
+  activeOnlyChanged(event) {
+    if (event.checked) {
+      this.readAcksDataSource.data = this.activeReadAcks;
+    } else {
+      this.readAcksDataSource.data = this.allReadAcks;
+    }
+  }
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);

@@ -46,8 +46,6 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.orgsDataSource.filter = filterValue;
-    console.log(this.orgsDataSource);
-
   }
 
   deleteClicked(orgId) {
