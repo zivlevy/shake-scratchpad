@@ -160,6 +160,11 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
 
   }
 
+  isActiveChanged(event) {
+    this.orgDocService.updateReadAck(this.orgId, this.currentDocAck.id, {
+      isActive: event.checked
+    });
+  }
   isRequiredClicked(uid: string, event) {
     if (event.checked) {
         this.orgDocService.addOrgUserReqDocAck(this.orgId, this.docAckId, uid);

@@ -25,6 +25,11 @@
         </div>
 
         <div fxLayout="column" fxFlex="1 1 33%">
+          <mat-checkbox
+            (change)="isActiveChanged($event)">
+            <!--[checked]="element.isActive">-->
+            {{'Active Read & Sign' | translate}}
+          </mat-checkbox>
 
           <mat-form-field>
             <input matInput type="text" id="dateCreated" [ngModel]="dateCreated "
@@ -36,12 +41,12 @@
 
           <mat-form-field>
             <input matInput type="number" id="requiredSignatures" [(ngModel)]="docAckRequiredSignatures"
-                   formControlName="requiredSignatures" placeholder="{{'requiredSignatures' | translate}}">
+                   formControlName="requiredSignatures" placeholder="{{'Required Signatures' | translate}}">
           </mat-form-field>
 
           <mat-form-field>
             <input matInput type="number" id="actualSignatures" [(ngModel)]="docAckActualSignatures"
-                   formControlName="actualSignatures" placeholder="{{'actualSignatures' | translate}}">
+                   formControlName="actualSignatures" placeholder="{{'Actual Signatures' | translate}}">
           </mat-form-field>
 
         </div>
@@ -75,7 +80,7 @@
         <mat-table #table class="org-users-table" [dataSource]="orgUsersDocAckSource">
 
           <ng-container matColumnDef="isRequired">
-            <mat-header-cell *matHeaderCellDef> Required</mat-header-cell>
+              <mat-header-cell *matHeaderCellDef> {{'Signature Required' | translate}} </mat-header-cell>
             <mat-cell *matCellDef="let element">
               <mat-checkbox [checked]="element.isRequired"
                             [disabled]="element.hasSigned"
@@ -91,12 +96,12 @@
           </ng-container>
 
           <ng-container matColumnDef="displayName">
-            <mat-header-cell *matHeaderCellDef> Display Name </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{'Display Name' | translate}} </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.displayName}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="hasSigned">
-            <mat-header-cell *matHeaderCellDef> Has Signed</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{'Has Signed' | translate}}</mat-header-cell>
             <mat-cell *matCellDef="let element">
               <mat-checkbox [checked]="element.hasSigned"
                             disabled="true" >
@@ -105,7 +110,7 @@
           </ng-container>
 
           <ng-container matColumnDef="signedAt">
-            <mat-header-cell *matHeaderCellDef> Signature Date </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef> {{'Signature Date' | translate}} </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.signedAt | date}} </mat-cell>
           </ng-container>
 

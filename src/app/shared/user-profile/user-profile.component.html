@@ -19,117 +19,122 @@
   </div>
 
   <!-- main profile section -->
-  <ng-template #profile>
-    <div class="form-header text-center p-0">
-      <h1 [innerHTML]="'User profile' | translate"></h1>
-    </div>
+  <ng-template #profile  >
 
-    <div id="user-img-contianer">
-      <img id="user-img" class="rounded-circle"
-           [src]="data && data.image ? data.image : 'assets/img/default-user-image.png'" alt="">
-    </div>
+    <div fxLayout="column" fxLayoutGap="20px">
+      <div class="form-header text-center p-0">
+        <h1 [innerHTML]="'User profile' | translate"></h1>
+      </div>
 
-    <div>
-      <button id="btn-update-img" mat-raised-button color="primary" (click)="isEditImage=true; tmpDataImage = data.image">
-        {{'Update Image' | translate }}
-      </button>
-    </div>
+      <div id="user-img-contianer">
+        <img id="user-img" class="rounded-circle"
+             [src]="data && data.image ? data.image : 'assets/img/default-user-image.png'" alt="">
+      </div>
 
-    <div>
-      <mat-form-field>
-        <input matInput type="text" id="displayName" [(ngModel)]="displayName"
-               placeholder="{{'Display Name' | translate}}">
-      </mat-form-field>
-      <button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"
-              (click)="displayNameUpdateClicked()">
-        {{'Update' | translate }}
-      </button>
-      <button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"
-              (click)="displayNameUpdateCanceled()">
-        {{'Cancel' | translate }}
-      </button>
-    </div>
+      <div>
+        <button id="btn-update-img" mat-raised-button color="primary" (click)="isEditImage=true; tmpDataImage = data.image">
+          {{'Update Image' | translate }}
+        </button>
+      </div>
 
-    <div>
-      <mat-form-field>
-        <input matInput type="email" id="email" [(ngModel)]="email"
-               placeholder="{{'Email' | translate}}">
-      </mat-form-field>
-      <div *ngIf="currentAuthUser && currentAuthUser.email !== email">
-        <h6>Email change</h6>
-        <p>{{'TXT_email_change_message' | translate}}</p>
-        <button mat-button color="primary"
-                (click)="emailUpdateClicked()">
+
+      <div>
+        <mat-form-field>
+          <input matInput type="text" id="displayName" [(ngModel)]="displayName"
+                 placeholder="{{'Display Name' | translate}}">
+        </mat-form-field>
+        <button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"
+                (click)="displayNameUpdateClicked()">
           {{'Update' | translate }}
         </button>
-        <button mat-button color="primary"
-                (click)="emailUpdateCanceled()">
+        <button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"
+                (click)="displayNameUpdateCanceled()">
           {{'Cancel' | translate }}
         </button>
       </div>
-      <!--<button *ngIf="currentAuthUser && currentAuthUser.email !== email" mat-button color="primary"-->
-              <!--(click)="emailUpdateClicked()">-->
+
+      <div>
+        <mat-form-field>
+          <input matInput type="email" id="email" [(ngModel)]="email"
+                 placeholder="{{'Email' | translate}}">
+        </mat-form-field>
+        <div *ngIf="currentAuthUser && currentAuthUser.email !== email">
+          <h6>Email change</h6>
+          <p>{{'TXT_email_change_message' | translate}}</p>
+          <button mat-button color="primary"
+                  (click)="emailUpdateClicked()">
+            {{'Update' | translate }}
+          </button>
+          <button mat-button color="primary"
+                  (click)="emailUpdateCanceled()">
+            {{'Cancel' | translate }}
+          </button>
+        </div>
+        <!--<button *ngIf="currentAuthUser && currentAuthUser.email !== email" mat-button color="primary"-->
+        <!--(click)="emailUpdateClicked()">-->
         <!--{{'Update' | translate }}-->
-      <!--</button>-->
-      <!--<button *ngIf="currentAuthUser && currentAuthUser.email !== email" mat-button color="primary"-->
-              <!--(click)="emailUpdateCanceled()">-->
+        <!--</button>-->
+        <!--<button *ngIf="currentAuthUser && currentAuthUser.email !== email" mat-button color="primary"-->
+        <!--(click)="emailUpdateCanceled()">-->
         <!--{{'Cancel' | translate }}-->
+        <!--</button>-->
+      </div>
+    </div>
+
+
+    <!--<hr>-->
+    <!--<div id="display-name">-->
+      <!--<label for="newDispalyname">Display Name (type to edit)</label>-->
+      <!--<input [(ngModel)]="newDisplayName" name="newDispalyname"-->
+             <!--type="text" class="form-control"-->
+             <!--id="newDispalyname" required-->
+             <!--#newDispalyname="ngModel">-->
+
+      <!--<button *ngIf="newDispalyname.value !== currentSkUser?.displayName &&  newDispalyname.valid"-->
+              <!--id="btn-update-displayName"-->
+              <!--class="btn btn-block btn-outline-danger btn-sm"-->
+              <!--(click)="updateDisplayName()">Update display name-->
       <!--</button>-->
-    </div>
+    <!--</div>-->
 
-    <hr>
-    <div id="display-name">
-      <label for="newDispalyname">Display Name (type to edit)</label>
-      <input [(ngModel)]="newDisplayName" name="newDispalyname"
-             type="text" class="form-control"
-             id="newDispalyname" required
-             #newDispalyname="ngModel">
-
-      <button *ngIf="newDispalyname.value !== currentSkUser?.displayName &&  newDispalyname.valid"
-              id="btn-update-displayName"
-              class="btn btn-block btn-outline-danger btn-sm"
-              (click)="updateDisplayName()">Update display name
-      </button>
-    </div>
-
-    <hr>
+    <!--<hr>-->
 
     <!--  Email section -->
-    <div id="update-email">
+    <!--<div id="update-email">-->
 
-      <div *ngIf="!isEditEmail; else editEmail">
-        <label>Email:</label>
-        <span><strong>{{currentAuthUser?.email}}</strong></span>
-        <button class="btn btn-outline-primary btn-block btn-sm" (click)="showEmailEdit()">Edit email</button>
-        <br>
-      </div>
+      <!--<div *ngIf="!isEditEmail; else editEmail">-->
+        <!--<label>Email:</label>-->
+        <!--<span><strong>{{currentAuthUser?.email}}</strong></span>-->
+        <!--<button class="btn btn-outline-primary btn-block btn-sm" (click)="showEmailEdit()">Edit email</button>-->
+        <!--<br>-->
+      <!--</div>-->
 
 
-      <ng-template #editEmail>
-        <h6>Email change</h6>
-        <p>After an email change, a verification email will be sent to the new address.</p>
-        <input [(ngModel)]="newEmail" name="email"
-               type="email" class="form-control"
-               id="email1" required
-               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
-               #email="ngModel">
-        <div id="email-update-buttons" class="row">
-          <div class="col">
-            <button [disabled]="email.value == currentAuthUser?.email ||  !email.valid"
-                    id="btn-update-email"
-                    class="btn  btn-block btn-outline-danger"
-                    (click)="updateEmail()">Update
-            </button>
-          </div>
-          <div class="col">
-            <button
-              class="btn btn-block btn-outline-primary"
-              (click)="cancelEmailUpdate()">Cancel
-            </button>
-          </div>
-        </div>
-      </ng-template>
-    </div>
+      <!--<ng-template #editEmail>-->
+        <!--<h6>Email change</h6>-->
+        <!--<p>After an email change, a verification email will be sent to the new address.</p>-->
+        <!--<input [(ngModel)]="newEmail" name="email"-->
+               <!--type="email" class="form-control"-->
+               <!--id="email1" required-->
+               <!--pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"-->
+               <!--#email="ngModel">-->
+        <!--<div id="email-update-buttons" class="row">-->
+          <!--<div class="col">-->
+            <!--<button [disabled]="email.value == currentAuthUser?.email ||  !email.valid"-->
+                    <!--id="btn-update-email"-->
+                    <!--class="btn  btn-block btn-outline-danger"-->
+                    <!--(click)="updateEmail()">Update-->
+            <!--</button>-->
+          <!--</div>-->
+          <!--<div class="col">-->
+            <!--<button-->
+              <!--class="btn btn-block btn-outline-primary"-->
+              <!--(click)="cancelEmailUpdate()">Cancel-->
+            <!--</button>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</ng-template>-->
+    <!--</div>-->
     <!-- end email section -->
 
   </ng-template>

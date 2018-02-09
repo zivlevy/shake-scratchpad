@@ -289,7 +289,8 @@ export class OrgService {
   }
 
   setOrgInvites(orgId, displayName, email, isAdmin, isEditor, isViewer) {
-    return this.firestoreService.upsert(`org/${orgId}/invites/${email}`, {
+    const emailLowerCase = email.toLowerCase();
+    return this.firestoreService.upsert(`org/${orgId}/invites/${emailLowerCase}`, {
       'displayName': displayName,
       'isAdmin': isAdmin,
       'isEditor': isEditor,
