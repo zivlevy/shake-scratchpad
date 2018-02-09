@@ -25,7 +25,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   isRTL: boolean = false;
   @ViewChild('tree') tree;
   @ViewChild('itemTreeTrigger') treeMenuTrigger;
-
+  @Input() allowEdit: boolean = false;
   @Output() selectedDoc: EventEmitter<SkDoc> = new EventEmitter();
 
   confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
@@ -67,9 +67,9 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
           displayField: 'name',
           childrenField: 'children',
           actionMapping: this.getTreeActionMapping(),
-          allowDrag: this.currentOrgUser.roles.editor,
+          allowDrag: this.allowEdit &&  this.currentOrgUser.roles.editor,
           allowDrop: (element: any, to: any) => {
-
+            if (! this.allowEdit) { return false; }
             if (to.parent.children) {
               const itemInParent = to.parent.children.find(item =>
               {
@@ -127,6 +127,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   treeRightClick(ev, node) {
     ev.preventDefault();
+    if (!this.allowEdit) { return; }
     if (this.currentOrgUser.roles.editor) {
       this.treeNode = node;
       setTimeout(() => this.treeMenuTrigger.openMenu(ev), 0);
@@ -135,6 +136,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   unPublishDoc() {
+    if (!this.allowEdit) { return; }
     if (this.treeNode.data.isDoc && this.treeNode.data.isPublish) {
       this.confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
         data: {
@@ -152,6 +154,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   publishDoc() {
+    if (!this.allowEdit) { return; }
     if (this.treeNode.data.isDoc && !this.treeNode.data.isPublish) {
       this.confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
         data: {
@@ -179,6 +182,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
    *  Tree Operations
    *****************/
   renameSection(node) {
+    if (!this.allowEdit) { return; }
     this.inputDialogRef = this.dialog.open(InputDialogComponent, {
       data: {
         msg: 'Update directory name',
@@ -196,6 +200,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private addChildItem(node) {
+    if (!this.allowEdit) { return; }
     if (!node.type) {
       this.inputDialogRef = this.dialog.open(InputDialogComponent, {
         data: {
@@ -218,6 +223,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   addBrotherItem(node, above?: boolean) {
+    if (!this.allowEdit) { return; }
     if (!node.type) {
       this.inputDialogRef = this.dialog.open(InputDialogComponent, {
         data: {
@@ -244,7 +250,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private deleteItem(node) {
-
+    if (!this.allowEdit) { return; }
     if (node.data.isDoc) {
       this.confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
         data: {
@@ -267,6 +273,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   private saveTree() {
+    if (!this.allowEdit) { return; }
     const tree = this.orgService.makeJsonTree(this.tree.treeModel.roots);
     this.orgService.saveOrgTree(tree)
       .then(() => {
@@ -275,6 +282,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onMoveNode(ev) {
+    if (!this.allowEdit) { return; }
     this.saveTree();
   }
 

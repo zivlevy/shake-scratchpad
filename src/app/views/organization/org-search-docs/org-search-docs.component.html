@@ -2,7 +2,7 @@
 
   <!-- SIDENAV -->
   <mat-sidenav #sidenav align="start" [opened]="sideOpen" [mode]="sideMode" class="wrap mat-elevation-z12">
-    <sk-org-tree-view (selectedDoc)="treeDocClicked($event)"></sk-org-tree-view>
+    <sk-org-tree-view [allowEdit]="true" (selectedDoc)="treeDocClicked($event)"></sk-org-tree-view>
   </mat-sidenav>
 
   <mat-sidenav-content [ngClass]="{'mat-content-rtl': rtl && sideOpen, 'mat-content-ltr': !rtl && sideOpen}">
