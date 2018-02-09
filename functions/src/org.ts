@@ -164,11 +164,12 @@ export const newOrgRequest = functions.firestore
         const searchKey = algoliaGetSearchKey(newOrg.orgId);
         //
         //save search key to org data
-        const setAlgoliaSearcKey = orgRootRef.set({
-          searchKey: searchKey
+        const setRootFields = orgRootRef.set({
+          searchKey: searchKey,
+          orgTreeJson: "[{\"name\":\"root\",\"children\":[],\"isDoc\":false}]"
         });
 
-        return Promise.all([setPublicInfo, setUserInfo, setOrgInUserRecord, setAlgoliaSearcKey, initAlgoliaIndex])
+        return Promise.all([setPublicInfo, setUserInfo, setOrgInUserRecord, setRootFields, initAlgoliaIndex])
           .catch(err => console.log(err))
 
       })
