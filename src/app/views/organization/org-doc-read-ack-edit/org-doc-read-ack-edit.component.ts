@@ -133,6 +133,7 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
   }
 
   docSelected(doc) {
+    console.log(doc)
     if (this.newDocAck) {
       this.orgDocService.createNewDocAck(this.orgId, {
         name: doc.name + ' - ' + new Date().getFullYear(),
