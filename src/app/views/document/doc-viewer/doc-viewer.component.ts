@@ -20,7 +20,7 @@ export class DocViewerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.docJson);
+    // console.log(this.docJson);
     if (this.docJson) {
       this.docList = this.docService.SkTreeListFronJSON(this.docJson);
     }

@@ -133,11 +133,11 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
   }
 
   docSelected(doc) {
-    console.log(doc)
+    console.log(doc);
     if (this.newDocAck) {
       this.orgDocService.createNewDocAck(this.orgId, {
         name: doc.name + ' - ' + new Date().getFullYear(),
-        docId: doc.id,
+        docId: doc.uid,
         requiredSignatures: 0,
         actualSignatures: 0,
         isActive: true,
@@ -147,8 +147,8 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
         this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, res.id]);
       });
     } else {
-      if (doc.id !== this.currentDocAck.docId) {
-        this.orgDocService.setDocAckData(this.orgId, this.docAckId, {docId: doc.id})
+      if (doc.uid !== this.currentDocAck.docId) {
+        this.orgDocService.setDocAckData(this.orgId, this.docAckId, {docId: doc.uid})
           .then(() => {
             this.orgDocService.getDocNameP(this.orgId, this.currentDocAck.docId)
               .then(docName => {
@@ -162,10 +162,12 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
   }
 
   isActiveChanged(event) {
-    this.orgDocService.updateReadAck(this.orgId, this.currentDocAck.id, {
+    console.log(this.orgId, this.docAckId, event.checked);
+    this.orgDocService.updateReadAck(this.orgId, this.docAckId, {
       isActive: event.checked
     });
   }
+
   isRequiredClicked(uid: string, event) {
     if (event.checked) {
         this.orgDocService.addOrgUserReqDocAck(this.orgId, this.docAckId, uid);

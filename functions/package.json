@@ -18,7 +18,7 @@
     "algoliasearch": "^3.24.9",
     "cors": "^2.8.4",
     "firebase-admin": "^5.5.1",
-    "firebase-functions": "^0.7.1"
+    "firebase-functions": "^0.8.1"
   },
   "devDependencies": {
     "tslint": "^5.8.0",
