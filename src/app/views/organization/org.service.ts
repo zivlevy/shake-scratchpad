@@ -691,6 +691,16 @@ export class OrgService {
       });
   }
 
+  private getOrgJsonTree(): Observable<string> {
+    return this.getCurrentOrg$()
+      .switchMap(currentOrg => {
+        return this.fs.doc$(`org/${currentOrg}`)
+          .map((result: any) => {
+            return result.orgTreeJson;
+          });
+      });
+  }
+
   getOrgTreeByUser$(): Observable<any> {
     return Observable.combineLatest(this.getOrgUser$(), this.getOrgTreeFromJson$())
       .map(res => {
@@ -764,7 +774,7 @@ export class OrgService {
     if (treeNode.children) {
       treeNode.children.forEach((child, childIndex, childParent) => this.deleteOrgDocRecursion(child, childIndex, childParent, docId));
     } else {
-      if (treeNode.id === docId) {
+      if (treeNode.docId === docId) {
         array.splice(index, 1);
       }
     }
@@ -820,19 +830,21 @@ export class OrgService {
     }
   }
 
-  ///////////////////////
 
+  // when adding a doc for the first time it is added to tree root
   private addDocToTreeRoot(docId: string, doc: SkDoc): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       this.getOrgTreeFromJson$()
         .take(1)
         .subscribe(tree => {
-          tree[0].children.push({name: doc.name, id: docId, docId: docId, isDoc: true});
+          // insert the doc to the root of the tree
+          tree.push({name: doc.name, id: docId, docId: docId, isDoc: true});
           const treeJson = this.makeJsonTreeFromMemory(tree);
           this.saveOrgTree(treeJson)
             .then(() => resolve(docId));
         });
     });
   }
+
 }
 

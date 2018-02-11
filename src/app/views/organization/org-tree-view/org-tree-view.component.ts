@@ -271,6 +271,25 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  private removeDocFromTree (node) {
+    if (!this.allowEdit) { return; }
+    const tempDocId = node.data.docId;
+    const tempName = node.data.name;
+    node.parent.data.children.splice(node.index, 1);
+    this.tree.treeModel.update();
+    console.log(this.nodes);
+    const nodesJson = JSON.stringify(this.nodes);
+    const re = new RegExp(tempDocId, 'g');
+    const count = (nodesJson.match(re) || [] ).length;
+    if (count > 0) {
+      this.saveTree();
+    } else {
+      this.nodes.push( {name: node.data.name, isDoc: true, isPublish: node.data.isPublish, docId: node.data.docId, id: node.data.docId });
+      this.tree.treeModel.update();
+      this.saveTree();
+    }
+  }
+
 
   private saveTree() {
     if (!this.allowEdit) { return; }
@@ -282,6 +301,11 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onMoveNode(ev) {
+    if (!this.allowEdit) { return; }
+    this.saveTree();
+  }
+
+  onCopyNode(ev){
     if (!this.allowEdit) { return; }
     this.saveTree();
   }

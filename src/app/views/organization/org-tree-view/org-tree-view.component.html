@@ -1,5 +1,5 @@
 <div class="wrap" >
-  <tree-root #tree [nodes]="nodes" [options]="tree_options" (moveNode)="onMoveNode($event)">
+  <tree-root #tree [nodes]="nodes" [options]="tree_options" (moveNode)="onMoveNode($event)" (copyNode)="onCopyNode($event)">
     <ng-template #treeNodeTemplate let-node let-index="index">
       <div (click)="treeClicked($event, node)"  (contextmenu)="treeRightClick($event, node)" fxLayout="row">
         <div *ngIf="treeNode === node" #itemTreeTrigger="matMenuTrigger" [matMenuTriggerFor]="treeMenu" skSetDirection [dir]="isRTL ? 'rtl' : 'ltr'"></div>
@@ -25,6 +25,7 @@
   <button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(treeNode , true)"><mat-icon>create_new_folder</mat-icon>Add Section</button>
   <button *ngIf="treeNode?.children" mat-menu-item (click)="renameSection(treeNode , true)"><mat-icon>shuffle</mat-icon>Rename</button>
   <button *ngIf="(treeNode?.parent.parent && treeNode?.children) || (treeNode?.children && treeNode?.parent.children.length > 1) || treeNode?.data.isDoc" mat-menu-item (click)="deleteItem(treeNode)"><mat-icon>delete</mat-icon>Delete</button>
+  <button *ngIf="treeNode?.data.isDoc" mat-menu-item (click)="removeDocFromTree(treeNode)"><mat-icon>clear</mat-icon>Remove</button>
   <button *ngIf="treeNode?.children" mat-menu-item [matMenuTriggerFor]="sectionSatMenu"><mat-icon>create_new_folder</mat-icon>Sections</button>
 </mat-menu>
 
