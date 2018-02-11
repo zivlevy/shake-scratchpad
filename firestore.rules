@@ -53,8 +53,8 @@ function isAuthenticated() {
           }
 
           match /documents/{docs=**} {
-            // allow read : if isOrgViewer(orgId) || isOrgCreator(orgId) || isOrgAdmin(orgId)
             allow read : if getRole('admin') || getRole('editor') || getRole('viewer');
+            allow write : if getRole('editor') ;
           }
   		}
     }
