@@ -57,6 +57,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
         return this.orgService.getDoc$(params.docId);
       })
       .switchMap( (doc: SkDoc) => {
+        console.log(this.currentOrg, this.currentOrgUser, this.currentDocId);
         this.currentDoc = doc;
         if (this.currentDocType === 'p') {
           this.docVersiontitle = `Published version ${doc.version}`;
