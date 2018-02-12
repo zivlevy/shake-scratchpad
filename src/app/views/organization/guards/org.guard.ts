@@ -19,12 +19,14 @@ export class OrgGuard implements CanActivate {
                 state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         console.log('============> route to org');
         console.log(next.params.id);
+        const orgId = next.params.id;
         return this.orgService.getOrgUserByOrgID$(next.params.id)
           .switchMap( user => {
             if (user && user.roles) {
               return Observable.of(true);
             } else {
-              this.router.navigate(['org/joinOrg', next.params.id])
+              console.log(next, state);
+              this.router.navigate(['org/joinOrg', orgId])
               return Observable.of(false);
             }
           });
