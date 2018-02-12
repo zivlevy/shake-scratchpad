@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import {OrgService} from '../org.service';
 
 @Injectable()
-export class OrgGuard implements CanActivate, CanActivateChild {
+export class OrgGuard implements CanActivate {
 
     constructor(private orgService: OrgService,
                 private route: ActivatedRoute,
@@ -29,11 +29,7 @@ export class OrgGuard implements CanActivate, CanActivateChild {
             }
           });
 
+
     }
 
-    canActivateChild(next: ActivatedRouteSnapshot,
-                     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      console.log('============> route to org child');
-        return true;
-    }
 }
