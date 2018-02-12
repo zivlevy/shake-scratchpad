@@ -23,19 +23,19 @@ const routes: Routes = [
         path: ':id', children: [
           {
              path: '', component: OrgHomePageComponent, children: [
-              {path: '', component: OrgSearchDocsComponent},
+              {path: '', component: OrgSearchDocsComponent, canActivate: [OrgGuard]},
               {path: 'invite', component: OrgInvitePageComponent},
               {path: 'login', component: LoginComponent},
               {path: 'register', component: SignupComponent},
-              {path: 'user-profile', component: UserProfileComponent},
-              {path: 'org-admin-users', component: OrgAdminUsersComponent},
-              {path: 'org-admin', component: OrgAdminOrgComponent},
-              {path: 'org-doc-edit/:docId/:docType/:docVersion', component: OrgDocEditComponent},
-              {path: 'org-doc-view/:docId/:docType/:docVersion', component: OrgDocViewComponent},
-              {path: 'org-doc-read-acks', component: OrgDocReadAcksComponent},
-              {path: 'org-doc-read-ack/:docAckId', component: OrgDocReadAckEditComponent},
+              {path: 'user-profile', component: UserProfileComponent, canActivate: [OrgGuard]},
+              {path: 'org-admin-users', component: OrgAdminUsersComponent, canActivate: [OrgGuard]},
+              {path: 'org-admin', component: OrgAdminOrgComponent, canActivate: [OrgGuard]},
+              {path: 'org-doc-edit/:docId/:docType/:docVersion', component: OrgDocEditComponent, canActivate: [OrgGuard]},
+              {path: 'org-doc-view/:docId/:docType/:docVersion', component: OrgDocViewComponent, canActivate: [OrgGuard]},
+              {path: 'org-doc-read-acks', component: OrgDocReadAcksComponent, canActivate: [OrgGuard]},
+              {path: 'org-doc-read-ack/:docAckId', component: OrgDocReadAckEditComponent, canActivate: [OrgGuard]},
 
-            ], canActivate: [OrgGuard]},
+            ]},
         ]
       },
       {path: '', redirectTo: '/home', pathMatch: 'full'},
