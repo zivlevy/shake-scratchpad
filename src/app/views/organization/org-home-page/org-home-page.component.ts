@@ -6,7 +6,6 @@ import {Subject} from 'rxjs/Subject';
 import {OrgUser} from '../../../model/org-user';
 import {LanguageService} from '../../../core/language.service';
 import {Org} from '../../../model/org';
-import {ImageService} from '../../../core/image.service';
 import {User} from '../../../model/user';
 import 'rxjs/add/operator/takeUntil';
 
@@ -27,7 +26,6 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
               private orgService: OrgService,
               private lngService: LanguageService,
               private authService: AuthService,
-              private imageService: ImageService,
               ) {}
 
   ngOnInit() {
@@ -51,8 +49,17 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
         console.log('orgUser', orgUser);
         this.user.isLoadingOrgUser = false;
         this.user.currentOrgUser = orgUser;
+
       });
 
+    // get org private data
+    this.orgService.getOrgPrivateData$()
+      .takeUntil(this.destroy$)
+      .subscribe(orgData => {
+        if (orgData) {
+          this.org.orgSearchKey = orgData.searchKey;
+        }
+      });
 
     this.authService.getSkUser$()
       .takeUntil(this.destroy$)
@@ -88,17 +95,6 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
           }
         }
       });
-
-    // get org private data
-    this.orgService.getOrgPrivateData$()
-      .takeUntil(this.destroy$)
-      .subscribe(orgData => {
-        if (orgData) {
-          this.org.orgSearchKey = orgData.searchKey;
-        }
-      });
-
-
   }
 
 

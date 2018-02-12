@@ -24,7 +24,7 @@ export class OrgGuard implements CanActivate {
             if (user && user.roles) {
               return Observable.of(true);
             } else {
-              this.router.navigate(['org/joinOrg', next.parent.params.id]);
+              this.router.navigate(['org', next.parent.params.id, 'org-join']);
               return Observable.of(false);
             }
           });

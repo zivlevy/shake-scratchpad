@@ -52,6 +52,17 @@ export class OrgService {
       .distinctUntilChanged()
       .subscribe((id: any) => {
         this.setOrganization(id);
+
+        // set org public data updates
+        this.updateOrgPublicData();
+
+        // get org private date
+        this.getOrgUser$()
+          .subscribe(orgUser => {
+            if (orgUser && !orgUser.isPending) {
+              this.updateOrgPrivateData();
+            }
+          });
       });
 
     // get user authentication
@@ -63,13 +74,6 @@ export class OrgService {
       .subscribe(skUser => {
         this.currentSkUser = skUser;
       });
-
-
-    // set org public data updates
-    this.updateOrgPublicData();
-    this.updateOrgPrivateData();
-
-
   }
 
   private setOrganization(orgID: string) {
@@ -87,15 +91,15 @@ export class OrgService {
       .take(1)
       .subscribe(skUser => {
         this.setUserInfo(skUser)
-          .then(() => {
-            this.router.navigate([`org/${this.currentOrg$.getValue()}`]);
-          });
+          // .then(() => {
+          //   this.router.navigate([`org/${this.currentOrg$.getValue()}`]);
+          // });
       });
 
   }
 
   // Sets initial user data to firestore after successful org Join
-  private   setUserInfo(user) {
+  private setUserInfo(user) {
     // set the org to the user
     console.log(`users/${user.uid}/orgs/${this.currentOrg$.getValue()}`);
     const orgUserRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}/orgs/${this.currentOrg$.getValue()}`);
