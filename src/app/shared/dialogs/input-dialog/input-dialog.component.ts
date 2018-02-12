@@ -11,7 +11,7 @@ import {Subject} from 'rxjs/Subject';
 })
 export class InputDialogComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
-  public titleMessage: string;
+  titleMessage: string;
   direction: string = 'ltr';
   oldValue: string = '';
 

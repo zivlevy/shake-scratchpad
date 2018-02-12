@@ -14,7 +14,7 @@ function isAuthenticated() {
 
 		// THE FULL DATABASE
     match /{document=**} {
-      allow read, write : if false ;
+      allow read, write : if true ;
 
     }
       //skAdmins

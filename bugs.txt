@@ -1,0 +1,6 @@
+todo:
+
+1. userProfileComponent - fix when there is no imageURL can't update data - ran
+2. EMAIL Conformation guard - ziv
+3. Invite logic - ran
+4. Snakebar - one demo - ziv

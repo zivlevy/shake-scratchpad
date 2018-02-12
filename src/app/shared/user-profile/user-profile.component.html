@@ -82,60 +82,60 @@
     </div>
 
 
-    <!--<hr>-->
-    <!--<div id="display-name">-->
-      <!--<label for="newDispalyname">Display Name (type to edit)</label>-->
-      <!--<input [(ngModel)]="newDisplayName" name="newDispalyname"-->
-             <!--type="text" class="form-control"-->
-             <!--id="newDispalyname" required-->
-             <!--#newDispalyname="ngModel">-->
+    <hr>
+    <div id="display-name">
+      <label for="newDispalyname">Display Name (type to edit)</label>
+      <input [(ngModel)]="newDisplayName" name="newDispalyname"
+             type="text" class="form-control"
+             id="newDispalyname" required
+             #newDispalyname="ngModel">
 
-      <!--<button *ngIf="newDispalyname.value !== currentSkUser?.displayName &&  newDispalyname.valid"-->
-              <!--id="btn-update-displayName"-->
-              <!--class="btn btn-block btn-outline-danger btn-sm"-->
-              <!--(click)="updateDisplayName()">Update display name-->
-      <!--</button>-->
-    <!--</div>-->
+      <button *ngIf="newDispalyname.value !== currentSkUser?.displayName &&  newDispalyname.valid"
+              id="btn-update-displayName"
+              class="btn btn-block btn-outline-danger btn-sm"
+              (click)="updateDisplayName()">Update display name
+      </button>
+    </div>
 
-    <!--<hr>-->
+    <hr>
 
-    <!--  Email section -->
-    <!--<div id="update-email">-->
+      Email section
+    <div id="update-email">
 
-      <!--<div *ngIf="!isEditEmail; else editEmail">-->
-        <!--<label>Email:</label>-->
-        <!--<span><strong>{{currentAuthUser?.email}}</strong></span>-->
-        <!--<button class="btn btn-outline-primary btn-block btn-sm" (click)="showEmailEdit()">Edit email</button>-->
-        <!--<br>-->
-      <!--</div>-->
+      <div *ngIf="!isEditEmail; else editEmail">
+        <label>Email:</label>
+        <span><strong>{{currentAuthUser?.email}}</strong></span>
+        <button class="btn btn-outline-primary btn-block btn-sm" (click)="showEmailEdit()">Edit email</button>
+        <br>
+      </div>
 
 
-      <!--<ng-template #editEmail>-->
-        <!--<h6>Email change</h6>-->
-        <!--<p>After an email change, a verification email will be sent to the new address.</p>-->
-        <!--<input [(ngModel)]="newEmail" name="email"-->
-               <!--type="email" class="form-control"-->
-               <!--id="email1" required-->
-               <!--pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"-->
-               <!--#email="ngModel">-->
-        <!--<div id="email-update-buttons" class="row">-->
-          <!--<div class="col">-->
-            <!--<button [disabled]="email.value == currentAuthUser?.email ||  !email.valid"-->
-                    <!--id="btn-update-email"-->
-                    <!--class="btn  btn-block btn-outline-danger"-->
-                    <!--(click)="updateEmail()">Update-->
-            <!--</button>-->
-          <!--</div>-->
-          <!--<div class="col">-->
-            <!--<button-->
-              <!--class="btn btn-block btn-outline-primary"-->
-              <!--(click)="cancelEmailUpdate()">Cancel-->
-            <!--</button>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</ng-template>-->
-    <!--</div>-->
-    <!-- end email section -->
+      <ng-template #editEmail>
+        <h6>Email change</h6>
+        <p>After an email change, a verification email will be sent to the new address.</p>
+        <input [(ngModel)]="newEmail" name="email"
+               type="email" class="form-control"
+               id="email1" required
+               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+               #email="ngModel">
+        <div id="email-update-buttons" class="row">
+          <div class="col">
+            <button [disabled]="email.value == currentAuthUser?.email ||  !email.valid"
+                    id="btn-update-email"
+                    class="btn  btn-block btn-outline-danger"
+                    (click)="updateEmail()">Update
+            </button>
+          </div>
+          <div class="col">
+            <button
+              class="btn btn-block btn-outline-primary"
+              (click)="cancelEmailUpdate()">Cancel
+            </button>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+     end email section
 
   </ng-template>
 
