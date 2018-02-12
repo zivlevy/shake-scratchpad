@@ -7,7 +7,7 @@ import {NotAuthenticatedComponent} from "./shared/not-authenticated/not-authenti
 const routes: Routes = [
 
 
-  {path: 'notAuthenticated', component: NotAuthenticatedComponent},
+
   {path: '**', component: NotFoundComponent},
 
 ];

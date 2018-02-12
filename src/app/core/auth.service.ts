@@ -10,7 +10,7 @@ import * as firebase from 'firebase';
 import UserCredential = firebase.auth.UserCredential;
 import {User} from 'firebase';
 import {Observable} from 'rxjs/Observable';
-import {FirestoreService} from "./firestore.service";
+import {FirestoreService} from './firestore.service';
 
 
 
@@ -54,6 +54,10 @@ export class AuthService {
 
     logout() {
       this.afAuth.auth.signOut();
+    }
+
+    sendEmailVerification(){
+      return this.currentAuthUser.sendEmailVerification();
     }
 
     isAuth$() {

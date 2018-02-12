@@ -1,3 +1,15 @@
-<p>
-  not-authenticated works!
-</p>
+<mat-card>
+  <div [ngStyle]="{'direction': direction}">
+    <div mat-card-title >
+      <h4 [innerHTML]="'You need to confirm your email' | translate"></h4>
+      <h4 [innerHTML]="'before using Shake.' | translate"></h4>
+    </div>
+    <div class="wrapper">
+      <div mat-card-actions class="pt-24" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="30px">
+        <button mat-raised-button class="mat-accent mr-16" (click)="resend()"
+                [innerHTML]="'Resend confirmation email' | translate"></button>
+      </div>
+    </div>
+  </div>
+</mat-card>
+

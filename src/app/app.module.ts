@@ -35,6 +35,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import {MaterialModule} from './material/material.module';
 import {AdminModule} from './views/admin/admin.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {AuthGuard} from './shared/guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     OrganizationModule,
     AppRoutingModule    // <==== allways last !
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 
 })

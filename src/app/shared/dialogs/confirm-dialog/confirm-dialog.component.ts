@@ -2,7 +2,6 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {LanguageService} from "../../../core/language.service";
 import {takeUntil} from "rxjs/operators";
-import {FormGroup} from "@angular/forms";
 import {Subject} from "rxjs/Subject";
 
 @Component({
