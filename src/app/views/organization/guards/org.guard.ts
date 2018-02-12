@@ -18,7 +18,7 @@ export class OrgGuard implements CanActivate {
     canActivate(next: ActivatedRouteSnapshot,
                 state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         console.log('============> route to org');
-        console.log(next.params.id);
+        console.log(next.parent.params.id);
         const orgId = next.params.id;
         return this.orgService.getOrgUserByOrgID$(next.params.id)
           .switchMap( user => {

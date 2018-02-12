@@ -28,7 +28,7 @@ const routes: Routes = [
               {path: 'login', component: LoginComponent},
               {path: 'register', component: SignupComponent},
               {path: 'user-profile', component: UserProfileComponent, canActivate: [OrgGuard]},
-              {path: 'org-admin-users', component: OrgAdminUsersComponent, canActivate: [OrgGuard]},
+              {path: 'org-admin-users', component: OrgAdminUsersComponent, canActivate: [OrgGuard]} ,
               {path: 'org-admin', component: OrgAdminOrgComponent, canActivate: [OrgGuard]},
               {path: 'org-doc-edit/:docId/:docType/:docVersion', component: OrgDocEditComponent, canActivate: [OrgGuard]},
               {path: 'org-doc-view/:docId/:docType/:docVersion', component: OrgDocViewComponent, canActivate: [OrgGuard]},

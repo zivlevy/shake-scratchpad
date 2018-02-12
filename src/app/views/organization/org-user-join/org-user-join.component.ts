@@ -33,7 +33,7 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
 
         // if the user is not logged in
         if (!this.user.currentAuthUser) {
-          this.router.navigate([`register`], {queryParams: {returnUrl:  this.router.routerState.snapshot.url}});
+          this.router.navigate([`org/${orgId}/register`], {queryParams: {returnUrl:  this.router.routerState.snapshot.url}});
         }
       });
   }

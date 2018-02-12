@@ -95,12 +95,14 @@ export class OrgService {
   }
 
   // Sets initial user data to firestore after successful org Join
-  private setUserInfo(user) {
+  private   setUserInfo(user) {
     // set the org to the user
+    console.log(`users/${user.uid}/orgs/${this.currentOrg$.getValue()}`);
     const orgUserRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}/orgs/${this.currentOrg$.getValue()}`);
     orgUserRef.set({});
 
     // set the user data in the org
+    console.log(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
     const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
     const data: OrgUser = {
       uid: user.uid,
