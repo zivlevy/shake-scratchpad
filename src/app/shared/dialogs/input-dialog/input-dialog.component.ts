@@ -17,7 +17,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
 
   constructor(public dialogRef: MatDialogRef<InputDialogComponent>,
               @Inject(MAT_DIALOG_DATA) private data,
-              private lngService: LanguageService,) {
+              private lngService: LanguageService) {
     this.lngService.getDirection$()
       .pipe(
         takeUntil(this.destroy$)
