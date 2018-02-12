@@ -9,55 +9,74 @@ function isAuthenticated() {
   match /databases/{database}/documents {
   // admin functions
     function isSKAdmin() {
-  		return exists(/databases/$(database)/documents/sk-admins/$(request.auth.uid)) ;
+  		return exists(/databases/$(database)/documents/skAdmins/$(request.auth.uid)) ;
 		}
 
-
-
-    function isOrgExists(org) {
-    		return  exists(/databases/$(database)/documents/org/$(org)/publicData/info)
-    }
-
-    function getRole(role,org) {
-        return get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).data.roles[role] == true ||
-        get(/databases/$(database)/documents/org/$(org)/users/$(request.auth.uid)).roles[role] == true
-    }
 		// THE FULL DATABASE
     match /{document=**} {
-      // allow read, write : if false;//isSKAdmin() ;
-      allow read, write : if true ;
+      allow read, write : if false ;
 
     }
-		//OrgRequested
+      //skAdmins
+			match /skAdmins/{admin=**} {
+
+        function isSKAdminAdmin() {
+        		return get(/databases/$(database)/documents/skAdmins/$(request.auth.uid)).isSkAdmin == true ||
+        		       get(/databases/$(database)/documents/skAdmins/$(request.auth.uid)).data.isSkAdmin == true ;
+    		}
+      	allow read: if true;
+        allow write: if isSKAdminAdmin() ;
+      }
+
+    	//OrgRequested
 			match /orgRequested/{id=**} {
+      	allow read: if true;
+        allow write: if false;
+      }
+
+		//users
+			match /users/{user=**} {
       	allow read: if true;
         allow write: if true;
       }
+
+
     // ORG
     match /org {
 
       match /{orgId}{
+      
+          function isOrgExists(org) {
+    					return  exists(/databases/$(database)/documents/org/$(org)/publicData/info)
+    			}
+          function getRole(role) {
+        		return get(/databases/$(database)/documents/org/$(orgId)/users/$(request.auth.uid)).data.roles[role] == true ||
+        		       get(/databases/$(database)/documents/org/$(orgId)/users/$(request.auth.uid)).roles[role] == true ;
+    			}
 
-      		allow read : if true;
-   				allow write : if getRole('admin')  ;
+      		allow read : if getRole('admin') || getRole('editor') || getRole('viewer');
+   				allow write : if false  ;
 
           match /publicData/{allPublicData=**}{
-          		allow read : if true  ;
+          		allow read : if true ;
               allow write: if getRole('admin');
           }
 
           match /users/{user=**} {
           		allow read : if true;
-              allow write : if isOrgExists(orgId)
-              							&& (request.resource.data.roles.keys().hasAny(['admin', 'editor', 'viewer']) == false || getRole('admin', orgId) );
+              allow write : if  isOrgExists(orgId)
+              							&& (request.resource.data.roles.keys().hasAny(['admin', 'editor', 'viewer']) == false || getRole('admin'));
           }
 
-          match /documents/{docs=**} {
+          match /docs/{docs=**} {
             allow read : if getRole('admin') || getRole('editor') || getRole('viewer');
             allow write : if getRole('editor') ;
+          }
+          match /invites/{invite=**}{
+          		allow read : if true ;
+              allow write: if getRole('admin');
           }
   		}
     }
 	}
-
 }
