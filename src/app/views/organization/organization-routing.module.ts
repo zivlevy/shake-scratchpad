@@ -11,9 +11,9 @@ import {OrgDocEditComponent} from './org-doc-edit/org-doc-edit.component';
 import {OrgDocViewComponent} from './org-doc-view/org-doc-view.component';
 import {OrgInvitePageComponent} from './org-invite-page/org-invite-page.component';
 import {OrgDocReadAcksComponent} from './org-doc-read-acks/org-doc-read-acks.component';
-import {OrgDocReadAckEditComponent} from "./org-doc-read-ack-edit/org-doc-read-ack-edit.component";
-import {OrgGuard} from "./guards/org.guard";
-import {OrgUserJoinComponent} from "./org-user-join/org-user-join.component";
+import {OrgDocReadAckEditComponent} from './org-doc-read-ack-edit/org-doc-read-ack-edit.component';
+import {OrgGuard} from './guards/org.guard';
+import {OrgUserJoinComponent} from './org-user-join/org-user-join.component';
 
 const routes: Routes = [
   {

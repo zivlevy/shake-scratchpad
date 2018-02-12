@@ -1,13 +1,14 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {NotFoundComponent} from './shared/not-found/not-found.component';
+import {NotAuthenticatedComponent} from "./shared/not-authenticated/not-authenticated.component";
 
 
 const routes: Routes = [
 
 
-  // {path: 'login', component: LoginComponent},
-  {path: '**', component: NotFoundComponent}
+  {path: 'notAuthenticated', component: NotAuthenticatedComponent},
+  {path: '**', component: NotFoundComponent},
 
 ];
 
