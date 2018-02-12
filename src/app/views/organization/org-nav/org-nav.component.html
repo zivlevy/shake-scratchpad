@@ -4,9 +4,9 @@
 
   <span class="fill-remaining-space"></span>
 
-  <button mat-button *ngIf="!user.isLoadingOrgUser && !user.currentOrgUser && user.isAuthenticated" (click)="join()">
-    Join
-  </button>
+  <!--<button mat-button *ngIf="!user.isLoadingOrgUser && !user.currentOrgUser && user.isAuthenticated" (click)="join()">-->
+    <!--Join-->
+  <!--</button>-->
 
   <button mat-button *ngIf="!user.currentAuthUser" (click)="login()" [innerHTML]="'Login' | translate"></button>
   <button mat-button *ngIf="!user.currentAuthUser" (click)="signup()" [innerHTML]="'Signup' | translate"></button>

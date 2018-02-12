@@ -25,6 +25,7 @@ const routes: Routes = [
              path: '', component: OrgHomePageComponent, children: [
               {path: '', component: OrgSearchDocsComponent, canActivate: [OrgGuard]},
               {path: 'invite', component: OrgInvitePageComponent},
+              {path: 'org-join', component: OrgUserJoinComponent},
               {path: 'login', component: LoginComponent},
               {path: 'register', component: SignupComponent},
               {path: 'user-profile', component: UserProfileComponent, canActivate: [OrgGuard]},
@@ -39,7 +40,6 @@ const routes: Routes = [
         ]
       },
       {path: '', redirectTo: '/home', pathMatch: 'full'},
-      {path: 'joinOrg/:orgId', component: OrgUserJoinComponent},
     ]
   },
 

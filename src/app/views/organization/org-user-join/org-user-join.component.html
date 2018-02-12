@@ -1,1 +1,4 @@
-<button (click)="join()"> Join</button>
+<button *ngIf="!user || (user && !user.currentOrgUser)" (click)="join()"> Join</button>
+
+
+<p *ngIf="user?.currentOrgUser?.isPending">Your request is pending approval. When approved, you'll be routed to out home page</p>
