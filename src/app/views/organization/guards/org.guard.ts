@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import {OrgService} from '../org.service';
 
 @Injectable()
-export class OrgGuard implements CanActivate, CanActivateChild {
+export class OrgGuard implements CanActivate {
 
     constructor(private orgService: OrgService,
                 private route: ActivatedRoute,
