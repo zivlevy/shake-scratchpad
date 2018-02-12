@@ -16,11 +16,8 @@ export class OrgNavComponent implements OnInit, OnDestroy {
   orgName: string;
   rtl = false;
 
-  @Input()
-  org: Org;
-
-  @Input()
-  user: User;
+  @Input() org: Org;
+  @Input() user: User;
 
 
   destroy$: Subject<boolean> = new Subject<boolean>();
