@@ -30,8 +30,9 @@ import { OrgInvitePageComponent } from './org-invite-page/org-invite-page.compon
 import { OrgAdminUsersExistingComponent } from './org-admin-users-existing/org-admin-users-existing.component';
 import { OrgAdminUsersInvitedComponent } from './org-admin-users-invited/org-admin-users-invited.component';
 import { OrgDocReadAcksComponent } from './org-doc-read-acks/org-doc-read-acks.component';
-import {OrgDocService} from "./org-doc.service";
+import {OrgDocService} from './org-doc.service';
 import { OrgDocReadAckEditComponent } from './org-doc-read-ack-edit/org-doc-read-ack-edit.component';
+import { OrgUserJoinComponent } from './org-user-join/org-user-join.component';
 
 @NgModule({
   imports: [
@@ -71,6 +72,7 @@ import { OrgDocReadAckEditComponent } from './org-doc-read-ack-edit/org-doc-read
     OrgAdminUsersInvitedComponent,
     OrgDocReadAcksComponent,
     OrgDocReadAckEditComponent,
+    OrgUserJoinComponent,
   ],
   exports: [OrgHomePageComponent],
   entryComponents: [

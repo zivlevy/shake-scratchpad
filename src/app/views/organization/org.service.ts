@@ -139,6 +139,18 @@ export class OrgService {
       }));
   }
 
+  getOrgUserByOrgID$(orgId) {
+    return this.afAuth.authState
+      .switchMap((user => {
+        if (!user) {
+          return Observable.of(null);
+        } else {
+          const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${orgId}/users/${user.uid}`);
+          return userRef.valueChanges();
+        }
+      }));
+  }
+
   getAllOrgUsers$(orgId: string) {
     return this.firestoreService.colWithIds$(`org/${orgId}/users`)
       .switchMap(data => {
