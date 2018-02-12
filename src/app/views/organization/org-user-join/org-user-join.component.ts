@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {OrgService} from "../org.service";
 
 @Component({
   selector: 'sk-org-user-join',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrgUserJoinComponent implements OnInit {
 
-  constructor() { }
+  constructor(private orgService: OrgService) { }
 
   ngOnInit() {
   }
 
+  join() {
+    this.orgService.joinToOrg();
+  }
 }
