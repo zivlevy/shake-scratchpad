@@ -17,6 +17,7 @@ import {DeleteApproveComponent} from './delete-approve/delete-approve.component'
 import {MaterialModule} from "../material/material.module";
 import {ConfirmDialogComponent} from "./dialogs/confirm-dialog/confirm-dialog.component";
 import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
+import { NotAuthenticatedComponent } from './not-authenticated/not-authenticated.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.compon
     NavAdminComponent,
     DeleteApproveComponent,
     ConfirmDialogComponent,
-    InputDialogComponent
+    InputDialogComponent,
+    NotAuthenticatedComponent
   ],
   exports: [
     SpinnerComponent,
