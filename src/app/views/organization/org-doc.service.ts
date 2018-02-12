@@ -46,23 +46,17 @@ export class OrgDocService {
     return this.firestoreService.colWithIds$(`org/${orgId}/users`)
       .map(resArray => {
         resArray.forEach(res => {
-          this.afs.doc(`users/${res.id}`).valueChanges()
+          this.afs.doc(`org/${orgId}/users/${res.id}/docsAcks/${docAckId}`).valueChanges()
             // .take(1)
-            .subscribe((userData: any) => {
-              res.displayName = userData.displayName;
-              res.photoURL = userData.photoURL;
-              this.afs.doc(`org/${orgId}/users/${res.id}/docsAcks/${docAckId}`).valueChanges()
-                // .take(1)
-                .subscribe((userSignature: any) => {
-                  if (userSignature) {
-                    res.isRequired = userSignature.isRequired ? userSignature.isRequired : false;
-                    res.hasSigned = userSignature.hasSigned ? userSignature.hasSigned : false;
-                    res.signedAt = userSignature.signedAt;
-                  } else {
-                    res.isRequired = false;
-                    res.hasSigned = false;
-                  }
-                });
+            .subscribe((userSignature: any) => {
+              if (userSignature) {
+                res.isRequired = userSignature.isRequired ? userSignature.isRequired : false;
+                res.hasSigned = userSignature.hasSigned ? userSignature.hasSigned : false;
+                res.signedAt = userSignature.signedAt;
+              } else {
+                res.isRequired = false;
+                res.hasSigned = false;
+              }
             });
         });
         return resArray;
@@ -166,5 +160,5 @@ export class OrgDocService {
         });
     });
   }
-  
+
 }
