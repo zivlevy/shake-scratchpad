@@ -23,7 +23,7 @@ export const onOrgInviteCreate = orgFunctions.onOrgInviteCreate;
 // users
 export const deleteUser =  usersFunctions.deleteUser;
 export const updateUserInfo =  usersFunctions.updateUserInfo;
-
+export const userAddOrg = usersFunctions.userAddOrg;
 
 export const bigben =  serverFunctions.bigben;
 

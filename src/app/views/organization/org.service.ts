@@ -205,20 +205,20 @@ export class OrgService {
   addUserToOrg(orgId: string, uid: string, skUser, isOrgAdmin: boolean, isOrgEditor: boolean, isOrgViewer: boolean) {
     this.afs.collection('users').doc(uid).collection('orgs').doc(orgId).set({});
 
-    const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${orgId}/users/${uid}`);
-    const data: OrgUser = {
-      uid: uid,
-      isPending: false,
-      roles: {
-        admin: isOrgAdmin,
-        editor: isOrgEditor,
-        viewer: isOrgViewer
-      },
-      displayName: skUser.displayName,
-      email: skUser.email,
-      photoURL: skUser.photoURL ? skUser.photoURL : ''
-    };
-    return userRef.set(data);
+    // const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${orgId}/users/${uid}`);
+    // const data: OrgUser = {
+    //   uid: uid,
+    //   isPending: false,
+    //   roles: {
+    //     admin: isOrgAdmin,
+    //     editor: isOrgEditor,
+    //     viewer: isOrgViewer
+    //   },
+    //   displayName: skUser.displayName,
+    //   email: skUser.email,
+    //   photoURL: skUser.photoURL ? skUser.photoURL : ''
+    // };
+    // return userRef.set(data);
   }
 
 

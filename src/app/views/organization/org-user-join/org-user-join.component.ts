@@ -33,6 +33,12 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
         this.org.orgHome = '/org/' + org;
       });
 
+    this.authService.getSkUser$()
+      .takeUntil(this.destroy$)
+      .subscribe(user => {
+        this.user.currentSkUser = user;
+      });
+
     // get queryParams to see if we came here from an Invite
     this.route.queryParams
       .takeUntil(this.destroy$)
@@ -48,6 +54,7 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
             if (!this.user.currentAuthUser) {
 
               if (params['mail']) {
+                // the user is not logged in. Navigated here thru mail
                 this.authService.isMailRegistered(params['mail'])
                   .then(mailExists => {
                     if (mailExists) {
@@ -68,6 +75,8 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
                     }
                   });
               } else {
+
+                // the user is not logged in. Navigated here directly
                 this.router.navigate([`org/${this.org.orgId}/register`],
                   {queryParams: {
                       returnUrl:  `org/${this.org.orgId}/org-join`
@@ -108,7 +117,23 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
   }
 
   processInvite(userName: string, userMail: string) {
-    console.log('processing ', userName, userMail);
+    console.log('processing ', this.org.orgId, userName, userMail);
+    this.orgService.getOrgUserInvite$(this.org.orgId, userMail)
+      .takeUntil(this.destroy$)
+      .subscribe((invite: any) => {
+        if (invite) {
+          console.log(this.org.orgId, this.user.currentAuthUser.uid, this.user.currentSkUser,
+            invite.isAdmin, invite.isEditor, invite.isViewer);
+          if (!this.user.currentOrgUser) {
+            this.orgService.addUserToOrg(this.org.orgId, this.user.currentAuthUser.uid, this.user.currentSkUser,
+              invite.isAdmin, invite.isEditor, invite.isViewer);
+          }
+          // this.orgService.deleteOrgUserInviteP(this.org.orgId, userMail);
+        } else {
+          console.log('navigating');
+          this.router.navigate([this.org.orgHome]);
+        }
+      });
   }
 
   join() {

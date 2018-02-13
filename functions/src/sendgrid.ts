@@ -15,8 +15,7 @@ export const sendOrgInvite = function(orgId, orgPublicData, inviteEmail, inviteD
     to: inviteEmail,
     from: orgPublicData.orgEmail,
     subject: 'Invite',
-    // text: `Hey ${toName}. You have a new follower!!! `,
-    // html: `<strong>Hey ${toName}. You have a new follower!!!</strong>`,
+
 
     // custom templates
     templateId: '',
