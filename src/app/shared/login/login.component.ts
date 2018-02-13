@@ -15,6 +15,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   destroy$: Subject<boolean> = new Subject<boolean>();
   returnRoute: string;
+  requestName: string;
+  requestEmail: string;
+  emailBlocked = false;
 
   constructor(public fb: FormBuilder,
               public auth: AuthService,
@@ -28,14 +31,24 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.route.queryParamMap.subscribe(params => {
-      console.log(this.route.parent);
-      console.log(params.get('returnUrl'));
+
       this.returnRoute = params.get('returnUrl');
+      if (params.get('name')) {
+        this.requestName = params.get('name').replace('+', ' ');
+      }
+      this.requestEmail = params.get('mail');
+      if (this.requestEmail) {
+        this.emailBlocked = true;
+      }
+      console.log(this.returnRoute, this.requestEmail, this.requestName, this.emailBlocked);
     });
 
 
     this.loginForm = this.fb.group({
-      'email': ['', [
+      'email': [{
+        value: this.requestEmail,
+        disabled: this.emailBlocked
+      },  [
         Validators.required,
         Validators.email
       ]
@@ -75,10 +88,22 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   gotoRegister() {
+    let queryParams;
+
     if (this.returnRoute) {
-      // this.router.navigate([`${this.returnRoute}/register`], {queryParams: {returnUrl: this.returnRoute}});
+      if (this.requestEmail) {
+        queryParams = {
+          returnUrl: this.returnRoute,
+          name: this.requestName,
+          mail: this.requestEmail
+        };
+      } else {
+        queryParams = {
+          returnUrl: this.returnRoute
+        };
+      }      // this.router.navigate([`${this.returnRoute}/register`], {queryParams: {returnUrl: this.returnRoute}});
       const orgId = this.router.routerState.snapshot.url.match('org/(.*)/')[1];
-      this.router.navigate(['org/' + orgId + `/register`], {queryParams: {returnUrl: this.returnRoute}});
+      this.router.navigate(['org/' + orgId + `/register`], {queryParams: queryParams});
     } else {
       this.router.navigate(['register']);
     }

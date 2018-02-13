@@ -22,6 +22,9 @@ export class OrgNavComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   returnRoute: string;
+  requestName: string;
+  requestEmail: string;
+  queryParams;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -31,20 +34,37 @@ export class OrgNavComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.returnRoute = this.router.routerState.snapshot.url;
 
+    this.route.queryParamMap.subscribe(params => {
+      this.returnRoute = params.get('returnUrl');
+      if (params.get('name')) {
+        this.requestName = params.get('name').replace('+', ' ');
+      }
+      this.requestEmail = params.get('mail');
+      console.log(this.returnRoute, this.requestEmail, this.requestName);
+
+      if (this.returnRoute) {
+        if (this.requestEmail) {
+          this.queryParams = {
+            returnUrl: this.returnRoute,
+            name: this.requestName,
+            mail: this.requestEmail
+          };
+        } else {
+          this.queryParams = {
+            returnUrl: this.returnRoute
+          };
+        }
+      };
+    });
   }
 
   login() {
-    const orgId = this.route.snapshot.params['id'];
-
-    // this.router.navigate([`org/${this.org.orgId}/login`], {queryParams: {returnUrl: 'org/' + orgId}});
-    this.router.navigate([`org/${this.org.orgId}/login`], {queryParams: {returnUrl: this.returnRoute}});
+    this.router.navigate([`org/${this.org.orgId}/login`], {queryParams: this.queryParams});
 
   }
 
   signup() {
-    const orgId = this.route.snapshot.params['id'];
-    // this.router.navigate([`org/${this.org.orgId}/register`], {queryParams: {returnUrl: 'org/' + orgId}});
-    this.router.navigate([`org/${this.org.orgId}/register`], {queryParams: {returnUrl: this.returnRoute}});
+    this.router.navigate([`org/${this.org.orgId}/register`], {queryParams: this.queryParams});
 
   }
 

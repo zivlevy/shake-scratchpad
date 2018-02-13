@@ -173,5 +173,17 @@ export class AuthService {
     return this.firestoreService.colWithIds$(`users/${uid}/orgs`);
   }
 
-
+  isMailRegistered(mail: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.afAuth.auth.fetchProvidersForEmail(mail)
+        .then(res => {
+          if (res.length === 0) {
+            resolve(false);
+          } else {
+            resolve(true);
+          }
+        })
+        .catch(err => console.log(err));
+    });
+  }
 }

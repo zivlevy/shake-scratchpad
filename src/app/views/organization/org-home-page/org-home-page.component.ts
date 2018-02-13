@@ -83,7 +83,7 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
     this.orgService.getOrgPublicData$()
       .takeUntil(this.destroy$)
       .subscribe(orgData => {
-        if (orgData) {
+        if (orgData.orgName) {
           this.org.orgName = orgData.orgName;
           this.org.language = orgData.language;
           this.org.logoUrl = orgData.logoURL;

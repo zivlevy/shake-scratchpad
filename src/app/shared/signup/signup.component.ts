@@ -13,9 +13,12 @@ import {LanguageService} from '../../core/language.service';
 })
 export class SignupComponent implements OnInit, OnDestroy {
 
-  loginForm: FormGroup;
+  signupForm: FormGroup;
   destroy$: Subject<boolean> = new Subject<boolean>();
   returnRoute: string;
+  requestName: string;
+  requestEmail: string;
+  emailBlocked = false;
 
   constructor(public fb: FormBuilder,
               public auth: AuthService,
@@ -28,17 +31,28 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
-      console.log(params.get('returnUrl'));
       this.returnRoute = params.get('returnUrl');
+      if (params.get('name')) {
+        this.requestName = params.get('name').replace('+', ' ');
+      }
+      this.requestEmail = params.get('mail');
+      if (this.requestEmail) {
+        this.emailBlocked = true;
+      }
+      console.log(this.returnRoute, this.requestEmail, this.requestName, this.emailBlocked);
+
     });
 
 
-    this.loginForm = this.fb.group({
-      'displayName': ['', [
+    this.signupForm = this.fb.group({
+      'displayName': [this.requestName, [
         Validators.required,
       ]
       ],
-      'email': ['', [
+      'email': [{
+        value: this.requestEmail,
+        disabled: this.emailBlocked
+      }, [
         Validators.required,
         Validators.email
       ]
@@ -70,19 +84,19 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   // Using getters will make your code look pretty
   get email() {
-    return this.loginForm.get('email');
+    return this.signupForm.get('email');
   }
 
   get password() {
-    return this.loginForm.get('password');
+    return this.signupForm.get('password');
   }
 
   get displayName() {
-    return this.loginForm.get('displayName');
+    return this.signupForm.get('displayName');
   }
 
   get confirmPassword() {
-    return this.loginForm.get('confirmPassword');
+    return this.signupForm.get('confirmPassword');
   }
 
 
@@ -101,11 +115,23 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   gotoLogin() {
+    let queryParams;
 
     if (this.returnRoute) {
+      if (this.requestEmail) {
+        queryParams = {
+          returnUrl: this.returnRoute,
+          name: this.requestName,
+          mail: this.requestEmail
+        };
+      } else {
+        queryParams = {
+          returnUrl: this.returnRoute
+        };
+      }
       // this.router.navigate([`${this.returnRoute}/login`], {queryParams: {returnUrl: this.returnRoute}});
       const orgId = this.router.routerState.snapshot.url.match('org/(.*)/')[1];
-      this.router.navigate(['org/' + orgId + '/login'], {queryParams: {returnUrl: this.returnRoute}});
+      this.router.navigate(['org/' + orgId + '/login'], {queryParams: queryParams});
     } else {
       this.router.navigate(['login']);
     }

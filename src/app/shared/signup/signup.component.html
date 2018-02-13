@@ -6,7 +6,7 @@
       <img src="assets/img/shake-logo.png" id="logo" [routerLink]="['']">
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="signup()">
+    <form [formGroup]="signupForm" (ngSubmit)="signup()">
       <div class="form-header p-0">
         <h1 [innerHTML]="'Register to Shake' | translate"></h1>
       </div>
@@ -53,13 +53,13 @@
           <input class="form-control" type="password" id="confirmPassword"
                  formControlName="confirmPassword" required>
 
-          <div *ngIf="loginForm.errors" class="error-message"
+          <div *ngIf="signupForm.errors" class="error-message"
                [innerHTML]="'Password don\'t match' | translate">
           </div>
         </div>
 
 
-        <button class="btn btn-success btn-block" type="submit" [disabled]="!loginForm.valid"
+        <button class="btn btn-success btn-block" type="submit" [disabled]="!signupForm.valid"
                 [innerHTML]="'Register' | translate"></button>
       </div>
     </form>
