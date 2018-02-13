@@ -125,10 +125,9 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
           console.log(this.org.orgId, this.user.currentAuthUser.uid, this.user.currentSkUser,
             invite.isAdmin, invite.isEditor, invite.isViewer);
           if (!this.user.currentOrgUser) {
-            this.orgService.addUserToOrg(this.org.orgId, this.user.currentAuthUser.uid, this.user.currentSkUser,
-              invite.isAdmin, invite.isEditor, invite.isViewer);
+            this.orgService.addOrgToUser(this.org.orgId, this.user.currentAuthUser.uid)
+              .catch(err => console.log(err));
           }
-          // this.orgService.deleteOrgUserInviteP(this.org.orgId, userMail);
         } else {
           console.log('navigating');
           this.router.navigate([this.org.orgHome]);

@@ -84,7 +84,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   displayNameUpdateClicked() {
     this.authService.updateUserProfile( this.currentAuthUser.uid, this.displayName, null)
       .then(user => console.log(user))
-      .catch();
+      .catch(err => console.log(err));
   }
 
   displayNameUpdateCanceled() {
@@ -97,7 +97,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         this.isEditEmail = false;
         this.currentAuthUser.sendEmailVerification();
       })
-      .catch();
+      .catch(err => console.log(err));
   }
 
   emailUpdateCanceled() {
@@ -109,7 +109,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         this.isEditEmail = false;
         this.currentAuthUser.sendEmailVerification();
       })
-      .catch();
+      .catch(err => console.log(err));
   }
 
   cancelEmailUpdate() {

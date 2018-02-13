@@ -9,7 +9,6 @@ import {SignupComponent} from '../../shared/signup/signup.component';
 import {OrgSearchDocsComponent} from './org-search-docs/org-search-docs.component';
 import {OrgDocEditComponent} from './org-doc-edit/org-doc-edit.component';
 import {OrgDocViewComponent} from './org-doc-view/org-doc-view.component';
-import {OrgInvitePageComponent} from './org-invite-page/org-invite-page.component';
 import {OrgDocReadAcksComponent} from './org-doc-read-acks/org-doc-read-acks.component';
 import {OrgDocReadAckEditComponent} from './org-doc-read-ack-edit/org-doc-read-ack-edit.component';
 import {OrgGuard} from './guards/org.guard';
@@ -24,7 +23,6 @@ const routes: Routes = [
           {
              path: '', component: OrgHomePageComponent, children: [
               {path: '', component: OrgSearchDocsComponent, canActivate: [OrgGuard]},
-              {path: 'invite', component: OrgInvitePageComponent},
               {path: 'org-join', component: OrgUserJoinComponent},
               {path: 'login', component: LoginComponent},
               {path: 'register', component: SignupComponent},
