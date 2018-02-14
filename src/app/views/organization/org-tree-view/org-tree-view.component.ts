@@ -14,6 +14,7 @@ import * as v4 from 'uuid';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import {InputDialogComponent} from '../../../shared/dialogs/input-dialog/input-dialog.component';
+import {ToasterService} from '../../../core/toaster.service';
 
 @Component({
     selector: 'sk-org-tree-view',
@@ -39,7 +40,8 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private zone: NgZone,
               private orgService: OrgService,
               private lngService: LanguageService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private toaster: ToasterService) {
   }
 
   ngOnInit() {
@@ -147,7 +149,8 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
       this.confirmDialogRef.afterClosed()
         .subscribe(result => {
           if (result) {
-            this.orgService.unPublishDoc(this.treeNode.data.id);
+            this.orgService.unPublishDoc(this.treeNode.data.id)
+              .then(() => this.toaster.toastInfo('Un-publish success'));
           }
         });
     }

@@ -90,7 +90,7 @@ export class OrgService {
     this.authService.getSkUser$()
       .take(1)
       .subscribe(skUser => {
-        this.setUserInfo(skUser)
+        this.setUserInfo(skUser);
           // .then(() => {
           //   this.router.navigate([`org/${this.currentOrg$.getValue()}`]);
           // });

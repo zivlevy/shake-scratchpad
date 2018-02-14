@@ -12,6 +12,7 @@ import {AlgoliaService} from './algolia.service';
 import { SetDirectionDirective } from './set-direction.directive';
 import {DataPackageService} from './data-package.service';
 import {FileService} from "./file.service";
+import {ToasterService} from "./toaster.service";
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import {FileService} from "./file.service";
     AlgoliaService,
     SetDirectionDirective,
     DataPackageService,
-    FileService
+    FileService,
+    ToasterService
   ],
   declarations: [SafeHtmlPipe, SetDirectionDirective],
   exports: [SafeHtmlPipe]
