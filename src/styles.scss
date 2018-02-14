@@ -90,9 +90,13 @@ ul, ol {
   -webkit-padding-start: 20px;
 }
 
+.toastSuccess {
+  background-color: green;
+  color: white;
+}
 
 .toastInfo {
-  background-color: green;
+  background-color: dodgerblue;
   color: white;
 }
 

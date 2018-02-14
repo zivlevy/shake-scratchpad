@@ -15,6 +15,18 @@ export class ToasterService {
       .subscribe( dir => this.direction = <Direction>dir);
   }
 
+  toastSuccess(msg, duration: number = 3000) {
+    this.translate.get(msg).subscribe((res: string) => {
+      this.snackBar.open(res, null, {
+          duration,
+          direction: this.direction,
+          panelClass: ['toastSuccess']
+        }
+      );
+    });
+
+  }
+
   toastInfo(msg, duration: number = 3000) {
     this.translate.get(msg).subscribe((res: string) => {
       this.snackBar.open(res, null, {
@@ -24,16 +36,17 @@ export class ToasterService {
         }
       );
     });
-
   }
 
-  toastError(msg, duration: number = 3000, direction: Direction = 'rtl') {
-    this.snackBar.open(msg, null, {
-        duration,
-        direction: this.direction,
-        panelClass: ['toastError']
-      }
-    );
+  toastError(msg, duration: number = 3000) {
+    this.translate.get(msg).subscribe((res: string) => {
+      this.snackBar.open(res, null, {
+          duration,
+          direction: this.direction,
+          panelClass: ['toastErrorw']
+        }
+      );
+    });
   }
 
 }
