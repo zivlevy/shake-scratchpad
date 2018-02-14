@@ -2,10 +2,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../org.service';
-import {MatSnackBar, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatDialogRef, MatTableDataSource} from "@angular/material";
 import {Router} from '@angular/router';
 import {OrgUser} from '../../../model/org-user';
 import {ToastrService} from 'ngx-toastr';
+import {ConfirmDialogComponent} from "../../../shared/dialogs/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'sk-org-admin-users-existing',
@@ -13,6 +14,8 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./org-admin-users-existing.component.scss']
 })
 export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
+
+  confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
 
   currentUser: OrgUser;
   orgId: string;
@@ -24,8 +27,8 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
   constructor(public auth: AuthService,
               public orgService: OrgService,
               public router: Router,
-              private toastr: ToastrService,
-              private snackBar: MatSnackBar) {
+              private dialog: MatDialog,
+              private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -136,21 +139,31 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
   }
 
   userDeleted(userId) {
-    this.orgService.deleteOrgUser(userId)
-      .then(() => {
-        // this.snackBar.open('User successfully removed from org', '', {duration: 5000,   panelClass: ['snackbar-success']});
+    this.confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        msg: 'Delete?'
+      }
+    });
 
-        this.toastr.success('User successfully removed from org', '', {
-          timeOut: 5000
-        });
-      })
-      .catch(err => {
-        // this.snackBar.open('User removal failed', '', {duration: 5000,   panelClass: ['snackbar-fail']});
+    this.confirmDialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.orgService.deleteOrgUser(userId)
+            .then(() => {
 
-        this.toastr.error(err.message, 'User removal failed', {
-          timeOut: 5000
-        });
+              this.toastr.success('User successfully removed from org', '', {
+                timeOut: 5000
+              });
+            })
+            .catch(err => {
+
+              this.toastr.error(err.message, 'User removal failed', {
+                timeOut: 5000
+              });
+            });        }
       });
+
+
   }
 
 
