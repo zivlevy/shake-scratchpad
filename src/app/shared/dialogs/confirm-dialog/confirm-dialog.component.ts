@@ -1,8 +1,8 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {LanguageService} from "../../../core/language.service";
-import {takeUntil} from "rxjs/operators";
-import {Subject} from "rxjs/Subject";
+import {LanguageService} from '../../../core/language.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'confirm-dialog',
@@ -21,7 +21,7 @@ export class ConfirmDialogComponent implements OnInit, OnDestroy {
     this.lngService.getDirection$()
       .pipe(
         takeUntil(this.destroy$)
-      ).subscribe(dir => this.direction = dir)
+      ).subscribe(dir => this.direction = dir);
     this.confirmMessage = data.msg;
   }
 
