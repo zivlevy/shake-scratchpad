@@ -1,10 +1,9 @@
 {
 
-
   "General":"========= General =========",
   "Cancel": "בטל",
   "Confirm": "אשר",
-
+  "Delete ?": "למחוק ?",
 
   "login component":"========= LogIn Component=========",
   "Login to Shake": "כניסה ל Shake",
@@ -76,8 +75,16 @@
   "Invites waiting to be sent": "הזמנות הממתינות להישלח",
   "Send Table invitations": "שליחת ההזמנות מהטבלה",
   "Read From File": "קריאה מקובץ",
+  "User successfully removed from org": "הסרת משתמש הושלמה בהצלחה",
+  "User removal failed": "הסרת משתמש נכשלה",
+  "User updated failed": "עדכון נתוני משתמש נכשל",
   "": "",
-  "": "",
+
+  "org-join component": "========= Org Join Component =========",
+  "TXT_org_join_message": "לחיצה על הצטרפות לבקשת חברות בארגון",
+  "TXT_org_join_pending": "בקשת ההצטרפות ממתינה לאישור. לאחר קבלת האישור יבוצע ניתוב אוטומטי לדף הבית",
+  "TXT_org_invited_join": "תהליך הצטרפות. בעוד מספר שניות יבוצע מעבר אוטומטי לדף הבית",
+  "Join": "הצטרפות",
 
   "Org Editor DocAck management": "========= Org Editor DocAck management=========",
   "Docs Read & Acknowledge Management": "ניהול קרא וחתום",

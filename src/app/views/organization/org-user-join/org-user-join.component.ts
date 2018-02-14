@@ -17,6 +17,7 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
   org: Org = new Org();
   user: User = new User();
   destroy$: Subject<boolean> = new Subject<boolean>();
+  inviteRoute = false;
   //
   constructor(private authService: AuthService,
               private orgService: OrgService,
@@ -87,6 +88,7 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
             } else {
               // user is logged in
               if (params['mail']) {
+                this.inviteRoute = true;
                 this.processInvite(params['name'].replace('+', ' '), params['mail']);
               }
             }

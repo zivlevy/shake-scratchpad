@@ -2,11 +2,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../org.service';
-import {MatDialog, MatDialogRef, MatTableDataSource} from "@angular/material";
+import {MatDialog, MatDialogRef, MatTableDataSource} from '@angular/material';
 import {Router} from '@angular/router';
 import {OrgUser} from '../../../model/org-user';
-import {ToastrService} from 'ngx-toastr';
-import {ConfirmDialogComponent} from "../../../shared/dialogs/confirm-dialog/confirm-dialog.component";
+import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
+import {ToasterService} from '../../../core/toaster.service';
 
 @Component({
   selector: 'sk-org-admin-users-existing',
@@ -28,7 +28,7 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
               public orgService: OrgService,
               public router: Router,
               private dialog: MatDialog,
-              private toastr: ToastrService) {
+              private toaster: ToasterService) {
   }
 
   ngOnInit() {
@@ -131,17 +131,14 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
       .then(() => {
       })
       .catch(err => {
-        // this.snackBar.open('User updated failed', '', {duration: 2000,   panelClass: ['snackbar-fail']});
-        this.toastr.error(err.message, 'User updated failed', {
-          timeOut: 2000
-        });
+        this.toaster.toastError('User updated failed');
       });
   }
 
   userDeleted(userId) {
     this.confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        msg: 'Delete?'
+        msg: 'Delete ?'
       }
     });
 
@@ -150,17 +147,12 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
         if (result) {
           this.orgService.deleteOrgUser(userId)
             .then(() => {
-
-              this.toastr.success('User successfully removed from org', '', {
-                timeOut: 5000
-              });
+              this.toaster.toastSuccess('User successfully removed from org');
             })
             .catch(err => {
-
-              this.toastr.error(err.message, 'User removal failed', {
-                timeOut: 5000
-              });
-            });        }
+              this.toaster.toastError('User removal failed');
+            });
+        }
       });
 
 

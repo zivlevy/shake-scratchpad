@@ -99,6 +99,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
     this.inviteForm.controls['isAdmin'].setValue(false);
     this.inviteForm.controls['isEditor'].setValue(false);
     this.inviteForm.controls['isViewer'].setValue(true);
+
   }
 
   initInvites() {
