@@ -134,7 +134,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
       this.orgIdAvailable = true;
       return;
     }
-    this.homeService.getOrgID$(this.orgId.value)
+    this.homeService.orgIdExists$(this.orgId.value)
       .take(1)
       .subscribe(exists => {
         this.orgIdAvailable = !exists;

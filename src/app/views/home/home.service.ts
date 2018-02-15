@@ -32,7 +32,8 @@ export class HomeService {
       photoURL: this.currentSkUser.photoURL,
       uid: this.currentSkUser.uid
     };
-    return orgDocRef.set(org);
+    return orgDocRef.set(org)
+      .catch(err => console.log('set new org error = ', err));
   }
 
   waitForOrg(orgId) {
@@ -63,8 +64,8 @@ export class HomeService {
     });
   }
 
-  getOrgID$(orgId: string) {
-    const orgDoc: AngularFirestoreDocument<any> = this.afs.collection('org').doc(orgId);
+  orgIdExists$(orgId: string) {
+    const orgDoc: AngularFirestoreDocument<any> = this.afs.collection('org').doc(orgId).collection('publicData').doc('info');
     return orgDoc.snapshotChanges().map(snap => {
       return snap.payload.exists;
     });
