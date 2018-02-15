@@ -4,6 +4,8 @@
   "Cancel": "בטל",
   "Confirm": "אשר",
   "Delete ?": "למחוק ?",
+  "Save": "שמירה",
+  "Update": "עדכון",
 
   "login component":"========= LogIn Component=========",
   "Login to Shake": "כניסה ל Shake",
@@ -32,6 +34,8 @@
   "My Organizations": "הארגונים שלי",
   "Update Image": "עדכון תמונה",
   "TXT_email_change_message": "אחרי שינוי כתובת דואל, תשלח הודעת וידוא לכתובת החדשה",
+  "This operation requires recent login. Please logout and the login again": "זוהי פעולה רגישה הדורשת כניסה מחודשת. יש לצאת מהמערכת ולהיכנס מחדש ",
+  "Email change": "שינוי דואל",
 
   "New org component": "========= NewOrg Component=========",
   "Create Organization": "צור ארגון",
@@ -52,8 +56,6 @@
   "Banner Image": "באנר",
   "Language": "שפה",
   "Sector": "מגזר",
-  "Save": "שמירה",
-  "Cancel": "ביטול",
   "Logo Update": "עדכון לוגו",
   "Banner Update": "עדכון באנר",
 

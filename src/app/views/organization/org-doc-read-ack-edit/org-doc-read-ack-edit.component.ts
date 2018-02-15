@@ -90,16 +90,18 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
               this.orgDocService.getOrgDocAck$(this.orgId, this.docAckId)
                 .takeUntil(this.destroy$)
                 .subscribe(docAck => {
-                  this.currentDocAck = docAck;
-                  if (docAck.actualSignatures === 0) {
-                    this.docAckEditable = true;
-                  } else {
-                    this.docAckEditable = false;
+                  if (docAck) {
+                    this.currentDocAck = docAck;
+                    if (docAck.actualSignatures === 0) {
+                      this.docAckEditable = true;
+                    } else {
+                      this.docAckEditable = false;
+                    }
+                    this.loadData();
                   }
-                  this.loadData();
                 });
 
-              this.orgDocService.getOrgUsersDocAck$(this.orgId, this.docAckId)
+              this.orgDocService.getDocAckUsers$(this.orgId, this.docAckId)
                 .takeUntil(this.destroy$)
                 .subscribe(res => {
                   this.orgUsersDocAckSource.data = res;
@@ -168,9 +170,9 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
     });
   }
 
-  isRequiredClicked(uid: string, event) {
+  isRequiredClicked(uid: string, userName: string, event) {
     if (event.checked) {
-        this.orgDocService.addOrgUserReqDocAck(this.orgId, this.docAckId, uid);
+        this.orgDocService.addOrgUserReqDocAck(this.orgId, this.docAckId, this.currentDocAck.name, this.currentDocAck.docId, uid, userName);
     } else {
       this.orgDocService.removeOrgUserReqDocAck(this.orgId, this.docAckId, uid);
     }

@@ -6,6 +6,8 @@ import {OrgService} from '../org.service';
 import {OrgUser} from '../../../model/org-user';
 import {Observable} from 'rxjs/Observable';
 import {LanguageService} from '../../../core/language.service';
+import {OrgDocService} from '../org-doc.service';
+import {AuthService} from '../../../core/auth.service';
 
 @Component({
   selector: 'sk-org-doc-view',
@@ -16,6 +18,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   currentOrg: string;
   currentOrgUser: OrgUser;
+  currentSkUser;
   currentDocId: string;
   currentDoc: SkDoc;
   currentDocType: string;
@@ -26,7 +29,9 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   rtl: boolean = false;
 
   constructor(private route: ActivatedRoute,
+              private authService: AuthService,
               private orgService: OrgService,
+              private orgDocService: OrgDocService,
               public router: Router,
               private lngService: LanguageService) {
 
@@ -47,6 +52,9 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
     this.orgService.getOrgUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => this.currentOrgUser = user);
+    this.authService.getSkUser$()
+      .takeUntil(this.destroy$)
+      .subscribe(skUser => this.currentSkUser = skUser);
 
     // get doc info from route params
     this.route.params
@@ -57,7 +65,12 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
         return this.orgService.getDoc$(params.docId);
       })
       .switchMap( (doc: SkDoc) => {
-        console.log(this.currentOrg, this.currentOrgUser, this.currentDocId);
+        this.orgDocService.isSignatureRequired$(this.currentOrg, this.currentSkUser.uid, this.currentDocId)
+          .takeUntil(this.destroy$)
+          .subscribe(sigRequired => {
+            console.log(sigRequired);
+          });
+        console.log(this.currentOrg, this.currentOrgUser, this.currentDocId, this.currentSkUser.uid);
         this.currentDoc = doc;
         if (this.currentDocType === 'p') {
           this.docVersiontitle = `Published version ${doc.version}`;
