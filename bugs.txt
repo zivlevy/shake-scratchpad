@@ -1,5 +1,5 @@
 todo:
 
 1. userProfileComponent - fix when there is no imageURL can't update data - ran
-2. EMAIL Conformation guard - ziv
-4. Snakebar - one demo - ziv
+2. EMAIL Conformation guard - ziv - DONE
+4. Snakebar - one demo - ziv - DONE
