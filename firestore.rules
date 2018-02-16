@@ -50,6 +50,11 @@ function isAuthenticated() {
 			match /users/{userId=**} {
 
       	allow read: if true;
+        allow write: if false;
+
+      }
+
+       match /users/{userId} {
         allow write: if userId == request.auth.uid;
       }
 
