@@ -20,7 +20,6 @@ import {OrgTreeNode} from '../../model/org-tree';
 import {AlgoliaService} from '../../core/algolia.service';
 import {LanguageService} from '../../core/language.service';
 
-import * as _ from 'lodash';
 
 @Injectable()
 export class OrgService {
@@ -713,7 +712,7 @@ export class OrgService {
           return tree;
         } else {
           const publicTree = [];
-          publicTree.push(this.makePublishTree(tree[0]));
+          tree.forEach(treeNode => publicTree.push(this.makePublishTree(treeNode)));
           return publicTree;
         }
       });
@@ -730,6 +729,10 @@ export class OrgService {
       });
       treeNode.children = clean;
       return treeNode;
+    } else {
+      if (treeNode.isDoc && treeNode.isPublish) {
+        return treeNode;
+      }
     }
   }
 
