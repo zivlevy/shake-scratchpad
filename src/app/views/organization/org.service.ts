@@ -380,7 +380,7 @@ export class OrgService {
               const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
               return org.delete()
                 .then(() => console.log('Deletion complete'))
-                .catch(() => console.log('2nd stage deletion problem'));
+                .catch((err) => console.log('2nd stage deletion problem', err));
             })
             .catch((err) => console.log('1st stage deletion problem', err));
         });

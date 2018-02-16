@@ -10,32 +10,30 @@
       <div class="form-header p-0">
         <h1 [innerHTML]="'Login to Shake' | translate"></h1>
       </div>
+
       <div class="form-body">
-        <div class="form-group">
-          <label for="email" [innerHTML]="'Email' | translate"></label>
-          <input class="form-control" id="email" type="email"
-                 formControlName="email">
 
-          <div *ngIf="email.invalid && email.dirty" class="error-message"
-               [innerHTML]="'Please enter a valid email' | translate">
-
-          </div>
+      <div>
+        <mat-form-field>
+          <input matInput type="email" id="email"
+                 formControlName="email" placeholder="{{'Email' | translate}}">
+        </mat-form-field>
+        <div *ngIf="email.invalid && email.dirty" class="error-message" class="error-message"
+             [innerHTML]="'Please enter a valid email' | translate">
         </div>
-        <div class="form-group">
-          <label for="password"
-                 [innerHTML]="'Password' | translate"
-          ></label>
+      </div>
 
-
-          <input class="form-control" type="password" id="password"
-                 formControlName="password" required>
-
-          <div *ngIf="password.invalid && password.touched" class="error-message"
-               [innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">
-          </div>
+      <div>
+        <mat-form-field>
+          <input matInput type="password" id="password"
+                 formControlName="password" placeholder="{{'Password' | translate}}">
+        </mat-form-field>
+        <div *ngIf="password.invalid && password.touched" class="error-message" class="error-message"
+             [innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">
         </div>
+      </div>
 
-        <button class="btn btn-success btn-block" type="submit" [disabled]="!loginForm.valid"
+        <button mat-raised-button color="primary"  type="submit" [disabled]="!loginForm.valid"
                 [innerHTML]="'Login' | translate"></button>
       </div>
     </form>

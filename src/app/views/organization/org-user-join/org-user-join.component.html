@@ -1,4 +1,23 @@
-<button *ngIf="!user || (user && !user.currentOrgUser)" (click)="join()"> Join</button>
+<div id="wrapper">
+
+  <mat-card *ngIf="!inviteRoute &&  (!user || (user && !user.currentOrgUser))" fxLayout="column" fxLayoutAlign="center">
+    <div class="text-center">
+      {{ 'TXT_org_join_message' | translate }}
+    </div>
+    <button mat-raised-button color="primary" (click)="join()" [innerHTML]="'Join' | translate"> Join</button>
+  </mat-card>
+
+  <mat-card *ngIf="user?.currentOrgUser?.isPending" fxLayout="column" fxLayoutAlign="center">
+    <div class="text-center">
+      {{ 'TXT_org_join_pending' | translate }}
+    </div>
+  </mat-card>
+
+  <mat-card *ngIf="inviteRoute" fxLayout="column" fxLayoutAlign="center">
+    <div class="text-center">
+      {{ 'TXT_org_invited_join' | translate }}
+    </div>
+  </mat-card>
+</div>
 
 
-<p *ngIf="user?.currentOrgUser?.isPending">Your request is pending approval. When approved, you'll be routed to out home page</p>

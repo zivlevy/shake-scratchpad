@@ -14,32 +14,43 @@ function isAuthenticated() {
 
 		// THE FULL DATABASE
     match /{document=**} {
-      allow read, write : if fasle ;
+      allow read: if isSKAdminAdmin();
+      allow write: if isSKAdminAdmin();
+      }
 
-    }
+      function isSKAdminAdmin() {
+      return get(/databases/$(database)/documents/skAdmins/$(request.auth.uid)).isSkAdmin == true ||
+            get(/databases/$(database)/documents/skAdmins/$(request.auth.uid)).data.isSkAdmin == true ;
+      }
+
+      function isSKAdminEditor() {
+          return get(/databases/$(database)/documents/skAdmins/$(request.auth.uid)).isSkEditor == true ||
+                  get(/databases/$(database)/documents/skAdmins/$(request.auth.uid)).data.isSkEditor == true ;
+      }
+
       //skAdmins
 			match /skAdmins/{admin=**} {
-
-        function isSKAdminAdmin() {
-        		return get(/databases/$(database)/documents/skAdmins/$(request.auth.uid)).isSkAdmin == true ||
-        		       get(/databases/$(database)/documents/skAdmins/$(request.auth.uid)).data.isSkAdmin == true ;
-    		}
       	allow read: if true;
         allow write: if isSKAdminAdmin() ;
+      }
+
+		//Data Packages
+			match /dataPackages/{datapackage=**} {
+      	allow read: if true;
+        allow write: if isSKAdminEditor();
       }
 
     	//OrgRequested
 			match /orgRequested/{id=**} {
       	allow read: if true;
-        allow write: if false;
-      }
-
-		//users
-			match /users/{user=**} {
-      	allow read: if true;
         allow write: if true;
       }
 
+		//users
+			match /users/{userId} {
+      	allow read: if true;
+        allow write: if userId == request.auth.uid;
+      }
 
     // ORG
     match /org {
@@ -49,17 +60,23 @@ function isAuthenticated() {
           function isOrgExists(org) {
     					return  exists(/databases/$(database)/documents/org/$(org)/publicData/info)
     			}
+
           function getRole(role) {
         		return get(/databases/$(database)/documents/org/$(orgId)/users/$(request.auth.uid)).data.roles[role] == true ||
         		       get(/databases/$(database)/documents/org/$(orgId)/users/$(request.auth.uid)).roles[role] == true ;
     			}
 
-      		allow read : if getRole('admin') || getRole('editor') || getRole('viewer');
-   				allow write : if getRole('admin') || getRole('editor')   ;
+      		allow read: if getRole('admin') || getRole('editor') || getRole('viewer');
+   				allow write: if getRole('admin') || getRole('editor') ;
 
           match /publicData/{allPublicData=**}{
-          		allow read : if true ;
+          		allow read: if true ;
               allow write: if getRole('admin');
+          }
+
+          match /docsAcks/{docAck=**}{
+          		allow read: if getRole('admin') || getRole('editor') || getRole('viewer');
+              allow write: if getRole('editor') ;
           }
 
           match /users/{user=**} {
@@ -72,9 +89,10 @@ function isAuthenticated() {
             allow read : if getRole('admin') || getRole('editor') || getRole('viewer');
             allow write : if getRole('editor') ;
           }
+
           match /invites/{invite=**}{
           		allow read : if true ;
-              allow write: if getRole('admin');
+              allow write: if getRole('admin') ;
           }
   		}
     }

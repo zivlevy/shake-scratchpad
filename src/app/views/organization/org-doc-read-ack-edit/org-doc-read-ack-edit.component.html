@@ -85,7 +85,7 @@
             <mat-cell *matCellDef="let element">
               <mat-checkbox [checked]="element.isRequired"
                             [disabled]="element.hasSigned"
-                            (change) = "isRequiredClicked(element.id, $event)" >
+                            (change) = "isRequiredClicked(element.id, element.displayName, $event)" >
               </mat-checkbox>
             </mat-cell>
           </ng-container>

@@ -1,10 +1,11 @@
 {
 
-
   "General":"========= General =========",
   "Cancel": "בטל",
   "Confirm": "אשר",
-
+  "Delete ?": "למחוק ?",
+  "Save": "שמירה",
+  "Update": "עדכון",
 
   "login component":"========= LogIn Component=========",
   "Login to Shake": "כניסה ל Shake",
@@ -33,6 +34,8 @@
   "My Organizations": "הארגונים שלי",
   "Update Image": "עדכון תמונה",
   "TXT_email_change_message": "אחרי שינוי כתובת דואל, תשלח הודעת וידוא לכתובת החדשה",
+  "This operation requires recent login. Please logout and the login again": "זוהי פעולה רגישה הדורשת כניסה מחודשת. יש לצאת מהמערכת ולהיכנס מחדש ",
+  "Email change": "שינוי דואל",
 
   "New org component": "========= NewOrg Component=========",
   "Create Organization": "צור ארגון",
@@ -53,8 +56,6 @@
   "Banner Image": "באנר",
   "Language": "שפה",
   "Sector": "מגזר",
-  "Save": "שמירה",
-  "Cancel": "ביטול",
   "Logo Update": "עדכון לוגו",
   "Banner Update": "עדכון באנר",
 
@@ -76,8 +77,16 @@
   "Invites waiting to be sent": "הזמנות הממתינות להישלח",
   "Send Table invitations": "שליחת ההזמנות מהטבלה",
   "Read From File": "קריאה מקובץ",
+  "User successfully removed from org": "הסרת משתמש הושלמה בהצלחה",
+  "User removal failed": "הסרת משתמש נכשלה",
+  "User updated failed": "עדכון נתוני משתמש נכשל",
   "": "",
-  "": "",
+
+  "org-join component": "========= Org Join Component =========",
+  "TXT_org_join_message": "לחיצה על הצטרפות לבקשת חברות בארגון",
+  "TXT_org_join_pending": "בקשת ההצטרפות ממתינה לאישור. לאחר קבלת האישור יבוצע ניתוב אוטומטי לדף הבית",
+  "TXT_org_invited_join": "תהליך הצטרפות. בעוד מספר שניות יבוצע מעבר אוטומטי לדף הבית",
+  "Join": "הצטרפות",
 
   "Org Editor DocAck management": "========= Org Editor DocAck management=========",
   "Docs Read & Acknowledge Management": "ניהול קרא וחתום",

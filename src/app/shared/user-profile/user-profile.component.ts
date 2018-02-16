@@ -1,12 +1,13 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 import {AuthService} from '../../core/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {LanguageService} from '../../core/language.service';
 import {CropperSettings} from 'ng2-img-cropper';
 import {ImageService} from '../../core/image.service';
+import {ToasterService} from "../../core/toaster.service";
 
 
 @Component({
@@ -36,10 +37,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   constructor(public fb: FormBuilder,
               public authService: AuthService,
               private imageService: ImageService,
-              private router: Router,
-              private route: ActivatedRoute,
-              private lngService: LanguageService,
-              private toastr: ToastrService) {
+              private toaster: ToasterService,
+              ) {
 
     this.cropperSettings = new CropperSettings();
     this.cropperSettings.width = 100;
@@ -97,7 +96,16 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         this.isEditEmail = false;
         this.currentAuthUser.sendEmailVerification();
       })
-      .catch(err => console.log(err));
+      .then(() => {
+        this.currentAuthUser.email = this.email;
+      })
+      .catch(err => {
+        if (err.code === 'auth/requires-recent-login') {
+          this.toaster.toastError('This operation requires recent login. Please logout and the login again');
+          this.email = this.currentAuthUser.email;
+        }
+        console.log(err.code);
+      });
   }
 
   emailUpdateCanceled() {

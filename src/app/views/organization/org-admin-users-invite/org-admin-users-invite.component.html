@@ -32,7 +32,7 @@
           <input matInput type="text" id="email" type="email"
                  formControlName="email" placeholder="{{'Email' | translate}}">
         </mat-form-field>
-        <div *ngIf="email.invalid && email.dirty" class="error-message"
+        <div *ngIf="email && email.invalid && email.dirty" class="error-message"
              [innerHTML]="'Please enter a valid email' | translate">
         </div>
       </div>
