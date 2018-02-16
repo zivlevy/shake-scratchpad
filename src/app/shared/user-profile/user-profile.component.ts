@@ -111,30 +111,12 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   emailUpdateCanceled() {
     this.email = this.currentAuthUser.email;
   }
-  updateEmail() {
-    this.authService.updateUserEmail(this.newEmail)
-      .then(() => {
-        this.isEditEmail = false;
-        this.currentAuthUser.sendEmailVerification();
-      })
-      .catch(err => console.log(err));
-  }
-
-  cancelEmailUpdate() {
-    this.isEditEmail = false;
-  }
 
   uploadSingle() {
     this.imageService.uploadUserImg(this.data.image, this.currentSkUser.uid)
       .then(() => {
         this.isEditImage = false;
       });
-  }
-
-
-  showEmailEdit() {
-    this.isEditEmail = true;
-    this.newEmail = this.currentAuthUser.email;
   }
 
   ngOnDestroy() {

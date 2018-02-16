@@ -47,7 +47,8 @@ function isAuthenticated() {
       }
 
 		//users
-			match /users/{userId} {
+			match /users/{userId=**} {
+
       	allow read: if true;
         allow write: if userId == request.auth.uid;
       }

@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../core/auth.service';
-import {ToastrService} from 'ngx-toastr';
 import {LanguageService} from '../../core/language.service';
+import {ToasterService} from '../../core/toaster.service';
 
 @Component({
   selector: 'sk-login',
@@ -24,8 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               public router: Router,
               private route: ActivatedRoute,
               private lngService: LanguageService,
-              private toastr: ToastrService) {
-
+              private toaster: ToasterService) {
   }
 
   ngOnInit() {
@@ -75,14 +74,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   login() {
-    this.auth.login(this.email.value, this.password.value).then(user => {
-      this.router.navigate([this.returnRoute ? this.returnRoute : '']);
+    this.auth.login(this.email.value, this.password.value).then(() => {
+      this.router.navigate([this.returnRoute ? this.returnRoute : ''])
+        .catch(err => console.log(err));
       window.location.reload();
     })
       .catch(err => {
-        this.toastr.error(err.message, '', {
-          timeOut: 5000,
-        });
+        this.toaster.toastError(err.message);
       });
 
   }
@@ -103,9 +101,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         };
       }      // this.router.navigate([`${this.returnRoute}/register`], {queryParams: {returnUrl: this.returnRoute}});
       const orgId = this.router.routerState.snapshot.url.match('org/(.*)/')[1];
-      this.router.navigate(['org/' + orgId + `/register`], {queryParams: queryParams});
+      this.router.navigate(['org/' + orgId + `/register`], {queryParams: queryParams})
+        .catch(err => console.log(err));
     } else {
-      this.router.navigate(['register']);
+      this.router.navigate(['register'])
+        .catch(err => console.log(err));
     }
   }
 
