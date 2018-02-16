@@ -26,6 +26,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   currentEditData: SkDocData;
   docVersiontitle: string = '';
   isNumbering: boolean = true;
+  signatureRequired = false;
   rtl: boolean = false;
 
   constructor(private route: ActivatedRoute,
@@ -68,6 +69,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
         this.orgDocService.isSignatureRequired$(this.currentOrg, this.currentSkUser.uid, this.currentDocId)
           .takeUntil(this.destroy$)
           .subscribe(sigRequired => {
+            this.signatureRequired = sigRequired;
             console.log(sigRequired);
           });
         console.log(this.currentOrg, this.currentOrgUser, this.currentDocId, this.currentSkUser.uid);
