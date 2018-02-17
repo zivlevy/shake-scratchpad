@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {OrgService} from '../org.service';
 import {Subject} from 'rxjs/Subject';
 import {ToastrService} from 'ngx-toastr';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material';
 import {FileService} from '../../../core/file.service';
 
@@ -132,15 +132,27 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
   manualSend() {
     const invite = new InviteRecord(this.displayName, this.email, this.isAdmin, this.isEditor, this.isViewer);
     this.initNewInvite();
+
     this.sendInvite(invite)
       .then(() => {
         this.toastr.success('Invitation Sent', '', {
           timeOut: 2000
         });
         this.initInvites();
+        // Added by ziv to workaround reset bug
+        // TODO - set to this.inviteForm.reset() once the bug is fixed by google
+        this.resetForm(this.inviteForm);
       });
   }
-
+   resetForm(formGroup: FormGroup) {
+    let control: AbstractControl = null;
+    formGroup.reset();
+    formGroup.markAsUntouched();
+    Object.keys(formGroup.controls).forEach((name) => {
+      control = formGroup.controls[name];
+      control.setErrors(null);
+    });
+  }
   tableInvitesSend() {
     const sendInvitesP: Array<any> = new Array<any>();
     for (const invite of this.invites) {
