@@ -115,15 +115,6 @@
             <mat-cell *matCellDef="let element"> {{element.signedAt | date}} </mat-cell>
           </ng-container>
 
-          <ng-container matColumnDef="Debug">
-            <mat-header-cell *matHeaderCellDef> Debug</mat-header-cell>
-            <mat-cell  *matCellDef="let element">
-              <button mat-button="" color="primary"
-                      (click)="sign(element.id)">
-                sign</button>
-            </mat-cell>
-          </ng-container>
-
           <mat-header-row *matHeaderRowDef="orgUsersDocAckDisplayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: orgUsersDocAckDisplayedColumns;"></mat-row>
         </mat-table>

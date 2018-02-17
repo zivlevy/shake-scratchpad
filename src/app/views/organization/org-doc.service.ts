@@ -4,6 +4,8 @@ import {FirestoreService} from '../../core/firestore.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/count';
 import {AuthService} from '../../core/auth.service';
+import {promise} from "selenium-webdriver";
+import rejected = promise.rejected;
 
 @Injectable()
 export class OrgDocService {
@@ -68,16 +70,25 @@ export class OrgDocService {
     return this.afs.collection(`org/${orgId}/users/${uid}/docsAcks`).valueChanges()
       .switchMap(docsAcks => {
         let required = false;
-        console.log(docsAcks);
-        console.log(docId);
         docsAcks.forEach((docAck: any) => {
-          console.log(docAck);
           if (docAck.docId === docId && !docAck.hasSigned) {
             required = true;
           }
         });
         return Observable.of(required);
       });
+  }
+
+  userDocAckSign(orgId: string, uid: string, docId: string): Promise<any> {
+    const timestamp = this.firestoreService.timestamp;
+    return this.firestoreService.upsert(`org/${orgId}/userSignatures/${uid}/docs/${docId}`, {
+      hasSigned: true,
+      signedAt: timestamp
+    });
+    // const updateDocsAcksField = this.updateDocsAcksFieldP(orgId, docAckId, 'actualSignatures', 'inc');
+    //
+    // return Promise.all([updateOrUserHasSigned, updateDocsAcksField])
+    //   .catch(err => console.log(err));
   }
 
   getOrgPublishedDocs$(orgId): Observable<any> {
@@ -116,17 +127,6 @@ export class OrgDocService {
       .catch(err => console.log(err));
   }
 
-  userDocAckSign(orgId: string, docAckId: string, uid: string): Promise<any> {
-    const timestamp = this.firestoreService.timestamp;
-    const updateOrUserHasSigned = this.firestoreService.upsert(`org/${orgId}/users/${uid}/docsAcks/${docAckId}`, {
-      hasSigned: true,
-      signedAt: timestamp
-    });
-    const updateDocsAcksField = this.updateDocsAcksFieldP(orgId, docAckId, 'actualSignatures', 'inc');
-
-    return Promise.all([updateOrUserHasSigned, updateDocsAcksField])
-      .catch(err => console.log(err));
-  }
 
   getOrgDocAck$(orgId: string, docAckId: string): Observable<any> {
     return this.afs.doc(`org/${orgId}/docsAcks/${docAckId}`).valueChanges();

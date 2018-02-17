@@ -36,7 +36,7 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
   docAckRequiredSignatures: number;
   docAckActualSignatures: number;
 
-  orgUsersDocAckDisplayedColumns = [ 'isRequired', 'photo', 'displayName', 'hasSigned', 'signedAt', 'Debug'];
+  orgUsersDocAckDisplayedColumns = [ 'isRequired', 'photo', 'displayName', 'hasSigned', 'signedAt'];
   orgUsersDocAckSource = new MatTableDataSource<UserDocAck>();
 
   constructor(private route: ActivatedRoute,
@@ -197,7 +197,4 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  sign(uid) {
-    this.orgDocService.userDocAckSign(this.orgId, this.docAckId, uid);
-  }
 }
