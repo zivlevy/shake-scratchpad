@@ -144,6 +144,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
         this.resetForm(this.inviteForm);
       });
   }
+
    resetForm(formGroup: FormGroup) {
     let control: AbstractControl = null;
     formGroup.reset();
@@ -153,6 +154,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
       control.setErrors(null);
     });
   }
+
   tableInvitesSend() {
     const sendInvitesP: Array<any> = new Array<any>();
     for (const invite of this.invites) {
