@@ -80,6 +80,11 @@ function isAuthenticated() {
               allow write: if getRole('editor') ;
           }
 
+          match /userSignatures/{signature=**}{
+          		allow read: if getRole('admin') || getRole('editor') || getRole('viewer');
+              allow write: if getRole('admin') || getRole('editor') || getRole('viewer');
+          }
+
           match /users/{user=**} {
           		allow read : if true;
               allow write : if  isOrgExists(orgId)

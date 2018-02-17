@@ -103,6 +103,10 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
     this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, this.currentDocType, this.currentDocVersion]);
   }
 
+  signDocument() {
+    this.orgDocService.userDocAckSign(this.currentOrg, this.currentSkUser.uid, this.currentDocId)
+      .catch(err => console.log(err));
+  }
 
   ngOnDestroy() {
     // force unsubscribe
