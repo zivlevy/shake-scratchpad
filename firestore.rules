@@ -58,6 +58,14 @@ function isAuthenticated() {
         allow write: if userId == request.auth.uid;
       }
 
+			match /users {
+      	match /{userId} {
+        	match /orgs/{org=**} {
+          allow write: if userId == request.auth.uid;
+          }
+        }
+      }
+
     // ORG
     match /org {
 

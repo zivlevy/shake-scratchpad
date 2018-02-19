@@ -4,7 +4,7 @@
   <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
 
     <!-- Signature Required -->
-    <button *ngIf="signatureRequired" mat-button class="rightside-buttons mat-icon-button" (click)="signDocument()">
+    <button *ngIf="docAckId" mat-button class="rightside-buttons mat-icon-button" (click)="signDocument()">
       <mat-icon>fingerprint</mat-icon>
     </button>
 

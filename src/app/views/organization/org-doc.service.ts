@@ -4,7 +4,7 @@ import {FirestoreService} from '../../core/firestore.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/count';
 import {AuthService} from '../../core/auth.service';
-import {promise} from "selenium-webdriver";
+import {promise} from 'selenium-webdriver';
 import rejected = promise.rejected;
 
 @Injectable()
@@ -67,28 +67,28 @@ export class OrgDocService {
   }
 
   isSignatureRequired$(orgId: string, uid: string, docId: string) {
-    return this.afs.collection(`org/${orgId}/users/${uid}/docsAcks`).valueChanges()
+
+
+    return this.firestoreService.colWithIds$(`org/${orgId}/users/${uid}/docsAcks`)
       .switchMap(docsAcks => {
-        let required = false;
+        let docAckId = null;
         docsAcks.forEach((docAck: any) => {
           if (docAck.docId === docId && !docAck.hasSigned) {
-            required = true;
+            docAckId = docAck.id;
           }
         });
-        return Observable.of(required);
+        return Observable.of(docAckId);
       });
   }
 
-  userDocAckSign(orgId: string, uid: string, docId: string): Promise<any> {
+  userDocAckSign(orgId: string, uid: string, docAckId: string): Promise<any> {
     const timestamp = this.firestoreService.timestamp;
-    return this.firestoreService.upsert(`org/${orgId}/userSignatures/${uid}/docs/${docId}`, {
+    return this.firestoreService.upsert(`org/${orgId}/userSignatures/${uid}`, {
       hasSigned: true,
-      signedAt: timestamp
+      signedAt: timestamp,
+      docAckId: docAckId
     });
-    // const updateDocsAcksField = this.updateDocsAcksFieldP(orgId, docAckId, 'actualSignatures', 'inc');
-    //
-    // return Promise.all([updateOrUserHasSigned, updateDocsAcksField])
-    //   .catch(err => console.log(err));
+
   }
 
   getOrgPublishedDocs$(orgId): Observable<any> {
