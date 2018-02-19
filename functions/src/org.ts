@@ -206,3 +206,42 @@ export const onOrgInviteCreate = functions.firestore.document('org/{orgId}/invit
     .catch(err => console.log(err));
 });
 
+export const onOrgUserDocSignCreate = functions.firestore.document(`org/{orgId}/userSignatures/{uid}`).onCreate(event => {
+  const uid = event.params.uid;
+  const orgId = event.params.orgId;
+  const docAckId = event.data.data().docAckId;
+  const signedAt = event.data.data().signedAt;
+
+  const db = admin.firestore();
+
+  const getOrgDocAck = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId).get();
+
+  return getOrgDocAck
+    .then((docAck: any) => {
+      const newActualSignatures = docAck.data().actualSignatures + 1;
+      console.log(docAck);
+      console.log(newActualSignatures);
+      const updateOrgDocAck = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId).update({
+        actualSignatures: newActualSignatures
+      })
+      const setOrgDocAckUser = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId).collection('users').doc(uid).update({
+        hasSigned: true,
+        signedAt: signedAt
+      });
+
+      const setOrgUserDocAck = db.collection('org').doc(orgId).collection('users').doc(uid).collection('docsAcks').doc(docAckId).update({
+        hasSigned: true,
+        signedAt: signedAt
+      });
+
+      const deleteTempSignature = db.collection('org').doc(orgId).collection('userSignatures').doc(uid).delete();
+
+
+      return Promise.all([updateOrgDocAck, setOrgDocAckUser, setOrgUserDocAck, deleteTempSignature])
+        .catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
+
+
+})
+

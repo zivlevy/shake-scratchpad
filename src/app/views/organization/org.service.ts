@@ -280,7 +280,7 @@ export class OrgService {
       document.valueChanges()
         .take(1)
         .subscribe(res => {
-          resolve(res.orgName);
+          resolve(res ? res.orgName : null);
         });
     });
   }

@@ -26,8 +26,9 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   currentEditData: SkDocData;
   docVersiontitle: string = '';
   isNumbering: boolean = true;
-  signatureRequired = false;
   rtl: boolean = false;
+
+  docAckId: string = null;
 
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
@@ -68,9 +69,9 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
       .switchMap( (doc: SkDoc) => {
         this.orgDocService.isSignatureRequired$(this.currentOrg, this.currentSkUser.uid, this.currentDocId)
           .takeUntil(this.destroy$)
-          .subscribe(sigRequired => {
-            this.signatureRequired = sigRequired;
-            console.log(sigRequired);
+          .subscribe(reqDocAckId => {
+            this.docAckId = reqDocAckId;
+            console.log(reqDocAckId);
           });
         console.log(this.currentOrg, this.currentOrgUser, this.currentDocId, this.currentSkUser.uid);
         this.currentDoc = doc;
@@ -104,7 +105,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   }
 
   signDocument() {
-    this.orgDocService.userDocAckSign(this.currentOrg, this.currentSkUser.uid, this.currentDocId)
+    this.orgDocService.userDocAckSign(this.currentOrg, this.currentSkUser.uid, this.docAckId)
       .catch(err => console.log(err));
   }
 
