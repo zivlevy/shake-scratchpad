@@ -70,7 +70,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
     return this.newOrgForm.get('orgName');
   }
 
-  languageChanged(language: string) {
+  languageChanged(language) {
     this.language = language;
     this.updateSectors(language);
   }
