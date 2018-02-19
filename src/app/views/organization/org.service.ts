@@ -712,7 +712,10 @@ export class OrgService {
           return tree;
         } else {
           const publicTree = [];
-          tree.forEach(treeNode => publicTree.push(this.makePublishTree(treeNode)));
+          tree.forEach(treeNode => {
+            const node = this.makePublishTree(treeNode);
+            if (node) { publicTree.push( node ); }
+          });
           return publicTree;
         }
       });
@@ -732,7 +735,7 @@ export class OrgService {
     } else {
       if (treeNode.isDoc && treeNode.isPublish) {
         return treeNode;
-      }
+      } else { return null; }
     }
   }
 
