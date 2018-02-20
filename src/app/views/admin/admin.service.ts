@@ -3,13 +3,15 @@ import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} 
 import {AuthService} from '../../core/auth.service';
 import {Observable} from 'rxjs/Observable';
 import {FirestoreService} from '../../core/firestore.service';
+import {ImageService} from '../../core/image.service';
 
 @Injectable()
 export class AdminService {
 
   constructor(private authService: AuthService,
               private firestoreService: FirestoreService,
-              private afs: AngularFirestore) { }
+              private afs: AngularFirestore,
+              private imageService: ImageService) { }
 
   getOrgs$(): Observable<any> {
 
@@ -38,7 +40,13 @@ export class AdminService {
         res => console.log(res),
         err => console.log(err),
         () => {
-          this.afs.collection('org').doc(orgId).delete()
+          const orgDelete = this.afs.collection('org').doc(orgId).delete();
+          const logoDelete = this.imageService.deleteOrgLogoP(orgId);
+          const bannerDelete = this.imageService.deleteOrgBannerP(orgId);
+            // const userOrgRef = this.afs.collection('users').doc(uid).collection('orgs').doc(orgId);
+
+
+          return Promise.all([orgDelete, logoDelete, bannerDelete])
             .catch(err => console.log(err));
         }
       );
