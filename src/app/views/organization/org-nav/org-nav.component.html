@@ -1,6 +1,9 @@
 <mat-toolbar color="primary" skSetDirection>
 
-  <button mat-button class="navbar-brand" [routerLink]="org.orgHome"><img class="orgLogo"  [src]="org.logoUrl"> {{org.orgName}} </button>
+  <button mat-button class="navbar-brand" [routerLink]="org.orgHome">
+    <img class="orgLogo"  [src]="org.logoUrl">
+    <span fxShow.xs="false"> {{org.orgName}} </span>
+  </button>
 
   <span class="fill-remaining-space"></span>
 

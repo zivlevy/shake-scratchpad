@@ -155,6 +155,12 @@ export class TreeDocComponent implements OnInit, OnChanges {
       toolbarInline: true,
       toolbarVisibleWithoutSelection: true,
       disableRightClick: true,
+      tableStyles: {
+        'solid-lines': 'Solid Lines'
+      },
+      tableCellStyles: {
+        'solid-lines': 'Solid Lines'
+      },
       direction: this.isRTL ? 'rtl' : 'ltr',
       toolbarButtons: ['bold', 'italic', 'underline',  'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
         'insertLink', 'insertTable', 'undo', 'redo'],

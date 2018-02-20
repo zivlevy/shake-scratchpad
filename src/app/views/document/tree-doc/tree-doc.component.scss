@@ -127,4 +127,12 @@
   width: 100%;
 }
 
+//::ng-deep .fr-dashed-borders {
+//  border: 1px solid black;
+//
+//}
+
+::ng-deep .solid-lines {
+  border: 1px solid black;
+}
 

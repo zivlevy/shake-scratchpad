@@ -1,3 +1,5 @@
 todo:
 
+For Ziv:
+1. An editor creates a doc and saves it. Then he publishs. Drags the published doc somewhere in the tree. The edit doc remains in the original place.
 
