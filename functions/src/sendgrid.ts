@@ -23,7 +23,7 @@ export const sendOrgInvite = function(orgId, orgPublicData, inviteEmail, inviteD
     substitutions: {
       userName: inviteData.displayName,
       orgName: orgPublicData.orgName,
-      inviteLink: 'shake.network/org/' +  orgId + '/org-join?name=' + inviteData.displayName + '&mail=' + inviteEmail,
+      inviteLink: 'http://shake.network/org/' +  orgId + '/org-join?name=' + inviteData.displayName + '&mail=' + inviteEmail,
     }
   };
 

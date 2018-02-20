@@ -9,13 +9,7 @@
 
   <form [formGroup]="inviteForm" (ngSubmit)="manualSend()">
 
-    <div>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!inviteForm.valid"
-              [innerHTML]="'Send this invite' | translate"></button>
-      <button *ngIf="advanced" mat-raised-button color="primary"  [disabled]="!inviteForm.valid" (click)="addInviteToTable()"
-              [innerHTML]="'Add invite to list' | translate"></button>
 
-    </div>
     <small><mat-checkbox formControlName="advanced">{{'Advanced' | translate}}</mat-checkbox></small>
 
     <div class="form-body">
@@ -37,8 +31,6 @@
         </div>
       </div>
 
-
-
       <div>
         <mat-checkbox id="isAdmin" formControlName="isAdmin">{{'Admin' | translate}}</mat-checkbox>
       </div>
@@ -50,7 +42,13 @@
       </div>
     </div>
 
+    <div>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!inviteForm.valid"
+              [innerHTML]="'Send this invite' | translate"></button>
+      <button *ngIf="advanced" mat-raised-button color="primary"  [disabled]="!inviteForm.valid" (click)="addInviteToTable()"
+              [innerHTML]="'Add invite to list' | translate"></button>
 
+    </div>
 
   </form>
 

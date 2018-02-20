@@ -74,11 +74,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       });
   }
 
-  updateDisplayName() {
-    this.authService.updateUserProfile( this.currentAuthUser.uid, this.newDisplayName, null)
-      .then(user => console.log(user))
-      .catch();
-  }
 
   displayNameUpdateClicked() {
     this.authService.updateUserProfile( this.currentAuthUser.uid, this.displayName, null)

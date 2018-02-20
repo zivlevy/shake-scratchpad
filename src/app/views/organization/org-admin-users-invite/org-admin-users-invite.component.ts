@@ -142,6 +142,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
         // Added by ziv to workaround reset bug
         // TODO - set to this.inviteForm.reset() once the bug is fixed by google
         this.resetForm(this.inviteForm);
+        this.inviteForm.controls['isViewer'].setValue(true);
       });
   }
 

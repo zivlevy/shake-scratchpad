@@ -81,11 +81,24 @@ export class AuthService {
     }
 
     updateUserProfile(uid, displayName, photoURL): Promise<any> | null {
-      if (this.currentSkUser) {
-        displayName = displayName ? displayName : this.currentSkUser.displayName;
-        photoURL = photoURL ? photoURL : this.currentSkUser.photoURL;
+      if (displayName && photoURL) {
+        return this.afs.doc(`users/${uid}`).update({displayName, photoURL});
       }
-      return this.afs.doc(`users/${uid}`).update({displayName, photoURL});
+
+      if (displayName) {
+        return this.afs.doc(`users/${uid}`).update({displayName});
+      }
+
+      if (photoURL) {
+        return this.afs.doc(`users/${uid}`).update({photoURL});
+      }
+
+      return Promise.resolve();
+      // if (this.currentSkUser) {
+      //   displayName = displayName ? displayName : this.currentSkUser.displayName;
+      //   photoURL = photoURL ? photoURL : this.currentSkUser.photoURL;
+      // }
+      // return this.afs.doc(`users/${uid}`).update({displayName, photoURL});
     }
 
     updateUserEmail(newEmail: string): Promise<any> {
