@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {Org} from '../../../model/org';
 import {ImageService} from "../../../core/image.service";
 import {MatDialog, MatTableDataSource} from "@angular/material";
-import {DeleteApproveComponent} from "../../../shared/delete-approve/delete-approve.component";
+import {DeleteApproveComponent} from "../../../shared/dialogs/delete-approve/delete-approve.component";
 import {AdminService} from "../admin.service";
 
 @Component({
@@ -51,11 +51,12 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
   deleteClicked(orgId) {
     const dialogRef = this.dialog.open(DeleteApproveComponent, {
       data: {
+        'msg': 'Delete Organization',
         'orgId': orgId,
         'verifyPhrase': orgId
       },
-      height: '400px',
-      width: '600px',
+      // height: '400px',
+      // width: '600px',
     });
 
     dialogRef.afterClosed()

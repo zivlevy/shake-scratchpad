@@ -1,0 +1,29 @@
+<div [ngStyle]="{'direction': direction}">
+
+  <div mat-dialog-title >
+    {{confirmMessage | translate}}
+    <br>
+    <span class="orgId" >{{ data.orgId }}</span>
+  </div>
+
+    <div mat-dialog-content>
+      <div class="alert alert-warning">
+        <i class="fa fa-warning"></i> This operation cannot be undone
+      </div>
+      <form >
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Please confirm by typing the orgId (in red above)" #verifyText>
+        </mat-form-field>
+      </form>
+    </div>
+
+  <div class="wrapper">
+    <div mat-dialog-actions class="pt-24" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="30px">
+      <button mat-raised-button class="mat-accent mr-16"
+              [disabled]="verifyText.value !== data.verifyPhrase"
+              (click)="dialogRef.close(true)" [innerHTML]="'Delete' | translate">
+      </button>
+      <button mat-button (click)="dialogRef.close(false)" [innerHTML]="'Cancel' | translate"></button>
+    </div>
+  </div>
+</div>

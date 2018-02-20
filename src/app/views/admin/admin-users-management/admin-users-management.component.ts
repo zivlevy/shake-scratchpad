@@ -4,7 +4,7 @@ import {AuthService} from '../../../core/auth.service';
 import {ToastrService} from 'ngx-toastr';
 import {OrgService} from '../../organization/org.service';
 import {Subject} from 'rxjs/Subject';
-import {DeleteApproveComponent} from "../../../shared/delete-approve/delete-approve.component";
+import {DeleteApproveComponent} from "../../../shared/dialogs/delete-approve/delete-approve.component";
 
 export interface User {
   id: string;
