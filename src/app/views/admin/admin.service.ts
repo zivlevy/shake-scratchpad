@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
-import {Router} from '@angular/router';
-import {AngularFireAuth} from 'angularfire2/auth';
 import {AuthService} from '../../core/auth.service';
 import {Observable} from 'rxjs/Observable';
+import {FirestoreService} from '../../core/firestore.service';
 
 @Injectable()
 export class AdminService {
 
   constructor(private authService: AuthService,
-              private afs: AngularFirestore,
-              private  afAuth: AngularFireAuth,
-              private router: Router) { }
+              private firestoreService: FirestoreService,
+              private afs: AngularFirestore) { }
 
   getOrgs$(): Observable<any> {
 
@@ -26,4 +24,24 @@ export class AdminService {
           }));
       });
   }
+
+  deleteOrg(orgId: string) {
+    const publicData = this.firestoreService.deleteCollection(`org/${orgId}/publicData`, 5);
+    const docs = this.firestoreService.deleteCollection(`org/${orgId}/docs`, 5);
+    const docAcks = this.firestoreService.deleteCollection(`org/${orgId}/docsAcks`, 5);
+    const users = this.firestoreService.deleteCollection(`org/${orgId}/users`, 5);
+    const invites = this.firestoreService.deleteCollection(`org/${orgId}/invites`, 5);
+    const userSignatures = this.firestoreService.deleteCollection(`org/${orgId}/userSignatures`, 5);
+
+    Observable.merge(publicData, docs, docAcks, users, invites, userSignatures)
+      .subscribe(
+        res => console.log(res),
+        err => console.log(err),
+        () => {
+          this.afs.collection('org').doc(orgId).delete()
+            .catch(err => console.log(err));
+        }
+      );
+  }
+
 }

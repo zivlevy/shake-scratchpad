@@ -156,37 +156,37 @@ export class OrgService {
       }));
   }
 
-  getAllOrgUsers$(orgId: string) {
-    return this.firestoreService.colWithIds$(`org/${orgId}/users`)
-      .switchMap(data => {
-        return Observable.of({'type': 'user', 'data': data});
-      })
-      .take(1);
-  }
+  // getAllOrgUsers$(orgId: string) {
+  //   return this.firestoreService.colWithIds$(`org/${orgId}/users`)
+  //     .switchMap(data => {
+  //       return Observable.of({'type': 'user', 'data': data});
+  //     })
+  //     .take(1);
+  // }
+  //
 
+  // deleteUserOrgRefP(orgId: string, uid: string) {
+  //   const userOrgRef = this.afs.collection('users').doc(uid).collection('orgs').doc(orgId);
+  //   return userOrgRef.delete();
+  // }
+  //
+  // deleteOrgUsersP(orgId: string) {
+  //   return new Promise((resolve, reject) => {
+  //     this.firestoreService.deleteCollection(`org/${orgId}/users`, 5)
+  //       .subscribe(
+  //         res => console.log(res),
+  //         err => reject(err),
+  //         () => resolve());
+  //   });
+  // }
 
-  deleteUserOrgRefP(orgId: string, uid: string) {
-    const userOrgRef = this.afs.collection('users').doc(uid).collection('orgs').doc(orgId);
-    return userOrgRef.delete();
-  }
-
-  deleteOrgUsersP(orgId: string) {
-    return new Promise((resolve, reject) => {
-      this.firestoreService.deleteCollection(`org/${orgId}/users`, 5)
-        .subscribe(
-          res => console.log(res),
-          err => reject(err),
-          () => resolve());
-    });
-  }
-
-  getAllOrgInvites$(orgId: string) {
-    return this.firestoreService.colWithIds$(`org/${orgId}/invites`)
-      .switchMap(data => {
-        return Observable.of({'type': 'invite', 'data': data});
-      })
-      .take(1);
-  }
+  // getAllOrgInvites$(orgId: string) {
+  //   return this.firestoreService.colWithIds$(`org/${orgId}/invites`)
+  //     .switchMap(data => {
+  //       return Observable.of({'type': 'invite', 'data': data});
+  //     })
+  //     .take(1);
+  // }
 
   getOrgUserInvite$(orgId: string, email: string) {
     return this.afs.collection('org').doc(orgId).collection('invites').doc(email).valueChanges();
@@ -300,91 +300,91 @@ export class OrgService {
     });
   }
 
-  deleteOrgPublicDataP(orgId) {
-    const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
-    return document.delete();
-  }
+  // deleteOrgPublicDataP(orgId) {
+  //   const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
+  //   return document.delete();
+  // }
+  //
+  // getOrgDocs$(orgId: string): Observable<any> {
+  //   const docsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${orgId}/docs`);
+  //
+  //   return docsRef.snapshotChanges()
+  //     .switchMap((result: Array<any>) => {
+  //       return Observable.forkJoin(
+  //         result.map(doc => {
+  //           const docVersionsRef: AngularFirestoreCollection<any> = this.afs.collection(`org/${orgId}/docs/${doc.payload.doc.id}/versions`);
+  //           return docVersionsRef.valueChanges();
+  //         })
+  //       );
+  //     });
+  // }
+  //
 
-  getOrgDocs$(orgId: string): Observable<any> {
-    const docsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${orgId}/docs`);
 
-    return docsRef.snapshotChanges()
-      .switchMap((result: Array<any>) => {
-        return Observable.forkJoin(
-          result.map(doc => {
-            const docVersionsRef: AngularFirestoreCollection<any> = this.afs.collection(`org/${orgId}/docs/${doc.payload.doc.id}/versions`);
-            return docVersionsRef.valueChanges();
-          })
-        );
-      });
-  }
+  // getOrgData$(orgId: string): Observable<any> {
+  //   return Observable.merge(
+  //     this.getAllOrgDocs$(orgId),
+  //     this.getAllOrgUsers$(orgId),
+  //     this.getAllOrgInvites$(orgId)
+  //   );
+  // }
 
-
-
-  getOrgData$(orgId: string): Observable<any> {
-    return Observable.merge(
-      this.getAllOrgDocs$(orgId),
-      this.getAllOrgUsers$(orgId),
-      this.getAllOrgInvites$(orgId)
-    );
-  }
-
-  deleteOrg(orgId: string) {
-    // Algolia data deletion is performed by the cloud function triggered by this org deletion
-
-    const deleteArray = new Array<Promise<any>>();
-
-    // Documents are nested deepest, so we start here
-    this.getOrgData$(orgId)
-      .subscribe(
-        (orgDataArray) => {
-
-          // set 1st deletion stage
-
-          if (orgDataArray.type === 'doc') {
-            orgDataArray.data.forEach(doc => {
-              deleteArray.push(this.deleteDocP(orgId, doc.id));
-            });
-          }
-
-          if (orgDataArray.type === 'user') {
-            orgDataArray.data.forEach(user => {
-              deleteArray.push(this.deleteUserOrgRefP(orgId, user.uid));
-            });
-          }
-
-          if (orgDataArray.type === 'invite') {
-            orgDataArray.data.forEach(invite => {
-              deleteArray.push(this.deleteUserOrgRefP(orgId, invite.id));
-            });
-          }
-        },
-
-        null,
-        () => {
-          console.log('completed');
-          deleteArray.push(this.deleteOrgPublicDataP(orgId));
-
-          deleteArray.push(this.deleteOrgUsersP(orgId));
-
-          // deleteArray.push(this.imageService.deleteOrgLogoP(orgId));
-          // deleteArray.push(this.imageService.deleteOrgBannerP(orgId));
-
-          Promise.all(deleteArray)
-            .then(() => {
-              console.log('finished 1st deletion stage');
-
-              // final stage
-
-              const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
-              return org.delete()
-                .then(() => console.log('Deletion complete'))
-                .catch((err) => console.log('2nd stage deletion problem', err));
-            })
-            .catch((err) => console.log('1st stage deletion problem', err));
-        });
-
-  }
+  // deleteOrg(orgId: string) {
+  //   // Algolia data deletion is performed by the cloud function triggered by this org deletion
+  //
+  //   const deleteArray = new Array<Promise<any>>();
+  //
+  //   // Documents are nested deepest, so we start here
+  //   this.getOrgData$(orgId)
+  //     .subscribe(
+  //       (orgDataArray) => {
+  //
+  //         // set 1st deletion stage
+  //
+  //         if (orgDataArray.type === 'doc') {
+  //           orgDataArray.data.forEach(doc => {
+  //             deleteArray.push(this.deleteDocP(orgId, doc.id));
+  //           });
+  //         }
+  //
+  //         if (orgDataArray.type === 'user') {
+  //           orgDataArray.data.forEach(user => {
+  //             deleteArray.push(this.deleteUserOrgRefP(orgId, user.uid));
+  //           });
+  //         }
+  //
+  //         if (orgDataArray.type === 'invite') {
+  //           orgDataArray.data.forEach(invite => {
+  //             deleteArray.push(this.deleteUserOrgRefP(orgId, invite.id));
+  //           });
+  //         }
+  //       },
+  //
+  //       null,
+  //       () => {
+  //         console.log('completed');
+  //         deleteArray.push(this.deleteOrgPublicDataP(orgId));
+  //
+  //         deleteArray.push(this.deleteOrgUsersP(orgId));
+  //
+  //         // deleteArray.push(this.imageService.deleteOrgLogoP(orgId));
+  //         // deleteArray.push(this.imageService.deleteOrgBannerP(orgId));
+  //
+  //         Promise.all(deleteArray)
+  //           .then(() => {
+  //             console.log('finished 1st deletion stage');
+  //
+  //             // final stage
+  //
+  //             const org: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}`);
+  //             return org.delete()
+  //               .then(() => console.log('Deletion complete'))
+  //               .catch((err) => console.log('2nd stage deletion problem', err));
+  //           })
+  //           .catch((err) => console.log('1st stage deletion problem', err));
+  //       });
+  //
+  // }
 
   /************************
    Org Admin API
@@ -414,14 +414,14 @@ export class OrgService {
         });
       });
   }
-
-  getAllOrgDocs$(orgId): Observable<any> {
-    return this.firestoreService.colWithIds$(`org/${orgId}/docs`)
-      .switchMap(data => {
-        return Observable.of({'type': 'doc', 'data': data});
-      }).take(1);
-  }
-
+  //
+  // getAllOrgDocs$(orgId): Observable<any> {
+  //   return this.firestoreService.colWithIds$(`org/${orgId}/docs`)
+  //     .switchMap(data => {
+  //       return Observable.of({'type': 'doc', 'data': data});
+  //     }).take(1);
+  // }
+  //
 
   getDoc$(docId: string): Observable<SkDoc> {
     const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);

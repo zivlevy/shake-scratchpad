@@ -2,12 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../../organization/org.service';
-import {Observable} from 'rxjs/Observable';
 import {Org} from '../../../model/org';
-import {ImageService} from "../../../core/image.service";
-import {MatDialog, MatTableDataSource} from "@angular/material";
-import {DeleteApproveComponent} from "../../../shared/dialogs/delete-approve/delete-approve.component";
-import {AdminService} from "../admin.service";
+import {MatDialog, MatTableDataSource} from '@angular/material';
+import {DeleteApproveComponent} from '../../../shared/dialogs/delete-approve/delete-approve.component';
+import {AdminService} from '../admin.service';
 
 @Component({
   selector: 'sk-admin-orgs-management',
@@ -62,7 +60,7 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed()
       .subscribe(res => {
         if (res) {
-          this.orgService.deleteOrg(orgId);
+          this.adminService.deleteOrg(orgId);
         }
       });
   }
