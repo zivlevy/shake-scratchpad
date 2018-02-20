@@ -52,4 +52,22 @@ export class AdminService {
       );
   }
 
+  deleteOrgRefs(orgId: string) {
+    return new Promise((resolve, reject) => {
+
+      const deleteArray = new Array<Promise<any>>();
+
+      this.firestoreService.colWithIds$(`org/${orgId}/users`)
+        .take(1)
+        .subscribe(users => {
+          users.forEach(user => {
+              deleteArray.push(this.afs.collection('users').doc(user.id).collection('orgs').doc(orgId).delete());
+          });
+          Promise.all(deleteArray)
+            .then(() => resolve())
+            .catch(err => reject(err));
+        });
+    });
+  }
+
 }

@@ -60,7 +60,12 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed()
       .subscribe(res => {
         if (res) {
-          this.adminService.deleteOrg(orgId);
+          this.adminService.deleteOrgRefs(orgId)
+            .then((res1) => {
+              console.log(res1);
+              this.adminService.deleteOrg(orgId);
+            })
+            .catch(err => console.log(err));
         }
       });
   }
