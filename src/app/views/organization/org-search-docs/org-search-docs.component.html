@@ -6,96 +6,105 @@
   </mat-sidenav>
 
   <mat-sidenav-content [ngClass]="{'mat-content-rtl': rtl && sideOpen, 'mat-content-ltr': !rtl && sideOpen}">
-    <!-- HEADER -->
-    <div class="header">
-      <div class="hero-text" fxLayout="row" fxLayoutAlign="start center">
-        <button mat-button class="menu-btn" fxHide.gt-sm (click)="sidenav.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <h3 [innerHTML]="'Documents' | translate"></h3>
+    <mat-tab-group>
+      <mat-tab label="{{'Messages' | translate}}">
 
-        <span class="fillsapce"></span>
+      </mat-tab>
+      <mat-tab label="{{'Search' | translate}}">
+        <!-- HEADER -->
+        <div class="header">
+          <div class="hero-text" fxLayout="row" fxLayoutAlign="start center">
+            <button mat-button class="menu-btn" fxHide.gt-sm (click)="sidenav.toggle()">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <h3 [innerHTML]="'Documents' | translate"></h3>
 
-        <button *ngIf="currentOrgUser?.roles.editor" mat-button class="rightside-buttons mat-icon-button" (click)="newDoc()">
-          <mat-icon>add_circle_outline</mat-icon>
-        </button>
+            <span class="fillsapce"></span>
 
-      </div>
+            <button *ngIf="currentOrgUser?.roles.editor" mat-button class="rightside-buttons mat-icon-button" (click)="newDoc()">
+              <mat-icon>add_circle_outline</mat-icon>
+            </button>
 
-    </div>
-    <!-- / HEADER -->
-
-    <!--CONTENT -->
-    <div class="content p-24">
-
-      <div fxLayout="column" fxLayoutAlign="end center">
-
-        <div class="filters" fxLayout="column" fxLayoutAlign="center center"
-             fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
-          <div>
-            <mat-form-field class="docs-search">
-              <input #search matInput placeholder="{{'Search for a document' | translate }}" [(ngModel)]="searchTerm">
-            </mat-form-field>
-            <mat-checkbox [(ngModel)]="docNameOnly" (change)="checkboxClick$.next()" >{{'Doc name only' | translate }}</mat-checkbox>
-          </div>
-
-          <div *ngIf="currentOrgUser?.roles.editor" fxLayout="row"  fxLayoutAlign="space-between center">
-            <mat-checkbox  class="margin-fix" [(ngModel)]="published" (change)="checkboxClick$.next()">{{'Publish' | translate }}</mat-checkbox>
-            <mat-checkbox  class="margin-fix" [(ngModel)]="edited" (change)="checkboxClick$.next()">{{'Edit' | translate }}</mat-checkbox>
-            <mat-checkbox  class="margin-fix" [(ngModel)]="version" (change)="checkboxClick$.next()">{{'Previous Versions' | translate }}</mat-checkbox>
           </div>
 
         </div>
+        <!-- / HEADER -->
 
-        <!-- Documents -->
-        <div class="documents" fxLayout="row" fxLayoutAlign="center" fxLayoutWrap>
+        <!--CONTENT -->
+        <div class="content p-24">
 
-          <div class="document" *ngFor="let doc of documents" fxFlex="100" fxFlex.gt-xs="50"
-               fxFlex.gt-sm="33">
+          <div fxLayout="column" fxLayoutAlign="end center">
 
-            <div class="document-content" fxLayout="column">
-
-              <div class="header" fxLayout="row" fxLayoutAlign="center center"
-                   [ngClass]="doc.docType + '-bg'">
+            <div class="filters" fxLayout="column" fxLayoutAlign="center center"
+                 fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+              <div>
+                <mat-form-field class="docs-search">
+                  <input #search matInput placeholder="{{'Search for a document' | translate }}" [(ngModel)]="searchTerm">
+                </mat-form-field>
+                <mat-checkbox [(ngModel)]="docNameOnly" (change)="checkboxClick$.next()" >{{'Doc name only' | translate }}</mat-checkbox>
               </div>
 
-              <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex>
-                <div class="h1">{{doc.name}}</div>
-                <div class="updated">Version {{doc.version}}</div>
+              <div *ngIf="currentOrgUser?.roles.editor" fxLayout="row"  fxLayoutAlign="space-between center">
+                <mat-checkbox  class="margin-fix" [(ngModel)]="published" (change)="checkboxClick$.next()">{{'Publish' | translate }}</mat-checkbox>
+                <mat-checkbox  class="margin-fix" [(ngModel)]="edited" (change)="checkboxClick$.next()">{{'Edit' | translate }}</mat-checkbox>
+                <mat-checkbox  class="margin-fix" [(ngModel)]="version" (change)="checkboxClick$.next()">{{'Previous Versions' | translate }}</mat-checkbox>
               </div>
 
-              <div class="footer" fxLayout="row" fxLayoutAlign="space-evenly center">
+            </div>
 
-                <button *ngIf="currentOrgUser.roles.editor"  mat-button class="mat-icon-button" color="primary" (click)="editDoc(doc.docId, doc.docType, doc.version)">
-                  <mat-icon>edit</mat-icon>
-                </button>
+            <!-- Documents -->
+            <div class="documents" fxLayout="row" fxLayoutAlign="center" fxLayoutWrap>
 
-                <button fxFlexAlign="center" mat-button class="mat-icon-button" color="primary" (click)="openDoc(doc.docId, doc.docType, doc.version)">
-                  <mat-icon>pageview</mat-icon>
-                </button>
+              <div class="document" *ngFor="let doc of documents" fxFlex="100" fxFlex.gt-xs="50"
+                   fxFlex.gt-sm="33">
 
-                <button *ngIf="currentOrgUser.roles.editor && doc.docType === 'v'" mat-button class="mat-icon-button" color="accent" (click)="deleteDocVersion(doc.docId, doc.docType, doc.version)">
-                  <mat-icon>delete</mat-icon>
-                </button>
+                <div class="document-content" fxLayout="column">
 
+                  <div class="header" fxLayout="row" fxLayoutAlign="center center"
+                       [ngClass]="doc.docType + '-bg'">
+                  </div>
+
+                  <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex>
+                    <div class="h1">{{doc.name}}</div>
+                    <div class="updated">Version {{doc.version}}</div>
+                  </div>
+
+                  <div class="footer" fxLayout="row" fxLayoutAlign="space-evenly center">
+
+                    <button *ngIf="currentOrgUser.roles.editor"  mat-button class="mat-icon-button" color="primary" (click)="editDoc(doc.docId, doc.docType, doc.version)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button fxFlexAlign="center" mat-button class="mat-icon-button" color="primary" (click)="openDoc(doc.docId, doc.docType, doc.version)">
+                      <mat-icon>pageview</mat-icon>
+                    </button>
+
+                    <button *ngIf="currentOrgUser.roles.editor && doc.docType === 'v'" mat-button class="mat-icon-button" color="accent" (click)="deleteDocVersion(doc.docId, doc.docType, doc.version)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="no-documents" *ngIf="documents?.length === 0 && searchTerm !== ''">
+                No document found!
+              </div>
+              <div class="no-documents" *ngIf="documents?.length === 0 && searchTerm === ''">
+                Insert search term
               </div>
 
             </div>
 
           </div>
 
-          <div class="no-documents" *ngIf="documents?.length === 0 && searchTerm !== ''">
-            No document found!
-          </div>
-          <div class="no-documents" *ngIf="documents?.length === 0 && searchTerm === ''">
-            Insert search term
-          </div>
-
         </div>
+      </mat-tab>
 
-      </div>
+    </mat-tab-group>
 
-    </div>
     <!--/ CONTENT -->
   </mat-sidenav-content>
 </mat-sidenav-container>
