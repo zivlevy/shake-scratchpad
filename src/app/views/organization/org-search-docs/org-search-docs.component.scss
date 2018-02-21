@@ -205,3 +205,19 @@
 .margin-fix {
   margin: 0 10px;
 }
+
+.add-doc-button-rtl{
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 0;
+  z-index: 99;
+}
+
+.add-doc-button{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 0;
+  z-index: 99;
+}
