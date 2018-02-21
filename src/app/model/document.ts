@@ -19,7 +19,7 @@ export interface  SkDocData {
 export class SkDoc {
   uid?: string ;
   name?: string ;
-  version?: number
+  version?: number;
   language?: string ;
   isPublish?: boolean;
   isPublic?: boolean;

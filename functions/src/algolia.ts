@@ -53,4 +53,4 @@ export const algoliaGetSearchKey = function (orgId) {
 
 export const algoliaOrgDelete = function (orgId) {
   return client.deleteIndex(orgId);
-}
+};

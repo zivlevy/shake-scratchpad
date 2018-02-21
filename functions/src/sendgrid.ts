@@ -42,6 +42,6 @@ export const sendOrgInvite = function(orgId, orgPublicData, inviteEmail, inviteD
 
   return sgMail.send(msg)
     .catch(err => console.log(err));
-}
+};
 
 

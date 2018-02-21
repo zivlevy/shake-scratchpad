@@ -21,7 +21,6 @@ export class HomeContentComponent implements OnInit {
     this.authService.getUser$()
       .takeUntil(this.destroy$)
       .subscribe(authUser => {
-        console.log(authUser)
         this.currentUser = authUser;
       });
   }

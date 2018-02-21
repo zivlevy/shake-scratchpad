@@ -7,7 +7,7 @@ export const deleteUser = functions
     const uid = event.data.uid;
     const db = admin.firestore();
 
-    const userRef = db.collection('users').doc(uid)
+    const userRef = db.collection('users').doc(uid);
     userRef.delete();
     return 0;
   });
@@ -67,6 +67,6 @@ export const userAddOrg = functions.firestore.document(`users/{uid}/orgs/{orgId}
 
 
     })
-})
+});
 
 
