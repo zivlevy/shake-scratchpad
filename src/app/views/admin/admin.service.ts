@@ -43,8 +43,6 @@ export class AdminService {
           const orgDelete = this.afs.collection('org').doc(orgId).delete();
           const logoDelete = this.imageService.deleteOrgLogoP(orgId);
           const bannerDelete = this.imageService.deleteOrgBannerP(orgId);
-            // const userOrgRef = this.afs.collection('users').doc(uid).collection('orgs').doc(orgId);
-
 
           return Promise.all([orgDelete, logoDelete, bannerDelete])
             .catch(err => console.log(err));

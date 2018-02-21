@@ -6,9 +6,9 @@ import {AuthService} from '../../../core/auth.service';
 import {HomeService} from '../home.service';
 import {LanguageService} from '../../../core/language.service';
 import {NgxSpinnerService} from 'ngx-spinner';
-import {DataPackageService} from "../../../core/data-package.service";
-import {ImageService} from "../../../core/image.service";
-import {OrgService} from "../../organization/org.service";
+import {DataPackageService} from '../../../core/data-package.service';
+import {ImageService} from '../../../core/image.service';
+import {OrgService} from '../../organization/org.service';
 
 @Component({
   selector: 'sk-add-org',
@@ -81,7 +81,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   }
 
   updateSectors(language: string) {
-    this.sectors = new Array<string>();
+    this.sectors = [];
     this.homeService.getLanguageSectors$(language)
       .take(1)
       .subscribe(sectorsList => {
@@ -114,7 +114,8 @@ export class AddOrgComponent implements OnInit, OnDestroy {
                 .then(() => {
                   this.spinner.hide();
                   this.isWaiting = false;
-                  this.router.navigate([`org/${this.orgId.value}`]);
+                  this.router.navigate([`org/${this.orgId.value}`])
+                    .catch(err => console.log(err));
                 })
                 .catch(err => console.log(err));
             }
@@ -142,7 +143,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
       });
   }
 
-  validateOrgId(c: FormControl) {
+  validateOrgId() {
     return this.orgIdAvailable ? null : {err: true};
   }
 
