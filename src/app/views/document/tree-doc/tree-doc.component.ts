@@ -153,7 +153,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
       charCounterCount: false,
       initOnClick: true,
       toolbarInline: true,
-      toolbarVisibleWithoutSelection: true,
+      toolbarVisibleWithoutSelection: false,
       disableRightClick: true,
       tableStyles: {
         'solid-lines': 'Solid Lines'
@@ -266,6 +266,8 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
     // Remove &nbsp;
     str = str.replace(/\&nbsp;/g, '');
+    str = str.replace(/\&quot;/g, '');
+    str = str.replace(/\&ndash;/g, '');
 
     return str;
   }

@@ -75,8 +75,13 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
             if (to.parent.children) {
               const itemInParent = to.parent.children.find(item =>
               {
-                console.log(item);
-                return item.data.docId === element.data.docId;
+                if (element.data.isDoc)
+                {
+                  return item.data.docId === element.data.docId;
+                } else {
+                  console.log('herrrrr');
+                }
+
               });
               if (itemInParent && itemInParent !== element) {
                 return false;
