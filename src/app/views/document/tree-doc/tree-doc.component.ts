@@ -264,7 +264,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
     // Remove BB code
     str = str.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2 ');
 
-    // Remove &nbsp;
+    // Remove other staff;
     str = str.replace(/\&nbsp;/g, '');
     str = str.replace(/\&quot;/g, '');
     str = str.replace(/\&ndash;/g, '');
