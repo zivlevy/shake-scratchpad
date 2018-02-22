@@ -12,7 +12,7 @@ import {AuthService} from '../../core/auth.service';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {OrgUser} from '../../model/org-user';
 import * as firebase from 'firebase';
-import {DocAck, SkDoc, SkDocData} from "../../model/document";
+import {DocAck, SkDoc, SkDocData} from '../../model/document';
 import {FirestoreService} from '../../core/firestore.service';
 import {ImageService} from '../../core/image.service';
 import {TreeNode} from 'angular-tree-component';
@@ -275,7 +275,7 @@ export class OrgService {
   // Written by Ran
 
   getOrgNameP(orgId: string): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
+    return new Promise<string>((resolve) => {
       const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
       document.valueChanges()
         .take(1)
@@ -850,7 +850,8 @@ export class OrgService {
           tree.push({name: doc.name, id: docId, docId: docId, isDoc: true});
           const treeJson = this.makeJsonTreeFromMemory(tree);
           this.saveOrgTree(treeJson)
-            .then(() => resolve(docId));
+            .then(() => resolve(docId))
+            .catch(err => reject(err));
         });
     });
   }

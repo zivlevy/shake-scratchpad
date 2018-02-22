@@ -1,7 +1,8 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {Subject} from "rxjs/Subject";
-import {OrgService} from "../org.service";
-import {OrgUser} from "../../../model/org-user";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subject} from 'rxjs/Subject';
+import {OrgService} from '../org.service';
+import {DocAck} from '../../../model/document';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'sk-org-messages',
@@ -10,19 +11,30 @@ import {OrgUser} from "../../../model/org-user";
 })
 export class OrgMessagesComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
-  docsAcks;
-  currentOrgUser: OrgUser;
+  docsAcks: DocAck[];
+  currentOrg: string;
 
-  constructor(private orgService: OrgService,) { }
+  constructor(private orgService: OrgService,
+              private router: Router) { }
 
   ngOnInit() {
+    // get current org
+    this.orgService.getCurrentOrg$()
+      .takeUntil(this.destroy$)
+      .subscribe(org => this.currentOrg = org);
+
     this.orgService.getOrgUserDocAcks$()
-      .subscribe(res => {
-        console.log(res);
+      .subscribe((res: DocAck[]) => {
         this.docsAcks = res;
       });
   }
 
+  docAckClicked(docAck: DocAck) {
+    console.log(docAck.docId);
+    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docAck.docId, 'p', 0])
+      .catch(err => console.log(err));
+
+  }
 
   ngOnDestroy() {
     // force unsubscribe

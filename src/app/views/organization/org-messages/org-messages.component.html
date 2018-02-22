@@ -1,5 +1,25 @@
-<ul>
-  <li *ngFor="let docAck of docsAcks">
-    {{ docAck.docAckName }}
-  </li>
-</ul>
+<div class="header">
+  <div class="hero-text" fxLayout="row" fxLayoutAlign="start center">
+
+    <h3 [innerHTML]="'Messages' | translate"></h3>
+
+    <span class="fillsapce"></span>
+
+  </div>
+
+</div>
+
+<mat-card>
+  <mat-card-title>
+    {{ 'Documents to Read & Sign' | translate}}
+  </mat-card-title>
+
+  <ul>
+    <li *ngFor="let docAck of docsAcks" (click)="docAckClicked(docAck)">
+      <i class="fa fa-file-text" style="color: green"></i><span fxFlex="5px"></span>{{ docAck.docAckName }}
+    </li>
+  </ul>
+
+</mat-card>
+
+
