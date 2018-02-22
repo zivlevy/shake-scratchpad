@@ -100,3 +100,16 @@ export interface SkTreeNode {
   level?: number;
 
 }
+
+
+/****************
+ * DocAck
+ *
+ ***************/
+export interface DocAck {
+  docAckName: string;
+  docId: string;
+  hasSigned?: boolean;
+  isRequired?: boolean;
+  signedAt?: Date;
+}

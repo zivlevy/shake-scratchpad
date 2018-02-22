@@ -12,7 +12,7 @@ import {AuthService} from '../../core/auth.service';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {OrgUser} from '../../model/org-user';
 import * as firebase from 'firebase';
-import {SkDoc, SkDocData} from '../../model/document';
+import {DocAck, SkDoc, SkDocData} from "../../model/document";
 import {FirestoreService} from '../../core/firestore.service';
 import {ImageService} from '../../core/image.service';
 import {TreeNode} from 'angular-tree-component';
@@ -855,5 +855,16 @@ export class OrgService {
     });
   }
 
+  getOrgUserDocAcks$() {
+    const org$ = this.getCurrentOrg$();
+    const user$ = this.getOrgUser$();
+
+    return org$.switchMap(orgId => {
+      return user$.switchMap(user => {
+        return this.afs.collection(`org/${orgId}/users/${user.uid}/docsAcks`).valueChanges()
+          .map(docAcks => docAcks.filter((docAck: DocAck) => !docAck.hasSigned));
+      });
+    });
+  }
 }
 

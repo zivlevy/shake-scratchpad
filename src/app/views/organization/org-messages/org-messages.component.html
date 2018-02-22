@@ -1,3 +1,5 @@
-<div class="messagesPanel text-center">
-  <H1> Welcome Messages </H1>
-</div>
+<ul>
+  <li *ngFor="let docAck of docsAcks">
+    {{ docAck.docAckName }}
+  </li>
+</ul>
