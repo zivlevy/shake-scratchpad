@@ -55,9 +55,10 @@
     <ng-container matColumnDef="Actions">
       <mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</mat-header-cell>
       <mat-cell  *matCellDef="let element">
-        <button mat-raised-button color="warn"
+        <button mat-raised-button color="warn" matTooltip="Tooltip!"
                 (click)="userDeleted(element.id)">
-          <i class="fa fa-trash"></i></button>
+          <i  class="fa fa-trash"></i>
+        </button>
       </mat-cell>
     </ng-container>
 

@@ -92,11 +92,7 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
                 .subscribe(docAck => {
                   if (docAck) {
                     this.currentDocAck = docAck;
-                    if (docAck.actualSignatures === 0) {
-                      this.docAckEditable = true;
-                    } else {
-                      this.docAckEditable = false;
-                    }
+                    this.docAckEditable = docAck.actualSignatures === 0;
                     this.loadData();
                   }
                 });
@@ -146,7 +142,8 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
         dateCreated: this.firestoreService.timestamp
       })
       .then(res => {
-        this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, res.id]);
+        this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, res.id])
+          .catch(err => console.log(err));
       });
     } else {
       if (doc.uid !== this.currentDocAck.docId) {
@@ -164,17 +161,20 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
   }
 
   isActiveChanged(event) {
-    console.log(this.orgId, this.docAckId, event.checked);
+    console.log(this.orgId, this.docAckId, event);
     this.orgDocService.updateReadAck(this.orgId, this.docAckId, {
       isActive: event.checked
-    });
+    })
+      .catch(err => console.log(err));
   }
 
   isRequiredClicked(uid: string, userName: string, event) {
     if (event.checked) {
-        this.orgDocService.addOrgUserReqDocAck(this.orgId, this.docAckId, this.currentDocAck.name, this.currentDocAck.docId, uid, userName);
+        this.orgDocService.addOrgUserReqDocAck(this.orgId, this.docAckId, this.currentDocAck.name, this.currentDocAck.docId, uid, userName)
+          .catch(err => console.log(err));
     } else {
-      this.orgDocService.removeOrgUserReqDocAck(this.orgId, this.docAckId, uid);
+      this.orgDocService.removeOrgUserReqDocAck(this.orgId, this.docAckId, uid)
+        .catch(err => console.log(err));
     }
   }
   nameUpdateClicked() {

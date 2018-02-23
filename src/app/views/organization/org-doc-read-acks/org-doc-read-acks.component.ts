@@ -3,8 +3,7 @@ import {MatTableDataSource} from '@angular/material';
 import {Subject} from 'rxjs/Subject';
 import {OrgDocService} from '../org-doc.service';
 import {OrgService} from '../org.service';
-import {Org} from '../../../model/org';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 export interface OrgAcks {
   name: string;
@@ -48,21 +47,25 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
   }
 
   readAckDelete(readAck) {
-    this.orgDocService.deleteOrgDocAckP(this.orgId, readAck.id);
+    this.orgDocService.deleteOrgDocAckP(this.orgId, readAck.id)
+      .catch(err => console.log(err));
   }
 
   addReadAck() {
-    this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, '']);
+    this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, ''])
+      .catch(err => console.log(err));
   }
 
   editReadAck(readAck) {
-    this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, readAck.id]);
+    this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, readAck.id])
+      .catch(err => console.log(err));
   }
 
   isActiveChanged(event, readAck) {
     this.orgDocService.updateReadAck(this.orgId, readAck.id, {
       isActive: event.checked
-    });
+    })
+      .catch(err => console.log(err));
   }
 
   // applyFilterFilter(filterValue: string) {
