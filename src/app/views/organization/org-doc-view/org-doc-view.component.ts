@@ -8,6 +8,9 @@ import {Observable} from 'rxjs/Observable';
 import {LanguageService} from '../../../core/language.service';
 import {OrgDocService} from '../org-doc.service';
 import {AuthService} from '../../../core/auth.service';
+import {MatDialog, MatDialogRef} from "@angular/material";
+import {ConfirmDialogComponent} from "../../../shared/dialogs/confirm-dialog/confirm-dialog.component";
+import {ToasterService} from "../../../core/toaster.service";
 
 @Component({
   selector: 'sk-org-doc-view',
@@ -28,6 +31,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   isNumbering: boolean = true;
   rtl: boolean = false;
 
+  confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   docAckId: string = null;
 
   constructor(private route: ActivatedRoute,
@@ -35,6 +39,8 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
               private orgService: OrgService,
               private orgDocService: OrgDocService,
               public router: Router,
+              private dialog: MatDialog,
+              private toaster: ToasterService,
               private lngService: LanguageService) {
 
 
@@ -71,7 +77,6 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
           .takeUntil(this.destroy$)
           .subscribe(reqDocAckId => {
             this.docAckId = reqDocAckId;
-            console.log(reqDocAckId);
           });
         console.log(this.currentOrg, this.currentOrgUser, this.currentDocId, this.currentSkUser.uid);
         this.currentDoc = doc;
@@ -105,8 +110,24 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   }
 
   signDocument() {
-    this.orgDocService.userDocAckSign(this.currentOrg, this.currentSkUser.uid, this.docAckId)
-      .catch(err => console.log(err));
+    this.confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        msg: 'Sign Document Read ?'
+      }
+    });
+
+    this.confirmDialogRef.afterClosed()
+      .subscribe(res => {
+        if (res) {
+          this.orgDocService.userDocAckSign(this.currentOrg, this.currentSkUser.uid, this.docAckId)
+            .then(() => {
+              this.toaster.toastInfo('Document signature acknowledged.');
+              this.docAckId = null;
+            })
+            .catch(err => console.log(err));
+        }
+      });
+
   }
 
   ngOnDestroy() {
