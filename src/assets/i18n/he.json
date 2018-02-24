@@ -5,7 +5,10 @@
   "Confirm": "אשר",
   "Delete ?": "למחוק ?",
   "Save": "שמירה",
+  "Publish": "פרסום מסמך",
   "Update": "עדכון",
+  "Preview": "תצוגה מקדימה",
+
 
   "login component":"========= LogIn Component=========",
   "Login to Shake": "כניסה ל Shake",
@@ -80,7 +83,7 @@
   "User successfully removed from org": "הסרת משתמש הושלמה בהצלחה",
   "User removal failed": "הסרת משתמש נכשלה",
   "User updated failed": "עדכון נתוני משתמש נכשל",
-  "": "",
+  "User Delete": "מחיקת משתמש",
 
   "org-join component": "========= Org Join Component =========",
   "TXT_org_join_message": "לחיצה על הצטרפות לבקשת חברות בארגון",
@@ -103,7 +106,11 @@
   "Documents to Read & Sign": "מסמכים לקרוא ולחתום",
   "No documents to Read & Sign": "אין מסמכים לקרוא ולחתום",
   "Sign Document Read ?": "לחתום שהמסמך נקרא ?",
+  "Sign Document Read": "חתימה שהמסמך נקרא",
   "Document signature acknowledged.": "חתימת המסמך נקלטה",
+  "Add Read & Sign": "הוספת קרא וחתום",
+  "Delete Read & Sign": "מחיקת קרא וחתום",
+  "Edit Read & Sign": "עריכת קרא וחתום",
 
   "Users Roles":"משתמשים ותפקידים",
 
@@ -123,5 +130,7 @@
   "Update directory name": "עדכן שם לספריה",
   "Un-publish success": "ביטול פרסום הצליח",
   "Messages": "הודעות",
-  "Search": "חיפוש"
+  "Search": "חיפוש",
+  "Numbering": "מספור",
+  "Section View": "תצוגה בפרקים"
 }

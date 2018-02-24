@@ -55,7 +55,8 @@
     <ng-container matColumnDef="Actions">
       <mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</mat-header-cell>
       <mat-cell  *matCellDef="let element">
-        <button mat-raised-button color="warn" matTooltip="Tooltip!"
+        <button mat-raised-button color="warn"
+                matTooltip="{{'User Delete' | translate}}" matTooltipPosition="after"
                 (click)="userDeleted(element.id)">
           <i  class="fa fa-trash"></i>
         </button>

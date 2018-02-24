@@ -1,7 +1,10 @@
 <div class="readAcks-container mat-elevation-z8">
 
   <span>
-    <button mat-raised-button color="primary" (click)="addReadAck()"><i class="fa fa-plus"></i> </button>
+    <button mat-raised-button color="primary" (click)="addReadAck()"
+            matTooltip="{{'Add Read & Sign' | translate}}" matTooltipPosition="after">
+      <i class="fa fa-plus"></i>
+    </button>
 
     <mat-checkbox (change)="activeOnlyChanged($event)" [checked]="true" >{{'Active only' | translate}}</mat-checkbox>
   </span>
@@ -54,13 +57,15 @@
     <mat-header-cell *matHeaderCellDef [innerHTML]="'Actions' | translate"></mat-header-cell>
     <mat-cell  *matCellDef="let element">
     <button mat-raised-button color="warn"
-      [disabled]="element.actualSignatures > 0"
-      (click)="readAckDelete(element)">
+            matTooltip="{{'Delete Read & Sign' | translate}}" matTooltipPosition="after"
+            [disabled]="element.actualSignatures > 0"
+            (click)="readAckDelete(element)">
       <i class="fa fa-trash"></i>
     </button>
       &nbsp;
     <button mat-raised-button color="primary"
-      (click)="editReadAck(element)">
+            matTooltip="{{'Edit Read & Sign' | translate}}" matTooltipPosition="after"
+            (click)="editReadAck(element)">
       <i class="fa fa-pencil"></i>
     </button>
 

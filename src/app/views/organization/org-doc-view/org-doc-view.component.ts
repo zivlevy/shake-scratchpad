@@ -8,9 +8,9 @@ import {Observable} from 'rxjs/Observable';
 import {LanguageService} from '../../../core/language.service';
 import {OrgDocService} from '../org-doc.service';
 import {AuthService} from '../../../core/auth.service';
-import {MatDialog, MatDialogRef} from "@angular/material";
-import {ConfirmDialogComponent} from "../../../shared/dialogs/confirm-dialog/confirm-dialog.component";
-import {ToasterService} from "../../../core/toaster.service";
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
+import {ToasterService} from '../../../core/toaster.service';
 
 @Component({
   selector: 'sk-org-doc-view',
@@ -108,10 +108,12 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   }
 
   goToOrgHome() {
-    this.router.navigate([`org/${this.currentOrg}`]);
+    this.router.navigate([`org/${this.currentOrg}`])
+      .catch(err => console.log(err));
   }
   gotoEdit() {
-    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, this.currentDocType, this.currentDocVersion]);
+    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, this.currentDocType, this.currentDocVersion])
+      .catch(err => console.log(err));
   }
 
   signDocument() {

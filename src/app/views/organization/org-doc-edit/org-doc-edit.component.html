@@ -2,32 +2,38 @@
 
   <!-- HEADER -->
   <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
-    <button mat-button class="rightside-buttons mat-icon-button" (click)="publishDocument()">
+    <button mat-button class="rightside-buttons mat-icon-button" (click)="publishDocument()"
+      matTooltip="{{'Publish' | translate}}" matTooltipPosition="after">
       <mat-icon>publish</mat-icon>
     </button>
 
-    <button mat-button class="rightside-buttons mat-icon-button" (click)="saveDocument()">
-      <mat-icon>save</mat-icon>
+    <button mat-button class="rightside-buttons mat-icon-button" (click)="saveDocument()"
+            matTooltip="{{'Save' | translate}}" matTooltipPosition="after">
+    <mat-icon>save</mat-icon>
     </button>
 
     <!-- EDIT BUTTON -->
-    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showEdit()">
-      <mat-icon>edit</mat-icon>
+    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showEdit()"
+            matTooltip="{{'Edit' | translate}}" matTooltipPosition="after">
+    <mat-icon>edit</mat-icon>
     </button>
 
     <!-- NUMBERING BUTTON-->
-    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()">
-      <mat-icon>format_list_numbered</mat-icon>
+    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()"
+            matTooltip="{{'Numbering' | translate}}" matTooltipPosition="after">
+    <mat-icon>format_list_numbered</mat-icon>
     </button>
 
     <!-- Taskview BUTTON-->
-    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleTaskView()">
-      <mat-icon>dns</mat-icon>
+    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleTaskView()"
+            matTooltip="{{'Section View' | translate}}" matTooltipPosition="after">
+    <mat-icon>dns</mat-icon>
     </button>
 
     <!-- PREVIEW BUTTON -->
-    <button *ngIf="!isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showPreview()">
-      <mat-icon>pageview</mat-icon>
+    <button *ngIf="!isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showPreview()"
+            matTooltip="{{'Preview' | translate}}" matTooltipPosition="after">
+    <mat-icon>pageview</mat-icon>
     </button>
 
     <span class="fillsapce"></span>

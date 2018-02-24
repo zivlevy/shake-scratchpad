@@ -4,24 +4,28 @@
   <div class="header" fxLayout="row" fxLayoutAlign="space-between center">
 
     <!-- Signature Required -->
-    <button *ngIf="docAckId" mat-button class="rightside-buttons mat-icon-button" (click)="signDocument()">
+    <button *ngIf="docAckId" mat-button class="rightside-buttons mat-icon-button" (click)="signDocument()"
+      matTooltip="{{'Sign Document Read' | translate}}" matTooltipPosition="after">
       <mat-icon>fingerprint</mat-icon>
     </button>
 
     <!-- NUMBERING BUTTON-->
-    <button mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()">
+    <button mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()"
+      matTooltip="{{'Numbering' | translate}}" matTooltipPosition="after">
       <mat-icon>format_list_numbered</mat-icon>
     </button>
 
     <!-- Taskview BUTTON-->
-    <button mat-button class="rightside-buttons mat-icon-button" (click)="toggleTaskView()">
-      <mat-icon>dns</mat-icon>
+    <button mat-button class="rightside-buttons mat-icon-button" (click)="toggleTaskView()"
+            matTooltip="{{'Section View' | translate}}" matTooltipPosition="after">
+    <mat-icon>dns</mat-icon>
     </button>
 
     <!-- EDIT BUTTON -->
 
-    <button *ngIf="currentOrgUser?.roles.editor" mat-button class="rightside-buttons mat-icon-button" (click)="gotoEdit()">
-      <mat-icon>edit</mat-icon>
+    <button *ngIf="currentOrgUser?.roles.editor" mat-button class="rightside-buttons mat-icon-button" (click)="gotoEdit()"
+            matTooltip="{{'Edit' | translate}}" matTooltipPosition="after">
+    <mat-icon>edit</mat-icon>
     </button>
 
     <span class="fillsapce"></span>
