@@ -29,7 +29,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   rtl: boolean = false;
 
   docAckId: string = null;
-
+  isTaskView: boolean = false;
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
               private orgService: OrgService,
@@ -97,6 +97,11 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   toggleNumbering() {
     this.isNumbering = !this.isNumbering;
   }
+
+  toggleTaskView() {
+    this.isTaskView = !this.isTaskView;
+  }
+
   goToOrgHome() {
     this.router.navigate([`org/${this.currentOrg}`]);
   }

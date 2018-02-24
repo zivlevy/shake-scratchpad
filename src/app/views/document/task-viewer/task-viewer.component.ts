@@ -17,6 +17,7 @@ export class TaskViewerComponent implements OnInit, OnChanges {
 
   taskList: Array<SkSection>;
   viewTask: Array<SkSection | SkItem>;
+  docName: string = '';
   constructor(private docService: DocumentService
   ) { }
 
@@ -26,6 +27,7 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   ngOnChanges() {
 
     if (this.docJson) {
+      this.docName = JSON.parse(this.docJson).data;
       this.taskList  = this.docService.SKTasksList(this.docJson);
       this.currentTask = 0;
       this.setViewTask();

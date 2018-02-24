@@ -34,7 +34,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
   isSaving: boolean;
   isNumbering: boolean = false;
   rtl: boolean = false;
-
+  isTaskView: boolean = false;
   // dialogs
   publishDialogRef: MatDialogRef<PublishDialogComponent>;
 
@@ -184,6 +184,9 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
     this.isNumbering = !this.isNumbering;
   }
 
+  toggleTaskView() {
+    this.isTaskView = !this.isTaskView;
+  }
   showEdit() {
     this.isPreview = false;
   }

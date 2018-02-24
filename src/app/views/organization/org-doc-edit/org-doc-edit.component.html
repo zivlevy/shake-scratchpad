@@ -20,6 +20,11 @@
       <mat-icon>format_list_numbered</mat-icon>
     </button>
 
+    <!-- Taskview BUTTON-->
+    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleTaskView()">
+      <mat-icon>dns</mat-icon>
+    </button>
+
     <!-- PREVIEW BUTTON -->
     <button *ngIf="!isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showPreview()">
       <mat-icon>pageview</mat-icon>
@@ -43,8 +48,8 @@
 
   <!-- VIEWER -->
   <div [hidden]="!isPreview">
-    <sk-doc-viewer [docJson]="previewData" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-doc-viewer>
-    <sk-task-viewer [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-task-viewer>
+    <sk-doc-viewer  *ngIf="!isTaskView"  [docJson]="previewData" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-doc-viewer>
+    <sk-task-viewer  *ngIf="isTaskView" [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-task-viewer>
   </div>
 
 </div>

@@ -81,7 +81,6 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
                 {
                   return item.data.docId === element.data.docId;
                 } else {
-                  console.log('herrrrr');
                 }
 
               });
