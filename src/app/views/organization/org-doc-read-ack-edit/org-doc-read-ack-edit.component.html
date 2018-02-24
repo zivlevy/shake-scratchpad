@@ -25,12 +25,14 @@
         </div>
 
         <div fxLayout="column" fxFlex="1 1 33%">
-          <mat-checkbox [checked]="currentDocAck?.isActive" (change)="isActiveChanged($event)">
+
+          <mat-checkbox fxFlexOffset="5" [checked]="currentDocAck?.isActive" (change)="isActiveChanged($event)">
             <!--(change)="isActiveChanged($event)">-->
             {{'Active Read & Sign' | translate}}
           </mat-checkbox>
 
-          <mat-form-field>
+
+          <mat-form-field fxFlexOffset="4">
             <input matInput type="text" id="dateCreated" [ngModel]="dateCreated "
                    formControlName="dateCreated" placeholder="{{'Date Created' | translate}}">
           </mat-form-field>

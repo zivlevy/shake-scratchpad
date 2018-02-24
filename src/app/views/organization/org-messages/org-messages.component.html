@@ -19,6 +19,9 @@
       <i class="fa fa-file-text" style="color: green"></i><span fxFlex="5px"></span>{{ docAck.docAckName }}
     </li>
   </ul>
+  <div *ngIf="docsAcks && docsAcks.length == 0">
+    {{ 'No documents to Read & Sign'| translate }}
+  </div>
 
 </mat-card>
 

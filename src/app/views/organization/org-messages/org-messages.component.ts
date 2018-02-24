@@ -26,6 +26,7 @@ export class OrgMessagesComponent implements OnInit, OnDestroy {
     this.orgService.getOrgUserDocAcks$()
       .subscribe((res: DocAck[]) => {
         this.docsAcks = res;
+        console.log(this.docsAcks.length);
       });
   }
 
