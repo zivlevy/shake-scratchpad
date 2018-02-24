@@ -13,6 +13,7 @@ import { DocViewerComponent } from './doc-viewer/doc-viewer.component';
 import {DocumentService} from "./document.service";
 import {CoreModule} from "../../core/core.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import { TaskViewerComponent } from './task-viewer/task-viewer.component';
 
 @NgModule({
   imports: [
@@ -31,9 +32,11 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     TreeViewComponent,
     TreeDocComponent,
     DocViewerComponent,
+    TaskViewerComponent,
   ],
   exports: [TreeViewComponent,
     DocViewerComponent,
+    TaskViewerComponent,
     TreeDocComponent
   ],
   providers: [

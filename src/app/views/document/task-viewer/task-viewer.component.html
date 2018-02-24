@@ -1,5 +1,5 @@
 <div *ngIf="docJson" id="doc-wrapper" class="mat-elevation-z8" [ngClass]="{'set-rtl': isRTL}">
-  <div *ngFor="let item of docList">
+  <div *ngFor="let item of viewTask">
     <div fxLayout [ngClass]="{
        'item-warning': item.type === 1,
        'section' : item.nodes,
@@ -15,5 +15,7 @@
   </div>
 
 </div>
+<button (click)="nextTask()">next</button>
+<button (click)="previousTask()">previous</button>
 
 

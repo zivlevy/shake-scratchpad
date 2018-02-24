@@ -1,0 +1,35 @@
+::ng-deep p {
+  margin: 0;
+  padding: 0;
+}
+
+#doc-wrapper {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.set-rtl {
+  text-align: right;
+  direction: rtl;
+}
+
+.section {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.section-rtl {
+
+}
+
+.item {
+  font-size: 14px;
+  padding: 2px 5px;
+}
+
+.item-warning {
+  background-color: #ffc7b5;
+  border-right: 8px solid red;
+
+}
