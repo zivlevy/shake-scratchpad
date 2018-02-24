@@ -1,10 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog, MatTableDataSource} from '@angular/material';
 import {AuthService} from '../../../core/auth.service';
-import {ToastrService} from 'ngx-toastr';
 import {OrgService} from '../../organization/org.service';
 import {Subject} from 'rxjs/Subject';
-import {DeleteApproveComponent} from "../../../shared/delete-approve/delete-approve.component";
+import {ToasterService} from '../../../core/toaster.service';
 
 export interface User {
   id: string;
@@ -28,11 +27,9 @@ export interface SkAdmin {
 })
 export class AdminUsersManagementComponent implements OnInit, OnDestroy {
 
-  // adminsDisplayedColumns = ['photoURL', 'displayName', 'email', 'isSkAdmin', 'isSkEditor', 'Actions'];
   adminsDisplayedColumns = ['photoURL', 'displayName', 'email', 'isSkAdmin', 'isSkEditor'];
   adminsDataSource = new MatTableDataSource<SkAdmin>();
 
-  // usersDisplayedColumns = ['photoURL', 'displayName', 'email', 'isSkAdmin', 'isSkEditor', 'Actions'];
   usersDisplayedColumns = ['photoURL', 'displayName', 'email', 'isSkAdmin', 'isSkEditor'];
   usersDataSource = new MatTableDataSource<User>();
 
@@ -42,14 +39,13 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService,
               private orgService: OrgService,
               private dialog: MatDialog,
-              private toastr: ToastrService) { }
+              private toaster: ToasterService) { }
 
   ngOnInit() {
     this.authService.getSkUser$()
       .takeUntil(this.destroy$)
       .subscribe(res => {
         this.currentUser = res;
-        console.log(res);
       });
 
     this.authService.getUsers$()
@@ -61,7 +57,6 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy {
     this.authService.getSkAdmins$()
       // .takeUntil(this.destroy$)
       .subscribe( res => {
-        console.log(res);
         this.adminsDataSource.data = res;
       });
 
@@ -83,9 +78,7 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy {
     if (event.checked) {
       this.authService.set2Admin(uid, true, false)
         .then(() => {
-          this.toastr.success('User was given SHAKE administrator privileges', '', {
-            timeOut: 2000
-          });
+          this.toaster.toastSuccess('User was given SHAKE administrator privileges');
         });
     }
   }
@@ -94,10 +87,9 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy {
     if (event.checked) {
       this.authService.set2Admin(uid, false, true)
         .then(() => {
-          this.toastr.success('User was given SHAKE administrator privileges', '', {
-            timeOut: 2000
-          });
-        });
+          this.toaster.toastSuccess('User was given SHAKE administrator privileges');
+        })
+        .catch(err => console.log(err));
     }
   }
 
@@ -108,20 +100,22 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy {
       .subscribe((isSkEditor: boolean) => {
         if (isSkEditor) {
           if (event.checked) {
-            this.authService.set2Admin(uid, true, true);
+            this.authService.set2Admin(uid, true, true)
+              .catch(err => console.log(err));
           } else {
-            this.authService.set2Admin(uid, false, true);
+            this.authService.set2Admin(uid, false, true)
+              .catch(err => console.log(err));
           }
         } else {
           if (event.checked) {
-            this.authService.set2Admin(uid, true, false);
+            this.authService.set2Admin(uid, true, false)
+              .catch(err => console.log(err));
           } else {
             this.authService.setAdmin2User(uid)
               .then(() => {
-                this.toastr.success('User removed from SHAKE administrator list', '', {
-                  timeOut: 2000
-                });
-              });
+                this.toaster.toastSuccess('User removed from SHAKE administrator list');
+              })
+              .catch(err => console.log(err));
           }
         }
       });
@@ -133,20 +127,22 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy {
       .subscribe((isSkAdmin: boolean) => {
         if (isSkAdmin) {
           if (event.checked) {
-            this.authService.set2Admin(uid, true, true);
+            this.authService.set2Admin(uid, true, true)
+              .catch(err => console.log(err));
           } else {
-            this.authService.set2Admin(uid, true, false);
+            this.authService.set2Admin(uid, true, false)
+              .catch(err => console.log(err));
           }
         } else {
           if (event.checked) {
-            this.authService.set2Admin(uid, false, true);
+            this.authService.set2Admin(uid, false, true)
+              .catch(err => console.log(err));
           } else {
             this.authService.setAdmin2User(uid)
               .then(() => {
-                this.toastr.success('User removed from SHAKE administrator list', '', {
-                  timeOut: 2000
-                });
-              });
+                this.toaster.toastSuccess('User removed from SHAKE administrator list');
+              })
+              .catch(err => console.log(err));
           }
         }
       });

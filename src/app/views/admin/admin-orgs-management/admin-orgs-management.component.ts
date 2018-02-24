@@ -2,12 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../../organization/org.service';
-import {Observable} from 'rxjs/Observable';
 import {Org} from '../../../model/org';
-import {ImageService} from "../../../core/image.service";
-import {MatDialog, MatTableDataSource} from "@angular/material";
-import {DeleteApproveComponent} from "../../../shared/delete-approve/delete-approve.component";
-import {AdminService} from "../admin.service";
+import {MatDialog, MatTableDataSource} from '@angular/material';
+import {DeleteApproveComponent} from '../../../shared/dialogs/delete-approve/delete-approve.component';
+import {AdminService} from '../admin.service';
 
 @Component({
   selector: 'sk-admin-orgs-management',
@@ -51,17 +49,23 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
   deleteClicked(orgId) {
     const dialogRef = this.dialog.open(DeleteApproveComponent, {
       data: {
+        'msg': 'Delete Organization',
         'orgId': orgId,
         'verifyPhrase': orgId
       },
-      height: '400px',
-      width: '600px',
+      // height: '400px',
+      // width: '600px',
     });
 
     dialogRef.afterClosed()
       .subscribe(res => {
         if (res) {
-          this.orgService.deleteOrg(orgId);
+          this.adminService.deleteOrgRefs(orgId)
+            .then((res1) => {
+              console.log(res1);
+              this.adminService.deleteOrg(orgId);
+            })
+            .catch(err => console.log(err));
         }
       });
   }

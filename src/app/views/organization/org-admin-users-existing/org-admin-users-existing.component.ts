@@ -131,6 +131,7 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
       .then(() => {
       })
       .catch(err => {
+        console.log(err);
         this.toaster.toastError('User updated failed');
       });
   }
@@ -150,6 +151,7 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
               this.toaster.toastSuccess('User successfully removed from org');
             })
             .catch(err => {
+              console.log(err);
               this.toaster.toastError('User removal failed');
             });
         }

@@ -223,7 +223,7 @@ export const onOrgUserDocSignCreate = functions.firestore.document(`org/{orgId}/
       console.log(newActualSignatures);
       const updateOrgDocAck = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId).update({
         actualSignatures: newActualSignatures
-      })
+      });
       const setOrgDocAckUser = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId).collection('users').doc(uid).update({
         hasSigned: true,
         signedAt: signedAt
@@ -243,5 +243,5 @@ export const onOrgUserDocSignCreate = functions.firestore.document(`org/{orgId}/
     .catch(err => console.log(err));
 
 
-})
+});
 

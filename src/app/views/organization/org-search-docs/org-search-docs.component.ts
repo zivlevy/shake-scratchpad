@@ -1,5 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {SkDoc} from '../../../model/document';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {OrgService} from '../org.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
@@ -7,10 +6,9 @@ import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/merge';
 import {Subject} from 'rxjs/Subject';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
-import {Subscription} from 'rxjs/Subscription';
 import {ActivatedRoute, Router} from '@angular/router';
 import {OrgUser} from '../../../model/org-user';
-import {LanguageService} from "../../../core/language.service";
+import {LanguageService} from '../../../core/language.service';
 
 @Component({
   selector: 'sk-org-search-docs',

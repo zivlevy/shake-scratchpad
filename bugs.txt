@@ -1,5 +1,5 @@
 todo:
 
-1. userProfileComponent - fix when there is no imageURL can't update data - ran
-2. EMAIL Conformation guard - ziv - DONE
-4. Snakebar - one demo - ziv - DONE
+For Ziv:
+1. An editor creates a doc and saves it. Then he publishs. Drags the published doc somewhere in the tree. The edit doc remains in the original place.
+

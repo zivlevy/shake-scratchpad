@@ -9,7 +9,7 @@ import {CoreModule} from '../../core/core.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { AdminUsersManagementComponent } from './admin-users-management/admin-users-management.component';
 import {MaterialModule} from '../../material/material.module';
-import {DeleteApproveComponent} from '../../shared/delete-approve/delete-approve.component';
+import {DeleteApproveComponent} from '../../shared/dialogs/delete-approve/delete-approve.component';
 import {AdminService} from './admin.service';
 
 @NgModule({

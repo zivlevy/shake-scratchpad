@@ -1,3 +1,28 @@
-<div class="messagesPanel text-center">
-  <H1> Welcome Messages </H1>
+<div class="header">
+  <div class="hero-text" fxLayout="row" fxLayoutAlign="start center">
+
+    <h3 [innerHTML]="'Messages' | translate"></h3>
+
+    <span class="fillsapce"></span>
+
+  </div>
+
 </div>
+
+<mat-card>
+  <mat-card-title>
+    {{ 'Documents to Read & Sign' | translate}}
+  </mat-card-title>
+
+  <ul>
+    <li *ngFor="let docAck of docsAcks" (click)="docAckClicked(docAck)">
+      <i class="fa fa-file-text" style="color: green"></i><span fxFlex="5px"></span>{{ docAck.docAckName }}
+    </li>
+  </ul>
+  <div *ngIf="docsAcks && docsAcks.length == 0">
+    {{ 'No documents to Read & Sign'| translate }}
+  </div>
+
+</mat-card>
+
+

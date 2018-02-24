@@ -19,7 +19,7 @@ export interface  SkDocData {
 export class SkDoc {
   uid?: string ;
   name?: string ;
-  version?: number
+  version?: number;
   language?: string ;
   isPublish?: boolean;
   isPublic?: boolean;
@@ -99,4 +99,17 @@ export interface SkTreeNode {
   selectable?: boolean;
   level?: number;
 
+}
+
+
+/****************
+ * DocAck
+ *
+ ***************/
+export interface DocAck {
+  docAckName: string;
+  docId: string;
+  hasSigned?: boolean;
+  isRequired?: boolean;
+  signedAt?: Date;
 }

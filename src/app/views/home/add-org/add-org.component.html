@@ -1,7 +1,3 @@
-<div id="full-page">
-
-</div>
-
 <div class="wrapper">
 
   <div class="d-flex justify-content-center">
@@ -27,28 +23,12 @@
                     [innerHTML]="'TXT_orgId_unavailable' | translate"></mat-error>
       </div>
 
-      <!--<div class="form-group">-->
-        <!--<label for="orgId" [innerHTML]="'orgId' | translate" ></label>-->
-        <!--<span [tooltip]="'TXT_orgId_tooltip' | translate"><i class="fa fa-question-circle-o"></i></span>-->
-        <!--<input class="form-control" type="text" id="orgId" (change)="checkOrgId()" (keyup)="checkOrgId()"-->
-               <!--formControlName="orgId" required>-->
-
-        <!--<div  class="error-message" *ngIf="orgId.invalid && orgId.touched && orgIdAvailable" [innerHTML]="'TXT_orgId_error' | translate"></div>-->
-        <!--<div  class="error-message" *ngIf="orgId.invalid && orgId.touched && !orgIdAvailable" [innerHTML]="'TXT_orgId_unavailable' | translate"></div>-->
-      <!--</div>-->
-
       <div>
         <mat-form-field>
           <input matInput type="text" id="orgName"
                  formControlName="orgName" placeholder="{{'Organization Name' | translate}}" required>
         </mat-form-field>
       </div>
-
-      <!--<div class="form-group">-->
-        <!--<label for="orgName" [innerHTML]="'Organization Name' | translate" ></label>-->
-        <!--<input class="form-control" type="text" id="orgName"-->
-               <!--formControlName="orgName">-->
-      <!--</div>-->
 
       <div>
         <mat-form-field>
@@ -60,16 +40,6 @@
         </mat-form-field>
       </div>
 
-      <!--<div class="form-group">-->
-        <!--<label for="language" [innerHTML]="'Language' | translate"  ></label>-->
-        <!--<select formControlName="language" class="form-control custom-select" id="language" (change)="languageChanged($event.target.value)">-->
-          <!--<option disabled selected value style="display:none"></option>-->
-          <!--<option value="he">עברית</option>-->
-          <!--<option value="en">English</option>-->
-        <!--</select>-->
-
-      <!--</div>-->
-
       <div>
         <mat-form-field>
           <mat-select formControlName="sector" placeholder="{{'Sector' | translate}}"
@@ -78,14 +48,6 @@
           </mat-select>
         </mat-form-field>
       </div>
-
-      <!--<div class="form-group">-->
-        <!--<label for="sector" [innerHTML]="'Sector' | translate"></label>-->
-        <!--<select formControlName="sector" class="form-control custom-select" id="sector" (change)="updateSector($event.target.value)">-->
-          <!--<option disabled selected value style="display:none"></option>-->
-          <!--<option *ngFor="let sector of sectors" [value]="sector">{{sector}}</option>-->
-        <!--</select>-->
-      <!--</div>-->
 
       <button mat-raised-button color="primary" type="submit" [disabled]="!newOrgForm.valid">Submit</button>
 
