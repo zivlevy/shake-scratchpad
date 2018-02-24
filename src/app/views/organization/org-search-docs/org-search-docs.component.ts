@@ -117,6 +117,8 @@ export class OrgSearchDocsComponent implements OnInit, OnDestroy {
 
   editDoc(docId: string, docType: string, docVersion: string) {
     this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, docType, docVersion]);
+
+
   }
 
   deleteDocVersion(docId: string, docType: string, docVersion: string) {

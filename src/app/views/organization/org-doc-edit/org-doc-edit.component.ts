@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {SkDoc, SkDocData} from '../../../model/document';
 import {OrgService} from '../org.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -177,8 +177,6 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
     const docData = this.editor.getDoc();
     this.previewData = docData.data;
     this.isPreview = true;
-
-    // this.router.navigate([`org/${this.currentOrg}/org-doc-view`, this.currentDoc.uid, this.currentDoc.uid, this.currentDocType, this.currentDocVersion]);
   }
 
 

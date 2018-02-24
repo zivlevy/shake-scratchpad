@@ -21,6 +21,7 @@ import {ToasterService} from '../../../core/toaster.service';
   templateUrl: './org-tree-view.component.html',
   styleUrls: ['./org-tree-view.component.scss']
 })
+
 export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   isRTL: boolean = false;
@@ -61,6 +62,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
+
     this.orgService.getOrgTreeByUser$()
       .subscribe(orgTree => {
         this.tree_options = {

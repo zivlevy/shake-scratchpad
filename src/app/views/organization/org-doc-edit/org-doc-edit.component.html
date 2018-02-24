@@ -44,6 +44,7 @@
   <!-- VIEWER -->
   <div [hidden]="!isPreview">
     <sk-doc-viewer [docJson]="previewData" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-doc-viewer>
+    <sk-task-viewer [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-task-viewer>
   </div>
 
 </div>
