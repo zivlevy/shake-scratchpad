@@ -2,7 +2,7 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {Subject} from 'rxjs/Subject';
 import {LanguageService} from '../../../core/language.service';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-delete-approve',
@@ -25,10 +25,6 @@ export class DeleteApproveComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-  }
-
-  confirmClicked() {
-    this.dialogRef.close(true);
   }
 
   ngOnDestroy() {

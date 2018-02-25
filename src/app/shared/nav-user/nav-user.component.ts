@@ -3,7 +3,7 @@ import {AuthService} from '../../core/auth.service';
 import {Subject} from 'rxjs/Subject';
 import {Router} from '@angular/router';
 import {LanguageService} from '../../core/language.service';
-import {OrgService} from "../../views/organization/org.service";
+import {OrgService} from '../../views/organization/org.service';
 
 @Component({
   selector: 'sk-nav-user',
@@ -48,7 +48,7 @@ export class NavUserComponent implements OnInit, OnDestroy {
         }
         this.authService.getUserOrgs$(user.uid)
           .subscribe(res => {
-            this.myOrgs = new Array<any>();
+            this.myOrgs = [];
             res.forEach(orgIdObj => {
               this.orgService.getOrgNameP(orgIdObj.id)
                 .then(orgName => {
@@ -64,12 +64,14 @@ export class NavUserComponent implements OnInit, OnDestroy {
 
   logout() {
     console.log(this.logoutRoute);
-    this.router.navigate([this.logoutRoute]);
+    this.router.navigate([this.logoutRoute])
+      .catch(err => console.log(err));
     this.authService.logout();
   }
 
   orgClicked(orgId: string) {
-    this.router.navigate(['org/' + orgId]);
+    this.router.navigate(['org/' + orgId])
+      .catch(err => console.log(err));
   }
 
   ngOnDestroy() {
