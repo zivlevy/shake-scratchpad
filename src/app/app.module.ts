@@ -14,7 +14,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {OrganizationModule} from './views/organization/organization.module';
 import {NotFoundComponent} from './shared/not-found/not-found.component';
-import {ToastrModule} from 'ngx-toastr';
 import {TranslateModule} from '@ngx-translate/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
@@ -53,7 +52,6 @@ import {AuthGuard} from './shared/guards/auth.guard';
     environment.production
       ? ServiceWorkerModule.register('/ngsw-worker.js')
       : [],
-    ToastrModule.forRoot(),
     BsDropdownModule.forRoot(),
     BrowserModule,
     MaterialModule,
