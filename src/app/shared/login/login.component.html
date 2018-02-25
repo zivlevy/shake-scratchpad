@@ -18,7 +18,7 @@
           <input matInput type="email" id="email"
                  formControlName="email" placeholder="{{'Email' | translate}}">
         </mat-form-field>
-        <mat-error *ngIf="email.invalid && email.dirty" class="error-message" class="error-message"
+        <mat-error *ngIf="email.invalid && email.dirty" class="error-message"
              [innerHTML]="'Please enter a valid email' | translate">
         </mat-error>
       </div>
@@ -28,7 +28,7 @@
           <input matInput type="password" id="password"
                  formControlName="password" placeholder="{{'Password' | translate}}">
         </mat-form-field>
-        <mat-error *ngIf="password.invalid && password.touched" class="error-message" class="error-message"
+        <mat-error *ngIf="password.invalid && password.touched" class="error-message"
              [innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">
         </mat-error>
       </div>

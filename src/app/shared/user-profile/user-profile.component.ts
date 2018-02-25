@@ -1,13 +1,9 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
-import {FormBuilder} from '@angular/forms';
 import {AuthService} from '../../core/auth.service';
-import {ToastrService} from 'ngx-toastr';
-import {LanguageService} from '../../core/language.service';
 import {CropperSettings} from 'ng2-img-cropper';
 import {ImageService} from '../../core/image.service';
-import {ToasterService} from "../../core/toaster.service";
+import {ToasterService} from '../../core/toaster.service';
 
 
 @Component({
@@ -34,8 +30,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
 
-  constructor(public fb: FormBuilder,
-              public authService: AuthService,
+  constructor(private authService: AuthService,
               private imageService: ImageService,
               private toaster: ToasterService,
               ) {

@@ -84,6 +84,8 @@
   "User removal failed": "הסרת משתמש נכשלה",
   "User updated failed": "עדכון נתוני משתמש נכשל",
   "User Delete": "מחיקת משתמש",
+  "Invitation Sent": "הזמנה נשלחה",
+  "Invitations Sent": "הזמנות נשלחו",
 
   "org-join component": "========= Org Join Component =========",
   "TXT_org_join_message": "לחיצה על הצטרפות לבקשת חברות בארגון",

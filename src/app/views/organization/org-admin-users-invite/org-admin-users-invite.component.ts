@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrgService} from '../org.service';
 import {Subject} from 'rxjs/Subject';
-import {ToastrService} from 'ngx-toastr';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material';
 import {FileService} from '../../../core/file.service';
+import {ToasterService} from '../../../core/toaster.service';
 
 export class InviteRecord {
 
@@ -37,7 +37,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
   constructor(private orgService: OrgService,
               private fb: FormBuilder,
               private fileService: FileService,
-              private toastr: ToastrService) {
+              private toaster: ToasterService) {
     this.initInvites();
   }
 
@@ -103,7 +103,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
   }
 
   initInvites() {
-    this.invites = new Array<InviteRecord>();
+    this.invites = [];
   }
 
   addInviteToTable() {
@@ -135,9 +135,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
 
     this.sendInvite(invite)
       .then(() => {
-        this.toastr.success('Invitation Sent', '', {
-          timeOut: 2000
-        });
+        this.toaster.toastSuccess('Invitation Sent');
         this.initInvites();
         // Added by ziv to workaround reset bug
         // TODO - set to this.inviteForm.reset() once the bug is fixed by google
@@ -157,15 +155,13 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
   }
 
   tableInvitesSend() {
-    const sendInvitesP: Array<any> = new Array<any>();
+    const sendInvitesP: Array<any> = [];
     for (const invite of this.invites) {
       sendInvitesP.push(this.sendInvite(invite));
     }
     Promise.all(sendInvitesP)
       .then(() => {
-        this.toastr.success('Invitations Sent', '', {
-          timeOut: 2000
-        });
+        this.toaster.toastSuccess('Invitations Sent');
         this.initInvites();
         this.dataSource.data = this.invites;
       });
