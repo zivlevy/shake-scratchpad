@@ -8,15 +8,31 @@
   <mat-sidenav-content [ngClass]="{'mat-content-rtl': rtl && sideOpen, 'mat-content-ltr': !rtl && sideOpen}">
     <!-- add doc button -->
     <button *ngIf="currentOrgUser?.roles.editor" mat-fab class="mat-accent-bg"
-            [ngClass]="{'add-doc-button': !rtl, 'add-doc-button-rtl': rtl}" (click)="newDoc()">
+            matTooltip="{{'New Document' | translate}}" matTooltipPosition="after"
+    [ngClass]="{'add-doc-button': !rtl, 'add-doc-button-rtl': rtl}" (click)="newDoc()">
       <mat-icon>playlist_add</mat-icon>
     </button>
     <!-- Tabs Wrapper -->
 
     <!-- Tabs -->
     <mat-tab-group>
+
       <!-- Messages Tab -->
       <mat-tab label="{{'Messages' | translate}}">
+        <!-- HEADER -->
+        <div class="header">
+          <div class="hero-text" fxLayout="row" fxLayoutAlign="start center">
+            <button mat-button class="menu-btn" fxHide.gt-sm (click)="sidenav.toggle()"
+                  matTooltip="{{'Navigation Tree' | translate}}" matTooltipPosition="after">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <h3 [innerHTML]="'Messages' | translate"></h3>
+
+            <span class="fillsapce"></span>
+
+          </div>
+
+        </div>
         <sk-org-messages></sk-org-messages>
       </mat-tab>
 
@@ -25,8 +41,9 @@
         <!-- HEADER -->
         <div class="header">
           <div class="hero-text" fxLayout="row" fxLayoutAlign="start center">
-            <button mat-button class="menu-btn" fxHide.gt-sm (click)="sidenav.toggle()">
-              <mat-icon>menu</mat-icon>
+            <button mat-button class="menu-btn" fxHide.gt-sm (click)="sidenav.toggle()"
+                    matTooltip="{{'Navigation Tree' | translate}}" matTooltipPosition="after">
+            <mat-icon>menu</mat-icon>
             </button>
             <h3 [innerHTML]="'Documents' | translate"></h3>
 

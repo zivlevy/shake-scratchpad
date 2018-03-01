@@ -13,7 +13,7 @@ export const environment = {
       // storageBucket: 'shake-c53cb.appspot.com',
       // messagingSenderId: '45118857441'
 
-      //
+
       // apiKey: 'AIzaSyDOOWEQ87E_y1eCAHzQxm-z0IcoNo8zj6Q',
       // authDomain: 'shakesb05.firebaseapp.com',
       // databaseURL: 'https://shakesb05.firebaseio.com',

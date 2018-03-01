@@ -137,9 +137,9 @@
           .header {
             color: white;
             //padding: 16px 24px;
-            height: 24px !important;
-            min-height: 24px !important;
-            max-height: 24px !important;
+            height: 5px !important;
+            min-height: 5px !important;
+            max-height: 5px !important;
 
             &.e-bg {
               background: mat-color($mat-blue, 500);
