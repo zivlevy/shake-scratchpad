@@ -8,7 +8,8 @@
   "Publish": "פרסום מסמך",
   "Update": "עדכון",
   "Preview": "תצוגה מקדימה",
-
+  "Language": "שפה",
+  "Sector": "מגזר",
 
   "login component":"========= LogIn Component=========",
   "Login to Shake": "כניסה ל Shake",
@@ -47,18 +48,16 @@
   "TXT_orgId_error": "המזהה צריך להיות בין 4 ל - 12 תווים / ספרות, בלי רווחים",
   "TXT_orgId_unavailable": "מזהה זה נמצא בשימוש. בחר אחר",
   "Organization Name": "שם הארגון",
-  "Language": "שפה",
-  "Sector": "מגזר",
 
-  "New org component": "========= org-admin-org Component=========",
+
+  "Org Admin component": "========= org-admin-org Component=========",
   "Organization Management": "ניהול ארגון",
   "Users Management": "ניהול משתמשים",
   "Organization Logo": "לוגו ארגוני",
   "Organization E-mail": "דואל לארגון",
   "Upload": "טען",
   "Banner Image": "באנר",
-  "Language": "שפה",
-  "Sector": "מגזר",
+
   "Logo Update": "עדכון לוגו",
   "Banner Update": "עדכון באנר",
 
