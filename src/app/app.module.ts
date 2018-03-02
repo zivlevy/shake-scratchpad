@@ -49,9 +49,7 @@ import {AuthGuard} from './shared/guards/auth.guard';
     FroalaViewModule.forRoot(),
     NgxSpinnerModule,
     BrowserAnimationsModule,
-    environment.production
-      ? ServiceWorkerModule.register('/ngsw-worker.js')
-      : [],
+    environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : [],
     BsDropdownModule.forRoot(),
     BrowserModule,
     MaterialModule,
