@@ -44,7 +44,6 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
     this.route.queryParams
       .takeUntil(this.destroy$)
       .subscribe((params: Params) => {
-
         // get current authenticatedUser
         this.authService.getUser$()
           .takeUntil(this.destroy$)
