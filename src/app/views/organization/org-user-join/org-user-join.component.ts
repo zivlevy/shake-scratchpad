@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrgService} from '../org.service';
 import {Subject} from 'rxjs/Subject';
-import {Org} from '../../../model/org';
-import {User} from '../../../model/user';
+import {SkUser} from '../../../model/user';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from '../../../core/auth.service';
 import {OrgUser} from '../../../model/org-user';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'sk-org-user-join',
@@ -14,8 +14,11 @@ import {OrgUser} from '../../../model/org-user';
 })
 export class OrgUserJoinComponent implements OnInit, OnDestroy {
 
-  org: Org = new Org();
-  user: User = new User();
+  orgId: string;
+  orgHome: string;
+  currentSkUser: SkUser;
+  currentOrgUser: OrgUser;
+  queryParams: Params;
   destroy$: Subject<boolean> = new Subject<boolean>();
   inviteRoute = false;
   //
@@ -26,72 +29,142 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+
+    Observable.merge(this.orgService.getCurrentOrg$(), this.authService.getSkUser$(), this.route.queryParams, this.orgService.getOrgUser$())
+      .takeUntil(this.destroy$)
+      .subscribe(() => {
+        console.log(this.orgId, this.currentSkUser, this.queryParams, this.currentOrgUser);
+        if (! this.orgId) {
+          return;
+        }
+
+        // if the user is not logged in
+
+        if (!this.currentSkUser) {
+
+          if (this.queryParams && this.queryParams['mail']) {
+            // the user is not logged in. Navigated here thru mail
+            this.authService.isMailRegistered(this.queryParams['mail'])
+              .then(mailExists => {
+                if (mailExists) {
+                  this.router.navigate([`org/${this.orgId}/login`],
+                    {queryParams: {
+                        returnUrl:  `org/${this.orgId}/org-join`,
+                        name: this.queryParams['name'],
+                        mail: this.queryParams['mail']
+                      }
+                    })
+                    .catch(err => console.log(err));
+                } else {
+                  this.router.navigate([`org/${this.orgId}/register`],
+                    {queryParams: {
+                        returnUrl:  `org/${this.orgId}/org-join`,
+                        name: this.queryParams['name'],
+                        mail: this.queryParams['mail']
+                      }
+                    })
+                    .catch(err => console.log(err));
+                }
+              });
+          } else {
+
+            // the user is not logged in. Navigated here directly
+            this.router.navigate([`org/${this.orgId}/register`],
+              {queryParams: {
+                  returnUrl:  `org/${this.orgId}/org-join`
+                }
+              })
+              .catch(err => console.log(err));
+          }
+
+        } else {
+          // user is logged in
+          if (this.queryParams['mail']) {
+            this.inviteRoute = true;
+            this.processInvite(this.queryParams['name'].replace('+', ' '), this.queryParams['mail']);
+          }
+          if (this.currentOrgUser && !this.currentOrgUser.isPending) {
+            this.router.navigate([`org/${this.orgId}`])
+              .catch(err => console.log(err));
+          }
+        }
+      });
+
+
     // get current org
     this.orgService.getCurrentOrg$()
       .takeUntil(this.destroy$)
       .subscribe(org => {
-        this.org.orgId = org;
-        this.org.orgHome = '/org/' + org;
+        this.orgId = org;
+        this.orgHome = '/org/' + org;
       });
 
     this.authService.getSkUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
-        this.user.currentSkUser = user;
+        this.currentSkUser = user;
+        console.log(this.currentSkUser);
       });
+
+    this.authService.getUser$()
+      .takeUntil(this.destroy$)
+      .subscribe(res => console.log(res));
 
     // get queryParams to see if we came here from an Invite
     this.route.queryParams
       .takeUntil(this.destroy$)
       .subscribe((params: Params) => {
-        // get current authenticatedUser
-        this.authService.getUser$()
-          .takeUntil(this.destroy$)
-          .subscribe(user => {
-            this.user.currentAuthUser = user;
+        this.queryParams = params;
+        console.log(this.route);
 
-            // if the user is not logged in
-            if (!this.user.currentAuthUser) {
-
-              if (params['mail']) {
-                // the user is not logged in. Navigated here thru mail
-                this.authService.isMailRegistered(params['mail'])
-                  .then(mailExists => {
-                    if (mailExists) {
-                      this.router.navigate([`org/${this.org.orgId}/login`],
-                        {queryParams: {
-                            returnUrl:  `org/${this.org.orgId}/org-join`,
-                            name: params['name'],
-                            mail: params['mail']
-                          }
-                        });                  } else {
-                      this.router.navigate([`org/${this.org.orgId}/register`],
-                        {queryParams: {
-                            returnUrl:  `org/${this.org.orgId}/org-join`,
-                            name: params['name'],
-                            mail: params['mail']
-                          }
-                        });
-                    }
-                  });
-              } else {
-
-                // the user is not logged in. Navigated here directly
-                this.router.navigate([`org/${this.org.orgId}/register`],
-                  {queryParams: {
-                      returnUrl:  `org/${this.org.orgId}/org-join`
-                    }
-                  });
-              }
-
-            } else {
-              // user is logged in
-              if (params['mail']) {
-                this.inviteRoute = true;
-                this.processInvite(params['name'].replace('+', ' '), params['mail']);
-              }
-            }
-          });
+        // // get current authenticatedUser
+        // this.authService.getUser$()
+        //   .takeUntil(this.destroy$)
+        //   .subscribe(user => {
+        //
+        //     // if the user is not logged in
+        //     if (!user) {
+        //
+        //       if (params['mail']) {
+        //         // the user is not logged in. Navigated here thru mail
+        //         this.authService.isMailRegistered(params['mail'])
+        //           .then(mailExists => {
+        //             if (mailExists) {
+        //               this.router.navigate([`org/${this.org.orgId}/login`],
+        //                 {queryParams: {
+        //                     returnUrl:  `org/${this.org.orgId}/org-join`,
+        //                     name: params['name'],
+        //                     mail: params['mail']
+        //                   }
+        //                 });
+        //             } else {
+        //               this.router.navigate([`org/${this.org.orgId}/register`],
+        //                 {queryParams: {
+        //                     returnUrl:  `org/${this.org.orgId}/org-join`,
+        //                     name: params['name'],
+        //                     mail: params['mail']
+        //                   }
+        //                 });
+        //             }
+        //           });
+        //       } else {
+        //
+        //         // the user is not logged in. Navigated here directly
+        //         this.router.navigate([`org/${this.org.orgId}/register`],
+        //           {queryParams: {
+        //               returnUrl:  `org/${this.org.orgId}/org-join`
+        //             }
+        //           });
+        //       }
+        //
+        //     } else {
+        //       // user is logged in
+        //       if (params['mail']) {
+        //         this.inviteRoute = true;
+        //         this.processInvite(params['name'].replace('+', ' '), params['mail']);
+        //       }
+        //     }
+        //   });
 
 
       });
@@ -103,14 +176,14 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe((orgUser: OrgUser) => {
         console.log('orgUser', orgUser);
-        this.user.isLoadingOrgUser = false;
-        this.user.currentOrgUser = orgUser;
+        // this.user.isLoadingOrgUser = false;
+        this.currentOrgUser = orgUser;
 
         // if this is an authorized Org User - go to Org Home Page
-        if (this.user.currentOrgUser && !this.user.currentOrgUser.isPending) {
-          this.router.navigate([`org/${this.org.orgId}`]);
-
-        }
+        // if (this.currentOrgUser && !this.currentOrgUser.isPending) {
+        //   this.router.navigate([`org/${this.org.orgId}`]);
+        //
+        // }
       });
 
 
@@ -118,20 +191,22 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
   }
 
   processInvite(userName: string, userMail: string) {
-    console.log('processing ', this.org.orgId, userName, userMail);
-    this.orgService.getOrgUserInvite$(this.org.orgId, userMail)
+    console.log('processing ', this.orgId, userName, userMail);
+
+    this.orgService.getOrgUserInvite$(this.orgId, userMail)
       .takeUntil(this.destroy$)
       .subscribe((invite: any) => {
         if (invite) {
-          console.log(this.org.orgId, this.user.currentAuthUser.uid, this.user.currentSkUser,
+          console.log(this.orgId, this.currentSkUser.uid, this.currentSkUser,
             invite.isAdmin, invite.isEditor, invite.isViewer);
-          if (!this.user.currentOrgUser) {
-            this.orgService.addOrgToUser(this.org.orgId, this.user.currentAuthUser.uid)
+          if (!this.currentOrgUser) {
+            this.orgService.addOrgToUser(this.orgId, this.currentSkUser.uid)
               .catch(err => console.log(err));
           }
         } else {
           console.log('navigating');
-          this.router.navigate([this.org.orgHome]);
+          this.router.navigate([this.orgHome])
+            .catch(err => console.log(err));
         }
       });
   }

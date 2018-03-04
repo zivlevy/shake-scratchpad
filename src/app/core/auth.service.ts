@@ -1,32 +1,24 @@
 import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
-
 import {AngularFireAuth} from 'angularfire2/auth';
-import {AngularFirestore, AngularFirestoreDocument} from 'angularfire2/firestore';
-
+import {AngularFirestore} from 'angularfire2/firestore';
 import 'rxjs/add/operator/switchMap';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import * as firebase from 'firebase';
-import UserCredential = firebase.auth.UserCredential;
-import {User} from 'firebase';
 import {Observable} from 'rxjs/Observable';
 import {FirestoreService} from './firestore.service';
+import {SkUser} from '../model/user';
 
 
 
 @Injectable()
 export class AuthService {
     private currentAuthUser;
-    private currentSkUser;
+    private currentSkUser: SkUser;
 
     constructor(private afAuth: AngularFireAuth,
                 private afs: AngularFirestore,
-                private firestoreService: FirestoreService,
-                private router: Router) {
+                private firestoreService: FirestoreService) {
 
       this.getUser$().subscribe(user => {
         if (user) {
-          console.log(user);
           this.currentAuthUser = user;
         }
       });
@@ -53,7 +45,7 @@ export class AuthService {
     }
 
     logout() {
-      this.afAuth.auth.signOut();
+      return this.afAuth.auth.signOut();
     }
 
     sendEmailVerification(){
@@ -94,17 +86,15 @@ export class AuthService {
       }
 
       return Promise.resolve();
-      // if (this.currentSkUser) {
-      //   displayName = displayName ? displayName : this.currentSkUser.displayName;
-      //   photoURL = photoURL ? photoURL : this.currentSkUser.photoURL;
-      // }
-      // return this.afs.doc(`users/${uid}`).update({displayName, photoURL});
     }
 
     updateUserEmail(newEmail: string): Promise<any> {
-      return this.afAuth.auth.currentUser.updateEmail(newEmail).then(() => {
-        this.afs.doc(`users/${this.currentSkUser.uid}`).update({email: newEmail});
-      });
+      return this.afAuth.auth.currentUser.updateEmail(newEmail)
+        .then(() => {
+          this.afs.doc(`users/${this.currentSkUser.uid}`).update({email: newEmail})
+            .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
     }
 
     isSkAdmin$(uid: string): Observable<boolean> {
@@ -187,7 +177,7 @@ export class AuthService {
   }
 
   isMailRegistered(mail: string): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<boolean>((resolve) => {
       this.afAuth.auth.fetchProvidersForEmail(mail)
         .then(res => {
           if (res.length === 0) {
