@@ -7,3 +7,16 @@ export class User {
   currentSkUser;
   currentAuthUser;
 }
+
+export class SkUserOrg {
+  orgId: string;
+  orgName?: string;
+}
+export class SkUser {
+  uid: string;
+  displayName?: string;
+  email?: string;
+  photoURL?: string;
+  isSkAdmin?: boolean;
+  orgs?: Array<SkUserOrg>;
+}

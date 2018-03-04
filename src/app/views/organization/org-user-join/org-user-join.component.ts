@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrgService} from '../org.service';
 import {Subject} from 'rxjs/Subject';
 import {Org} from '../../../model/org';
-import {User} from '../../../model/user';
+import {SkUser, User} from '../../../model/user';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from '../../../core/auth.service';
 import {OrgUser} from '../../../model/org-user';
@@ -15,7 +15,9 @@ import {OrgUser} from '../../../model/org-user';
 export class OrgUserJoinComponent implements OnInit, OnDestroy {
 
   org: Org = new Org();
-  user: User = new User();
+  // user: User = new User();
+  currentSkUser: SkUser;
+  currentOrgUser: OrgUser;
   destroy$: Subject<boolean> = new Subject<boolean>();
   inviteRoute = false;
   //
@@ -37,22 +39,22 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
     this.authService.getSkUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
-        this.user.currentSkUser = user;
+        this.currentSkUser = user;
       });
 
     // get queryParams to see if we came here from an Invite
     this.route.queryParams
       .takeUntil(this.destroy$)
       .subscribe((params: Params) => {
+        console.log(this.route);
 
         // get current authenticatedUser
         this.authService.getUser$()
           .takeUntil(this.destroy$)
           .subscribe(user => {
-            this.user.currentAuthUser = user;
 
             // if the user is not logged in
-            if (!this.user.currentAuthUser) {
+            if (!user) {
 
               if (params['mail']) {
                 // the user is not logged in. Navigated here thru mail
@@ -65,7 +67,8 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
                             name: params['name'],
                             mail: params['mail']
                           }
-                        });                  } else {
+                        });
+                    } else {
                       this.router.navigate([`org/${this.org.orgId}/register`],
                         {queryParams: {
                             returnUrl:  `org/${this.org.orgId}/org-join`,
@@ -104,11 +107,11 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe((orgUser: OrgUser) => {
         console.log('orgUser', orgUser);
-        this.user.isLoadingOrgUser = false;
-        this.user.currentOrgUser = orgUser;
+        // this.user.isLoadingOrgUser = false;
+        this.currentOrgUser = orgUser;
 
         // if this is an authorized Org User - go to Org Home Page
-        if (this.user.currentOrgUser && !this.user.currentOrgUser.isPending) {
+        if (this.currentOrgUser && !this.currentOrgUser.isPending) {
           this.router.navigate([`org/${this.org.orgId}`]);
 
         }
@@ -124,10 +127,10 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe((invite: any) => {
         if (invite) {
-          console.log(this.org.orgId, this.user.currentAuthUser.uid, this.user.currentSkUser,
+          console.log(this.org.orgId, this.currentSkUser.uid, this.currentSkUser,
             invite.isAdmin, invite.isEditor, invite.isViewer);
-          if (!this.user.currentOrgUser) {
-            this.orgService.addOrgToUser(this.org.orgId, this.user.currentAuthUser.uid)
+          if (!this.currentOrgUser) {
+            this.orgService.addOrgToUser(this.org.orgId, this.currentSkUser.uid)
               .catch(err => console.log(err));
           }
         } else {
