@@ -751,6 +751,7 @@ export class OrgService {
   removeReqDocAckFromAll(orgId: string, docAckId: string): Promise<any> {
     const requestsToRemove: Array<any> = new Array<any>();
     return new Promise<any>((resolve) => {
+
       this.firestoreService.colWithIds$(`org/${orgId}/docsAcks/${docAckId}/users`)
         .take(1)
         .subscribe(docAckUsers => {
@@ -761,7 +762,7 @@ export class OrgService {
           //   }
           // });
           // return Promise.all(requestsToRemove);
-        });
+        }, () => {}, () => {console.log('compleated');});
     });
   }
 

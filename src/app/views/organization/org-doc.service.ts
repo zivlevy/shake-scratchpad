@@ -109,10 +109,11 @@ export class OrgDocService {
       docAckName: docAckName,
       docId: docId,
     });
-    const updateDocsAcksField =  this.updateDocsAcksFieldP(orgId, docAckId, 'requiredSignatures', 'inc');
-    const addUserToDocAck = this.firestoreService.upsert(`org/${orgId}/docsAcks/${docAckId}/users/${uid}`, {
-      userName: userName
-    });
+    const updateDocsAcksField =  this.updateDocsAcksFieldP(orgId, docAckId, 'requiredSignatures', 'inc').then(() => console.log('here1'));
+    // const addUserToDocAck = this.firestoreService.upsert(`org/${orgId}/docsAcks/${docAckId}/users/${uid}`, {
+    //   userName: userName
+    // });
+    const addUserToDocAck = this.afs.collection(`org/${orgId}/docsAcks/${docAckId}/users`).doc(uid).set( { userName} );
     return Promise.all([updateDocsAcksField, addDocAckToUser, addUserToDocAck])
       .catch(err => console.log(err));
   }
