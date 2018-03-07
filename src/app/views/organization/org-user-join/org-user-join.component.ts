@@ -41,10 +41,9 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
     // this.authService.getSkUser$()
     //   .takeUntil(this.destroy$)
     //   .subscribe(user => {
-    //     this.currentSkUser = user;
-    //     console.log(this.currentSkUser);
+    //     console.log(user);
     //   });
-
+    //
     this.authService.getUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
