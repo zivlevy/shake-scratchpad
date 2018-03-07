@@ -5,6 +5,7 @@ import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../core/auth.service';
 import {LanguageService} from '../../core/language.service';
 import {ToasterService} from '../../core/toaster.service';
+import {OrgService} from '../../views/organization/org.service';
 
 @Component({
   selector: 'sk-login',
@@ -18,16 +19,25 @@ export class LoginComponent implements OnInit, OnDestroy {
   requestName: string;
   requestEmail: string;
   emailBlocked = false;
+  orgId: string;
 
-  constructor(public fb: FormBuilder,
-              public auth: AuthService,
-              public router: Router,
+  constructor(private fb: FormBuilder,
+              private auth: AuthService,
+              private router: Router,
               private route: ActivatedRoute,
               private lngService: LanguageService,
+              private orgService: OrgService,
               private toaster: ToasterService) {
   }
 
   ngOnInit() {
+
+    // get current org
+    this.orgService.getCurrentOrg$()
+      .takeUntil(this.destroy$)
+      .subscribe(org => {
+        this.orgId = org;
+      });
 
     this.route.queryParamMap.subscribe(params => {
 
@@ -63,7 +73,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   }
 
-  // Using getters will make your code look pretty
   get email() {
     return this.loginForm.get('email');
   }
@@ -75,9 +84,25 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     this.auth.login(this.email.value, this.password.value).then(() => {
-      this.router.navigate([this.returnRoute ? this.returnRoute : ''])
-        .catch(err => console.log(err));
-      window.location.reload();
+
+      let queryParams;
+      if (this.returnRoute) {
+        if (this.requestEmail) {
+          queryParams = {
+            name: this.requestName,
+            mail: this.requestEmail
+          };
+          this.router.navigate([this.returnRoute], {queryParams: queryParams})
+            .catch(err => console.log(err));
+        } else {
+          this.router.navigate([this.returnRoute])
+            .catch(err => console.log(err));
+        }
+      } else {
+        this.router.navigate([''])
+          .catch(err => console.log(err));
+        window.location.reload();
+      }
     })
       .catch(err => {
         this.toaster.toastError(err.message);
@@ -99,9 +124,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         queryParams = {
           returnUrl: this.returnRoute
         };
-      }      // this.router.navigate([`${this.returnRoute}/register`], {queryParams: {returnUrl: this.returnRoute}});
-      const orgId = this.router.routerState.snapshot.url.match('org/(.*)/')[1];
-      this.router.navigate(['org/' + orgId + `/register`], {queryParams: queryParams})
+      }
+      this.router.navigate(['org/' + this.orgId + `/register`], {queryParams: queryParams})
         .catch(err => console.log(err));
     } else {
       this.router.navigate(['register'])

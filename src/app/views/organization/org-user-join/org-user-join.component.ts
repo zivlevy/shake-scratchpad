@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrgService} from '../org.service';
 import {Subject} from 'rxjs/Subject';
-import {SkUser} from '../../../model/user';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from '../../../core/auth.service';
 import {OrgUser} from '../../../model/org-user';
 import {Observable} from 'rxjs/Observable';
+import { mergeAll} from 'rxjs/operator/mergeAll';
 
 @Component({
   selector: 'sk-org-user-join',
@@ -16,7 +16,8 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
 
   orgId: string;
   orgHome: string;
-  currentSkUser: SkUser;
+  // currentSkUser: SkUser;
+  uid: string;
   currentOrgUser: OrgUser;
   queryParams: Params;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -29,20 +30,59 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    // get current org
+    this.orgService.getCurrentOrg$()
+      .takeUntil(this.destroy$)
+      .subscribe(org => {
+        this.orgId = org;
+        this.orgHome = '/org/' + org;
+      });
 
-    Observable.merge(this.orgService.getCurrentOrg$(), this.authService.getSkUser$(), this.route.queryParams, this.orgService.getOrgUser$())
+    // this.authService.getSkUser$()
+    //   .takeUntil(this.destroy$)
+    //   .subscribe(user => {
+    //     console.log(user);
+    //   });
+    //
+    this.authService.getUser$()
+      .takeUntil(this.destroy$)
+      .subscribe(user => {
+        this.uid = user ? user.uid : null;
+        console.log(this.uid);
+      });
+
+    // get queryParams to see if we came here from an Invite
+    this.route.queryParams
+      .takeUntil(this.destroy$)
+      .subscribe((params: Params) => {
+        this.queryParams = params;
+        console.log(this.route);
+      });
+
+
+    // get Org User
+    this.orgService.getOrgUser$()
+      .takeUntil(this.destroy$)
+      .subscribe((orgUser: OrgUser) => {
+        console.log('orgUser', orgUser);
+        // this.user.isLoadingOrgUser = false;
+        this.currentOrgUser = orgUser;
+      });
+
+    Observable.combineLatest(this.orgService.getCurrentOrg$(), this.authService.getUser$(), this.route.queryParams, this.orgService.getOrgUser$())
       .takeUntil(this.destroy$)
       .subscribe(() => {
-        console.log(this.orgId, this.currentSkUser, this.queryParams, this.currentOrgUser);
+        console.log(this.orgId, this.uid, this.queryParams, this.currentOrgUser);
         if (! this.orgId) {
           return;
         }
 
         // if the user is not logged in
 
-        if (!this.currentSkUser) {
+        if (!this.uid) {
 
           if (this.queryParams && this.queryParams['mail']) {
+
             // the user is not logged in. Navigated here thru mail
             this.authService.isMailRegistered(this.queryParams['mail'])
               .then(mailExists => {
@@ -91,103 +131,6 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
       });
 
 
-    // get current org
-    this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
-      .subscribe(org => {
-        this.orgId = org;
-        this.orgHome = '/org/' + org;
-      });
-
-    this.authService.getSkUser$()
-      .takeUntil(this.destroy$)
-      .subscribe(user => {
-        this.currentSkUser = user;
-        console.log(this.currentSkUser);
-      });
-
-    this.authService.getUser$()
-      .takeUntil(this.destroy$)
-      .subscribe(res => console.log(res));
-
-    // get queryParams to see if we came here from an Invite
-    this.route.queryParams
-      .takeUntil(this.destroy$)
-      .subscribe((params: Params) => {
-        this.queryParams = params;
-        console.log(this.route);
-
-        // // get current authenticatedUser
-        // this.authService.getUser$()
-        //   .takeUntil(this.destroy$)
-        //   .subscribe(user => {
-        //
-        //     // if the user is not logged in
-        //     if (!user) {
-        //
-        //       if (params['mail']) {
-        //         // the user is not logged in. Navigated here thru mail
-        //         this.authService.isMailRegistered(params['mail'])
-        //           .then(mailExists => {
-        //             if (mailExists) {
-        //               this.router.navigate([`org/${this.org.orgId}/login`],
-        //                 {queryParams: {
-        //                     returnUrl:  `org/${this.org.orgId}/org-join`,
-        //                     name: params['name'],
-        //                     mail: params['mail']
-        //                   }
-        //                 });
-        //             } else {
-        //               this.router.navigate([`org/${this.org.orgId}/register`],
-        //                 {queryParams: {
-        //                     returnUrl:  `org/${this.org.orgId}/org-join`,
-        //                     name: params['name'],
-        //                     mail: params['mail']
-        //                   }
-        //                 });
-        //             }
-        //           });
-        //       } else {
-        //
-        //         // the user is not logged in. Navigated here directly
-        //         this.router.navigate([`org/${this.org.orgId}/register`],
-        //           {queryParams: {
-        //               returnUrl:  `org/${this.org.orgId}/org-join`
-        //             }
-        //           });
-        //       }
-        //
-        //     } else {
-        //       // user is logged in
-        //       if (params['mail']) {
-        //         this.inviteRoute = true;
-        //         this.processInvite(params['name'].replace('+', ' '), params['mail']);
-        //       }
-        //     }
-        //   });
-
-
-      });
-
-
-
-    // get Org User
-    this.orgService.getOrgUser$()
-      .takeUntil(this.destroy$)
-      .subscribe((orgUser: OrgUser) => {
-        console.log('orgUser', orgUser);
-        // this.user.isLoadingOrgUser = false;
-        this.currentOrgUser = orgUser;
-
-        // if this is an authorized Org User - go to Org Home Page
-        // if (this.currentOrgUser && !this.currentOrgUser.isPending) {
-        //   this.router.navigate([`org/${this.org.orgId}`]);
-        //
-        // }
-      });
-
-
-
   }
 
   processInvite(userName: string, userMail: string) {
@@ -197,10 +140,9 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe((invite: any) => {
         if (invite) {
-          console.log(this.orgId, this.currentSkUser.uid, this.currentSkUser,
-            invite.isAdmin, invite.isEditor, invite.isViewer);
+
           if (!this.currentOrgUser) {
-            this.orgService.addOrgToUser(this.orgId, this.currentSkUser.uid)
+            this.orgService.addOrgToUser(this.orgId, this.uid)
               .catch(err => console.log(err));
           }
         } else {

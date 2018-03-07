@@ -68,7 +68,6 @@ export class OrgDocService {
 
   isSignatureRequired$(orgId: string, uid: string, docId: string) {
 
-
     return this.firestoreService.colWithIds$(`org/${orgId}/users/${uid}/docsAcks`)
       .switchMap(docsAcks => {
         let docAckId = null;

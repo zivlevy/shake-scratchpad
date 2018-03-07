@@ -105,8 +105,25 @@ export class SignupComponent implements OnInit, OnDestroy {
       user.sendEmailVerification();
       this.auth.createUserInitialData(user.uid, this.email.value , this.displayName.value, )
         .catch(err => console.log(err));
-      this.router.navigate([this.returnRoute ? this.returnRoute : ''])
-        .catch(err => console.log(err));
+
+      let queryParams;
+      if (this.returnRoute) {
+        if (this.requestEmail) {
+          queryParams = {
+            name: this.requestName,
+            mail: this.requestEmail
+          };
+          this.router.navigate([this.returnRoute], {queryParams: queryParams})
+            .catch(err => console.log(err));
+        } else {
+          this.router.navigate([this.returnRoute])
+            .catch(err => console.log(err));
+        }
+      } else {
+        this.router.navigate([''])
+          .catch(err => console.log(err));
+        window.location.reload();
+      }
 
     }).catch(err => {
       this.toaster.toastError(err.message);

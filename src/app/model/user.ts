@@ -12,6 +12,7 @@ export class SkUserOrg {
   orgId: string;
   orgName?: string;
 }
+
 export class SkUser {
   uid: string;
   displayName?: string;

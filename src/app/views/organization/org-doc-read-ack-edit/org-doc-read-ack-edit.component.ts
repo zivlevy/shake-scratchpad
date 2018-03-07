@@ -190,6 +190,16 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
     this.docAckName = this.currentDocAck.name;
   }
 
+  selectAllClicked(event) {
+    if (event.checked) {
+      this.orgService.addReqDocAckToAll(this.orgId, this.docAckId, this.currentDocAck.name, this.currentDocAck.docId)
+        .catch(err => console.log(err));
+    } else {
+      this.orgService.removeReqDocAckFromAll(this.orgId, this.docAckId)
+        .catch(err => console.log(err));
+    }
+  }
+
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);
