@@ -20,6 +20,9 @@ export const onPrivateDocVersionDeleted = orgFunctions.onPrivateDocVersionDelete
 export const onPrivateDocDeleted = orgFunctions.onPrivateDocDeleted;
 export const onOrgInviteCreate = orgFunctions.onOrgInviteCreate;
 export const onOrgUserDocSignCreate = orgFunctions.onOrgUserDocSignCreate;
+export const onDocAckUserAdd = orgFunctions.onDocAckUserAdd;
+export const onDocAckUserRemove = orgFunctions.onDocAckUserRemove;
+
 // users
 export const deleteUser =  usersFunctions.deleteUser;
 export const updateUserInfo =  usersFunctions.updateUserInfo;

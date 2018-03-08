@@ -762,7 +762,7 @@ export class OrgService {
               });
           });
           return Promise.all(requestsToAdd);
-        }, () => {}, () => {console.log('compleated'); });
+        }, (err) => {console.log(err); }, () => {console.log('compleated'); });
     });
   }
 
@@ -780,7 +780,7 @@ export class OrgService {
             }
           });
           return Promise.all(requestsToRemove);
-        }, () => {}, () => {console.log('compleated'); });
+        }, (err) => {console.log(err); }, () => {console.log('compleated'); });
     });
   }
 

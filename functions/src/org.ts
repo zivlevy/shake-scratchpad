@@ -242,7 +242,60 @@ export const onOrgUserDocSignCreate = functions.firestore.document(`org/{orgId}/
         .catch(err => console.log(err));
     })
     .catch(err => console.log(err));
+});
 
+export const onDocAckUserAdd = functions.firestore.document(`org/{orgId}/docsAcks/{docAckId}/users/{uid}`).onCreate(event => {
+  const orgId = event.params.orgId;
+  const uid = event.params.uid;
+  const docAckId = event.params.docAckId;
+
+  const db = admin.firestore();
+
+  const docAckRef = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId);
+  const userDocAckRef = db.collection('org').doc(orgId).collection('users').doc(uid).collection('docsAcks').doc(docAckId);
+
+  return db.runTransaction(transaction => {
+    return transaction.get(docAckRef)
+      .then(docAck => {
+        const docAckName = docAck.data().name;
+        const docId = docAck.data().docId;
+        const requiredSignatures = docAck.data().requiredSignatures + 1;
+
+        transaction.set(userDocAckRef, {
+          isRequired: true,
+          docAckName: docAckName,
+          docId: docId,
+        });
+
+        transaction.update(docAckRef, {
+          requiredSignatures: requiredSignatures
+        });
+      });
+  });
 
 });
 
+export const onDocAckUserRemove = functions.firestore.document(`org/{orgId}/docsAcks/{docAckId}/users/{uid}`).onDelete(event => {
+  const orgId = event.params.orgId;
+  const uid = event.params.uid;
+  const docAckId = event.params.docAckId;
+
+  const db = admin.firestore();
+
+  const docAckRef = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId);
+  const userDocAckRef = db.collection('org').doc(orgId).collection('users').doc(uid).collection('docsAcks').doc(docAckId);
+
+  return db.runTransaction(transaction => {
+    return transaction.get(docAckRef)
+      .then(docAck => {
+        const requiredSignatures = docAck.data().requiredSignatures - 1;
+
+        transaction.delete(userDocAckRef);
+
+        transaction.update(docAckRef, {
+          requiredSignatures: requiredSignatures
+        });
+      });
+  });
+
+});
