@@ -109,10 +109,11 @@ export class OrgDocService {
       docAckName: docAckName,
       docId: docId,
     });
-    const updateDocsAcksField =  this.updateDocsAcksFieldP(orgId, docAckId, 'requiredSignatures', 'inc').then(() => console.log('here1'));
+    // const updateDocsAcksField =  this.updateDocsAcksFieldP(orgId, docAckId, 'requiredSignatures', 'inc');
     // const addUserToDocAck = this.firestoreService.upsert(`org/${orgId}/docsAcks/${docAckId}/users/${uid}`, {
     //   userName: userName
     // });
+    const updateDocsAcksField =  this.incDocAckReqCounter(orgId, docAckId);
     const addUserToDocAck = this.afs.collection(`org/${orgId}/docsAcks/${docAckId}/users`).doc(uid).set( { userName} );
     return Promise.all([updateDocsAcksField, addDocAckToUser, addUserToDocAck])
       .catch(err => console.log(err));
@@ -120,7 +121,9 @@ export class OrgDocService {
 
   removeOrgUserReqDocAck(orgId: string, docAckId: string, uid: string): Promise<any> {
     const removeDocAckFromUser = this.afs.doc(`org/${orgId}/users/${uid}/docsAcks/${docAckId}`).delete();
-    const updateDocsAcksField = this.updateDocsAcksFieldP(orgId, docAckId, 'requiredSignatures', 'dec');
+    // const updateDocsAcksField = this.updateDocsAcksFieldP(orgId, docAckId, 'requiredSignatures', 'dec');
+    const updateDocsAcksField = this.decDocAckReqCounter(orgId, docAckId);
+
     const removeUserFromDocAck = this.afs.doc(`org/${orgId}/docsAcks/${docAckId}/users/${uid}`).delete();
 
     return Promise.all([updateDocsAcksField, removeDocAckFromUser, removeUserFromDocAck])
@@ -155,30 +158,33 @@ export class OrgDocService {
     return this.firestoreService.upsert(`org/${orgId}/docsAcks/${readAckId}`, data);
   }
 
-  updateDocsAcksFieldP(orgId: string, readAckId: string, fieldName: string, action: string): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
-      const ref = this.afs.collection('org').doc(orgId).collection('docsAcks').doc(readAckId);
-      ref.valueChanges().take(1)
-        .subscribe((original: any) => {
-          if (action === 'inc') {
-            original[fieldName] = original[fieldName] + 1;
-          } else {
-            if (original[fieldName] > 0) {
-              original[fieldName] = original[fieldName] - 1;
-            } else {
-              original[fieldName] = 0;
-            }
-          }
-          ref.update(original)
-            .then(() => {
-              resolve();
-            })
-            .catch(err => {
-              console.log(err);
-              reject();
-            });
+  incDocAckReqCounter(orgId: string, docAckId: string) {
+    const docAckRef = this.afs.firestore.collection('org').doc(orgId).collection('docsAcks').doc(docAckId);
+
+    return this.afs.firestore.runTransaction(transaction => {
+      return transaction.get(docAckRef)
+        .then(res => {
+          const newRequiredSignatures = res.data().requiredSignatures + 1;
+
+          transaction.update(docAckRef, {
+            requiredSignatures: newRequiredSignatures
+          });
         });
     });
   }
 
+  decDocAckReqCounter(orgId: string, docAckId: string) {
+    const docAckRef = this.afs.firestore.collection('org').doc(orgId).collection('docsAcks').doc(docAckId);
+
+    return this.afs.firestore.runTransaction(transaction => {
+      return transaction.get(docAckRef)
+        .then(res => {
+          const newRequiredSignatures = res.data().requiredSignatures - 1;
+
+          transaction.update(docAckRef, {
+            requiredSignatures: newRequiredSignatures
+          });
+        });
+    });
+  }
 }

@@ -171,9 +171,8 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
   isRequiredClicked(uid: string, userName: string, event) {
 
     if (event.checked) {
-        this.orgDocService.addOrgUserReqDocAck(this.orgId, this.docAckId, this.currentDocAck.name, this.currentDocAck.docId, uid, userName)
-          .then( res => console.log('here'))
-          .catch(err => console.log(err));
+      this.orgDocService.addOrgUserReqDocAck(this.orgId, this.docAckId, this.currentDocAck.name, this.currentDocAck.docId, uid, userName)
+        .catch(err => console.log(err));
     } else {
       this.orgDocService.removeOrgUserReqDocAck(this.orgId, this.docAckId, uid)
         .catch(err => console.log(err));

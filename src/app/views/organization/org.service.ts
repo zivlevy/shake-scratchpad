@@ -19,7 +19,7 @@ import {TreeNode} from 'angular-tree-component';
 import {OrgTreeNode} from '../../model/org-tree';
 import {AlgoliaService} from '../../core/algolia.service';
 import {LanguageService} from '../../core/language.service';
-import {OrgDocService} from "./org-doc.service";
+import {OrgDocService} from './org-doc.service';
 
 
 @Injectable()
@@ -37,7 +37,6 @@ export class OrgService {
               private router: Router,
               private imageService: ImageService,
               private firestoreService: FirestoreService,
-              private fs: FirestoreService,
               private algoliaService: AlgoliaService,
               private orgDocService: OrgDocService,
               private lngService: LanguageService) {
@@ -449,7 +448,7 @@ export class OrgService {
   }
 
   deleteDocVersion(docId: string, version: string) {
-    return this.fs.delete(`org/${this.localCurrentOrg}/docs/${docId}/versions/${version}`);
+    return this.firestoreService.delete(`org/${this.localCurrentOrg}/docs/${docId}/versions/${version}`);
   }
 
   deleteDocP(orgId: string, docId: string): Promise<any> {
@@ -476,7 +475,7 @@ export class OrgService {
   }
 
   getDocVersion$(docId: string, versionNo: number) {
-    return this.fs.doc$(`org/${this.localCurrentOrg}/docs/${docId}/versions/${versionNo}`);
+    return this.firestoreService.doc$(`org/${this.localCurrentOrg}/docs/${docId}/versions/${versionNo}`);
   }
 
   getAllVersions$(docId: string): Observable<any> {
@@ -561,7 +560,7 @@ export class OrgService {
 
     return this.getCurrentOrg$()
       .switchMap(currentOrg => {
-        return this.fs.doc$(`org/${currentOrg}`)
+        return this.firestoreService.doc$(`org/${currentOrg}`)
           .map((result: any) => {
             const tree = JSON.parse(result.orgTreeJson);
             return tree;
@@ -572,7 +571,7 @@ export class OrgService {
   private getOrgJsonTree(): Observable<string> {
     return this.getCurrentOrg$()
       .switchMap(currentOrg => {
-        return this.fs.doc$(`org/${currentOrg}`)
+        return this.firestoreService.doc$(`org/${currentOrg}`)
           .map((result: any) => {
             return result.orgTreeJson;
           });
@@ -638,7 +637,7 @@ export class OrgService {
 
 
   saveOrgTree(orgTreeJson: string) {
-    return this.fs.update(`org/${this.localCurrentOrg}`, {orgTreeJson});
+    return this.firestoreService.update(`org/${this.localCurrentOrg}`, {orgTreeJson});
   }
 
 
@@ -745,7 +744,26 @@ export class OrgService {
   }
 
   addReqDocAckToAll(orgId: string, docAckId: string, docAckName: string, docId: string): Promise<any> {
-    return Promise.resolve();
+    const requestsToAdd: Array<any> = new Array<any>();
+    return new Promise<any>((resolve) => {
+
+      this.firestoreService.colWithIds$(`org/${orgId}/users`)
+        .take(1)
+        .subscribe(orgUsers => {
+          console.log(orgUsers);
+          orgUsers.forEach(orgUser => {
+            this.afs.collection('org').doc(orgId).collection('users').doc(orgUser.id).collection('docsAcks').doc(docAckId)
+              .valueChanges()
+              .take(1)
+              .subscribe((docAck: any) => {
+                if (!docAck || (docAck && !docAck.isRequired)) {
+                  requestsToAdd.push(this.orgDocService.addOrgUserReqDocAck(orgId, docAckId, docAckName, docId, orgUser.id, orgUser.displayName));
+                }
+              });
+          });
+          return Promise.all(requestsToAdd);
+        }, () => {}, () => {console.log('compleated'); });
+    });
   }
 
   removeReqDocAckFromAll(orgId: string, docAckId: string): Promise<any> {
@@ -756,13 +774,13 @@ export class OrgService {
         .take(1)
         .subscribe(docAckUsers => {
           console.log(docAckUsers);
-          // docAckUsers.forEach(docAckUser => {
-          //   if (!docAckUser.hasSigned) {
-          //     requestsToRemove.push(this.orgDocService.removeOrgUserReqDocAck(orgId, docAckId, docAckUser.id));
-          //   }
-          // });
-          // return Promise.all(requestsToRemove);
-        }, () => {}, () => {console.log('compleated');});
+          docAckUsers.forEach(docAckUser => {
+            if (!docAckUser.hasSigned) {
+              requestsToRemove.push(this.orgDocService.removeOrgUserReqDocAck(orgId, docAckId, docAckUser.id));
+            }
+          });
+          return Promise.all(requestsToRemove);
+        }, () => {}, () => {console.log('compleated'); });
     });
   }
 

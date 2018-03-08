@@ -206,6 +206,7 @@ export const onOrgInviteCreate = functions.firestore.document('org/{orgId}/invit
     .catch(err => console.log(err));
 });
 
+// ToDo - turn into transaction
 export const onOrgUserDocSignCreate = functions.firestore.document(`org/{orgId}/userSignatures/{uid}`).onCreate(event => {
   const uid = event.params.uid;
   const orgId = event.params.orgId;
