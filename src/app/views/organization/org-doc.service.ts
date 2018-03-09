@@ -30,10 +30,7 @@ export class OrgDocService {
     this.afs.collection(`org/${orgId}/users`).valueChanges()
       .take(1)
       .subscribe(orgUsers => {
-        console.log(orgUsers);
         orgUsers.map((orgUser: any) => {
-          console.log(orgUser);
-          console.log(`org/${orgId}/users/${orgUser.uid}/docsAcks/${docAckId}`);
           this.afs.doc(`org/${orgId}/users/${orgUser.uid}/docsAcks/${docAckId}`)
             .delete();
         });
@@ -90,7 +87,7 @@ export class OrgDocService {
   getOrgPublishedDocs$(orgId): Observable<any> {
     return this.firestoreService.colWithIds$(`org/${orgId}/docs`)
       .map(docsArray => {
-       const  res: Array<any> = new Array<any>();
+       const  res: Array<any> = [];
        docsArray.map(doc => {
          if (doc.isPublish) {
            res.push(doc);
@@ -116,7 +113,7 @@ export class OrgDocService {
   }
 
   getDocNameP(orgId: string, docId: string): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
+    return new Promise<string>((resolve) => {
       this.afs.doc(`org/${orgId}/docs/${docId}`).valueChanges()
         .take(1)
         .subscribe((doc: any) => {

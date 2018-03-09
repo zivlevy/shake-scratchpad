@@ -744,7 +744,7 @@ export class OrgService {
   }
 
   addReqDocAckToAll(orgId: string, docAckId: string, docAckName: string, docId: string): Promise<any> {
-    const requestsToAdd: Array<any> = new Array<any>();
+    const requestsToAdd: Array<any> = [];
     return new Promise<any>((resolve) => {
 
       this.firestoreService.colWithIds$(`org/${orgId}/users`)
@@ -761,13 +761,14 @@ export class OrgService {
                 }
               });
           });
-          return Promise.all(requestsToAdd);
-        }, (err) => {console.log(err); }, () => {console.log('compleated'); });
+          Promise.all(requestsToAdd)
+            .then(resolve);
+        });
     });
   }
 
   removeReqDocAckFromAll(orgId: string, docAckId: string): Promise<any> {
-    const requestsToRemove: Array<any> = new Array<any>();
+    const requestsToRemove: Array<any> = [];
     return new Promise<any>((resolve) => {
 
       this.firestoreService.colWithIds$(`org/${orgId}/docsAcks/${docAckId}/users`)
@@ -779,8 +780,9 @@ export class OrgService {
               requestsToRemove.push(this.orgDocService.removeOrgUserReqDocAck(orgId, docAckId, docAckUser.id));
             }
           });
-          return Promise.all(requestsToRemove);
-        }, (err) => {console.log(err); }, () => {console.log('compleated'); });
+          Promise.all(requestsToRemove)
+            .then(resolve);
+        });
     });
   }
 
