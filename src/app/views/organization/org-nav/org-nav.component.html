@@ -1,8 +1,8 @@
-<mat-toolbar color="primary" skSetDirection>
+<mat-toolbar class="org-navbar" color="primary" skSetDirection>
 
   <button mat-button class="navbar-brand" [routerLink]="org.orgHome">
     <img class="orgLogo"  [src]="org.logoUrl">
-    <span fxShow.xs="false"> {{org.orgName}} </span>
+    <span class="org-name" fxShow.xs="false"> {{org.orgName}} </span>
   </button>
 
   <span class="fill-remaining-space"></span>
@@ -14,7 +14,7 @@
   <button mat-button *ngIf="!user.currentAuthUser" (click)="login()" [innerHTML]="'Login' | translate"></button>
   <button mat-button *ngIf="!user.currentAuthUser" (click)="signup()" [innerHTML]="'Signup' | translate"></button>
 
-  <button mat-button [matMenuTriggerFor]="menu"  *ngIf="user.currentOrgUser &&
+  <button  class="nav-button" mat-button [matMenuTriggerFor]="menu"  *ngIf="user.currentOrgUser &&
     (user.currentOrgUser?.roles?.admin || user.currentOrgUser?.roles?.editor) && user.currentAuthUser">
     <i class="fa fa-gear"></i> <span class="fa fa-caret-down"></span>
   </button>
@@ -31,6 +31,6 @@
 
   </mat-menu>
 
-  <sk-nav-user [logoutRoute]="org.orgHome"></sk-nav-user>
+  <sk-nav-user class="nav-button" [logoutRoute]="org.orgHome"></sk-nav-user>
 
 </mat-toolbar>

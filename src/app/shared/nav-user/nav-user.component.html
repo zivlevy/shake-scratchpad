@@ -8,11 +8,11 @@
     <span class="fa fa-caret-down"></span>
   </button>
 
-  <mat-menu #menu="matMenu">
+  <mat-menu  #menu="matMenu">
     <button mat-menu-item [routerLink]="'user-profile'" [innerHTML]="'User Profile' | translate"></button>
     <button mat-menu-item (click)="logout()" [innerHTML]="'Logout' | translate"></button>
     <hr>
-    <div [innerHTML]="'My Organizations' | translate">My Organizations</div>
+    <div mat-menu-item class="menu-header" disabled [innerHTML]="'My Organizations' | translate"></div>
     <button mat-menu-item *ngFor="let org of myOrgs" (click)="orgClicked(org.id)">{{org.name}}</button>
   </mat-menu>
 </div>
