@@ -28,10 +28,16 @@ export class AppComponent implements OnInit {
                 // the lang to use, if the lang isn't available, it will use the current loader to get them
                 this.translate.use(lng);
                 lng === 'he' ? this.rtl = true : this.rtl = false;
+              const doc = document;
+                if (lng === 'he') {
+                  const htmlRoot: HTMLElement = <HTMLElement> document.getElementsByTagName('body')[0];
+                  if (htmlRoot != null) {
+                    htmlRoot.style.fontFamily = 'Rubik';
+                  }
+                }
             });
 
     }
-
 
 
     valChanged(e){
