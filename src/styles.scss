@@ -8,8 +8,21 @@
 // fonts
 @import url('https://fonts.googleapis.com/css?family=Roboto:300');
 @import url('https://fonts.googleapis.com/css?family=Rubik&subset=hebrew');
+
 // tree
 @import '~angular-tree-component/dist/angular-tree-component.css';
+
+@import '~@angular/material/theming';
+
+$hebrew-typography: mat-typography-config(
+  $font-family: 'Rubik'
+);
+
+$english-typography: mat-typography-config(
+  $font-family: 'Roboto'
+);
+
+@include angular-material-typography($hebrew-typography);
 
 body {
   font-family: 'Roboto', sans-serif;

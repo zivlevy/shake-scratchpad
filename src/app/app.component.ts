@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {AuthService} from './core/auth.service';
 import {LanguageService} from './core/language.service';
@@ -23,25 +23,29 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
 
-        this.lngService.getLanguadge$()
-            .subscribe(lng => {
-                // the lang to use, if the lang isn't available, it will use the current loader to get them
-                this.translate.use(lng);
-                lng === 'he' ? this.rtl = true : this.rtl = false;
-              const doc = document;
-                if (lng === 'he') {
-                  const htmlRoot: HTMLElement = <HTMLElement> document.getElementsByTagName('body')[0];
-                  if (htmlRoot != null) {
-                    htmlRoot.style.fontFamily = 'Rubik';
-                  }
-                }
-            });
+      this.lngService.getLanguadge$()
+        .subscribe(lng => {
+          // the lang to use, if the lang isn't available, it will use the current loader to get them
+          this.translate.use(lng);
+          lng === 'he' ? this.rtl = true : this.rtl = false;
+          const htmlRoot: HTMLElement = <HTMLElement> document.getElementsByTagName('body')[0];
+          if (htmlRoot != null) {
+            if (lng === 'he') {
+              htmlRoot.style.fontFamily = 'Rubik';
+            } else {
+              htmlRoot.style.fontFamily = 'Roboto';
+            }
+          }
+          const matCard: HTMLElement = <HTMLElement> document.getElementsByTagName('mat-card')[0];
+          if (matCard != null) {
+            if (lng === 'he') {
+              matCard.style.fontFamily = 'Rubik';
+            } else {
+              matCard.style.fontFamily = 'Roboto';
+            }
+          }
 
+        });
     }
 
-
-    valChanged(e){
-        console.log(e);
-        this.content = e.html;
-    }
 }

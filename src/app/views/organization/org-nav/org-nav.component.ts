@@ -6,6 +6,7 @@ import 'rxjs/add/operator/retry';
 import 'rxjs/add/observable/defer';
 import {Org} from '../../../model/org';
 import {User} from '../../../model/user';
+import {LanguageService} from '../../../core/language.service';
 
 @Component({
   selector: 'sk-org-nav',
@@ -28,10 +29,25 @@ export class OrgNavComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
+              private langService: LanguageService,
               private orgService: OrgService) {
   }
 
   ngOnInit() {
+    this.langService.getLanguadge$()
+      .takeUntil(this.destroy$)
+      .subscribe(lng => {
+        const matButton: HTMLElement = <HTMLElement> document.getElementsByClassName('org-name')[0];
+        if (matButton != null) {
+          if (lng === 'he') {
+            matButton.style.fontFamily = 'Rubik';
+          } else {
+            matButton.style.fontFamily = 'Roboto';
+          }
+        }
+      });
+
+
     this.returnRoute = this.router.routerState.snapshot.url;
 
     this.route.queryParamMap.subscribe(params => {
@@ -54,17 +70,19 @@ export class OrgNavComponent implements OnInit, OnDestroy {
             returnUrl: this.returnRoute
           };
         }
-      };
+      }
     });
   }
 
   login() {
-    this.router.navigate([`org/${this.org.orgId}/login`], {queryParams: this.queryParams});
+    this.router.navigate([`org/${this.org.orgId}/login`], {queryParams: this.queryParams})
+      .catch(err => console.log(err));
 
   }
 
   signup() {
-    this.router.navigate([`org/${this.org.orgId}/register`], {queryParams: this.queryParams});
+    this.router.navigate([`org/${this.org.orgId}/register`], {queryParams: this.queryParams})
+      .catch(err => console.log(err));
 
   }
 
