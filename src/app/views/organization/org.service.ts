@@ -101,9 +101,11 @@ export class OrgService {
   // Sets initial user data to firestore after successful org Join
   private setUserInfo(user) {
     // set the org to the user
-    console.log(`users/${user.uid}/orgs/${this.currentOrg$.getValue()}`);
+    console.log(this.orgPublicData$.getValue().orgName);
     const orgUserRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}/orgs/${this.currentOrg$.getValue()}`);
-    orgUserRef.set({});
+    orgUserRef.set({
+      orgName: this.orgPublicData$.getValue().orgName
+    });
 
     // set the user data in the org
     console.log(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
@@ -117,6 +119,23 @@ export class OrgService {
       photoURL: user.photoURL ? user.photoURL : ''
     };
     return userRef.set(data);
+  }
+
+  updateOrgUsersOrgName(orgId: string, orgName: string) {
+    const actions: Array<any> = new Array<any>();
+    return new Promise<any>(resolve => {
+      this.firestoreService.colWithIds$(`org/${orgId}/users`)
+        .subscribe(users => {
+          users.forEach(user => {
+            const action = this.afs.doc(`users/${user.id}/orgs/${orgId}`).set({orgName: orgName});
+            actions.push(action);
+          });
+          Promise.all(actions)
+            .catch(err => console.log(err))
+            .then(resolve);
+        });
+    });
+
   }
 
   // Update additional user data
@@ -243,16 +262,16 @@ export class OrgService {
 
   // Written by Ran
 
-  getOrgNameP(orgId: string): Promise<string> {
-    return new Promise<string>((resolve) => {
-      const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
-      document.valueChanges()
-        .take(1)
-        .subscribe(res => {
-          resolve(res ? res.orgName : null);
-        });
-    });
-  }
+  // getOrgNameP(orgId: string): Promise<string> {
+  //   return new Promise<string>((resolve) => {
+  //     const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
+  //     document.valueChanges()
+  //       .take(1)
+  //       .subscribe(res => {
+  //         resolve(res ? res.orgName : null);
+  //       });
+  //   });
+  // }
 
   setOrgPublicData(orgId, newData) {
     const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);

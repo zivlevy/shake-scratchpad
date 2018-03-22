@@ -69,19 +69,19 @@
                   <input #search matInput placeholder="{{'Search for a document' | translate }}"
                          [(ngModel)]="searchTerm">
                 </mat-form-field>
-                <mat-checkbox [(ngModel)]="docNameOnly" (change)="checkboxClick$.next()">{{'Doc name only' | translate
+                <mat-checkbox color="primary" [(ngModel)]="docNameOnly" (change)="checkboxClick$.next()">{{'Doc name only' | translate
                   }}
                 </mat-checkbox>
               </div>
 
               <div *ngIf="currentOrgUser?.roles.editor" fxLayout="row" fxLayoutAlign="space-between center">
-                <mat-checkbox class="margin-fix" [(ngModel)]="published" (change)="checkboxClick$.next()">{{'Publish' |
+                <mat-checkbox class="margin-fix" color="primary" [(ngModel)]="published" (change)="checkboxClick$.next()">{{'Publish' |
                   translate }}
                 </mat-checkbox>
-                <mat-checkbox class="margin-fix" [(ngModel)]="edited" (change)="checkboxClick$.next()">{{'Edit' |
+                <mat-checkbox class="margin-fix" color="primary" [(ngModel)]="edited" (change)="checkboxClick$.next()">{{'Edit' |
                   translate }}
                 </mat-checkbox>
-                <mat-checkbox class="margin-fix" [(ngModel)]="version" (change)="checkboxClick$.next()">{{'Previous Versions' | translate }}
+                <mat-checkbox class="margin-fix" color="primary" [(ngModel)]="version" (change)="checkboxClick$.next()">{{'Previous Versions' | translate }}
                 </mat-checkbox>
               </div>
 

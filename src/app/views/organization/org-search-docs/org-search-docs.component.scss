@@ -12,6 +12,12 @@
   margin-right: 0px!important;
 }
 
+::ng-deep .mat-tab-header mat-ink-bar {
+  background-color: #00ACC1 !important;
+  height: 1px !important;
+}
+
+
 .menu-btn {
   color: white;
   margin: 0;
@@ -53,8 +59,8 @@
     height: 50px;
     height: 50px;
     max-height: 50px;
-    background: #1A237E;
-    background: linear-gradient(to right, #0E2A3B 0%, #34306B 100%);
+    //background: #1A237E;
+    //background: linear-gradient(to right, #0E2A3B 0%, #34306B 100%);
     text-align: center;
 
     @include media-breakpoint('xs') {
@@ -65,7 +71,7 @@
     .hero-text {
 
       h3 {
-        color: rgba(255, 255, 255, 0.75);
+        color: #00388F;
         max-width: 480px;
         text-align: center;
         font-weight: 300;

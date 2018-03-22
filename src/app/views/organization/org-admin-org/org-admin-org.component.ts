@@ -160,6 +160,8 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
     this.orgService.setOrgPublicData(this.orgId, newData)
       .then()
       .catch();
+
+    this.orgService.updateOrgUsersOrgName(this.orgId, this.orgName);
   }
 
   nameUpdateCanceled() {

@@ -49,14 +49,15 @@ export class NavUserComponent implements OnInit, OnDestroy {
         this.authService.getUserOrgs$(user.uid)
           .subscribe(res => {
             this.myOrgs = [];
-            res.forEach(orgIdObj => {
-              this.orgService.getOrgNameP(orgIdObj.id)
-                .then(orgName => {
-                  this.myOrgs.push({
-                    'id': orgIdObj.id,
-                    'name': orgName
-                  });
-                });
+            res.forEach(org => {
+              this.myOrgs.push({
+                'id': org.id,
+                'name': org.orgName
+              });
+              // this.orgService.getOrgNameP(orgIdObj.id)
+              //   .then(orgName => {
+              //
+              //   });
             });
           });
       });

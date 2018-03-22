@@ -22,14 +22,14 @@ $english-typography: mat-typography-config(
   $font-family: 'Roboto'
 );
 
-@include angular-material-typography($hebrew-typography);
+@include angular-material-typography($english-typography);
 
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
 
   background-color: #fafafa ;
-
+  color: #424242;
 }
 
 .loading {
