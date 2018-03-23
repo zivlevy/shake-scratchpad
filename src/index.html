@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <title>Shake SB</title>
   <base href="/">
-  <!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="/assets/icons/icon-512.png">
+  <link rel="icon" type="image/x-icon" href="/assets/icons/icon-250.png">
   <link rel="manifest" href="/manifest.json">
 
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#f48c5b">
-  <!-- Latest compiled and minified CSS -->
+
+  <!-- This style has to be here to prevent initial default style (before css takes effect) -->
   <style>
     .splash {
       opacity: 0;
@@ -35,12 +35,13 @@
       margin-bottom: 50px;
     }
   </style>
+
 </head>
-<body>
+<body class="mat-app-background">
   <app-root></app-root>
   <div class="splash"  id="content">
-    <img src="/assets/icons/icon-512.png" width="256px" alt="Shake logo">
-    <h1>SHAKE</h1>
+    <img src="/assets/icons/icon-250.png" width="250px" alt="Shake logo">
+    <h1>ShaKE</h1>
   </div>
 
   <noscript>

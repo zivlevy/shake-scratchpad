@@ -3,7 +3,7 @@
 @import '../node_modules/font-awesome/css/font-awesome.css';
 @import '../node_modules/bootstrap/scss/bootstrap';
 @import "../node_modules/ng2-file-input/ng2-file-input.scss";
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+//@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 // fonts
 @import url('https://fonts.googleapis.com/css?family=Roboto:300');
@@ -14,56 +14,43 @@
 
 @import '~@angular/material/theming';
 
-$hebrew-typography: mat-typography-config(
+$global-typography: mat-typography-config(
   $font-family: 'Rubik'
 );
 
-$english-typography: mat-typography-config(
-  $font-family: 'Roboto'
-);
+//$english-typography: mat-typography-config(
+//  $font-family: 'Roboto'
+//);
 
-@include angular-material-typography($english-typography);
+@include angular-material-typography($global-typography);
+
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://www.google.com/design/spec/style/color.html
+$candy-app-primary: mat-palette($mat-indigo);
+$candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$candy-app-warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($candy-app-theme);
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Rubik', sans-serif;
   margin: 0;
 
   background-color: #fafafa ;
   color: #424242;
 }
 
-.loading {
-  opacity: 0;
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  background: lightsalmon;
-  padding-top: 25vh;
-  text-align: center;
-  z-index: -1;
-  transition: opacity .8s ease-out;
-}
-
-app-root:empty + .loading {
-  opacity: 1;
-  z-index: 100;
-
-  h1 {
-    color: #EEE;
-    margin-bottom: 50px;
-  }
-
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  background-color: #333;
-
-  margin: 100px auto;
-  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
-  animation: sk-rotateplane 1.2s infinite ease-in-out;
-}
 
 @-webkit-keyframes sk-rotateplane {
   0% {
@@ -93,6 +80,16 @@ app-root:empty + .loading {
 }
 
 // global
+
+.he {
+  direction: rtl;
+  text-align: right;
+}
+
+.en {
+  direction: ltr;
+}
+
 .error-message {
   font-size: smaller;
   color: darkred;
@@ -105,6 +102,10 @@ p {
 
 ul, ol {
   -webkit-padding-start: 20px;
+}
+
+th, td {
+  border: 1px solid black;
 }
 
 .toastSuccess {
@@ -122,7 +123,37 @@ ul, ol {
   color: white;
 }
 
-th, td {
-  border: 1px solid black;
-}
+//// loading
+//.loading {
+//  opacity: 0;
+//  position: fixed;
+//  height: 100%;
+//  width: 100%;
+//  background: lightsalmon;
+//  padding-top: 25vh;
+//  text-align: center;
+//  z-index: -1;
+//  transition: opacity .8s ease-out;
+//}
+//
+//app-root:empty + .loading {
+//  opacity: 1;
+//  z-index: 100;
+//
+//  h1 {
+//    color: #EEE;
+//    margin-bottom: 50px;
+//  }
+//
+//}
 
+
+//.spinner {
+//  width: 40px;
+//  height: 40px;
+//  background-color: #333;
+//
+//  margin: 100px auto;
+//  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+//  animation: sk-rotateplane 1.2s infinite ease-in-out;
+//}

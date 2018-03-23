@@ -1,15 +1,7 @@
-.he {
-    direction: rtl;
-    text-align: right;
-}
 
-.en {
-    direction: ltr;
-}
-
-#editor {
-    position: relative;
-    width: 50%;
-    margin: 50px auto;
-}
+/*#editor {*/
+    /*position: relative;*/
+    /*width: 50%;*/
+    /*margin: 50px auto;*/
+/*}*/
 
