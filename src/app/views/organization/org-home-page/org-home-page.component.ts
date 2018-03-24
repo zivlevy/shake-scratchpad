@@ -37,7 +37,6 @@ export class OrgHomePageComponent implements OnInit, OnDestroy {
     this.authService.getUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
-        // console.log(user);
         this.user.currentAuthUser = user;
         this.user.isAuthenticated = user ? user.emailVerified : null;
       });
