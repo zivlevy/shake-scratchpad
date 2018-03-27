@@ -8,9 +8,12 @@
       <div class="cropper-buttons">
 
         <button mat-raised-button color="primary" [disabled]="!logoData.image"
-                (click)="logoSavedClicked()">save
+                (click)="logoSavedClicked()">
+          {{'Save' | translate}}
         </button>
-        <button mat-raised-button color="basic" (click)="logoCancelClicked()">cancel</button>
+        <button mat-raised-button color="basic" (click)="logoCancelClicked()">
+          {{'Cancel' | translate}}
+        </button>
       </div>
     </div>
 
@@ -20,9 +23,12 @@
       <div class="cropper-buttons">
 
         <button mat-raised-button color="primary" [disabled]="!bannerData.image"
-                (click)="bannerSaveClicked()">save
+                (click)="bannerSaveClicked()">
+          {{'Save' | translate}}
         </button>
-        <button mat-raised-button color="basic" (click)="bannerCancelClicked()">cancel</button>
+        <button mat-raised-button color="basic" (click)="bannerCancelClicked()">
+          {{'Cancel' | translate}}
+        </button>
       </div>
     </div>
   </div>
@@ -51,11 +57,13 @@
                      formControlName="orgName" placeholder="{{'Organization Name' | translate}}">
             </mat-form-field>
             <button *ngIf="currentOrg && currentOrg.orgName !== orgName" mat-button color="primary"
-                    (click)="nameUpdateClicked()"
-            >Update</button>
+                    (click)="nameUpdateClicked()">
+              {{'Update' | translate}}
+            </button>
             <button *ngIf="currentOrg && currentOrg.orgName !== orgName" mat-button color="primary"
-                    (click)="nameUpdateCanceled()"
-            >Cancel</button>
+                    (click)="nameUpdateCanceled()">
+              {{'Cancel' | translate}}
+            </button>
           </div>
 
           <div>
@@ -64,11 +72,13 @@
                      formControlName="orgEmail" placeholder="{{'Organization E-mail' | translate}}">
             </mat-form-field>
             <button *ngIf="currentOrg && currentOrg.orgEmail !== orgEmail" mat-button color="primary"
-                    (click)="emailUpdateClicked()"
-            >Update</button>
+                    (click)="emailUpdateClicked()">
+              {{'Update' | translate}}
+            </button>
             <button *ngIf="currentOrg && currentOrg.orgEmail !== orgEmail" mat-button color="primary"
-                    (click)="emailUpdateCanceled()"
-            >Cancel</button>
+                    (click)="emailUpdateCanceled()">
+              {{'Cancel' | translate}}
+            </button>
           </div>
 
           <div>
@@ -80,11 +90,13 @@
               </mat-select>
             </mat-form-field>
             <button *ngIf="currentOrg && currentOrg.language !== lang" mat-button color="primary"
-                    (click)="langUpdateClicked()"
-            >Update</button>
+                    (click)="langUpdateClicked()">
+              {{'Update' | translate}}
+            </button>
             <button *ngIf="currentOrg && currentOrg.language !== lang" mat-button color="primary"
-                    (click)="langUpdateCanceled()"
-            >Cancel</button>
+                    (click)="langUpdateCanceled()">
+              {{'Cancel' | translate}}
+            </button>
           </div>
 
 

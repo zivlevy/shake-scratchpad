@@ -13,6 +13,8 @@ import {OrgDocReadAcksComponent} from './org-doc-read-acks/org-doc-read-acks.com
 import {OrgDocReadAckEditComponent} from './org-doc-read-ack-edit/org-doc-read-ack-edit.component';
 import {OrgGuard} from './guards/org.guard';
 import {OrgUserJoinComponent} from './org-user-join/org-user-join.component';
+import {OrgContainerComponent} from './org-container/org-container.component';
+import {OrgHomeComponent} from './org-home/org-home.component';
 
 const routes: Routes = [
   {
@@ -21,8 +23,8 @@ const routes: Routes = [
       {
         path: ':id', children: [
           {
-             path: '', component: OrgHomePageComponent, children: [
-              {path: '', component: OrgSearchDocsComponent, canActivate: [OrgGuard]},
+             path: '', component: OrgContainerComponent, children: [
+              {path: '', component: OrgHomeComponent, canActivate: [OrgGuard]},
               {path: 'org-join', component: OrgUserJoinComponent},
               {path: 'login', component: LoginComponent},
               {path: 'register', component: SignupComponent},

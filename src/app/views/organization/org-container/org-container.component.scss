@@ -1,0 +1,26 @@
+@import "src/app/core/scss/shake";
+
+.bannerImage {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.page-wrap {
+  height: 100vh;
+}
+
+.orgLogo {
+  height: 40px;
+  width: auto;
+  border: 2px solid $sk-secondary;
+}
+
+.org-name {
+  color: #FFFFFF;
+  font-size: 15pt;
+}
+
+.fill-remaining-space {
+
+  flex: 1 1 auto;
+}

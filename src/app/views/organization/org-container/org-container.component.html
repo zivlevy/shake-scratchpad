@@ -1,0 +1,47 @@
+<sk-spinner *ngIf="user.isLoadingOrgUser"></sk-spinner>
+
+<div  class="page-wrap" fxLayout="column">
+  <div fxFlex="0 0 auto">
+    <mat-toolbar color="primary" skSetDirection>
+
+      <button mat-button  [routerLink]="org.orgHome">
+        <img class="orgLogo"  [src]="org.logoUrl">
+        <span class="org-name" fxShow.xs="false"> {{org.orgName}} </span>
+      </button>
+
+      <span class="fill-remaining-space"></span>
+
+      <button mat-button *ngIf="!user.currentAuthUser" (click)="login()" [innerHTML]="'Login' | translate"></button>
+      <button mat-button *ngIf="!user.currentAuthUser" (click)="signup()" [innerHTML]="'Signup' | translate"></button>
+
+      <button  class="nav-button" mat-button [matMenuTriggerFor]="menu"  *ngIf="user.currentOrgUser &&
+    (user.currentOrgUser?.roles?.admin || user.currentOrgUser?.roles?.editor) && user.currentAuthUser">
+        <i class="fa fa-gear"></i> <span class="fa fa-caret-down"></span>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item [routerLink]="'org-admin'" [innerHTML]="'Organization Management' | translate"
+                *ngIf="user.currentOrgUser && user.currentOrgUser?.roles?.admin && user.currentAuthUser"
+        ></button>
+        <button mat-menu-item [routerLink]="'org-admin-users'" [innerHTML]="'Users Management' | translate"
+                *ngIf="user.currentOrgUser && user.currentOrgUser?.roles?.admin && user.currentAuthUser"
+        ></button>
+        <button mat-menu-item [routerLink]="'org-doc-read-acks'" [innerHTML]="'Docs Read & Acknowledge Management' | translate"
+                *ngIf="user.currentOrgUser && user.currentOrgUser?.roles?.editor && user.currentAuthUser"
+        ></button>
+
+      </mat-menu>
+
+      <sk-nav-user class="nav-button" [logoutRoute]="org.orgHome"></sk-nav-user>
+
+    </mat-toolbar>
+    <!--<sk-org-nav  [org]="org" [user]="user"></sk-org-nav>-->
+    <img  class="bannerImage" [src]="org?.bannerUrl">
+  </div>
+
+
+  <div fxFlex>
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
+

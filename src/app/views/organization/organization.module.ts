@@ -32,6 +32,9 @@ import { OrgDocReadAcksComponent } from './org-doc-read-acks/org-doc-read-acks.c
 import {OrgDocService} from './org-doc.service';
 import { OrgDocReadAckEditComponent } from './org-doc-read-ack-edit/org-doc-read-ack-edit.component';
 import { OrgUserJoinComponent } from './org-user-join/org-user-join.component';
+import { OrgContainerComponent } from './org-container/org-container.component';
+import { OrgHomeComponent } from './org-home/org-home.component';
+import { OrgSearchDocComponent } from './org-search-doc/org-search-doc.component';
 
 @NgModule({
   imports: [
@@ -71,6 +74,9 @@ import { OrgUserJoinComponent } from './org-user-join/org-user-join.component';
     OrgDocReadAcksComponent,
     OrgDocReadAckEditComponent,
     OrgUserJoinComponent,
+    OrgContainerComponent,
+    OrgHomeComponent,
+    OrgSearchDocComponent,
   ],
   exports: [OrgHomePageComponent],
   entryComponents: [

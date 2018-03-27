@@ -40,6 +40,7 @@
   "TXT_email_change_message": "אחרי שינוי כתובת דואל, תשלח הודעת וידוא לכתובת החדשה",
   "This operation requires recent login. Please logout and the login again": "זוהי פעולה רגישה הדורשת כניסה מחודשת. יש לצאת מהמערכת ולהיכנס מחדש ",
   "Email change": "שינוי דואל",
+  "Choose Image": "בחירת תמונה",
 
   "New org component": "========= NewOrg Component=========",
   "Create Organization": "יצירת ארגון",
@@ -63,7 +64,7 @@
 
   "Org Home": "========= Org Home =========",
   "New Document": "מסמך חדש",
-  "Navigation Tree": "עץ ניווט",
+  "Documents Tree": "עץ מסמכים",
 
   "Org Admin Users component": "========= Org Admin User Component=========",
   "Name": "שם",
@@ -97,7 +98,7 @@
   "Org Editor DocAck management": "========= Org Editor DocAck management=========",
   "Docs Read & Acknowledge Management": "ניהול קרא וחתום",
   "Active only": "פעילים בלבד",
-  "Document name": "שם מסמך",
+  "Document Name": "שם מסמך",
   "Date Created": "תאריך יצירה",
   "Active Read & Sign": "קרא וחתום פעיל",
   "Required Signatures": "חתימות נדרשות",

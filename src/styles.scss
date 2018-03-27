@@ -6,7 +6,7 @@
 //@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 // fonts
-@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+//@import url('https://fonts.googleapis.com/css?family=Roboto:300');
 @import url('https://fonts.googleapis.com/css?family=Rubik&subset=hebrew');
 
 // tree
@@ -26,22 +26,55 @@ $global-typography: mat-typography-config(
 
 @include mat-core();
 
+$mat-fusedark: (
+  50: #ECECEE,
+  100: #176b89,
+  200: #9EA1A9,
+  300: #7D818C,
+  400: #5C616F,
+  500: #3C4252,
+  600: #353A48,
+  700: #2D323E,
+  800: #262933,
+  900: #1E2129,
+  A100: #C5C6CB,
+  A200: #9EA1A9,
+  A400: #5C616F,
+  A700: #2D323E,
+  contrast: (
+    50: $black-87-opacity,
+    100: white,
+    200: $black-87-opacity,
+    300: white,
+    400: white,
+    500: $white-87-opacity,
+    600: $white-87-opacity,
+    700: $white-87-opacity,
+    800: $white-87-opacity,
+    900: $white-87-opacity,
+    A100: $black-87-opacity,
+    A200: $white-87-opacity,
+    A400: $white-87-opacity,
+    A700: $white-87-opacity,
+  )
+);
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://www.google.com/design/spec/style/color.html
-$candy-app-primary: mat-palette($mat-indigo);
-$candy-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+$shake-app-primary: mat-palette($mat-fusedark, 100);
+$shake-app-accent:  mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$candy-app-warn:    mat-palette($mat-red);
+$shake-app-warn:    mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+$shake-app-theme: mat-light-theme($shake-app-primary, $shake-app-accent, $shake-app-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($candy-app-theme);
+@include angular-material-theme($shake-app-theme);
 
 body {
   font-family: 'Rubik', sans-serif;

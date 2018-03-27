@@ -1,0 +1,53 @@
+<mat-sidenav-container id="container">
+
+  <!-- SIDENAV -->
+  <mat-sidenav #sidenav align="start" [opened]="sideOpen" [mode]="sideMode" class="wrap mat-elevation-z12">
+    <sk-org-tree-view [allowEdit]="'true'" (selectedDoc)="treeDocClicked($event)"></sk-org-tree-view>
+  </mat-sidenav>
+
+  <mat-sidenav-content [ngClass]="{'mat-content-rtl': rtl && sideOpen, 'mat-content-ltr': !rtl && sideOpen}">
+
+
+    <button *ngIf="currentOrgUser?.roles.editor" mat-fab class="mat-accent-bg"
+            matTooltip="{{'New Document' | translate}}" matTooltipPosition="after"
+            [ngClass]="{'add-doc-button': !rtl, 'add-doc-button-rtl': rtl}" (click)="newDoc()">
+      <mat-icon>playlist_add</mat-icon>
+
+    </button>
+
+    <mat-tab-group>
+
+      <!-- Messages Tab -->
+      <mat-tab label="{{'Messages' | translate}}">
+        <!-- HEADER -->
+        <div>
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <button mat-button fxHide.gt-sm (click)="sidenav.toggle()"
+                    matTooltip="{{'Documents Tree' | translate}}" matTooltipPosition="after">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <h3 [innerHTML]="'Messages' | translate"></h3>
+          </div>
+        </div>
+        <sk-org-messages></sk-org-messages>
+      </mat-tab>
+
+      <!-- Serach docs Tab -->
+      <mat-tab label="{{'Search' | translate}}">
+        <!-- HEADER -->
+        <div>
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <button mat-button fxHide.gt-sm (click)="sidenav.toggle()"
+                    matTooltip="{{'Documents Tree' | translate}}" matTooltipPosition="after">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <h3 [innerHTML]="'Documents' | translate"></h3>
+          </div>
+        </div>
+        <sk-org-search-doc></sk-org-search-doc>
+      </mat-tab>
+
+    </mat-tab-group>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

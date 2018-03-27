@@ -1,0 +1,131 @@
+//@import 'src/app/core/scss/shake';
+@import '~@angular/material/theming';
+
+@import "src/app/core/scss/mixins/breakpoints";
+//@import "src/app/core/scss/variables/theme";
+
+.margin-fix {
+  margin: 0 10px;
+}
+
+.content {
+  .filters {
+    width: 100%;
+    max-width: 1040px;
+    margin: 24px auto;
+    padding: 0 20px;
+
+
+    @include media-breakpoint-down('xs') {
+      margin: 0 auto;
+    }
+
+    .docs-search {
+      width: 200px;
+      margin-outside: 20px;
+
+      @include media-breakpoint-down('xs') {
+        margin-bottom: 16px;
+      }
+
+      @include media-breakpoint-up('sm') {
+        margin-right: 16px;
+      }
+    }
+  }
+
+  .documents {
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+
+    .no-documents {
+      font-size: 24px;
+      margin: 24px 0;
+      text-align: center;
+    }
+
+    .document {
+      padding: 16px;
+
+      &:hover {
+
+        .document-content {
+          @include mat-elevation(8);
+        }
+      }
+
+      .document-content {
+        background: white;
+        min-height: 150px;
+        transition: box-shadow 150ms ease-in-out;
+
+        @include mat-elevation(1);
+
+        .header {
+          color: white;
+          //padding: 16px 24px;
+          height: 5px !important;
+          min-height: 5px !important;
+          max-height: 5px !important;
+
+          &.e-bg {
+            background: mat-color($mat-blue, 500);
+          }
+
+          &.p-bg {
+            background: mat-color($mat-green, 500);
+          }
+
+          &.v-bg {
+            background: mat-color($mat-amber, 800);
+          }
+
+          .category {
+            text-transform: capitalize;
+            text-align: left;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 0.54);
+          }
+
+          .length {
+
+            .length-icon {
+              margin-right: 8px;
+              color: rgba(0, 0, 0, 0.54) !important;
+            }
+
+            .min {
+              font-size: 16px;
+              color: rgba(0, 0, 0, 0.54);
+            }
+          }
+        }
+
+        .content {
+          padding: 24px;
+
+          .h1 {
+            font-size: 16px;
+            text-align: center;
+          }
+
+          .updated {
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 4px;
+            color: rgba(0, 0, 0, 0.37);
+          }
+        }
+
+        .footer {
+          padding: 16px;
+          height: 48px !important;
+          min-height: 48px !important;
+          max-height: 48px !important;
+          box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.12);
+        }
+      }
+    }
+  }
+}

@@ -11,11 +11,13 @@
                    formControlName="name" placeholder="{{'Name' | translate}}">
           </mat-form-field>
           <button *ngIf="currentDocAck && currentDocAck.name !== docAckName" mat-button color="primary"
-                  (click)="nameUpdateClicked()"
-          >Update</button>
+                  (click)="nameUpdateClicked()">
+            {{'Update' | translate}}
+          </button>
           <button *ngIf="currentDocAck && currentDocAck.name !== docAckName" mat-button color="primary"
-                  (click)="nameUpdateCanceled()"
-          >Cancel</button>
+                  (click)="nameUpdateCanceled()">
+            {{'Cancel' | translate}}
+          </button>
 
           <mat-form-field>
             <input matInput type="text" id="docName" [(ngModel)]="docName"
