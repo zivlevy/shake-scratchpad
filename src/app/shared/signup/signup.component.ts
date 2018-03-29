@@ -39,8 +39,6 @@ export class SignupComponent implements OnInit, OnDestroy {
       if (this.requestEmail) {
         this.emailBlocked = true;
       }
-      console.log(this.returnRoute, this.requestEmail, this.requestName, this.emailBlocked);
-
     });
 
 

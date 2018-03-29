@@ -1,12 +1,11 @@
 <mat-toolbar color="primary">
+
   <a [routerLink]="['']"><img src="assets/img/shake-logo.png"></a>
   <span class="fill-remaining-space"></span>
-    <span class="nav-item"  *ngIf="!currentUser" (click)="login()">
-      <a class="nav-link"> Login</a>
-    </span>
-    <span class="nav-item" *ngIf="!currentUser" (click)="signup()">
-      <a class="nav-link"> Sign up</a>
-    </span>
+
+  <button mat-button *ngIf="!currentUser" (click)="login()" [innerHTML]="'Login' | translate"></button>
+  <button mat-button *ngIf="!currentUser" (click)="signup()" [innerHTML]="'Signup' | translate"></button>
+
   <sk-nav-admin></sk-nav-admin>
   <sk-nav-user></sk-nav-user>
 </mat-toolbar>
