@@ -2,7 +2,7 @@
 
 <mat-card fxFlex="1 1 30%">
   <mat-card-title>
-    {{'New Invite' | translate}}
+    {{'New Invitation' | translate}}
   </mat-card-title>
 
 
@@ -23,7 +23,7 @@
 
       <div>
         <mat-form-field>
-          <input matInput type="text" id="email" type="email"
+          <input matInput id="email" type="email"
                  formControlName="email" placeholder="{{'Email' | translate}}">
         </mat-form-field>
         <div *ngIf="email && email.invalid && email.dirty" class="error-message"
@@ -44,7 +44,7 @@
 
     <div>
       <button mat-raised-button color="primary" type="submit" [disabled]="!inviteForm.valid"
-              [innerHTML]="'Send this invite' | translate"></button>
+              [innerHTML]="'Send Invitation' | translate"></button>
       <button *ngIf="advanced" mat-raised-button color="primary"  [disabled]="!inviteForm.valid" (click)="addInviteToTable()"
               [innerHTML]="'Add invite to list' | translate"></button>
 

@@ -69,10 +69,10 @@
       </div>
 
       <div class="no-documents" *ngIf="documents?.length === 0 && searchTerm !== ''">
-        No document found!
+        {{ 'No document found!' | translate}}
       </div>
       <div class="no-documents" *ngIf="documents?.length === 0 && searchTerm === ''">
-        Insert search term
+        {{ 'Insert search term' | translate}}
       </div>
 
     </div>
