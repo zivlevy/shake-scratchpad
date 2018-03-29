@@ -85,7 +85,7 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
     this.orgService.getOrgPublicData$()
       .takeUntil(this.destroy$)
       .subscribe(orgData => {
-        if (orgData.orgName) {
+        if (orgData && orgData.orgName) {
           this.org.orgName = orgData.orgName;
           this.org.language = orgData.language;
           this.org.logoUrl = orgData.logoURL;

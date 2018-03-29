@@ -71,7 +71,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
           displayField: 'name',
           childrenField: 'children',
           actionMapping: this.getTreeActionMapping(),
-          allowDrag: this.allowEdit &&  this.currentOrgUser.roles.editor,
+          allowDrag: this.allowEdit && this.currentOrgUser && this.currentOrgUser.roles.editor,
           allowDrop: (element: any, to: any) => {
             if (! this.allowEdit) { return false; }
             if (to.parent.children) {

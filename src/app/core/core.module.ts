@@ -11,8 +11,8 @@ import {SafeHtmlPipe} from './safe-html.pipe';
 import {AlgoliaService} from './algolia.service';
 import { SetDirectionDirective } from './set-direction.directive';
 import {DataPackageService} from './data-package.service';
-import {FileService} from "./file.service";
-import {ToasterService} from "./toaster.service";
+import {FileService} from './file.service';
+import {ToasterService} from './toaster.service';
 
 @NgModule({
   imports: [

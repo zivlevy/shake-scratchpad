@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
-  CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild,
+  CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot,
   ActivatedRoute, Router
 } from '@angular/router';
 import {Observable} from 'rxjs/Observable';
@@ -17,19 +17,20 @@ export class OrgGuard implements CanActivate {
 
     canActivate(next: ActivatedRouteSnapshot,
                 state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        console.log('============> route to org');
-        console.log(next.parent.params.id);
-        return this.orgService.getOrgUserByOrgID$(next.parent.params.id)
-          .switchMap( user => {
-            if (user && user.roles) {
-              return Observable.of(true);
-            } else {
-              this.router.navigate(['org', next.parent.params.id, 'org-join']);
-              return Observable.of(false);
-            }
-          });
-
-
+      const orgId = next.parent.params.id;
+      console.log('============> route to org');
+      console.log(orgId);
+      return this.orgService.getOrgUserByOrgID$(orgId)
+        .switchMap( user => {
+          console.log(user);
+          if (user && user.roles) {
+            return Observable.of(true);
+          } else {
+            this.router.navigate(['org', orgId, 'org-join'])
+              .catch(err => console.log(err));
+            return Observable.of(false);
+          }
+        });
     }
 
 
