@@ -32,7 +32,7 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
 
     // get current org
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      // .takeUntil(this.destroy$)
       .subscribe(org => {
         this.orgId = org;
         this.orgHome = '/org/' + org;

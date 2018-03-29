@@ -18,7 +18,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
               public authService: AuthService) {
 
     this.authService.getUser$()
-      .takeUntil(this.destroy$)
+      // .takeUntil(this.destroy$)
       .subscribe(authUser => {
         this.currentUser = authUser;
       });
