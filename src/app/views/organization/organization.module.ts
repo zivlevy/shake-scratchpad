@@ -78,7 +78,10 @@ import { OrgSearchDocComponent } from './org-search-doc/org-search-doc.component
     OrgHomeComponent,
     OrgSearchDocComponent,
   ],
-  exports: [OrgHomePageComponent],
+  exports: [
+    OrgHomePageComponent,
+    OrgContainerComponent,
+  ],
   entryComponents: [
     PublishDialogComponent
   ],

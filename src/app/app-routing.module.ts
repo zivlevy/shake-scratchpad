@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {NotFoundComponent} from './shared/not-found/not-found.component';
-import {NotAuthenticatedComponent} from "./shared/not-authenticated/not-authenticated.component";
+import {NotAuthenticatedComponent} from './shared/not-authenticated/not-authenticated.component';
 
 
 const routes: Routes = [
