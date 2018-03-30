@@ -147,6 +147,21 @@ body {
   color: darkred;
 }
 
+.card-background {
+  background-color: red;
+  color: #000;
+  margin: 100px;
+}
+
+// for pages based on mat-card
+.page-card {
+
+  width: 100%;
+  //margin-left: 20px;
+  //margin-right: 20px;
+
+}
+
 p {
   margin-bottom: 5px;
 }
