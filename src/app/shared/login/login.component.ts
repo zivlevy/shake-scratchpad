@@ -104,7 +104,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       }
     })
       .catch(err => {
-        this.toaster.toastError(err.message);
+        if (err.code === 'auth/user-not-found') {
+          this.toaster.toastError('User not Found');
+        } else {
+          this.toaster.toastError(err.message);
+        }
       });
 
   }

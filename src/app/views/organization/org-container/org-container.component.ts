@@ -51,7 +51,7 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
       .subscribe((orgUser: OrgUser) => {
         this.user.isLoadingOrgUser = false;
         this.user.currentOrgUser = orgUser;
-
+        console.log(orgUser);
       });
 
     // get org private data
@@ -74,8 +74,14 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
     this.orgService.getCurrentOrg$()
       .takeUntil(this.destroy$)
       .subscribe(org => {
-        this.org.orgId = org;
-        this.org.orgHome = '/org/' + org;
+        if (org === '_noOrg ') {
+          this.router.navigate(['/noOrg'])
+            .catch(err => console.log(err));
+        } else {
+          this.org.orgId = org;
+          this.org.orgHome = '/org/' + org;
+        }
+
       });
 
     this.org.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';

@@ -5,7 +5,6 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from '../../../core/auth.service';
 import {OrgUser} from '../../../model/org-user';
 import {Observable} from 'rxjs/Observable';
-import { mergeAll} from 'rxjs/operator/mergeAll';
 
 @Component({
   selector: 'sk-org-user-join',
@@ -34,12 +33,12 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
     this.orgService.getCurrentOrg$()
       .takeUntil(this.destroy$)
       .subscribe(org => {
-        if (org) {
-          this.orgId = org;
-          this.orgHome = '/org/' + org;
-        } else {
+        if (org === '_noOrg') {
           this.router.navigate(['/noOrg'])
             .catch(err => console.log(err));
+        } else {
+          this.orgId = org;
+          this.orgHome = '/org/' + org;
         }
 
       });

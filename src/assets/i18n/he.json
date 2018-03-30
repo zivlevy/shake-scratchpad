@@ -23,6 +23,7 @@
   "Logout": "יציאה מהמערכת",
   "Create an account": "יצירת חשבון",
   "New to Shake?": "משתמש חדש?",
+  "User not Found": "משתמש לא נמצא",
 
 
   "Signup component":"========= Signup Component=========",
@@ -89,6 +90,7 @@
   "User Delete": "מחיקת משתמש",
   "Invitation Sent": "הזמנה נשלחה",
   "Invitations Sent": "הזמנות נשלחו",
+  "Invitation Delete": "מחיקת הזמנה",
 
   "org-join component": "========= Org Join Component =========",
   "TXT_org_join_message": "לחיצה על הצטרפות לבקשת חברות בארגון",

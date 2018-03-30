@@ -87,6 +87,9 @@ export class OrgService {
         if (org.payload.exists) {
           this.localCurrentOrg = orgId;
           this.currentOrg$.next(orgId);
+        } else {
+          this.localCurrentOrg = '_noOrg';
+          this.currentOrg$.next('_noOrg');
         }
       })
       .subscribe();
@@ -178,14 +181,31 @@ export class OrgService {
     return Promise.all([orgUserDelete, userOrgDelete]);
   }
 
+  // getOrgUser$() {
+  //   return this.afAuth.authState
+  //     .switchMap((user => {
+  //       if (!user) {
+  //         return Observable.of(null);
+  //       } else {
+  //         const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
+  //         return userRef.valueChanges();
+  //       }
+  //     }));
+  // }
   getOrgUser$() {
     return this.afAuth.authState
       .switchMap((user => {
         if (!user) {
           return Observable.of(null);
         } else {
-          const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
-          return userRef.valueChanges();
+          return this.currentOrg$
+            .switchMap((org => {
+              if (!org) {
+                return Observable.of(null);
+              } else {
+                return this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`).valueChanges();
+              }
+            }));
         }
       }));
   }
@@ -782,8 +802,13 @@ export class OrgService {
 
     return org$.switchMap(orgId => {
       return user$.switchMap(user => {
-        return this.afs.collection(`org/${orgId}/users/${user.uid}/docsAcks`).valueChanges()
-          .map(docAcks => docAcks.filter((docAck: DocAck) => !docAck.hasSigned));
+        if (orgId && orgId !== '_noOrg' && user) {
+          return this.afs.collection(`org/${orgId}/users/${user.uid}/docsAcks`).valueChanges()
+            .map(docAcks => docAcks.filter((docAck: DocAck) => !docAck.hasSigned));
+        } else {
+          return Observable.from([]);
+        }
+
       });
     });
   }

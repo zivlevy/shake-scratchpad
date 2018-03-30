@@ -32,7 +32,7 @@ $mat-fusedark: (
   200: #9EA1A9,
   300: #7D818C,
   400: #5C616F,
-  500: #3C4252,
+  500: #871782,
   600: #353A48,
   700: #2D323E,
   800: #262933,
@@ -59,11 +59,30 @@ $mat-fusedark: (
   )
 );
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://www.google.com/design/spec/style/color.html
-$shake-app-primary: mat-palette($mat-fusedark, 100);
-$shake-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+$mat-prime: (
+  100: #5299b9,
+  500: #176b89,
+  700: #00405c,
+  contrast: (
+    100: black,
+    500: white,
+    700: white
+  )
+);
+
+$mat-secondary: (
+  100: #ba4db2,
+  500: #871782,
+  700: #560055,
+  contrast: (
+    100: black,
+    500: white,
+    700: white
+  )
+);
+$shake-app-primary: mat-palette($mat-prime);
+//$shake-app-accent:  mat-palette($mat-pink, A200, A100, A400);
+$shake-app-accent:  mat-palette($mat-secondary);
 
 // The warn palette is optional (defaults to red).
 $shake-app-warn:    mat-palette($mat-red);
