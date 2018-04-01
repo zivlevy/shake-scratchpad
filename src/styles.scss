@@ -147,19 +147,27 @@ body {
   color: darkred;
 }
 
+
+// for pages based on mat-card
+
+.card-page-background {
+  //background: linear-gradient(to bottom right, #00405c,  #5299b9);
+  //background-color:  #5299b9;
+  background: linear-gradient(#5299b9, white);
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+}
+
 .card-background {
-  background-color: red;
-  color: #000;
   margin: 100px;
 }
 
-// for pages based on mat-card
 .page-card {
 
   width: 100%;
   //margin-left: 20px;
   //margin-right: 20px;
-
 }
 
 p {

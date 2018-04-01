@@ -1,89 +1,92 @@
 
 <!--<div id="wrapper">-->
-<div class="card-background">
+<div class="card-page-background">
+  <div class="card-background">
+    <mat-card class="page-card">
 
-  <mat-card class="page-card">
-
-    <mat-card-header fxLayout="row" fxFlexAlign="center">
+      <mat-card-header fxLayout="row" fxFlexAlign="center">
         <h3 >
           {{ 'User Profile' | translate }}
         </h3>
-    </mat-card-header>
-    <!-- image cropper -->
-    <div id="img-input" *ngIf="isEditImage; else profile">
+      </mat-card-header>
+      <!-- image cropper -->
+      <div id="img-input" *ngIf="isEditImage; else profile">
 
-      <img-cropper [image]="data" [settings]="cropperSettings"></img-cropper>
-      <button id="hide"  mat-raised-button color="primary" > {{'Choose Image' | translate }}</button>
-      <div id="cropper-buttons">
+        <img-cropper [image]="data" [settings]="cropperSettings"></img-cropper>
+        <button id="hide"  mat-raised-button color="primary" > {{'Choose Image' | translate }}</button>
+        <div id="cropper-buttons">
 
-        <button mat-raised-button color="primary"
-                [disabled]="!data.image"
-                (click)="isEditImage = false; uploadSingle()">{{'Save' | translate }}
-        </button>
-        <button mat-raised-button color="basic" (click)="data.image = tmpDataImage; isEditImage = false">
-          {{'Cancel' | translate }}
-        </button>
-      </div>
-    </div>
-
-    <!-- main profile section -->
-    <ng-template #profile  >
-
-      <div fxLayout="column" fxLayoutGap="20px">
-        <div class="form-header text-center p-0">
-          <h1 [innerHTML]="'User Profile' | translate"></h1>
-        </div>
-
-        <div id="user-img-contianer">
-          <img id="user-img" class="rounded-circle"
-               [src]="data && data.image ? data.image : 'assets/img/default-user-image.png'" alt="">
-        </div>
-
-        <div>
-          <button id="btn-update-img" mat-raised-button color="accent" (click)="isEditImage=true; tmpDataImage = data.image">
-            {{'Update Image' | translate }}
+          <button mat-raised-button color="primary"
+                  [disabled]="!data.image"
+                  (click)="isEditImage = false; uploadSingle()">{{'Save' | translate }}
           </button>
-        </div>
-
-
-        <div>
-          <mat-form-field>
-            <input matInput type="text" id="displayName" [(ngModel)]="displayName"
-                   placeholder="{{'Display Name' | translate}}">
-          </mat-form-field>
-          <button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"
-                  (click)="displayNameUpdateClicked()">
-            {{'Update' | translate }}
-          </button>
-          <button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"
-                  (click)="displayNameUpdateCanceled()">
+          <button mat-raised-button color="basic" (click)="data.image = tmpDataImage; isEditImage = false">
             {{'Cancel' | translate }}
           </button>
         </div>
+      </div>
 
-        <div>
-          <mat-form-field>
-            <input matInput type="email" id="email" [(ngModel)]="email"
-                   placeholder="{{'Email' | translate}}">
-          </mat-form-field>
-          <div *ngIf="currentAuthUser && currentAuthUser.email !== email">
-            <h6>{{'Email change' | translate}}</h6>
-            <p>{{'TXT_email_change_message' | translate}}</p>
-            <button mat-button color="primary"
-                    (click)="emailUpdateClicked()">
+      <!-- main profile section -->
+      <ng-template #profile  >
+
+        <div fxLayout="column" fxLayoutGap="20px">
+          <div class="form-header text-center p-0">
+            <h1 [innerHTML]="'User Profile' | translate"></h1>
+          </div>
+
+          <div id="user-img-contianer">
+            <img id="user-img" class="rounded-circle"
+                 [src]="data && data.image ? data.image : 'assets/img/default-user-image.png'" alt="">
+          </div>
+
+          <div>
+            <button id="btn-update-img" mat-raised-button color="accent" (click)="isEditImage=true; tmpDataImage = data.image">
+              {{'Update Image' | translate }}
+            </button>
+          </div>
+
+
+          <div>
+            <mat-form-field>
+              <input matInput type="text" id="displayName" [(ngModel)]="displayName"
+                     placeholder="{{'Display Name' | translate}}">
+            </mat-form-field>
+            <button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"
+                    (click)="displayNameUpdateClicked()">
               {{'Update' | translate }}
             </button>
-            <button mat-button color="primary"
-                    (click)="emailUpdateCanceled()">
+            <button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"
+                    (click)="displayNameUpdateCanceled()">
               {{'Cancel' | translate }}
             </button>
           </div>
 
+          <div>
+            <mat-form-field>
+              <input matInput type="email" id="email" [(ngModel)]="email"
+                     placeholder="{{'Email' | translate}}">
+            </mat-form-field>
+            <div *ngIf="currentAuthUser && currentAuthUser.email !== email">
+              <h6>{{'Email change' | translate}}</h6>
+              <p>{{'TXT_email_change_message' | translate}}</p>
+              <button mat-button color="primary"
+                      (click)="emailUpdateClicked()">
+                {{'Update' | translate }}
+              </button>
+              <button mat-button color="primary"
+                      (click)="emailUpdateCanceled()">
+                {{'Cancel' | translate }}
+              </button>
+            </div>
+
+          </div>
         </div>
-      </div>
 
-    </ng-template>
-  </mat-card>
-
-
+      </ng-template>
+    </mat-card>
+  </div>
 </div>
+
+
+
+
