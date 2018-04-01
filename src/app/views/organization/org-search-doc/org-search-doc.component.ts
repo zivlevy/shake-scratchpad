@@ -5,6 +5,7 @@ import {OrgUser} from '../../../model/org-user';
 import {Router} from "@angular/router";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/observable/fromEvent';
 
 @Component({
   selector: 'sk-org-search-doc',

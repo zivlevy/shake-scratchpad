@@ -4,6 +4,7 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/merge';
+import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/combineLatest';
 import {ChildActivationEnd, Router} from '@angular/router';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
