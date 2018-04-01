@@ -8,7 +8,7 @@ import {Observable} from 'rxjs/Observable';
 import {LanguageService} from '../../../core/language.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {PublishDialogComponent} from '../dialogs/publish-dialog/publish-dialog.component';
-
+import 'rxjs/add/operator/takeUntil';
 import {filter} from 'rxjs/operators';
 
 @Component({

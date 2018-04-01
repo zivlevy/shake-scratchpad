@@ -11,7 +11,7 @@ import {AuthService} from '../../../core/auth.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import {ToasterService} from '../../../core/toaster.service';
-
+import 'rxjs/add/operator/takeUntil';
 @Component({
   selector: 'sk-org-doc-view',
   templateUrl: './org-doc-view.component.html',

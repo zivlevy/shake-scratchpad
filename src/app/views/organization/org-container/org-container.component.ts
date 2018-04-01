@@ -7,6 +7,7 @@ import {Subject} from 'rxjs/Subject';
 import {User} from '../../../model/user';
 import {LanguageService} from '../../../core/language.service';
 import {Org} from '../../../model/org';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
   selector: 'sk-org-container',

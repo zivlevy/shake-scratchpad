@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
 import {Router} from "@angular/router";
-
+import 'rxjs/add/operator/takeUntil';
 @Component({
   selector: 'sk-admin',
   templateUrl: './admin.component.html',
