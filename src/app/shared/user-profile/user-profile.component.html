@@ -1,53 +1,50 @@
 
 <!--<div id="wrapper">-->
-<div class="card-page-background">
+<div class="card-page-background" style="height: 80vh">
   <div class="card-background">
+
     <mat-card class="page-card">
 
-      <mat-card-header fxLayout="row" fxFlexAlign="center">
-        <h3 >
-          {{ 'User Profile' | translate }}
-        </h3>
+      <mat-card-header class="page-card-header">
+        <mat-card-title>
+          <h3 >
+            {{ 'User Profile' | translate }}
+          </h3>
+        </mat-card-title>
       </mat-card-header>
-      <!-- image cropper -->
-      <div id="img-input" *ngIf="isEditImage; else profile">
 
-        <img-cropper [image]="data" [settings]="cropperSettings"></img-cropper>
-        <button id="hide"  mat-raised-button color="primary" > {{'Choose Image' | translate }}</button>
-        <div id="cropper-buttons">
+      <mat-card-content fxLayout="row" >
 
-          <button mat-raised-button color="primary"
-                  [disabled]="!data.image"
-                  (click)="isEditImage = false; uploadSingle()">{{'Save' | translate }}
-          </button>
-          <button mat-raised-button color="basic" (click)="data.image = tmpDataImage; isEditImage = false">
-            {{'Cancel' | translate }}
-          </button>
-        </div>
-      </div>
-
-      <!-- main profile section -->
-      <ng-template #profile  >
-
-        <div fxLayout="column" fxLayoutGap="20px">
-          <div class="form-header text-center p-0">
-            <h1 [innerHTML]="'User Profile' | translate"></h1>
-          </div>
-
-          <div id="user-img-contianer">
-            <img id="user-img" class="rounded-circle"
+        <div *ngIf="!isEditImage" fxFlex="40%" style="height: 50vh" fxLayout="column" fxLayoutAlign="center center" >
+            <img id="user-img" class="rounded-circle" style="border: 7px solid #871782"
                  [src]="data && data.image ? data.image : 'assets/img/default-user-image.png'" alt="">
-          </div>
-
-          <div>
-            <button id="btn-update-img" mat-raised-button color="accent" (click)="isEditImage=true; tmpDataImage = data.image">
+            <button class="btn-hover-accent" id="btn-update-img" mat-raised-button (click)="isEditImage=true; tmpDataImage = data.image" >
               {{'Update Image' | translate }}
             </button>
-          </div>
+        </div>
 
-
+        <div id="img-input" *ngIf="isEditImage" fxFlex="40%" style="height: 50vh" fxLayout="column" fxLayoutAlign="center center">
           <div>
-            <mat-form-field>
+            <img-cropper [image]="data" [settings]="cropperSettings" style="display: block; text-align: center">
+            </img-cropper>
+          </div>
+          <button id="hide"  mat-raised-button color="accent" > {{'Choose Image' | translate }}</button>
+          <div id="cropper-buttons">
+
+            <button mat-raised-button class="btn-hover-accent"
+                    [disabled]="!data.image"
+                    (click)="isEditImage = false; uploadSingle()">{{'Save' | translate }}
+            </button>
+            <button mat-raised-button class="btn-hover-accent" (click)="data.image = tmpDataImage; isEditImage = false">
+              {{'Cancel' | translate }}
+            </button>
+          </div>
+        </div>
+
+        <div fxFlex="60%" fxLayout="column" fxLayoutAlign="space-evenly start">
+
+          <div style="width: 100%">
+            <mat-form-field >
               <input matInput type="text" id="displayName" [(ngModel)]="displayName"
                      placeholder="{{'Display Name' | translate}}">
             </mat-form-field>
@@ -80,6 +77,81 @@
             </div>
 
           </div>
+        </div>
+      </mat-card-content>
+
+
+      <!-- image cropper -->
+      <!--<div id="img-input" *ngIf="isEditImage; else profile">-->
+
+        <!--<img-cropper [image]="data" [settings]="cropperSettings"></img-cropper>-->
+        <!--<button id="hide"  mat-raised-button color="primary" > {{'Choose Image' | translate }}</button>-->
+        <!--<div id="cropper-buttons">-->
+
+          <!--<button mat-raised-button color="primary"-->
+                  <!--[disabled]="!data.image"-->
+                  <!--(click)="isEditImage = false; uploadSingle()">{{'Save' | translate }}-->
+          <!--</button>-->
+          <!--<button mat-raised-button color="basic" (click)="data.image = tmpDataImage; isEditImage = false">-->
+            <!--{{'Cancel' | translate }}-->
+          <!--</button>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!-- main profile section -->
+      <ng-template #profile  >
+
+        <div fxLayout="column" fxLayoutGap="20px">
+          <!--<div class="form-header text-center p-0">-->
+            <!--<h1 [innerHTML]="'User Profile' | translate"></h1>-->
+          <!--</div>-->
+
+          <!--<div id="user-img-contianer">-->
+            <!--<img id="user-img" class="rounded-circle"-->
+                 <!--[src]="data && data.image ? data.image : 'assets/img/default-user-image.png'" alt="">-->
+          <!--</div>-->
+
+          <!--<div>-->
+            <!--<button id="btn-update-img" mat-raised-button color="accent" (click)="isEditImage=true; tmpDataImage = data.image">-->
+              <!--{{'Update Image' | translate }}-->
+            <!--</button>-->
+          <!--</div>-->
+
+
+          <!--<div>-->
+            <!--<mat-form-field>-->
+              <!--<input matInput type="text" id="displayName" [(ngModel)]="displayName"-->
+                     <!--placeholder="{{'Display Name' | translate}}">-->
+            <!--</mat-form-field>-->
+            <!--<button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"-->
+                    <!--(click)="displayNameUpdateClicked()">-->
+              <!--{{'Update' | translate }}-->
+            <!--</button>-->
+            <!--<button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"-->
+                    <!--(click)="displayNameUpdateCanceled()">-->
+              <!--{{'Cancel' | translate }}-->
+            <!--</button>-->
+          <!--</div>-->
+
+          <!--<div>-->
+            <!--<mat-form-field>-->
+              <!--<input matInput type="email" id="email" [(ngModel)]="email"-->
+                     <!--placeholder="{{'Email' | translate}}">-->
+            <!--</mat-form-field>-->
+            <!--<div *ngIf="currentAuthUser && currentAuthUser.email !== email">-->
+              <!--<h6>{{'Email change' | translate}}</h6>-->
+              <!--<p>{{'TXT_email_change_message' | translate}}</p>-->
+              <!--<button mat-button color="primary"-->
+                      <!--(click)="emailUpdateClicked()">-->
+                <!--{{'Update' | translate }}-->
+              <!--</button>-->
+              <!--<button mat-button color="primary"-->
+                      <!--(click)="emailUpdateCanceled()">-->
+                <!--{{'Cancel' | translate }}-->
+              <!--</button>-->
+            <!--</div>-->
+
+          <!--</div>-->
         </div>
 
       </ng-template>

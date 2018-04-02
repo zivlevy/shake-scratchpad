@@ -1,16 +1,19 @@
+.mat-card-header-text {
+  width: 100%;
+}
 
 #wrapper {
   width: 250px;
   margin: 20px auto;
 }
 
-#img-input {
-position: relative;
-  left: -50px;
-
-}
+//#img-input {
+//position: relative;
+//  left: -50px;
+//
+//}
 #hide {
-  position: relative;
+  //position: relative;
   top:-340px;
   width: 350px;
   height: 38px;
@@ -35,6 +38,8 @@ position: relative;
   width: 250px;
 }
 
+
+
 #btn-update-displayName {
   margin-top: 5px;
   width:250px;
@@ -42,8 +47,7 @@ position: relative;
 #user-img {
   width: 250px;
   height: 250px;
-  margin-top: 30px;
-  position: relative;
+
 }
 
 #update-email {

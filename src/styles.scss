@@ -166,8 +166,15 @@ body {
 .page-card {
 
   width: 100%;
-  //margin-left: 20px;
-  //margin-right: 20px;
+}
+
+.page-card-header {
+  justify-content: center;
+}
+
+.btn-hover-accent:hover:enabled {
+  background-color: #871782;
+  color: white;
 }
 
 p {

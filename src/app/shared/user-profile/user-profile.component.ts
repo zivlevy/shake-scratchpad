@@ -103,10 +103,12 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   uploadSingle() {
+    console.log(this.data, this.data.image);
     this.imageService.uploadUserImg(this.data.image, this.currentSkUser.uid)
       .then(() => {
         this.isEditImage = false;
-      });
+      })
+      .catch(err => console.log(err));
   }
 
   ngOnDestroy() {
