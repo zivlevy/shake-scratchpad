@@ -42,6 +42,9 @@ export class OrgService {
               private orgDocService: OrgDocService,
               private lngService: LanguageService) {
 
+    this.localCurrentOrg = null;
+    this.currentOrg$.next(null);
+
     this.router.events
       .filter((event) => {
         return event instanceof ChildActivationEnd;
@@ -52,18 +55,18 @@ export class OrgService {
       .map(event => event.snapshot.params.id)
       .distinctUntilChanged()
       .subscribe((id: any) => {
-        console.log(id);
-        this.setOrganization(id);
+        this.setOrganization(id)
+          .subscribe(() => {
+            // set org public data updates
+            this.updateOrgPublicData();
 
-        // set org public data updates
-        this.updateOrgPublicData();
-
-        // get org private date
-        this.getOrgUser$()
-          .subscribe(orgUser => {
-            if (orgUser && !orgUser.isPending) {
-              this.updateOrgPrivateData();
-            }
+            // get org private date
+            this.getOrgUser$()
+              .subscribe(orgUser => {
+                if (orgUser && !orgUser.isPending) {
+                  this.updateOrgPrivateData();
+                }
+              });
           });
       });
 
@@ -79,40 +82,38 @@ export class OrgService {
   }
 
   private setOrganization(orgId: string) {
-    this.localCurrentOrg = null;
-    this.currentOrg$.next(null);
+    // this.localCurrentOrg = null;
+    // this.currentOrg$.next(null);
 
-    this.afs.collection('org').doc(orgId).collection('publicData').doc('info')
+    return this.afs.collection('org').doc(orgId).collection('publicData').doc('info')
       .snapshotChanges()
       .take(1)
       .do(org => {
         if (org.payload.exists) {
           this.localCurrentOrg = orgId;
           this.currentOrg$.next(orgId);
-          console.log('set current org = ', orgId);
         } else {
           this.localCurrentOrg = '_noOrg';
           this.currentOrg$.next('_noOrg');
         }
-      })
-      .subscribe();
+      });
   }
 
-  orgExistsP(orgId: string) {
-    return new Promise<boolean>(resolve => {
-      this.afs.collection('org').doc(orgId).collection('publicData').doc('info')
-        .snapshotChanges()
-        .take(1)
-        .do(org => {
-          if (org.payload.exists) {
-            resolve(true);
-          } else {
-            resolve(false);
-          }
-        })
-        .subscribe();
-    });
-  }
+  // orgExistsP(orgId: string) {
+  //   return new Promise<boolean>(resolve => {
+  //     this.afs.collection('org').doc(orgId).collection('publicData').doc('info')
+  //       .snapshotChanges()
+  //       .take(1)
+  //       .do(org => {
+  //         if (org.payload.exists) {
+  //           resolve(true);
+  //         } else {
+  //           resolve(false);
+  //         }
+  //       })
+  //       .subscribe();
+  //   });
+  // }
 
   /************************
    Org User API
@@ -628,7 +629,6 @@ export class OrgService {
 
     return this.getCurrentOrg$()
       .switchMap(currentOrg => {
-        console.log(currentOrg);
         return this.firestoreService.doc$(`org/${currentOrg}`)
           .map((result: any) => {
             const tree = JSON.parse(result.orgTreeJson);
@@ -652,7 +652,6 @@ export class OrgService {
       .map(res => {
         const user = res[0];
         const tree = res [1];
-        console.log(user, tree);
         if (user && user.roles.editor) {
           return tree;
         } else {
