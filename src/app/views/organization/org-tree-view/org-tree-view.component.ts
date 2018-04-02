@@ -94,7 +94,11 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
         this.nodes = orgTree;
         const firstRoot = this.tree.treeModel.roots[0];
         setTimeout(() => {
-          this.tree.treeModel.expandAll();
+          // this.tree.treeModel.expandAll();
+          // expand first level
+          this.tree.treeModel.roots.forEach( root => {
+            root.expand();
+          });
           // console.log(this.tree);
         }, 0);
       });
@@ -141,6 +145,18 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
       setTimeout(() => this.treeMenuTrigger.openMenu(ev), 0);
     }
 
+  }
+
+  expandAll() {
+    this.tree.treeModel.roots.forEach( root => {
+      root.expandAll();
+    });
+  }
+
+  collapseAll(){
+    this.tree.treeModel.roots.forEach( root => {
+      root.collapseAll();
+    });
   }
 
   unPublishDoc() {

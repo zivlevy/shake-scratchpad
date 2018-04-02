@@ -20,6 +20,8 @@
 
 
 <mat-menu #treeMenu="matMenu">
+  <button *ngIf="treeNode?.children" mat-menu-item (click)="expandAll()"><mat-icon>expand_more</mat-icon>Expand  all</button>
+  <button *ngIf="treeNode?.children" mat-menu-item (click)="collapseAll()"><mat-icon>expand_less</mat-icon>Collapse all</button>
   <button  *ngIf="treeNode?.data.isDoc && treeNode?.data.isPublish" mat-menu-item (click)="unPublishDoc()"><mat-icon>create</mat-icon>Unpublish</button>
   <button  *ngIf="treeNode?.data.isDoc && !treeNode?.data.isPublish" mat-menu-item (click)="publishDoc()"><mat-icon>create</mat-icon>Publish</button>
   <button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(treeNode , true)"><mat-icon>create_new_folder</mat-icon>Add Section</button>
