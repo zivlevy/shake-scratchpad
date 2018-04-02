@@ -52,6 +52,7 @@ export class OrgService {
       .map(event => event.snapshot.params.id)
       .distinctUntilChanged()
       .subscribe((id: any) => {
+        console.log(id);
         this.setOrganization(id);
 
         // set org public data updates
@@ -88,6 +89,7 @@ export class OrgService {
         if (org.payload.exists) {
           this.localCurrentOrg = orgId;
           this.currentOrg$.next(orgId);
+          console.log('set current org = ', orgId);
         } else {
           this.localCurrentOrg = '_noOrg';
           this.currentOrg$.next('_noOrg');
@@ -98,7 +100,7 @@ export class OrgService {
 
   orgExistsP(orgId: string) {
     return new Promise<boolean>(resolve => {
-      this.afs.collection('org').doc(orgId)
+      this.afs.collection('org').doc(orgId).collection('publicData').doc('info')
         .snapshotChanges()
         .take(1)
         .do(org => {
@@ -626,6 +628,7 @@ export class OrgService {
 
     return this.getCurrentOrg$()
       .switchMap(currentOrg => {
+        console.log(currentOrg);
         return this.firestoreService.doc$(`org/${currentOrg}`)
           .map((result: any) => {
             const tree = JSON.parse(result.orgTreeJson);
@@ -649,6 +652,7 @@ export class OrgService {
       .map(res => {
         const user = res[0];
         const tree = res [1];
+        console.log(user, tree);
         if (user && user.roles.editor) {
           return tree;
         } else {
