@@ -1,7 +1,7 @@
 
 <!--<div id="wrapper">-->
-<div class="card-page-background" style="height: 80vh">
-  <div class="card-background">
+<div class="card-page-background" style="height: 90vh">
+  <div  fxFlex [ngStyle.gt-sm]="{'margin': '100px'}" [ngStyle]="{'margin': '0'}" >
 
     <mat-card class="page-card">
 
@@ -13,9 +13,9 @@
         </mat-card-title>
       </mat-card-header>
 
-      <mat-card-content fxLayout="row" >
+      <mat-card-content fxLayout="column" fxLayout.gt-sm="row" >
 
-        <div *ngIf="!isEditImage" fxFlex="40%" style="height: 50vh" fxLayout="column" fxLayoutAlign="center center" >
+        <div *ngIf="!isEditImage" fxFlex="40%"  style="height: 50vh" fxLayout="column" fxLayoutAlign="center center" >
             <img id="user-img" class="rounded-circle" style="border: 7px solid #871782"
                  [src]="data && data.image ? data.image : 'assets/img/default-user-image.png'" alt="">
             <button class="btn-hover-accent" id="btn-update-img" mat-raised-button (click)="isEditImage=true; tmpDataImage = data.image" >
@@ -24,8 +24,8 @@
         </div>
 
         <div id="img-input" *ngIf="isEditImage" fxFlex="40%" style="height: 50vh" fxLayout="column" fxLayoutAlign="center center">
-          <div>
-            <img-cropper [image]="data" [settings]="cropperSettings" style="display: block; text-align: center">
+          <div style="width: 400px">
+            <img-cropper [image]="data" [settings]="cropperSettings" style="display: flex; text-align: center ">
             </img-cropper>
           </div>
           <button id="hide"  mat-raised-button color="accent" > {{'Choose Image' | translate }}</button>
@@ -41,9 +41,9 @@
           </div>
         </div>
 
-        <div fxFlex="60%" fxLayout="column" fxLayoutAlign="space-evenly start">
+        <div fxFlex="60%" fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutAlign.gt-sm="space-evenly start">
 
-          <div style="width: 100%">
+          <div>
             <mat-form-field >
               <input matInput type="text" id="displayName" [(ngModel)]="displayName"
                      placeholder="{{'Display Name' | translate}}">
