@@ -140,7 +140,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   treeRightClick(ev, node) {
     ev.preventDefault();
     if (!this.allowEdit) { return; }
-    if (this.currentOrgUser.roles.editor) {
+    if (this.currentOrgUser.roles.editor || this.currentOrgUser.roles.viewer) {
       this.treeNode = node;
       setTimeout(() => this.treeMenuTrigger.openMenu(ev), 0);
     }
