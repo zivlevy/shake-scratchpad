@@ -1,5 +1,5 @@
 import {
-  AfterContentInit, AfterViewInit, Component, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, Output,
+  AfterViewInit, Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output,
   ViewChild
 } from '@angular/core';
 import {OrgService} from '../org.service';
@@ -101,7 +101,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
           });
           // console.log(this.tree);
         }, 0);
-      });
+      }, err => console.log(err));
 
   }
 

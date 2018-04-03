@@ -629,11 +629,16 @@ export class OrgService {
 
     return this.getCurrentOrg$()
       .switchMap(currentOrg => {
-        return this.firestoreService.doc$(`org/${currentOrg}`)
-          .map((result: any) => {
-            const tree = JSON.parse(result.orgTreeJson);
-            return tree;
-          });
+        if (!currentOrg) {
+          return Observable.of(null);
+        } else {
+          return this.firestoreService.doc$(`org/${currentOrg}`)
+            .map((result: any) => {
+              const tree = JSON.parse(result.orgTreeJson);
+              return tree;
+            });
+        }
+
       });
   }
 
@@ -656,10 +661,13 @@ export class OrgService {
           return tree;
         } else {
           const publicTree = [];
-          tree.forEach(treeNode => {
-            const node = this.makePublishTree(treeNode);
-            if (node) { publicTree.push( node ); }
-          });
+          if (tree) {
+            tree.forEach(treeNode => {
+              const node = this.makePublishTree(treeNode);
+              if (node) { publicTree.push( node ); }
+            });
+          }
+
           return publicTree;
         }
       });
