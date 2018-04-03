@@ -111,6 +111,11 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       .catch(err => console.log(err));
   }
 
+  resetPassword() {
+    this.authService.resetPassword(this.currentAuthUser.email)
+      .then(() => this.toaster.toastSuccess('Password reset mail sent'));
+  }
+
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);
