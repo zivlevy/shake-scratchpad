@@ -1,3 +1,4 @@
+<img  class="bannerImage" [src]="org?.bannerUrl">
 <mat-sidenav-container id="container">
 
   <!-- SIDENAV -->
@@ -15,7 +16,7 @@
 
     </button>
 
-    <mat-tab-group>
+    <mat-tab-group style="margin-left: 20px; margin-right: 20px">
 
       <!-- Messages Tab -->
       <mat-tab label="{{'Messages' | translate}}">
@@ -41,7 +42,7 @@
                     matTooltip="{{'Documents Tree' | translate}}" matTooltipPosition="after">
               <mat-icon>menu</mat-icon>
             </button>
-            <h3 [innerHTML]="'Documents' | translate"></h3>
+            <h3 [innerHTML]="'Search' | translate"></h3>
           </div>
         </div>
         <sk-org-search-doc></sk-org-search-doc>

@@ -48,19 +48,19 @@ const saveVersionDoc = function (orgId, docId, data) {
   return algoliaSaveDoc(orgId, versionDoc);
 };
 
-export const onPrivateDocUpdated = functions.firestore.document('org/{orgId}/docs/{docId}').onUpdate((event) => {
+export const onPrivateDocUpdated = functions.firestore.document('org/{orgId}/docs/{docId}').onUpdate((data, context) => {
 
-  const orgId = event.resource.match("org/(.*)/docs")[1];
-  const data = event.data.data();
-  const docId = event.data.id;
+  const orgId = context.params.orgId;
+  const docData = data.after.data();
+  const docId = context.params.docId;
 
   // edited Version
-  const saveEdit = saveEditDoc(orgId, docId, data);
+  const saveEdit = saveEditDoc(orgId, docId, docData);
 
   let savePublish;
   // published Version
-  if (data.isPublish) {
-    savePublish = savePublishDoc(orgId, docId, data);
+  if (docData.isPublish) {
+    savePublish = savePublishDoc(orgId, docId, docData);
   } else {
     savePublish = algoliaDeletePublishedDoc(orgId, docId);
   }
@@ -69,47 +69,47 @@ export const onPrivateDocUpdated = functions.firestore.document('org/{orgId}/doc
     .catch(err => console.log(err));
 });
 
-export const onPrivateDocCreated = functions.firestore.document('org/{orgId}/docs/{docId}').onCreate((event) => {
+export const onPrivateDocCreated = functions.firestore.document('org/{orgId}/docs/{docId}').onCreate((data, context) => {
 
-  const orgId = event.resource.match("org/(.*)/docs")[1];
-  const data = event.data.data();
-  const docId = event.data.id;
+  const orgId = context.params.orgId;
+  const docData = data.data();
+  const docId = context.params.docId;
 
   // edited Version
-  const saveEdit = saveEditDoc(orgId, docId, data);
+  const saveEdit = saveEditDoc(orgId, docId, docData);
 
   // published Version
-  const savePublish = savePublishDoc(orgId, docId, data);
+  const savePublish = savePublishDoc(orgId, docId, docData);
 
   return Promise.all([saveEdit, savePublish])
     .catch(err => console.log(err));
 
 });
 
-export const onPrivateDocVersionCreated = functions.firestore.document('org/{orgId}/docs/{docId}/versions/{version}').onCreate((event) => {
+export const onPrivateDocVersionCreated = functions.firestore.document('org/{orgId}/docs/{docId}/versions/{version}').onCreate((data, context) => {
 
-  const orgId = event.resource.match("org/(.*)/docs")[1];
-  const data = event.data.data();
-  const docId = event.resource.match("docs/(.*)/versions")[1];
-  return saveVersionDoc(orgId, docId, data)
+  const orgId = context.params.orgId;
+  const docData = data.data();
+  const docId = context.params.docId;
+  return saveVersionDoc(orgId, docId, docData)
     .catch(err => console.log(err));
 
 
 });
 
-export const onPrivateDocVersionDeleted = functions.firestore.document('org/{orgId}/docs/{docId}/versions/{version}').onDelete((event) => {
+export const onPrivateDocVersionDeleted = functions.firestore.document('org/{orgId}/docs/{docId}/versions/{version}').onDelete((data, context) => {
 
-  const orgId = event.resource.match("org/(.*)/docs")[1];
-  const docId = event.resource.match("docs/(.*)/versions")[1];
-  const version = event.resource.match("/versions/(.*)")[1];
+  const orgId = context.params.orgId;
+  const docId = context.params.docId;
+  const version =context.params.version;
 
   return algoliaDeleteVersionDoc(orgId, docId, version)
     .catch(err => console.log(err));
 });
 
-export const onPrivateDocDeleted = functions.firestore.document('org/{orgId}/docs/{docId}').onDelete((event) => {
-  const orgId = event.resource.match("org/(.*)/docs")[1];
-  const docId = event.data.id;
+export const onPrivateDocDeleted = functions.firestore.document('org/{orgId}/docs/{docId}').onDelete((data, context) => {
+  const orgId = context.params.orgId;
+  const docId = context.params.docId;
 
   // edited Version
   const deleteEdit = algoliaDeleteEditedDoc(orgId, docId);
@@ -122,8 +122,8 @@ export const onPrivateDocDeleted = functions.firestore.document('org/{orgId}/doc
 });
 
 export const newOrgRequest = functions.firestore
-  .document('orgRequested/{doc}').onCreate((event) => {
-    const newOrg = event.data.data();
+  .document('orgRequested/{doc}').onCreate((data, context) => {
+    const newOrg = data.data();
     const db = admin.firestore();
     const orgRootRef = db.collection('org').doc(newOrg.orgId);
     const orgInfoRef = db.collection('org').doc(newOrg.orgId).collection('publicData').doc('info');
@@ -182,8 +182,8 @@ export const newOrgRequest = functions.firestore
       );
 });
 
-export const onOrgDelete = functions.firestore.document('org/{orgId}').onDelete((event) => {
-  const orgId = event.data.id;
+export const onOrgDelete = functions.firestore.document('org/{orgId}').onDelete((data, context) => {
+  const orgId = context.params.orgId;
   console.log(orgId);
 
   return algoliaOrgDelete(orgId)
@@ -191,9 +191,9 @@ export const onOrgDelete = functions.firestore.document('org/{orgId}').onDelete(
 
 });
 
-export const onOrgInviteCreate = functions.firestore.document('org/{orgId}/invites/{email}').onCreate(event => {
-  const orgId = event.resource.match("org/(.*)/invites")[1];
-  const email = event.resource.match("invites/(.*)")[1];
+export const onOrgInviteCreate = functions.firestore.document('org/{orgId}/invites/{email}').onCreate((data, context) => {
+  const orgId = context.params.orgId;
+  const email = context.params.email;
 
   const db = admin.firestore();
   const orgPublicData = db.collection('org').doc(orgId).collection('publicData').doc('info').get();
@@ -207,11 +207,11 @@ export const onOrgInviteCreate = functions.firestore.document('org/{orgId}/invit
 });
 
 // ToDo - turn into transaction
-export const onOrgUserDocSignCreate = functions.firestore.document(`org/{orgId}/userSignatures/{uid}`).onCreate(event => {
-  const uid = event.params.uid;
-  const orgId = event.params.orgId;
-  const docAckId = event.data.data().docAckId;
-  const signedAt = event.data.data().signedAt;
+export const onOrgUserDocSignCreate = functions.firestore.document(`org/{orgId}/userSignatures/{uid}`).onCreate((data, context) => {
+  const uid = context.params.uid;
+  const orgId = context.params.orgId;
+  const docAckId = data.data().docAckId;
+  const signedAt = data.data().signedAt;
 
   const db = admin.firestore();
 
@@ -244,10 +244,10 @@ export const onOrgUserDocSignCreate = functions.firestore.document(`org/{orgId}/
     .catch(err => console.log(err));
 });
 
-export const onDocAckUserAdd = functions.firestore.document(`org/{orgId}/docsAcks/{docAckId}/users/{uid}`).onCreate(event => {
-  const orgId = event.params.orgId;
-  const uid = event.params.uid;
-  const docAckId = event.params.docAckId;
+export const onDocAckUserAdd = functions.firestore.document(`org/{orgId}/docsAcks/{docAckId}/users/{uid}`).onCreate((data, context) => {
+  const orgId = context.params.orgId;
+  const uid = context.params.uid;
+  const docAckId = context.params.docAckId;
 
   const db = admin.firestore();
 
@@ -275,10 +275,10 @@ export const onDocAckUserAdd = functions.firestore.document(`org/{orgId}/docsAck
 
 });
 
-export const onDocAckUserRemove = functions.firestore.document(`org/{orgId}/docsAcks/{docAckId}/users/{uid}`).onDelete(event => {
-  const orgId = event.params.orgId;
-  const uid = event.params.uid;
-  const docAckId = event.params.docAckId;
+export const onDocAckUserRemove = functions.firestore.document(`org/{orgId}/docsAcks/{docAckId}/users/{uid}`).onDelete((data, context) => {
+  const orgId = context.params.orgId;
+  const uid = context.params.uid;
+  const docAckId = context.params.docAckId;
 
   const db = admin.firestore();
 

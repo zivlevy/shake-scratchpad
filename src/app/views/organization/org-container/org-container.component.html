@@ -5,7 +5,7 @@
     <mat-toolbar color="primary" skSetDirection>
 
       <button mat-button  [routerLink]="org.orgHome">
-        <img class="orgLogo"  [src]="org.logoUrl">
+        <img class="rounded-circle orgLogo"  [src]="org.logoUrl">
         <span class="org-name" fxShow.xs="false"> {{org.orgName}} </span>
       </button>
 
@@ -34,8 +34,6 @@
       <sk-nav-user class="nav-button" [logoutRoute]="org.orgHome"></sk-nav-user>
 
     </mat-toolbar>
-    <!--<sk-org-nav  [org]="org" [user]="user"></sk-org-nav>-->
-    <img  class="bannerImage" [src]="org?.bannerUrl">
   </div>
 
 

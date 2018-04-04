@@ -40,7 +40,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.cropperSettings.height = 100;
     this.cropperSettings.croppedWidth = 250;
     this.cropperSettings.croppedHeight = 250;
-    this.cropperSettings.canvasWidth = 350;
+    this.cropperSettings.canvasWidth = 300;
     this.cropperSettings.canvasHeight = 300;
     this.cropperSettings.rounded = true;
 
@@ -84,7 +84,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.authService.updateUserEmail(this.email)
       .then(() => {
         this.isEditEmail = false;
-        this.currentAuthUser.sendEmailVerification();
+        this.currentAuthUser.sendEmailVerification()
+          .catch(err => console.log(err));
       })
       .then(() => {
         this.currentAuthUser.email = this.email;
@@ -109,6 +110,11 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         this.isEditImage = false;
       })
       .catch(err => console.log(err));
+  }
+
+  resetPassword() {
+    this.authService.resetPassword(this.currentAuthUser.email)
+      .then(() => this.toaster.toastSuccess('Password reset mail sent'));
   }
 
   ngOnDestroy() {

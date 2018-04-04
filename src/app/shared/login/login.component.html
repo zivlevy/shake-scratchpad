@@ -1,56 +1,71 @@
-<div id="full-page">
 
+<div class="card-page-background" fxLayout="column" fxLayoutAlign="center center">
 
-  <div class="wrapper">
-    <div class="d-flex justify-content-center">
-      <img src="assets/img/shake-logo.png" id="logo" [routerLink]="['']">
-    </div>
+  <mat-card [ngClass]="'page-card-small'" [ngClass.gt-sm]="'page-card-big'">
 
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-      <div class="form-header p-0">
-        <h1 [innerHTML]="'Login to Shake' | translate"></h1>
+    <mat-card-header class="page-card-header">
+      <mat-card-title>
+        <h1 >
+          {{ 'Login to Shake' | translate }}
+        </h1>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly" fxLayout.gt-sm="row" >
+
+      <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'"
+           fxLayout="column" fxLayoutAlign="center center">
+
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form"
+              fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutAlign.gt-sm="space-evenly start">
+          <div>
+            <mat-form-field>
+              <input matInput type="email" id="email"
+                     formControlName="email" placeholder="{{'Email' | translate}}">
+            </mat-form-field>
+            <mat-error *ngIf="email.invalid && email.dirty" class="error-message"
+                       [innerHTML]="'Please enter a valid email' | translate">
+            </mat-error>
+          </div>
+
+          <div>
+            <mat-form-field>
+              <input matInput type="password" id="password"
+                     formControlName="password" placeholder="{{'Password' | translate}}">
+            </mat-form-field>
+            <mat-error *ngIf="password.invalid && password.touched" class="error-message"
+                       [innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">
+            </mat-error>
+          </div>
+
+          <button mat-raised-button color="primary"  type="submit" [disabled]="!loginForm.valid"
+                  [innerHTML]="'Login' | translate"></button>
+
+        </form>
+
       </div>
 
-      <div class="form-body">
 
-      <div>
-        <mat-form-field>
-          <input matInput type="email" id="email"
-                 formControlName="email" placeholder="{{'Email' | translate}}">
-        </mat-form-field>
-        <mat-error *ngIf="email.invalid && email.dirty" class="error-message"
-             [innerHTML]="'Please enter a valid email' | translate">
-        </mat-error>
+      <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'"
+           fxLayout="column" fxLayoutAlign="space-evenly center">
+
+        <img class="login-icon" src="assets/icons/icon-250.png"  fxHide.lt-sm>
+
+        <div class="text-center">
+          <span [innerHTML]="'New to Shake?' | translate"></span>
+          <a (click)="gotoRegister()"
+             [innerHTML]="'Create an account' | translate"
+          ></a>
+        </div>
+
+        <div class="flags d-flex justify-content-center">
+          <img src="assets/img/il.png" (click)="setLng('he')" style="display: inline">
+          <img src="assets/img/us.png" (click)="setLng('en')" style="display: inline">
+        </div>
+
       </div>
+    </mat-card-content>
 
-      <div>
-        <mat-form-field>
-          <input matInput type="password" id="password"
-                 formControlName="password" placeholder="{{'Password' | translate}}">
-        </mat-form-field>
-        <mat-error *ngIf="password.invalid && password.touched" class="error-message"
-             [innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">
-        </mat-error>
-      </div>
-
-        <button mat-raised-button color="primary"  type="submit" [disabled]="!loginForm.valid"
-                [innerHTML]="'Login' | translate"></button>
-      </div>
-    </form>
-
-    <div class="form-body text-center">
-      <span [innerHTML]="'New to Shake?' | translate"></span>
-      <a (click)="gotoRegister()"
-         [innerHTML]="'Create an account' | translate"
-      ></a>
-    </div>
-
-    <div class="flags d-flex justify-content-center">
-      <img src="assets/img/il.png" (click)="setLng('he')">
-      <img src="assets/img/us.png" (click)="setLng('en')">
-    </div>
-
-  </div>
-
-
+  </mat-card>
 </div>
+

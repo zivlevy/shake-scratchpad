@@ -3,8 +3,8 @@ import * as admin from "firebase-admin";
 
 
 export const deleteUser = functions
-  .auth.user().onDelete(event =>{
-    const uid = event.data.uid;
+  .auth.user().onDelete((userMetadata, context) =>{
+    const uid = userMetadata.uid;
     const db = admin.firestore();
 
     const userRef = db.collection('users').doc(uid);
@@ -14,13 +14,13 @@ export const deleteUser = functions
 
 
 export const updateUserInfo = functions.firestore
-  .document(`users/{uid}`).onUpdate((event) => {
-    const uid = event.params.uid;
-    const data = event.data.data();
+  .document(`users/{uid}`).onUpdate((data, context) => {
+    const uid = context.params.uid;
+    const userData = data.after.data();
 
-    const displayName = data.displayName;
-    const email = data.email;
-    const photoURL = data.photoURL;
+    const displayName = userData.displayName;
+    const email = userData.email;
+    const photoURL = userData.photoURL;
 
     const db = admin.firestore();
     const usersRef = db.collection(`users/${uid}/orgs`);
@@ -34,9 +34,9 @@ export const updateUserInfo = functions.firestore
   });
 
 // This is effective only when user is added in response to an invite
-export const userAddOrg = functions.firestore.document(`users/{uid}/orgs/{orgId}`).onCreate((event) => {
-  const uid = event.params.uid;
-  const orgId = event.params.orgId;
+export const userAddOrg = functions.firestore.document(`users/{uid}/orgs/{orgId}`).onCreate((data, context) => {
+  const uid = context.params.uid;
+  const orgId = context.params.orgId;
 
   const db = admin.firestore();
   const userRef = db.doc(`users/${uid}`);

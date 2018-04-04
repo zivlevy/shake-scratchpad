@@ -1,60 +1,43 @@
-.mat-card-header-text {
-  width: 100%;
-}
 
-#wrapper {
-  width: 250px;
-  margin: 20px auto;
-}
-
-//#img-input {
-//position: relative;
-//  left: -50px;
-//
-//}
 #hide {
-  //position: relative;
+  position: relative;
   top:-340px;
-  width: 350px;
+  width: 300px;
   height: 38px;
   pointer-events: none;
 
-
 }
+
 #cropper-buttons {
   position: relative;
   top:-40px;
 }
 
-#display-name {
-  margin-top: 10px;
-}
 
-#newDispalyname {
-  width: 250px;
-}
 #btn-update-img {
-  margin-top: 10px;
+  //margin-top: 10px;
   width: 250px;
 }
 
 
-
-#btn-update-displayName {
-  margin-top: 5px;
-  width:250px;
-}
 #user-img {
   width: 250px;
   height: 250px;
-
+  border: 7px solid #871782;
 }
 
-#update-email {
-  width: 250px;
-  margin-top: 10px;
+#img-cropper {
+  width: 320px;
+  display: flex;
+  text-align: center;
 }
 
-#email-update-buttons {
-  margin-top: 5px;
+#img-input {
+  min-height: 400px;
 }
+
+#img-view {
+  height: 100%;
+}
+
+

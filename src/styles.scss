@@ -14,50 +14,9 @@
 
 @import '~@angular/material/theming';
 
-$global-typography: mat-typography-config(
-  $font-family: 'Rubik'
-);
 
-//$english-typography: mat-typography-config(
-//  $font-family: 'Roboto'
-//);
-
-@include angular-material-typography($global-typography);
 
 @include mat-core();
-
-$mat-fusedark: (
-  50: #ECECEE,
-  100: #176b89,
-  200: #9EA1A9,
-  300: #7D818C,
-  400: #5C616F,
-  500: #871782,
-  600: #353A48,
-  700: #2D323E,
-  800: #262933,
-  900: #1E2129,
-  A100: #C5C6CB,
-  A200: #9EA1A9,
-  A400: #5C616F,
-  A700: #2D323E,
-  contrast: (
-    50: $black-87-opacity,
-    100: white,
-    200: $black-87-opacity,
-    300: white,
-    400: white,
-    500: $white-87-opacity,
-    600: $white-87-opacity,
-    700: $white-87-opacity,
-    800: $white-87-opacity,
-    900: $white-87-opacity,
-    A100: $black-87-opacity,
-    A200: $white-87-opacity,
-    A400: $white-87-opacity,
-    A700: $white-87-opacity,
-  )
-);
 
 $mat-prime: (
   100: #5299b9,
@@ -95,14 +54,11 @@ $shake-app-theme: mat-light-theme($shake-app-primary, $shake-app-accent, $shake-
 // that you are using.
 @include angular-material-theme($shake-app-theme);
 
-body {
-  font-family: 'Rubik', sans-serif;
-  margin: 0;
+$global-typography: mat-typography-config(
+  $font-family: 'Rubik'
+);
 
-  background-color: #fafafa ;
-  color: #424242;
-}
-
+@include angular-material-typography($global-typography);
 
 @-webkit-keyframes sk-rotateplane {
   0% {
@@ -133,6 +89,42 @@ body {
 
 // global
 
+body {
+  font-family: 'Rubik', sans-serif;
+  margin: 0;
+
+  background-color: #fafafa ;
+  color: #424242;
+}
+
+h1 {
+  font-family: 'Rubik', sans-serif;
+  font-size: 2em;
+}
+
+h2 {
+  font-family: 'Rubik', sans-serif;
+  font-size: 1.5em;
+}
+
+h3 {
+  font-family: 'Rubik', sans-serif;
+  font-size: 1.17em;
+}
+
+p {
+  margin-bottom: 5px;
+}
+
+
+ul, ol {
+  -webkit-padding-start: 20px;
+}
+
+th, td {
+  border: 1px solid black;
+}
+
 .he {
   direction: rtl;
   text-align: right;
@@ -151,44 +143,50 @@ body {
 // for pages based on mat-card
 
 .card-page-background {
-  //background: linear-gradient(to bottom right, #00405c,  #5299b9);
-  //background-color:  #5299b9;
-  background: linear-gradient(#5299b9, white);
+  background: linear-gradient(to bottom left, #5299b9 0%, #5299b9 40%, white 40%, white 100%);
   display: inline-block;
   width: 100%;
+  height: 100%;
   margin: 0;
 }
 
-.card-background {
-  margin: 100px;
+//.card-background {
+//  margin: 100px;
+//}
+
+.page-card-big {
+  width: 800px;
+  height: 600px;
+
 }
 
-.page-card {
+.page-card-small {
+  width: 90%;
+  height: 850px;
+  margin-top: 25px;
 
-  width: 100%;
 }
-
 .page-card-header {
   justify-content: center;
 }
+
+.card-panel-big {
+  width: 40%;
+  height: 500px;
+}
+
+.card-panel-small {
+  width: 100%;
+  height:  400px;
+}
+
 
 .btn-hover-accent:hover:enabled {
   background-color: #871782;
   color: white;
 }
 
-p {
-  margin-bottom: 5px;
-}
 
-
-ul, ol {
-  -webkit-padding-start: 20px;
-}
-
-th, td {
-  border: 1px solid black;
-}
 
 .toastSuccess {
   background-color: green;
@@ -205,37 +203,3 @@ th, td {
   color: white;
 }
 
-//// loading
-//.loading {
-//  opacity: 0;
-//  position: fixed;
-//  height: 100%;
-//  width: 100%;
-//  background: lightsalmon;
-//  padding-top: 25vh;
-//  text-align: center;
-//  z-index: -1;
-//  transition: opacity .8s ease-out;
-//}
-//
-//app-root:empty + .loading {
-//  opacity: 1;
-//  z-index: 100;
-//
-//  h1 {
-//    color: #EEE;
-//    margin-bottom: 50px;
-//  }
-//
-//}
-
-
-//.spinner {
-//  width: 40px;
-//  height: 40px;
-//  background-color: #333;
-//
-//  margin: 100px auto;
-//  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
-//  animation: sk-rotateplane 1.2s infinite ease-in-out;
-//}

@@ -6,6 +6,7 @@ import {OrgUser} from '../../../model/org-user';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LanguageService} from '../../../core/language.service';
 import 'rxjs/add/operator/takeUntil';
+import {Org} from '../../../model/org';
 @Component({
   selector: 'sk-org-home',
   templateUrl: './org-home.component.html',
@@ -15,6 +16,7 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   currentOrg: string;
   currentOrgUser: OrgUser;
+  org: Org = new Org();
 
   rtl: boolean = false;
 
@@ -38,6 +40,20 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
     this.orgService.getOrgUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => this.currentOrgUser = user);
+
+    this.org.bannerUrl = 'assets/img/shake banner.png';
+
+    // get org public data
+    this.orgService.getOrgPublicData$()
+      .takeUntil(this.destroy$)
+      .subscribe(orgData => {
+        if (orgData && orgData.orgName) {
+          this.org.orgName = orgData.orgName;
+          this.org.language = orgData.language;
+          this.org.logoUrl = orgData.logoURL;
+          this.org.bannerUrl = orgData.bannerURL;
+        }
+      });
 
     // directions
     this.lngService.getDirection$()
@@ -69,6 +85,10 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
   openDoc(docId: string, docType: string, docVersion: string) {
     this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion, false, ''])
       .catch(err => console.log(err));
+  }
+
+  newDoc() {
+    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, '', 'n', 0]);
   }
 
   treeDocClicked(ev) {
