@@ -151,8 +151,8 @@ body {
 // for pages based on mat-card
 
 .card-page-background {
-  //background: linear-gradient(to bottom right, #00405c,  #5299b9);
-  background-color:  #5299b9;
+  background: linear-gradient(to bottom left, #5299b9 0%, #5299b9 40%, white 40%, white 100%);
+  //background-color:  #5299b9;
   //background: linear-gradient(#5299b9, white);
   display: inline-block;
   width: 100%;

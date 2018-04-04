@@ -21,6 +21,29 @@
 
 
 }
+.triangleBG {
+  width: 100%;
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30vh;
+  background-color: #5299b9;
+  //z-index: -1;
+}
+.triangleBG::after {
+  content: " ";
+  position: absolute;
+  bottom: -40vh;
+  left: 0;
+  right: 0;
+  height: 70vh;
+  background-color: #fff;
+  transform-origin: right center;
+  transform: skewY(7deg);
+}
+
 #cropper-buttons {
   position: relative;
   top:-40px;
