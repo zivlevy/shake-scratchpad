@@ -11,7 +11,8 @@ export class DocViewerComponent implements OnInit, OnChanges {
   @Input() isNumbering: boolean = true;
   @Input() docJson: string;
   @Input() ident: number = 10;
-
+  @Input() searchPhrase: string = '';
+  @Input() isSearch: boolean = true;
   docList: Array<SkSection | SkItem>;
   constructor(private docService: DocumentService
               ) { }
@@ -23,8 +24,16 @@ export class DocViewerComponent implements OnInit, OnChanges {
 
     if (this.docJson) {
       this.docList = this.docService.SkTreeListFronJSON(this.docJson);
-      const temp  = this.docService.SKTasksList(this.docJson);
-      console.log(temp);
+      this.doSearch();
+      //
+      // const temp  = this.docService.SKTasksList(this.docJson);
+      // console.log(temp);
+    }
+  }
+
+  doSearch(){
+    if (this.isSearch && this.searchPhrase !== '') {
+      this.docList.forEach( item => item.data = item.data.replace(new RegExp(this.searchPhrase, 'g'), `<span style="background-color: lightcoral;">${this.searchPhrase}</span>`));
     }
   }
 

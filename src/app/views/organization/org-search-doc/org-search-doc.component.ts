@@ -1,9 +1,9 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {OrgService} from '../org.service';
 import {Subject} from 'rxjs/Subject';
 import {OrgUser} from '../../../model/org-user';
-import {Router} from "@angular/router";
-import {Observable} from "rxjs/Observable";
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/observable/fromEvent';
 
@@ -62,7 +62,7 @@ export class OrgSearchDocComponent implements OnInit, OnDestroy {
   }
 
   openDoc(docId: string, docType: string, docVersion: string) {
-    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion]);
+    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion, true, this.searchTerm ]);
   }
 
   editDoc(docId: string, docType: string, docVersion: string) {

@@ -67,7 +67,7 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
   }
 
   openDoc(docId: string, docType: string, docVersion: string) {
-    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion])
+    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion, false, ''])
       .catch(err => console.log(err));
   }
 
