@@ -1,47 +1,12 @@
-.mat-card-header-text {
-  width: 100%;
-}
 
-#wrapper {
-  width: 250px;
-  margin: 20px auto;
-}
-
-//#img-input {
-//position: relative;
-//  left: -50px;
-//
-//}
 #hide {
-  //position: relative;
+  position: relative;
   top:-340px;
-  width: 350px;
+  width: 300px;
   height: 38px;
   pointer-events: none;
 
 
-}
-.triangleBG {
-  width: 100%;
-  position: absolute;
-
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 30vh;
-  background-color: #5299b9;
-  //z-index: -1;
-}
-.triangleBG::after {
-  content: " ";
-  position: absolute;
-  bottom: -40vh;
-  left: 0;
-  right: 0;
-  height: 70vh;
-  background-color: #fff;
-  transform-origin: right center;
-  transform: skewY(7deg);
 }
 
 #cropper-buttons {
@@ -70,7 +35,21 @@
 #user-img {
   width: 250px;
   height: 250px;
+  border: 7px solid #871782;
+}
 
+#img-cropper {
+  width: 320px;
+  display: flex;
+  text-align: center;
+}
+
+#img-input {
+  min-height: 400px;
+}
+
+#img-view {
+  height: 100%;
 }
 
 #update-email {
