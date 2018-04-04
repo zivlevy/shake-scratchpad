@@ -3,7 +3,7 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 
 
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp();
 
 import * as orgFunctions from './org'
 import * as usersFunctions from './skusers'
