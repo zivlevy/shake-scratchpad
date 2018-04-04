@@ -84,7 +84,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.authService.updateUserEmail(this.email)
       .then(() => {
         this.isEditEmail = false;
-        this.currentAuthUser.sendEmailVerification();
+        this.currentAuthUser.sendEmailVerification()
+          .catch(err => console.log(err));
       })
       .then(() => {
         this.currentAuthUser.email = this.email;

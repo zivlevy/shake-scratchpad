@@ -54,8 +54,8 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
     this.bannerCropperSettings.height = 100;
     this.bannerCropperSettings.croppedWidth = 1000;
     this.bannerCropperSettings.croppedHeight = 100;
-    this.bannerCropperSettings.canvasWidth = 1000;
-    this.bannerCropperSettings.canvasHeight = 100;
+    this.bannerCropperSettings.canvasWidth = 300;
+    this.bannerCropperSettings.canvasHeight = 30;
     this.bannerCropperSettings.rounded = false;
 
     this.logoData = {};
@@ -98,7 +98,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
           this.orgHome = '/org/' + org.orgId;
           this.lang = org.language;
           this.orgManagementForm.controls['language'].setValue(this.lang);
-
+          this.logoUrl = org.logoURL;
       }}) ;
 
 

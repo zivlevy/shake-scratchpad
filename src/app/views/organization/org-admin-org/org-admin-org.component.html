@@ -1,69 +1,53 @@
-<div>
+<div class="card-page-background" fxLayout="column" fxLayoutAlign="center center">
 
-  <div *ngIf="inLogoEdit || inBannerEdit; else orgManagement">
+  <mat-card [ngClass]="'page-card-small'" [ngClass.gt-sm]="'page-card-big'">
 
-    <div id="logoWrapper" class="img-input" *ngIf="inLogoEdit">
-      <img-cropper [image]="logoData" [settings]="logoCropperSettings"></img-cropper>
-      <button id="logoHide" mat-raised-button color="primary"> Click to choose logo image</button>
-      <div class="cropper-buttons">
+    <mat-card-header class="page-card-header">
+      <mat-card-title>
+        <h1 >
+          {{ 'Organization Management' | translate }}
+        </h1>
+      </mat-card-title>
+    </mat-card-header>
 
-        <button mat-raised-button color="primary" [disabled]="!logoData.image"
-                (click)="logoSavedClicked()">
-          {{'Save' | translate}}
-        </button>
-        <button mat-raised-button color="basic" (click)="logoCancelClicked()">
-          {{'Cancel' | translate}}
-        </button>
-      </div>
-    </div>
+    <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly" fxLayout.gt-sm="row" >
 
-    <div id="bannerWraper" class="img-input" *ngIf="inBannerEdit">
-      <img-cropper [image]="bannerData" [settings]="bannerCropperSettings"></img-cropper>
-      <button id="bannerHide" mat-raised-button color="primary" > Click to choose banner image</button>
-      <div class="cropper-buttons">
+      <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'"
+           fxLayout="column" fxLayoutAlign="center center">
 
-        <button mat-raised-button color="primary" [disabled]="!bannerData.image"
-                (click)="bannerSaveClicked()">
-          {{'Save' | translate}}
-        </button>
-        <button mat-raised-button color="basic" (click)="bannerCancelClicked()">
-          {{'Cancel' | translate}}
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <ng-template #orgManagement>
-    <div id="wrapper" class="container">
-
-      <form [formGroup]="orgManagementForm">
-
-        <div class="form-header text-center p-0">
-          <h1 [innerHTML]="'Organization Management' | translate"></h1>
+        <div id="logo-view" *ngIf="!inLogoEdit" fxLayout="column"  fxLayoutAlign="space-evenly center">
+          <img id="user-img" class="rounded-circle"
+               [src]="logoUrl" alt="">
+            <button mat-raised-button class="btn-hover-accent" (click)="logoUploadClicked()"
+                    [innerHTML]="'Logo Update' | translate"></button>
         </div>
 
-        <div class="form-body">
+        <div id="logo-input" *ngIf="inLogoEdit" fxLayout="column"  fxLayoutAlign="space-evenly center">
 
-          <!--<div >-->
-            <!--<mat-form-field>-->
-              <!--<mat-label [innerHTML]="'orgId' | translate"></mat-label>-->
-            <!--<input matInput type="text" id="orgId" [(ngModel)]="orgId" formControlName="orgId">-->
-            <!--</mat-form-field>-->
-          <!--</div>-->
+        </div>
 
+      </div>
+
+
+
+      <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'">
+
+        <form [formGroup]="orgManagementForm" class="org-admin-form"
+              fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutAlign.gt-sm="space-evenly start">
           <div>
             <mat-form-field>
               <input matInput type="text" id="orgName" [(ngModel)]="orgName"
                      formControlName="orgName" placeholder="{{'Organization Name' | translate}}">
             </mat-form-field>
-            <button *ngIf="currentOrg && currentOrg.orgName !== orgName" mat-button color="primary"
-                    (click)="nameUpdateClicked()">
-              {{'Update' | translate}}
-            </button>
-            <button *ngIf="currentOrg && currentOrg.orgName !== orgName" mat-button color="primary"
-                    (click)="nameUpdateCanceled()">
-              {{'Cancel' | translate}}
-            </button>
+            <div *ngIf="currentOrg && currentOrg.orgName !== orgName">
+              <button  mat-button color="primary" (click)="nameUpdateClicked()">
+                {{'Update' | translate}}
+              </button>
+              <button  mat-button color="primary" (click)="nameUpdateCanceled()">
+                {{'Cancel' | translate}}
+              </button>
+            </div>
+
           </div>
 
           <div>
@@ -71,14 +55,15 @@
               <input matInput type="email" id="orgEmail" [(ngModel)]="orgEmail"
                      formControlName="orgEmail" placeholder="{{'Organization E-mail' | translate}}">
             </mat-form-field>
-            <button *ngIf="currentOrg && currentOrg.orgEmail !== orgEmail" mat-button color="primary"
-                    (click)="emailUpdateClicked()">
-              {{'Update' | translate}}
-            </button>
-            <button *ngIf="currentOrg && currentOrg.orgEmail !== orgEmail" mat-button color="primary"
-                    (click)="emailUpdateCanceled()">
-              {{'Cancel' | translate}}
-            </button>
+            <div *ngIf="currentOrg && currentOrg.orgEmail !== orgEmail">
+              <button  mat-button color="primary" (click)="emailUpdateClicked()">
+                {{'Update' | translate}}
+              </button>
+              <button  mat-button color="primary" (click)="emailUpdateCanceled()">
+                {{'Cancel' | translate}}
+              </button>
+            </div>
+
           </div>
 
           <div>
@@ -89,33 +74,142 @@
                 <mat-option value="en">English</mat-option>
               </mat-select>
             </mat-form-field>
-            <button *ngIf="currentOrg && currentOrg.language !== lang" mat-button color="primary"
-                    (click)="langUpdateClicked()">
-              {{'Update' | translate}}
-            </button>
-            <button *ngIf="currentOrg && currentOrg.language !== lang" mat-button color="primary"
-                    (click)="langUpdateCanceled()">
-              {{'Cancel' | translate}}
-            </button>
+            <div *ngIf="currentOrg && currentOrg.language !== lang">
+              <button  mat-button color="primary" (click)="langUpdateClicked()">
+                {{'Update' | translate}}
+              </button>
+              <button  mat-button color="primary" (click)="langUpdateCanceled()">
+                {{'Cancel' | translate}}
+              </button>
+            </div>
+
           </div>
+        </form>
 
+      </div>
+    </mat-card-content>
 
-
-          <div>
-            <button mat-raised-button color="primary" class="raised-buttons" (click)="logoUploadClicked()"
-                    [innerHTML]="'Logo Update' | translate"></button>
-          </div>
-
-          <div>
-            <button mat-raised-button color="primary" class="raised-buttons" (click)="bannerUploadClicked()"
-                    [innerHTML]="'Banner Update' | translate">Banner Update</button>
-          </div>
-
-
-        </div>
-      </form>
-    </div>
-
-  </ng-template>
-
+  </mat-card>
 </div>
+
+<!--<div>-->
+
+  <!--<div *ngIf="inLogoEdit || inBannerEdit; else orgManagement">-->
+
+    <!--<div id="logoWrapper" class="img-input" *ngIf="inLogoEdit">-->
+      <!--<img-cropper [image]="logoData" [settings]="logoCropperSettings"></img-cropper>-->
+      <!--<button id="logoHide" mat-raised-button color="primary"> Click to choose logo image</button>-->
+      <!--<div class="cropper-buttons">-->
+
+        <!--<button mat-raised-button color="primary" [disabled]="!logoData.image"-->
+                <!--(click)="logoSavedClicked()">-->
+          <!--{{'Save' | translate}}-->
+        <!--</button>-->
+        <!--<button mat-raised-button color="basic" (click)="logoCancelClicked()">-->
+          <!--{{'Cancel' | translate}}-->
+        <!--</button>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div id="bannerWraper" class="img-input" *ngIf="inBannerEdit">-->
+      <!--<img-cropper [image]="bannerData" [settings]="bannerCropperSettings"></img-cropper>-->
+      <!--<button id="bannerHide" mat-raised-button color="primary" > Click to choose banner image</button>-->
+      <!--<div class="cropper-buttons">-->
+
+        <!--<button mat-raised-button color="primary" [disabled]="!bannerData.image"-->
+                <!--(click)="bannerSaveClicked()">-->
+          <!--{{'Save' | translate}}-->
+        <!--</button>-->
+        <!--<button mat-raised-button color="basic" (click)="bannerCancelClicked()">-->
+          <!--{{'Cancel' | translate}}-->
+        <!--</button>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--<ng-template #orgManagement>-->
+    <!--<div id="wrapper" class="container">-->
+
+      <!--<form [formGroup]="orgManagementForm">-->
+
+        <!--<div class="form-header text-center p-0">-->
+          <!--<h1 [innerHTML]="'Organization Management' | translate"></h1>-->
+        <!--</div>-->
+
+        <!--<div class="form-body">-->
+
+          <!--&lt;!&ndash;<div >&ndash;&gt;-->
+            <!--&lt;!&ndash;<mat-form-field>&ndash;&gt;-->
+              <!--&lt;!&ndash;<mat-label [innerHTML]="'orgId' | translate"></mat-label>&ndash;&gt;-->
+            <!--&lt;!&ndash;<input matInput type="text" id="orgId" [(ngModel)]="orgId" formControlName="orgId">&ndash;&gt;-->
+            <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
+          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+          <!--<div>-->
+            <!--<mat-form-field>-->
+              <!--<input matInput type="text" id="orgName" [(ngModel)]="orgName"-->
+                     <!--formControlName="orgName" placeholder="{{'Organization Name' | translate}}">-->
+            <!--</mat-form-field>-->
+            <!--<button *ngIf="currentOrg && currentOrg.orgName !== orgName" mat-button color="primary"-->
+                    <!--(click)="nameUpdateClicked()">-->
+              <!--{{'Update' | translate}}-->
+            <!--</button>-->
+            <!--<button *ngIf="currentOrg && currentOrg.orgName !== orgName" mat-button color="primary"-->
+                    <!--(click)="nameUpdateCanceled()">-->
+              <!--{{'Cancel' | translate}}-->
+            <!--</button>-->
+          <!--</div>-->
+
+          <!--<div>-->
+            <!--<mat-form-field>-->
+              <!--<input matInput type="email" id="orgEmail" [(ngModel)]="orgEmail"-->
+                     <!--formControlName="orgEmail" placeholder="{{'Organization E-mail' | translate}}">-->
+            <!--</mat-form-field>-->
+            <!--<button *ngIf="currentOrg && currentOrg.orgEmail !== orgEmail" mat-button color="primary"-->
+                    <!--(click)="emailUpdateClicked()">-->
+              <!--{{'Update' | translate}}-->
+            <!--</button>-->
+            <!--<button *ngIf="currentOrg && currentOrg.orgEmail !== orgEmail" mat-button color="primary"-->
+                    <!--(click)="emailUpdateCanceled()">-->
+              <!--{{'Cancel' | translate}}-->
+            <!--</button>-->
+          <!--</div>-->
+
+          <!--<div>-->
+            <!--<mat-form-field>-->
+              <!--<mat-select formControlName="language" placeholder="{{'Language' | translate}}" id="language"-->
+                          <!--[(value)]="lang">-->
+                <!--<mat-option value="he">עברית</mat-option>-->
+                <!--<mat-option value="en">English</mat-option>-->
+              <!--</mat-select>-->
+            <!--</mat-form-field>-->
+            <!--<button *ngIf="currentOrg && currentOrg.language !== lang" mat-button color="primary"-->
+                    <!--(click)="langUpdateClicked()">-->
+              <!--{{'Update' | translate}}-->
+            <!--</button>-->
+            <!--<button *ngIf="currentOrg && currentOrg.language !== lang" mat-button color="primary"-->
+                    <!--(click)="langUpdateCanceled()">-->
+              <!--{{'Cancel' | translate}}-->
+            <!--</button>-->
+          <!--</div>-->
+
+
+
+          <!--<div>-->
+            <!--<button mat-raised-button color="primary" class="raised-buttons" (click)="logoUploadClicked()"-->
+                    <!--[innerHTML]="'Logo Update' | translate"></button>-->
+          <!--</div>-->
+
+          <!--<div>-->
+            <!--<button mat-raised-button color="primary" class="raised-buttons" (click)="bannerUploadClicked()"-->
+                    <!--[innerHTML]="'Banner Update' | translate">Banner Update</button>-->
+          <!--</div>-->
+
+
+        <!--</div>-->
+      <!--</form>-->
+    <!--</div>-->
+
+  <!--</ng-template>-->
+
+<!--</div>-->

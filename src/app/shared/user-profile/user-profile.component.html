@@ -54,14 +54,15 @@
               <input matInput type="text" id="displayName" [(ngModel)]="displayName"
                      placeholder="{{'Display Name' | translate}}">
             </mat-form-field>
-            <button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"
-                    (click)="displayNameUpdateClicked()">
-              {{'Update' | translate }}
-            </button>
-            <button *ngIf="currentSkUser && currentSkUser.displayName !== displayName" mat-button color="primary"
-                    (click)="displayNameUpdateCanceled()">
-              {{'Cancel' | translate }}
-            </button>
+            <div *ngIf="currentSkUser && currentSkUser.displayName !== displayName" >
+              <button (click)="displayNameUpdateClicked()" mat-button color="primary">
+                {{'Update' | translate }}
+              </button>
+              <button (click)="displayNameUpdateCanceled()" mat-button color="primary">
+                {{'Cancel' | translate }}
+              </button>
+            </div>
+
           </div>
 
           <div>
@@ -72,12 +73,10 @@
             <div *ngIf="currentAuthUser && currentAuthUser.email !== email">
               <h6>{{'Email change' | translate}}</h6>
               <p>{{'TXT_email_change_message' | translate}}</p>
-              <button mat-button color="primary"
-                      (click)="emailUpdateClicked()">
+              <button mat-button color="primary" (click)="emailUpdateClicked()">
                 {{'Update' | translate }}
               </button>
-              <button mat-button color="primary"
-                      (click)="emailUpdateCanceled()">
+              <button mat-button color="primary" (click)="emailUpdateCanceled()">
                 {{'Cancel' | translate }}
               </button>
             </div>
