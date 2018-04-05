@@ -103,6 +103,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.email = this.currentAuthUser.email;
   }
 
+  emailValidate(email: string): boolean {
+    const emailRegex = new RegExp('^([\\w\\!\\#$\\%\\&\\\'\\*\\+\\-\\/\\=\\?\\^\\`{\\|\\}\\~]+\\.)*[\\w\\!\\#$\\%\\&\\\'\\*\\+\\-\\/\\=\\?\\^\\`{\\|\\}\\~]+@((((([a-z0-9]{1}[a-z0-9\\-]{0,62}[a-z0-9]{1})|[a-z])\\.)+[a-z]{2,6})|(\\d{1,3}\\.){3}\\d{1,3}(\\:\\d{1,5})?)$');
+    return emailRegex.test(email.toLowerCase());
+  }
   uploadSingle() {
     console.log(this.data, this.data.image);
     this.imageService.uploadUserImg(this.data.image, this.currentSkUser.uid)

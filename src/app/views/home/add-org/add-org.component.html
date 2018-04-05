@@ -16,11 +16,14 @@
            fxLayout="column" fxLayoutAlign="center center">
 
         <form [formGroup]="newOrgForm" (ngSubmit)="addOrg()">
+
           <div>
             <mat-form-field>
               <input matInput type="text" id="orgId" (change)="checkOrgId()" (keyup)="checkOrgId()"
                      formControlName="orgId" placeholder="{{'orgId' | translate}}" required>
             </mat-form-field>
+            <span matTooltip="{{'TXT_orgId_tooltip' | translate}}"><i class="fa fa-question-circle-o"></i></span>
+
             <mat-error *ngIf="orgId.invalid && orgId.touched && orgIdAvailable"
                        [innerHTML]="'TXT_orgId_error' | translate"></mat-error>
             <mat-error *ngIf="orgId.invalid && orgId.touched && !orgIdAvailable"
