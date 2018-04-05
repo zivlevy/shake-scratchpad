@@ -13,17 +13,39 @@
     <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly" fxLayout.gt-sm="row" >
 
       <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'"
-           fxLayout="column" fxLayoutAlign="center center">
+           fxLayout="column" fxLayoutAlign="space-evenly center">
 
+        <!--Logo Display-->
         <div id="logo-view" *ngIf="!inLogoEdit" fxLayout="column"  fxLayoutAlign="space-evenly center">
-          <img id="user-img" class="rounded-circle"
-               [src]="logoUrl" alt="">
-            <button mat-raised-button class="btn-hover-accent" (click)="logoUploadClicked()"
-                    [innerHTML]="'Logo Update' | translate"></button>
+          <img id="logo" class="rounded-circle" [src]="logoUrl" alt="">
+          <button mat-raised-button class="btn-hover-accent" (click)="logoUploadClicked()"
+                  [innerHTML]="'Logo Update' | translate">
+          </button>
         </div>
 
-        <div id="logo-input" *ngIf="inLogoEdit" fxLayout="column"  fxLayoutAlign="space-evenly center">
+        <!--Logo Entry -->
+        <div id="logo-edit" *ngIf="inLogoEdit" fxLayout="column"  fxLayoutAlign="space-evenly center">
+          <div id="logo-cropper">
+            <img-cropper [image]="logoData" [settings]="logoCropperSettings"></img-cropper>
+          </div>
+          <button id="logoHide" mat-raised-button color="accent"> {{'Choose Logo' | translate }}</button>
+          <div class="cropper-buttons">
+            <button mat-raised-button color="primary" [disabled]="!logoData.image"
+                    (click)="logoSavedClicked()">
+              {{'Save' | translate}}
+            </button>
+            <button mat-raised-button color="basic" (click)="logoCancelClicked()">
+              {{'Cancel' | translate}}
+            </button>
+          </div>
+        </div>
 
+        <!--Banner Display-->
+        <div id="banner-view" *ngIf="!inBannerEdit" fxLayout="column"  fxLayoutAlign="space-evenly center">
+          <img id="banner" [src]="bannerUrl" alt="">
+          <button mat-raised-button class="btn-hover-accent" (click)="bannerUploadClicked()"
+                  [innerHTML]="'Banner Update' | translate">
+          </button>
         </div>
 
       </div>
@@ -32,7 +54,7 @@
 
       <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'">
 
-        <form [formGroup]="orgManagementForm" class="org-admin-form"
+        <form [formGroup]="orgManagementForm" id="org-admin-form"
               fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutAlign.gt-sm="space-evenly start">
           <div>
             <mat-form-field>

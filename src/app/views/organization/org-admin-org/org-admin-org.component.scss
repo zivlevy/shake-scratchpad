@@ -1,15 +1,49 @@
-.org-admin-form {
+#org-admin-form {
   height: 500px;
 }
 
-#wrapper {
-  width: 300px;
-  margin: 20px auto;
+#logo-view{
+  height: 300px;
 }
 
-#logoWrapper {
-  width: 250px;
-  margin: 20px auto;
+#logo-edit{
+  height: 300px;
+}
+
+#logo {
+  height: 160px;
+  width: auto;
+}
+
+#logoHide {
+  position: relative;
+  top:-200px;
+  width: 200px;
+  height: 38px;
+  pointer-events: none;
+}
+#logo-cropper {
+  width: 200px;
+  display: block;
+  text-align: center;
+}
+
+//#wrapper {
+//  width: 300px;
+//  margin: 20px auto;
+//}
+
+#banner-view{
+  height: 200px;
+}
+
+#banner-edit{
+  height: 200px;
+}
+
+#banner {
+  height: 30px;
+  width: auto;
 }
 
 #bannerWraper {
@@ -17,18 +51,12 @@
   margin: 20px auto;
 }
 
-#img-input {
-  position: relative;
-  left: -50px;
+//#img-input {
+//  position: relative;
+//  left: -50px;
+//
+//}
 
-}
-#logoHide {
-  position: relative;
-  top:-340px;
-  width: 300px;
-  height: 38px;
-  pointer-events: none;
-}
 
 #bannerHide {
   position: relative;
