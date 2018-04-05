@@ -1,65 +1,82 @@
-<div class="wrapper">
+<div class="card-page-background" fxLayout="column" fxLayoutAlign="center center">
 
-  <div class="d-flex justify-content-center">
-    <img src="assets/img/shake-logo.png" id="logo" [routerLink]="['/home']">
-  </div>
+  <mat-card [ngClass]="'page-card-small'" [ngClass.gt-sm]="'page-card-big'">
 
-  <form [formGroup]="newOrgForm" (ngSubmit)="addOrg()">
+    <mat-card-header class="page-card-header">
+      <mat-card-title>
+        <h1 >
+          {{ 'Create Organization' | translate }}
+        </h1>
+      </mat-card-title>
+    </mat-card-header>
 
-    <div class="form-header p-0">
-      <h1 [innerHTML]="'Create Organization' | translate"></h1>
-    </div>
+    <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly" fxLayout.gt-sm="row" >
 
-    <div class="form-body">
+      <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'"
+           fxLayout="column" fxLayoutAlign="center center">
 
-      <div>
-        <mat-form-field>
-          <input matInput type="text" id="orgId" (change)="checkOrgId()" (keyup)="checkOrgId()"
-                 formControlName="orgId" placeholder="{{'orgId' | translate}}" required>
-        </mat-form-field>
-        <mat-error *ngIf="orgId.invalid && orgId.touched && orgIdAvailable"
-                    [innerHTML]="'TXT_orgId_error' | translate"></mat-error>
-        <mat-error *ngIf="orgId.invalid && orgId.touched && !orgIdAvailable"
-                    [innerHTML]="'TXT_orgId_unavailable' | translate"></mat-error>
+        <form [formGroup]="newOrgForm" (ngSubmit)="addOrg()">
+          <div>
+            <mat-form-field>
+              <input matInput type="text" id="orgId" (change)="checkOrgId()" (keyup)="checkOrgId()"
+                     formControlName="orgId" placeholder="{{'orgId' | translate}}" required>
+            </mat-form-field>
+            <mat-error *ngIf="orgId.invalid && orgId.touched && orgIdAvailable"
+                       [innerHTML]="'TXT_orgId_error' | translate"></mat-error>
+            <mat-error *ngIf="orgId.invalid && orgId.touched && !orgIdAvailable"
+                       [innerHTML]="'TXT_orgId_unavailable' | translate"></mat-error>
+          </div>
+
+          <div>
+            <mat-form-field>
+              <input matInput type="text" id="orgName"
+                     formControlName="orgName" placeholder="{{'Organization Name' | translate}}" required>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field>
+              <mat-select formControlName="language" placeholder="{{'Language' | translate}}"
+                          (change)="languageChanged($event.value)">
+                <mat-option value="he">עברית</mat-option>
+                <mat-option value=en>English</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field>
+              <mat-select formControlName="sector" placeholder="{{'Sector' | translate}}"
+                          (change)="updateSector($event.value)">
+                <mat-option *ngFor="let sector of sectors" [value]="sector">{{sector}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <button mat-raised-button class="btn-hover-accent" type="submit" [disabled]="!newOrgForm.valid">Submit</button>
+        </form>
+
       </div>
 
-      <div>
-        <mat-form-field>
-          <input matInput type="text" id="orgName"
-                 formControlName="orgName" placeholder="{{'Organization Name' | translate}}" required>
-        </mat-form-field>
+
+      <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'"
+           fxLayout="column" fxLayoutAlign="space-evenly center">
+
+        <img class="login-icon" src="assets/icons/icon-250.png"  fxHide.lt-sm>
+
+
+
+        <div class="flags d-flex justify-content-center">
+          <img src="assets/img/il.png" (click)="setLng('he')" style="display: inline">
+          <img src="assets/img/us.png" (click)="setLng('en')" style="display: inline">
+        </div>
+
       </div>
+    </mat-card-content>
 
-      <div>
-        <mat-form-field>
-          <mat-select formControlName="language" placeholder="{{'Language' | translate}}"
-                      (change)="languageChanged($event.value)">
-            <mat-option value="he">עברית</mat-option>
-            <mat-option value=en>English</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field>
-          <mat-select formControlName="sector" placeholder="{{'Sector' | translate}}"
-                      (change)="updateSector($event.value)">
-            <mat-option *ngFor="let sector of sectors" [value]="sector">{{sector}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <button mat-raised-button color="primary" type="submit" [disabled]="!newOrgForm.valid">Submit</button>
-
-    </div>
-  </form>
-
-
-  <div class="flags d-flex justify-content-center">
-    <img src="assets/img/il.png" (click)="setLng('he')">
-    <img src="assets/img/us.png" (click)="setLng('en')">
-  </div>
+  </mat-card>
 </div>
+
 
 <ngx-spinner [type]="'timer'" [bdOpacity]="0.9" [size]="'large'"></ngx-spinner>
 <h3 *ngIf="isWaiting" class="wait-msg text-center">Creating your organization. Please wait ....</h3>

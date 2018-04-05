@@ -77,7 +77,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
       'language': ['', [
         Validators.required
       ]],
-      'orgEmail': ['', [
+      'orgEmailControl': ['', [
         Validators.required,
         Validators.email
       ]]
@@ -104,6 +104,9 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
         }}) ;
 
 
+  }
+  get orgEmailControl() {
+    return this.orgManagementForm.get('orgEmailControl');
   }
 
   logoUploadClicked() {

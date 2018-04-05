@@ -11,7 +11,8 @@ import {TooltipModule} from 'ngx-bootstrap';
 import {SharedModule} from '../../shared/shared.module';
 import { HomeContentComponent } from './home-content/home-content.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
-import {MaterialModule} from "../../material/material.module";
+import {MaterialModule} from '../../material/material.module';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {MaterialModule} from "../../material/material.module";
     TranslateModule,
     SharedModule,
     NgxSpinnerModule,
-    MaterialModule
+    MaterialModule,
+    FlexLayoutModule
   ],
   declarations: [
     HomepageComponent,

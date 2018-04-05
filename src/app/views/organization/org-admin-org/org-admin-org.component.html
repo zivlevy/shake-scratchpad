@@ -90,10 +90,10 @@
 
           <div>
             <mat-form-field>
-              <input matInput type="email" id="orgEmail" [(ngModel)]="orgEmail"
-                     formControlName="orgEmail" placeholder="{{'Organization E-mail' | translate}}">
+              <input matInput type="email" id="orgEmailControl" [(ngModel)]="orgEmail"
+                     formControlName="orgEmailControl" placeholder="{{'Organization E-mail' | translate}}">
             </mat-form-field>
-            <mat-error *ngIf="orgEmail.invalid && orgEmail.dirty" class="error-message"
+            <mat-error *ngIf="orgEmailControl.invalid && orgEmailControl.dirty" class="error-message"
                        [innerHTML]="'Please enter a valid email' | translate">
             </mat-error>
             <div *ngIf="currentOrg && currentOrg.orgEmail !== orgEmail">

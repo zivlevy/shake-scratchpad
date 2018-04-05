@@ -1,14 +1,22 @@
-<mat-toolbar color="primary">
+<div  class="page-wrap" fxLayout="column">
+  <div fxFlex="0 0 auto">
+    <mat-toolbar color="primary">
 
-  <a [routerLink]="['']"><img src="assets/img/shake-logo.png"></a>
-  <span class="fill-remaining-space"></span>
+      <a [routerLink]="['']"><img src="assets/img/shake-logo.png"></a>
+      <span class="fill-remaining-space"></span>
 
-  <button mat-button *ngIf="!currentUser" (click)="login()" [innerHTML]="'Login' | translate"></button>
-  <button mat-button *ngIf="!currentUser" (click)="signup()" [innerHTML]="'Signup' | translate"></button>
+      <button mat-button *ngIf="!currentUser" (click)="login()" [innerHTML]="'Login' | translate"></button>
+      <button mat-button *ngIf="!currentUser" (click)="signup()" [innerHTML]="'Signup' | translate"></button>
 
-  <sk-nav-admin></sk-nav-admin>
-  <sk-nav-user></sk-nav-user>
-</mat-toolbar>
+      <sk-nav-admin></sk-nav-admin>
+      <sk-nav-user></sk-nav-user>
+    </mat-toolbar>
+  </div>
 
-<router-outlet></router-outlet>
+  <div fxFlex>
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
+
 
