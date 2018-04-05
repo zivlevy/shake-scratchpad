@@ -62,7 +62,7 @@ export class OrgSearchDocComponent implements OnInit, OnDestroy {
   }
 
   openDoc(docId: string, docType: string, docVersion: string) {
-    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion]);
+    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion, true, this.searchTerm ]);
   }
 
   editDoc(docId: string, docType: string, docVersion: string) {

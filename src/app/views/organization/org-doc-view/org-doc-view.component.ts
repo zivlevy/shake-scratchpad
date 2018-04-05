@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {SkDoc, SkDocData} from '../../../model/document';
@@ -29,6 +29,8 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   currentEditData: SkDocData;
   docVersiontitle: string = '';
   isNumbering: boolean = true;
+  searchPhrase: string = '';
+  isSearch: boolean = false;
   rtl: boolean = false;
 
   confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
@@ -70,6 +72,8 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
         this.currentDocId = params.docId;
         this.currentDocType = params.docType;
         this.currentDocVersion = params.docVersion;
+        this.searchPhrase = params.searchPhrase;
+        this.isSearch = params.isSearch === 'true';
         return this.orgService.getDoc$(params.docId);
       })
       .switchMap( (doc: SkDoc) => {
@@ -114,6 +118,10 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   gotoEdit() {
     this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, this.currentDocType, this.currentDocVersion])
       .catch(err => console.log(err));
+  }
+
+  toggleSearch() {
+    this.isSearch = ! this.isSearch;
   }
 
   signDocument() {

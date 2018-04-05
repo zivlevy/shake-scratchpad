@@ -28,6 +28,15 @@
     <mat-icon>edit</mat-icon>
     </button>
 
+    <!-- SEARCH BUTTON -->
+    <button  mat-button class="rightside-buttons mat-icon-button" (click)="toggleSearch()"
+            matTooltip="{{'Search' | translate}}" matTooltipPosition="after">
+      <mat-icon>search</mat-icon>
+    </button>
+
+    <!-- SEARCH input -->
+    <input *ngIf="isSearch" [(ngModel)]="searchPhrase">
+
     <span class="fillsapce"></span>
 
     <p>{{docVersiontitle}}</p>
@@ -39,6 +48,6 @@
   </div>
 
   <!-- DOC VIEWER-->
-  <sk-doc-viewer *ngIf="!isTaskView" [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-doc-viewer>
+  <sk-doc-viewer *ngIf="!isTaskView" [isSearch]="isSearch" [searchPhrase]="searchPhrase" [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-doc-viewer>
   <sk-task-viewer *ngIf="isTaskView" [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-task-viewer>
 </div>
