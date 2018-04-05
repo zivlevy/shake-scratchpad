@@ -16,9 +16,9 @@
            fxLayout="column" fxLayoutAlign="space-evenly center">
 
         <!--Logo Display-->
-        <div id="logo-view" *ngIf="!inLogoEdit" fxLayout="column"  fxLayoutAlign="space-evenly center">
+        <div id="logo-view" *ngIf="!inLogoEdit" fxLayout="column"  fxLayoutAlign="center center">
           <img id="logo" class="rounded-circle" [src]="logoUrl" alt="">
-          <button mat-raised-button class="btn-hover-accent" (click)="logoUploadClicked()"
+          <button mat-raised-button class="btn-hover-accent view-button" (click)="logoUploadClicked()"
                   [innerHTML]="'Logo Update' | translate">
           </button>
         </div>
@@ -30,24 +30,40 @@
           </div>
           <button id="logoHide" mat-raised-button color="accent"> {{'Choose Logo' | translate }}</button>
           <div class="cropper-buttons">
-            <button mat-raised-button color="primary" [disabled]="!logoData.image"
+            <button mat-raised-button  class="btn-hover-accent" [disabled]="!logoData.image"
                     (click)="logoSavedClicked()">
               {{'Save' | translate}}
             </button>
-            <button mat-raised-button color="basic" (click)="logoCancelClicked()">
+            <button mat-raised-button class="btn-hover-accent" (click)="logoCancelClicked()">
               {{'Cancel' | translate}}
             </button>
           </div>
         </div>
 
         <!--Banner Display-->
-        <div id="banner-view" *ngIf="!inBannerEdit" fxLayout="column"  fxLayoutAlign="space-evenly center">
+        <div id="banner-view" *ngIf="!inBannerEdit" fxLayout="column"  fxLayoutAlign="center center">
           <img id="banner" [src]="bannerUrl" alt="">
-          <button mat-raised-button class="btn-hover-accent" (click)="bannerUploadClicked()"
+          <button mat-raised-button class="btn-hover-accent view-button" (click)="bannerUploadClicked()"
                   [innerHTML]="'Banner Update' | translate">
           </button>
         </div>
 
+        <!--Banner Edit-->
+        <div id="banner-edit" *ngIf="inBannerEdit" fxLayout="column"  fxLayoutAlign="space-evenly center">
+          <div id="banner-cropper">
+            <img-cropper [image]="bannerData" [settings]="bannerCropperSettings"></img-cropper>
+          </div>
+          <button id="bannerHide" mat-raised-button color="accent"> {{'Choose Banner' | translate }}</button>
+          <div class="cropper-buttons">
+            <button mat-raised-button class="btn-hover-accent"  [disabled]="!bannerData.image"
+                    (click)="bannerSaveClicked()">
+              {{'Save' | translate}}
+            </button>
+            <button mat-raised-button class="btn-hover-accent" (click)="bannerCancelClicked()">
+              {{'Cancel' | translate}}
+            </button>
+          </div>
+        </div>
       </div>
 
 
@@ -77,6 +93,9 @@
               <input matInput type="email" id="orgEmail" [(ngModel)]="orgEmail"
                      formControlName="orgEmail" placeholder="{{'Organization E-mail' | translate}}">
             </mat-form-field>
+            <mat-error *ngIf="orgEmail.invalid && orgEmail.dirty" class="error-message"
+                       [innerHTML]="'Please enter a valid email' | translate">
+            </mat-error>
             <div *ngIf="currentOrg && currentOrg.orgEmail !== orgEmail">
               <button  mat-button color="primary" (click)="emailUpdateClicked()">
                 {{'Update' | translate}}

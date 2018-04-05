@@ -11,7 +11,7 @@
 }
 
 #logo {
-  height: 160px;
+  height: 80px;
   width: auto;
 }
 
@@ -60,8 +60,8 @@
 
 #bannerHide {
   position: relative;
-  top:-140px;
-  width: 350px;
+  top:-90px;
+  width: 300px;
   height: 38px;
   pointer-events: none;
 }
@@ -83,4 +83,8 @@
 
 .raised-buttons{
   margin-bottom: 20px;
+}
+
+.view-button {
+  margin-top: 20px;
 }

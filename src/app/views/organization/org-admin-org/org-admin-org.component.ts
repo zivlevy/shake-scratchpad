@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CropperSettings} from 'ng2-img-cropper';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {LanguageService} from '../../../core/language.service';
 import {OrgService} from '../org.service';
 import {ImageService} from '../../../core/image.service';
@@ -83,6 +83,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
       ]]
     });
 
+
     // default logo
     this.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
     this.bannerUrl = 'assets/img/shake banner.png';
@@ -100,7 +101,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
           this.orgManagementForm.controls['language'].setValue(this.lang);
           this.logoUrl = org.logoURL;
           this.bannerUrl = org.bannerURL;
-      }}) ;
+        }}) ;
 
 
   }
