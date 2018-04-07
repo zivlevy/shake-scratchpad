@@ -43,7 +43,8 @@ export const algoliaInitIndex = function (orgId) {
     ],
     attributesForFaceting: [
       'docType', 'version'
-    ]
+    ],
+    typoTolerance: false
   })
 };
 

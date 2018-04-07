@@ -66,6 +66,11 @@
   pointer-events: none;
 }
 
+#banner-cropper {
+  width: 300px;
+  display: block;
+  text-align: center;
+}
 .cropper-buttons {
   position: relative;
   top:-40px;
