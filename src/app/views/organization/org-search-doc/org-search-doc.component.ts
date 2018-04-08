@@ -6,6 +6,9 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/observable/fromEvent';
+import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {ToasterService} from '../../../core/toaster.service';
 
 @Component({
   selector: 'sk-org-search-doc',
@@ -23,12 +26,15 @@ export class OrgSearchDocComponent implements OnInit, OnDestroy {
   edited: boolean = false;
   version: boolean = false;
   checkboxClick$: Subject<any> = new Subject();
+  confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   @ViewChild('search') searchInput: ElementRef;
 
   documents: any[];
 
   constructor(private orgService: OrgService,
-              private router: Router) { }
+              private router: Router,
+              private dialog: MatDialog,
+              private toaster: ToasterService) { }
 
   ngOnInit() {
 
@@ -66,15 +72,31 @@ export class OrgSearchDocComponent implements OnInit, OnDestroy {
   }
 
   editDoc(docId: string, docType: string, docVersion: string) {
-    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, docType, docVersion]);
+    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, docType, docVersion, true, this.searchTerm]);
 
 
   }
 
   deleteDocVersion(docId: string, docType: string, docVersion: string) {
-    this.orgService.deleteDocVersion(docId, docVersion)
-      .then()
-      .catch();
+    this.confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        msg: 'Delete ?'
+      }
+    });
+
+    this.confirmDialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.orgService.deleteDocVersion(docId, docVersion)
+            .then(() => {
+              this.toaster.toastInfo('Document deleted success');
+              setTimeout(() => this.checkboxClick$.next(), 1500);
+              setTimeout(() => this.checkboxClick$.next(), 3000);
+            })
+            .catch(err => console.log(err));
+        }
+      });
+
   }
 
   ngOnDestroy() {

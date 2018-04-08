@@ -92,7 +92,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
           return Observable.of(doc.editVersion);
         } else {
           this.docVersiontitle = `Archive version ${this.currentDocVersion}`;
-          return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion)
+          return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion )
             .take(1);
         }
       })
@@ -115,8 +115,9 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
     this.router.navigate([`org/${this.currentOrg}`])
       .catch(err => console.log(err));
   }
+
   gotoEdit() {
-    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, this.currentDocType, this.currentDocVersion])
+    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, this.currentDocType, this.currentDocVersion, 'false', ''])
       .catch(err => console.log(err));
   }
 

@@ -12,7 +12,7 @@ export class DocViewerComponent implements OnInit, OnChanges {
   @Input() docJson: string;
   @Input() ident: number = 10;
   @Input() searchPhrase: string = '';
-  @Input() isSearch: boolean = true;
+  @Input() isSearch: boolean = false;
   docList: Array<SkSection | SkItem>;
   constructor(private docService: DocumentService
               ) { }
@@ -23,7 +23,7 @@ export class DocViewerComponent implements OnInit, OnChanges {
   ngOnChanges() {
 
     if (this.docJson) {
-      this.docList = this.docService.SkTreeListFronJSON(this.docJson);
+      this.docList = this.docService.SkTreeListFromJSON(this.docJson);
       this.doSearch();
       //
       // const temp  = this.docService.SKTasksList(this.docJson);

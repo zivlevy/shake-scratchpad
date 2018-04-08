@@ -49,5 +49,5 @@
 
   <!-- DOC VIEWER-->
   <sk-doc-viewer *ngIf="!isTaskView" [isSearch]="isSearch" [searchPhrase]="searchPhrase" [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-doc-viewer>
-  <sk-task-viewer *ngIf="isTaskView" [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-task-viewer>
+  <sk-task-viewer *ngIf="isTaskView" [isSearch]="isSearch" [searchPhrase]="searchPhrase" [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-task-viewer>
 </div>
