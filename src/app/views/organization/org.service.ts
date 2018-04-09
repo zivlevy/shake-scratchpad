@@ -832,13 +832,12 @@ export class OrgService {
       this.firestoreService.colWithIds$(`org/${orgId}/users`)
         .take(1)
         .subscribe(orgUsers => {
-          console.log(orgUsers);
           orgUsers.forEach(orgUser => {
-            this.afs.collection('org').doc(orgId).collection('users').doc(orgUser.id).collection('docsAcks').doc(docAckId)
+            this.afs.collection('org').doc(orgId).collection('docsAcks').doc(docAckId).collection('users').doc(orgUser.id)
               .valueChanges()
               .take(1)
               .subscribe((docAck: any) => {
-                if (!docAck || (docAck && !docAck.isRequired)) {
+                if (!docAck) {
                   requestsToAdd.push(this.orgDocService.addOrgUserReqDocAck(orgId, docAckId, docAckName, docId, orgUser.id, orgUser.displayName));
                 }
               });
@@ -856,7 +855,6 @@ export class OrgService {
       this.firestoreService.colWithIds$(`org/${orgId}/docsAcks/${docAckId}/users`)
         .take(1)
         .subscribe(docAckUsers => {
-          console.log(docAckUsers);
           docAckUsers.forEach(docAckUser => {
             if (!docAckUser.hasSigned) {
               requestsToRemove.push(this.orgDocService.removeOrgUserReqDocAck(orgId, docAckId, docAckUser.id));
@@ -868,5 +866,20 @@ export class OrgService {
     });
   }
 
+  deActivateReadAck(orgId: string, readAckId: string) {
+    const removeAll =  this.removeReqDocAckFromAll(orgId, readAckId);
+    const deActivate =  this.firestoreService.upsert(`org/${orgId}/docsAcks/${readAckId}`, {
+      isActive: false,
+    });
+
+    return Promise.all([removeAll, deActivate])
+      .catch(err => console.log(err));
+  }
+
+  activateReadAck(orgId: string, readAckId: string) {
+    return this.firestoreService.upsert(`org/${orgId}/docsAcks/${readAckId}`, {
+      isActive: true,
+    });
+  }
 }
 

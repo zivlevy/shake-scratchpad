@@ -1,60 +1,41 @@
-<div fxLayout="column">
-  <mat-card *ngIf="!newDocAck" fxFlex="1 1 100%">
+<div fxLayout="column" [ngClass]="'table-page-small'" [ngClass.gt-sm]="'table-page-big'">
+
+  <mat-card fxFlex="1 1 100%">
+
+    <h1 > {{ 'Read & Acknowledge Edit' | translate}}</h1>
     <form [formGroup]="docAckForm">
 
-      <div fxLayout="row">
-
-        <div fxLayout="column" fxFlex="1 1 34%">
-
+      <div class="first-row" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="center center" fxLayoutAlign.gt-xs="space-evenly">
+        <div>
           <mat-form-field>
             <input matInput type="text" id="name" [(ngModel)]="docAckName"
                    formControlName="name" placeholder="{{'Name' | translate}}">
           </mat-form-field>
-          <button *ngIf="currentDocAck && currentDocAck.name !== docAckName" mat-button color="primary"
-                  (click)="nameUpdateClicked()">
-            {{'Update' | translate}}
-          </button>
-          <button *ngIf="currentDocAck && currentDocAck.name !== docAckName" mat-button color="primary"
-                  (click)="nameUpdateCanceled()">
-            {{'Cancel' | translate}}
-          </button>
+          <div>
+            <button *ngIf="currentDocAck && currentDocAck.name !== docAckName" mat-button color="primary"
+                    (click)="nameUpdateClicked()">
+              {{'Update' | translate}}
+            </button>
+            <button *ngIf="currentDocAck && currentDocAck.name !== docAckName" mat-button color="primary"
+                    (click)="nameUpdateCanceled()">
+              {{'Cancel' | translate}}
+            </button>
+          </div>
+        </div>
 
+        <div>
           <mat-form-field>
             <input matInput type="text" id="docName" [(ngModel)]="docName"
                    formControlName="docName" placeholder="{{'Document Name' | translate}}">
           </mat-form-field>
-
         </div>
 
-        <div fxLayout="column" fxFlex="1 1 33%">
-
-          <mat-checkbox fxFlexOffset="5" [checked]="currentDocAck?.isActive" (change)="isActiveChanged($event)">
-            <!--(change)="isActiveChanged($event)">-->
-            {{'Active Read & Sign' | translate}}
-          </mat-checkbox>
-
-
-          <mat-form-field fxFlexOffset="4">
+        <div>
+          <mat-form-field>
             <input matInput type="text" id="dateCreated" [ngModel]="dateCreated "
                    formControlName="dateCreated" placeholder="{{'Date Created' | translate}}">
           </mat-form-field>
         </div>
-
-        <div fxLayout="column" fxFlex="1 1 33%">
-
-          <mat-form-field>
-            <input matInput type="number" id="requiredSignatures" [(ngModel)]="docAckRequiredSignatures"
-                   formControlName="requiredSignatures" placeholder="{{'Required Signatures' | translate}}">
-          </mat-form-field>
-
-          <mat-form-field>
-            <input matInput type="number" id="actualSignatures" [(ngModel)]="docAckActualSignatures"
-                   formControlName="actualSignatures" placeholder="{{'Actual Signatures' | translate}}">
-          </mat-form-field>
-
-        </div>
-
-
       </div>
 
 
@@ -63,21 +44,41 @@
 
   <div  fxLayout="row">
 
-    <!--<mat-card *ngIf="docAckEditable || newDocAck"  fxFlex="1 1 30%">-->
-      <!--<sk-org-tree-view (selectedDoc)="docSelected($event)"></sk-org-tree-view>-->
-
-    <!--</mat-card>-->
-
     <mat-card fxFlex="auto">
+
+      <!--<div class="second-row" fxLayout="row" fxLayoutAlign="start">-->
+        <!--<button mat-raised-button class="icon-button"  (click)="selectAllClicked()"-->
+          <!--matTooltip="{{'Require All' | translate}}">-->
+          <!--<i class="fa fa-check-square"></i>-->
+        <!--</button>-->
+        <!--<button mat-raised-button class="icon-button" (click)="deSelectAllClicked()"-->
+                <!--matTooltip="{{'Require None' | translate}}">-->
+
+        <!--<i class="fa fa-minus-square"></i>-->
+        <!--</button>-->
+      <!--</div>-->
+
       <div class="org-users-container mat-elevation-z8">
+
+        <div [ngClass]="'second-row-small'" [ngClass.gt-sm]="'second-row-big'" fxLayout="row" fxLayoutAlign="start">
+          <button mat-raised-button class="icon-button"  (click)="selectAllClicked()"
+                  matTooltip="{{'Require All' | translate}}">
+            <i class="fa fa-check-square"></i>
+          </button>
+          <button mat-raised-button class="icon-button" (click)="deSelectAllClicked()"
+                  matTooltip="{{'Require None' | translate}}">
+
+            <i class="fa fa-minus-square"></i>
+          </button>
+        </div>
 
         <mat-table #table class="org-users-table" [dataSource]="orgUsersDocAckSource">
 
           <ng-container matColumnDef="isRequired">
-              <mat-header-cell *matHeaderCellDef fxLayout="column">
-                  {{'Signature Required' | translate}}
-                  <mat-checkbox (change)="selectAllClicked($event)"></mat-checkbox>
-              </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef fxLayout="column">
+              {{'Signature Required' | translate}}
+              <!--<mat-checkbox (change)="selectAllClicked($event)"></mat-checkbox>-->
+            </mat-header-cell>
             <mat-cell *matCellDef="let element">
               <mat-checkbox [checked]="element.isRequired"
                             [disabled]="element.hasSigned"
@@ -89,7 +90,8 @@
           <ng-container matColumnDef="photo">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element"> <img *ngIf="element.photoURL"
-                                                      class="user-img rounded-circle img-fluid" [src]="element.photoURL" alt=""> </mat-cell>
+                    [ngClass]="'user-img-small rounded-circle img-fluid'" [ngClass.gt-sm]="'user-img-big rounded-circle img-fluid'"
+                     [src]="element.photoURL" alt=""> </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="displayName">
@@ -118,6 +120,7 @@
     </mat-card>
   </div>
 </div>
+
 
 
 

@@ -12,17 +12,17 @@ export class OrgDocService {
               ) { }
 
   getOrgDocsAcks$ (orgId: string): Observable<any> {
-    return this.firestoreService.colWithIds$(`org/${orgId}/docsAcks`)
-      .map(docsAcks => {
-        docsAcks.forEach(docAck => {
-          this.afs.doc(`org/${orgId}/docs/${docAck.docId}`).valueChanges()
-            .take(1)
-            .subscribe((doc: any) => {
-              docAck.docName = doc.name;
-            });
-        });
-        return docsAcks;
-      });
+    return this.firestoreService.colWithIds$(`org/${orgId}/docsAcks`);
+      // .map(docsAcks => {
+      //   docsAcks.forEach(docAck => {
+      //     this.afs.doc(`org/${orgId}/docs/${docAck.docId}`).valueChanges()
+      //       .take(1)
+      //       .subscribe((doc: any) => {
+      //         docAck.docName = doc.name;
+      //       });
+      //   });
+      //   return docsAcks;
+      // });
   }
 
 
@@ -31,8 +31,8 @@ export class OrgDocService {
       .take(1)
       .subscribe(orgUsers => {
         orgUsers.map((orgUser: any) => {
-          this.afs.doc(`org/${orgId}/users/${orgUser.uid}/docsAcks/${docAckId}`)
-            .delete();
+          this.afs.doc(`org/${orgId}/users/${orgUser.uid}/docsAcks/${docAckId}`).delete()
+            .catch(err => console.log(err));
         });
       });
 
@@ -43,16 +43,34 @@ export class OrgDocService {
     return this.firestoreService.colWithIds$(`org/${orgId}/users`)
       .map(resArray => {
         resArray.forEach(res => {
-          this.afs.doc(`org/${orgId}/users/${res.id}/docsAcks/${docAckId}`).valueChanges()
+          this.afs.doc(`org/${orgId}/docsAcks/${docAckId}/users/${res.id}`).valueChanges()
             // .take(1)
             .subscribe((userSignature: any) => {
               if (userSignature) {
-                res.isRequired = userSignature.isRequired ? userSignature.isRequired : false;
-                res.hasSigned = userSignature.hasSigned ? userSignature.hasSigned : false;
+                res.isRequired = true;
+                res.hasSigned = userSignature.hasSigned;
                 res.signedAt = userSignature.signedAt;
               } else {
                 res.isRequired = false;
                 res.hasSigned = false;
+              }
+            });
+        });
+        return resArray;
+      });
+  }
+
+  getDeActivateDocAckUsers$(orgId: string, docAckId: string): Observable<any> {
+
+    return this.firestoreService.colWithIds$(`org/${orgId}/docsAcks/${docAckId}/users`)
+      .map(resArray => {
+        resArray.forEach(res => {
+          this.afs.doc(`org/${orgId}/users/${res.id}`).valueChanges()
+            .subscribe((userData: any) => {
+              if (userData) {
+                res.isRequired = true;
+                res.displayName = userData.displayName;
+                res.photoURL = userData.photoURL;
               }
             });
         });
@@ -74,6 +92,9 @@ export class OrgDocService {
       });
   }
 
+  // *************************************
+  // Cloud Function onOrgUserDocSignCreate
+  // *************************************
   userDocAckSign(orgId: string, uid: string, docAckId: string): Promise<any> {
     const timestamp = this.firestoreService.timestamp;
     return this.firestoreService.upsert(`org/${orgId}/userSignatures/${uid}`, {
@@ -84,24 +105,17 @@ export class OrgDocService {
 
   }
 
-  getOrgPublishedDocs$(orgId): Observable<any> {
-    return this.firestoreService.colWithIds$(`org/${orgId}/docs`)
-      .map(docsArray => {
-       const  res: Array<any> = [];
-       docsArray.map(doc => {
-         if (doc.isPublish) {
-           res.push(doc);
-         }
-       });
-       return res;
-      });
-  }
-
+  // *************************************
+  // Cloud Function onDocAckUserAdd
+  // *************************************
   addOrgUserReqDocAck(orgId: string, docAckId: string, docAckName: string, docId: string, uid: string, userName: string): Promise<any> {
     return this.afs.collection(`org/${orgId}/docsAcks/${docAckId}/users`).doc(uid).set( { userName} )
       .catch(err => console.log(err));
   }
 
+  // *************************************
+  // Cloud Function onDocAckUserRemove
+  // *************************************
   removeOrgUserReqDocAck(orgId: string, docAckId: string, uid: string): Promise<any> {
     return this.afs.doc(`org/${orgId}/docsAcks/${docAckId}/users/${uid}`).delete()
       .catch(err => console.log(err));
@@ -112,16 +126,6 @@ export class OrgDocService {
     return this.afs.doc(`org/${orgId}/docsAcks/${docAckId}`).valueChanges();
   }
 
-  getDocNameP(orgId: string, docId: string): Promise<string> {
-    return new Promise<string>((resolve) => {
-      this.afs.doc(`org/${orgId}/docs/${docId}`).valueChanges()
-        .take(1)
-        .subscribe((doc: any) => {
-          resolve(doc.name);
-        });
-    });
-  }
-
   setDocAckData(orgId: string, docAckId: string, data ): Promise<any> {
     return this.afs.doc(`org/${orgId}/docsAcks/${docAckId}`)
       .update(data);
@@ -129,10 +133,6 @@ export class OrgDocService {
 
   createNewDocAck(orgId: string, data): Promise<any> {
     return this.afs.collection(`org/${orgId}/docsAcks`).add(data);
-  }
-
-  updateReadAck(orgId: string, readAckId: string, data) {
-    return this.firestoreService.upsert(`org/${orgId}/docsAcks/${readAckId}`, data);
   }
 
 

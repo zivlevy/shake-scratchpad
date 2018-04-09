@@ -126,6 +126,10 @@
   "Delete Read & Sign": "מחיקת קרא וחתום",
   "Edit Read & Sign": "עריכת קרא וחתום",
   "New Doc Ack": "קרא וחתום חדש",
+  "Delete Read & Sign ?": "למחוק קרא וחתום ?",
+  "Read & Acknowledge Edit": "עריכת קרא וחתום",
+  "Require All": "דרישת חתימה מכולם",
+  "Require None": "ביטול כל דרישות החתימה",
 
   "Users Roles":"משתמשים ותפקידים",
 

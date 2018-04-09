@@ -230,15 +230,12 @@ export const onOrgUserDocSignCreate = functions.firestore.document(`org/{orgId}/
         signedAt: signedAt
       });
 
-      const setOrgUserDocAck = db.collection('org').doc(orgId).collection('users').doc(uid).collection('docsAcks').doc(docAckId).update({
-        hasSigned: true,
-        signedAt: signedAt
-      });
+      const deleteOrgUserDocAck = db.collection('org').doc(orgId).collection('users').doc(uid).collection('docsAcks').doc(docAckId).delete();
 
       const deleteTempSignature = db.collection('org').doc(orgId).collection('userSignatures').doc(uid).delete();
 
 
-      return Promise.all([updateOrgDocAck, setOrgDocAckUser, setOrgUserDocAck, deleteTempSignature])
+      return Promise.all([updateOrgDocAck, setOrgDocAckUser, deleteOrgUserDocAck, deleteTempSignature])
         .catch(err => console.log(err));
     })
     .catch(err => console.log(err));
@@ -262,7 +259,6 @@ export const onDocAckUserAdd = functions.firestore.document(`org/{orgId}/docsAck
         const requiredSignatures = docAck.data().requiredSignatures + 1;
 
         transaction.set(userDocAckRef, {
-          isRequired: true,
           docAckName: docAckName,
           docId: docId,
         });

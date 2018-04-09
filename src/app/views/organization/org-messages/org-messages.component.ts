@@ -31,7 +31,7 @@ export class OrgMessagesComponent implements OnInit, OnDestroy {
 
   docAckClicked(docAck: DocAck) {
     console.log(docAck.docId);
-    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docAck.docId, 'p', 0, false, null])
+    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docAck.docId, 'p', 0, false, ''])
       .catch(err => console.log(err));
 
   }

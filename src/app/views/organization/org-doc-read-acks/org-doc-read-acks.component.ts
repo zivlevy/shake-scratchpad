@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
+import {MatDialog, MatDialogRef, MatTableDataSource} from '@angular/material';
 import {Subject} from 'rxjs/Subject';
 import {OrgDocService} from '../org-doc.service';
 import {OrgService} from '../org.service';
 import {Router} from '@angular/router';
+import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 
 export interface OrgAcks {
   name: string;
@@ -11,6 +12,7 @@ export interface OrgAcks {
   isActive: boolean;
   requiredSignatures: number;
   actualSignatures: number;
+
 }
 @Component({
   selector: 'sk-org-doc-read-acks',
@@ -18,6 +20,7 @@ export interface OrgAcks {
   styleUrls: ['./org-doc-read-acks.component.scss']
 })
 export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
+  confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
 
   readAcksDisplayColumns = ['name', 'docName', 'date Created', 'required Signatures', 'actual Signatures', 'isActive', 'Actions'];
   readAcksDataSource = new MatTableDataSource<OrgAcks>();
@@ -27,6 +30,7 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
 
   constructor(private orgService: OrgService,
               private router: Router,
+              private dialog: MatDialog,
               private orgDocService: OrgDocService) { }
 
   ngOnInit() {
@@ -47,8 +51,20 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
   }
 
   readAckDelete(readAck) {
-    this.orgDocService.deleteOrgDocAckP(this.orgId, readAck.id)
-      .catch(err => console.log(err));
+    this.confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        msg: 'Delete Read & Sign ?'
+      }
+    });
+
+    this.confirmDialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.orgDocService.deleteOrgDocAckP(this.orgId, readAck.id)
+            .catch(err => console.log(err));        }
+      });
+
+
   }
 
   addReadAck() {
@@ -62,10 +78,13 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
   }
 
   isActiveChanged(event, readAck) {
-    this.orgDocService.updateReadAck(this.orgId, readAck.id, {
-      isActive: event.checked
-    })
-      .catch(err => console.log(err));
+    if (event.checked) {
+      this.orgService.activateReadAck(this.orgId, readAck.id)
+        .catch(err => console.log(err));
+    } else {
+      this.orgService.deActivateReadAck(this.orgId, readAck.id)
+        .catch(err => console.log(err));
+    }
   }
 
   // applyFilterFilter(filterValue: string) {

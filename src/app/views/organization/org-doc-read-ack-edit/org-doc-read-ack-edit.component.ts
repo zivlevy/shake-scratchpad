@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrgService} from '../org.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {OrgDocService} from '../org-doc.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -22,7 +22,6 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   orgId: string;
-  // newDocAck: boolean;
   docAckEditable: boolean;
   docAckId: string;
   docId: string;
@@ -33,8 +32,7 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
   docAckName: string;
   docName: string;
   dateCreated: string;
-  docAckRequiredSignatures: number;
-  docAckActualSignatures: number;
+
 
   orgUsersDocAckDisplayedColumns = [ 'isRequired', 'photo', 'displayName', 'hasSigned', 'signedAt'];
   orgUsersDocAckSource = new MatTableDataSource<UserDocAck>();
@@ -89,6 +87,7 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
                 if (docAck) {
                   this.currentDocAck = docAck;
                   this.docAckEditable = docAck.actualSignatures === 0;
+
                   this.loadData();
                 }
               });
@@ -98,14 +97,8 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
               .subscribe(res => {
                 this.orgUsersDocAckSource.data = res;
               });
-
           });
 
-        this.orgDocService.getOrgPublishedDocs$(orgId)
-          .takeUntil(this.destroy$)
-          .subscribe(docs => {
-            this.docs = docs;
-          });
       });
 
   }
@@ -116,51 +109,11 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
     this.docAckForm.controls['name'].setValue(this.currentDocAck.name);
     this.docAckForm.controls['requiredSignatures'].setValue(this.currentDocAck.requiredSignatures);
     this.docAckForm.controls['actualSignatures'].setValue(this.currentDocAck.actualSignatures);
+    this.docAckForm.controls['docName'].setValue(this.currentDocAck.docName);
 
     this.dateCreated = datePipe.transform(this.currentDocAck.dateCreated, 'MMM dd,yyyy');
     this.docAckForm.controls['dateCreated'].setValue(this.dateCreated);
 
-    this.orgDocService.getDocNameP(this.orgId, this.currentDocAck.docId)
-      .then(docName => {
-        this.docAckForm.controls['docName'].setValue(docName);
-      });
-  }
-
-  // docSelected(doc) {
-  //   if (this.newDocAck) {
-  //     this.orgDocService.createNewDocAck(this.orgId, {
-  //       name: doc.name + ' - ' + new Date().getFullYear(),
-  //       docId: doc.uid,
-  //       requiredSignatures: 0,
-  //       actualSignatures: 0,
-  //       isActive: true,
-  //       dateCreated: this.firestoreService.timestamp
-  //     })
-  //     .then(res => {
-  //       this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, res.id])
-  //         .catch(err => console.log(err));
-  //     });
-  //   } else {
-  //     if (doc.uid !== this.currentDocAck.docId) {
-  //       this.orgDocService.setDocAckData(this.orgId, this.docAckId, {docId: doc.uid})
-  //         .then(() => {
-  //           this.orgDocService.getDocNameP(this.orgId, this.currentDocAck.docId)
-  //             .then(docName => {
-  //               this.docAckForm.controls['docName'].setValue(docName);
-  //             });
-  //         });
-  //     }
-  //   }
-
-
-  // }
-
-  isActiveChanged(event) {
-    console.log(this.orgId, this.docAckId, event);
-    this.orgDocService.updateReadAck(this.orgId, this.docAckId, {
-      isActive: event.checked
-    })
-      .catch(err => console.log(err));
   }
 
   isRequiredClicked(uid: string, userName: string, event) {
@@ -186,14 +139,14 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
     this.docAckName = this.currentDocAck.name;
   }
 
-  selectAllClicked(event) {
-    if (event.checked) {
-      this.orgService.addReqDocAckToAll(this.orgId, this.docAckId, this.currentDocAck.name, this.currentDocAck.docId)
-        .catch(err => console.log(err));
-    } else {
-      this.orgService.removeReqDocAckFromAll(this.orgId, this.docAckId)
-        .catch(err => console.log(err));
-    }
+  selectAllClicked() {
+    this.orgService.addReqDocAckToAll(this.orgId, this.docAckId, this.currentDocAck.name, this.currentDocAck.docId)
+      .catch(err => console.log(err));
+  }
+
+  deSelectAllClicked() {
+    this.orgService.removeReqDocAckFromAll(this.orgId, this.docAckId)
+      .catch(err => console.log(err));
   }
 
   ngOnDestroy() {

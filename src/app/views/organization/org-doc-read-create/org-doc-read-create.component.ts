@@ -57,6 +57,7 @@ export class OrgDocReadCreateComponent implements OnInit, OnDestroy {
     this.orgDocService.createNewDocAck(this.orgId, {
       name: this.docAckName,
       docId: this.docId,
+      docName: this.docName,
       requiredSignatures: 0,
       actualSignatures: 0,
       isActive: true,
