@@ -22,7 +22,7 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   orgId: string;
-  newDocAck: boolean;
+  // newDocAck: boolean;
   docAckEditable: boolean;
   docAckId: string;
   docId: string;
@@ -43,8 +43,7 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
               private fb: FormBuilder,
               private orgService: OrgService,
               private firestoreService: FirestoreService,
-              private orgDocService: OrgDocService,
-              public router: Router) { }
+              private orgDocService: OrgDocService) { }
 
   ngOnInit() {
 
@@ -82,27 +81,24 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
         this.route.params
           .takeUntil(this.destroy$)
           .subscribe(params => {
-            this.newDocAck = !params.docAckId;
+            this.docAckId = params.docAckId;
 
-            if (!this.newDocAck) {
-              this.docAckId = params.docAckId;
+            this.orgDocService.getOrgDocAck$(this.orgId, this.docAckId)
+              .takeUntil(this.destroy$)
+              .subscribe(docAck => {
+                if (docAck) {
+                  this.currentDocAck = docAck;
+                  this.docAckEditable = docAck.actualSignatures === 0;
+                  this.loadData();
+                }
+              });
 
-              this.orgDocService.getOrgDocAck$(this.orgId, this.docAckId)
-                .takeUntil(this.destroy$)
-                .subscribe(docAck => {
-                  if (docAck) {
-                    this.currentDocAck = docAck;
-                    this.docAckEditable = docAck.actualSignatures === 0;
-                    this.loadData();
-                  }
-                });
+            this.orgDocService.getDocAckUsers$(this.orgId, this.docAckId)
+              .takeUntil(this.destroy$)
+              .subscribe(res => {
+                this.orgUsersDocAckSource.data = res;
+              });
 
-              this.orgDocService.getDocAckUsers$(this.orgId, this.docAckId)
-                .takeUntil(this.destroy$)
-                .subscribe(res => {
-                  this.orgUsersDocAckSource.data = res;
-                });
-            }
           });
 
         this.orgDocService.getOrgPublishedDocs$(orgId)
@@ -130,35 +126,34 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  docSelected(doc) {
-    console.log(doc);
-    if (this.newDocAck) {
-      this.orgDocService.createNewDocAck(this.orgId, {
-        name: doc.name + ' - ' + new Date().getFullYear(),
-        docId: doc.uid,
-        requiredSignatures: 0,
-        actualSignatures: 0,
-        isActive: true,
-        dateCreated: this.firestoreService.timestamp
-      })
-      .then(res => {
-        this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, res.id])
-          .catch(err => console.log(err));
-      });
-    } else {
-      if (doc.uid !== this.currentDocAck.docId) {
-        this.orgDocService.setDocAckData(this.orgId, this.docAckId, {docId: doc.uid})
-          .then(() => {
-            this.orgDocService.getDocNameP(this.orgId, this.currentDocAck.docId)
-              .then(docName => {
-                this.docAckForm.controls['docName'].setValue(docName);
-              });
-          });
-      }
-    }
+  // docSelected(doc) {
+  //   if (this.newDocAck) {
+  //     this.orgDocService.createNewDocAck(this.orgId, {
+  //       name: doc.name + ' - ' + new Date().getFullYear(),
+  //       docId: doc.uid,
+  //       requiredSignatures: 0,
+  //       actualSignatures: 0,
+  //       isActive: true,
+  //       dateCreated: this.firestoreService.timestamp
+  //     })
+  //     .then(res => {
+  //       this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, res.id])
+  //         .catch(err => console.log(err));
+  //     });
+  //   } else {
+  //     if (doc.uid !== this.currentDocAck.docId) {
+  //       this.orgDocService.setDocAckData(this.orgId, this.docAckId, {docId: doc.uid})
+  //         .then(() => {
+  //           this.orgDocService.getDocNameP(this.orgId, this.currentDocAck.docId)
+  //             .then(docName => {
+  //               this.docAckForm.controls['docName'].setValue(docName);
+  //             });
+  //         });
+  //     }
+  //   }
 
 
-  }
+  // }
 
   isActiveChanged(event) {
     console.log(this.orgId, this.docAckId, event);

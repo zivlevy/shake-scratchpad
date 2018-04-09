@@ -32,6 +32,7 @@ import { OrgUserJoinComponent } from './org-user-join/org-user-join.component';
 import { OrgContainerComponent } from './org-container/org-container.component';
 import { OrgHomeComponent } from './org-home/org-home.component';
 import { OrgSearchDocComponent } from './org-search-doc/org-search-doc.component';
+import { OrgDocReadCreateComponent } from './org-doc-read-create/org-doc-read-create.component';
 
 @NgModule({
   imports: [
@@ -71,6 +72,7 @@ import { OrgSearchDocComponent } from './org-search-doc/org-search-doc.component
     OrgContainerComponent,
     OrgHomeComponent,
     OrgSearchDocComponent,
+    OrgDocReadCreateComponent,
   ],
   exports: [
     OrgContainerComponent,

@@ -26,7 +26,7 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
   orgId: string;
 
   constructor(private orgService: OrgService,
-              public router: Router,
+              private router: Router,
               private orgDocService: OrgDocService) { }
 
   ngOnInit() {
@@ -52,7 +52,7 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
   }
 
   addReadAck() {
-    this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, ''])
+    this.router.navigate([`org/${this.orgId}/org-doc-read-ack-new`])
       .catch(err => console.log(err));
   }
 

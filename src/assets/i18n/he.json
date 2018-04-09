@@ -4,6 +4,7 @@
   "Cancel": "ביטול",
   "Confirm": "אישור",
   "Delete ?": "למחוק ?",
+  "Delete": "מחיקה",
   "Save": "שמירה",
   "Publish": "פרסום",
   "Update": "עדכון",
@@ -11,6 +12,8 @@
   "Language": "שפה",
   "Sector": "מגזר",
   "Edit": "עריכה",
+  "View": "תצוגה",
+  "Create": "יצירה",
 
   "login component":"========= LogIn Component=========",
   "Login to ShaKE": "כניסה ל ShaKE",
@@ -122,6 +125,7 @@
   "Add Read & Sign": "הוספת קרא וחתום",
   "Delete Read & Sign": "מחיקת קרא וחתום",
   "Edit Read & Sign": "עריכת קרא וחתום",
+  "New Doc Ack": "קרא וחתום חדש",
 
   "Users Roles":"משתמשים ותפקידים",
 
@@ -132,7 +136,7 @@
   "Previous Versions": "גרסאות קודמות",
   "No document found!": "לא נמצאו מסמכים",
   "Insert search term": "אין ביטוי לחיפוש",
-
+  "Document deletion succeeded": "מחיקת מסמך הצליחה",
 
   "doc tree view": "========= Doc Tree View =========",
   "Un-publish document?": "ביטול פרסום מסמך ?",

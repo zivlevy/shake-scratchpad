@@ -63,23 +63,13 @@
 
   <div  fxLayout="row">
 
-    <mat-card *ngIf="docAckEditable || newDocAck"  fxFlex="1 1 30%">
-      <sk-org-tree-view (selectedDoc)="docSelected($event)"></sk-org-tree-view>
-      <!--<div *ngIf="docAckEditable || newDocAck">-->
-        <!--<div *ngIf="newDocAck">-->
-          <!--select doc for Read & Acknowledge-->
-        <!--</div>-->
-        <!--<h4> Temp implementation</h4>-->
-        <!--<ul>-->
-          <!--<li *ngFor="let doc of docs" (click)="docSelected(doc)">-->
-            <!--{{doc.name}}-->
-          <!--</li>-->
-        <!--</ul>-->
-      <!--</div>-->
-    </mat-card>
+    <!--<mat-card *ngIf="docAckEditable || newDocAck"  fxFlex="1 1 30%">-->
+      <!--<sk-org-tree-view (selectedDoc)="docSelected($event)"></sk-org-tree-view>-->
+
+    <!--</mat-card>-->
 
     <mat-card fxFlex="auto">
-      <div *ngIf="!newDocAck" class="org-users-container mat-elevation-z8">
+      <div class="org-users-container mat-elevation-z8">
 
         <mat-table #table class="org-users-table" [dataSource]="orgUsersDocAckSource">
 

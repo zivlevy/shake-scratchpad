@@ -13,6 +13,7 @@ import {OrgGuard} from './guards/org.guard';
 import {OrgUserJoinComponent} from './org-user-join/org-user-join.component';
 import {OrgContainerComponent} from './org-container/org-container.component';
 import {OrgHomeComponent} from './org-home/org-home.component';
+import {OrgDocReadCreateComponent} from './org-doc-read-create/org-doc-read-create.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
               {path: 'org-doc-edit/:docId/:docType/:docVersion/:isSearch/:searchPhrase', component: OrgDocEditComponent, canActivate: [OrgGuard]},
               {path: 'org-doc-view/:docId/:docType/:docVersion/:isSearch/:searchPhrase', component: OrgDocViewComponent, canActivate: [OrgGuard]},
               {path: 'org-doc-read-acks', component: OrgDocReadAcksComponent, canActivate: [OrgGuard]},
+              {path: 'org-doc-read-ack-new', component: OrgDocReadCreateComponent, canActivate: [OrgGuard]},
               {path: 'org-doc-read-ack/:docAckId', component: OrgDocReadAckEditComponent, canActivate: [OrgGuard]},
 
             ]},

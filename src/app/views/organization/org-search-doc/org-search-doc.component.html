@@ -48,18 +48,24 @@
 
             <button *ngIf="currentOrgUser.roles.editor" mat-button class="mat-icon-button" color="primary"
                     (click)="editDoc(doc.docId, doc.docType, doc.version)">
-              <mat-icon>edit</mat-icon>
+              <mat-icon  matTooltip="{{'Edit' | translate}}" matTooltipPosition="above">
+                edit
+              </mat-icon>
             </button>
 
             <button fxFlexAlign="center" mat-button class="mat-icon-button" color="primary"
                     (click)="openDoc(doc.docId, doc.docType, doc.version)">
-              <mat-icon>pageview</mat-icon>
+              <mat-icon  matTooltip="{{'View' | translate}}" matTooltipPosition="above">
+                pageview
+              </mat-icon>
             </button>
 
             <button *ngIf="currentOrgUser.roles.editor && doc.docType === 'v'" mat-button
                     class="mat-icon-button" color="accent"
                     (click)="deleteDocVersion(doc.docId, doc.docType, doc.version)">
-              <mat-icon>delete</mat-icon>
+              <mat-icon  matTooltip="{{'Delete' | translate}}" matTooltipPosition="above">
+                delete
+              </mat-icon>
             </button>
 
           </div>

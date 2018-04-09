@@ -1,0 +1,59 @@
+
+<div class="card-page-background" fxLayout="column" fxLayoutAlign="center center">
+
+  <mat-card [ngClass]="'page-card-small'" [ngClass.gt-sm]="'page-card-big'">
+
+    <mat-card-header class="page-card-header">
+      <mat-card-title>
+        <h1 >
+          {{ 'New Doc Ack' | translate }}
+        </h1>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly" fxLayout.gt-sm="row" >
+
+      <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'"
+           fxLayout="column" fxLayoutAlign="center center">
+
+        <sk-org-tree-view (selectedDoc)="docSelected($event)"></sk-org-tree-view>
+
+      </div>
+
+
+      <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'"
+           fxLayout="column" fxLayoutAlign="space-evenly center">
+
+        <form [formGroup]="docAckCreateForm"  class="docAckForm"
+              fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutAlign.gt-sm="space-evenly start">
+
+          <mat-form-field>
+            <input matInput type="text" id="name" [(ngModel)]="docAckName"
+                   formControlName="name" placeholder="{{'Name' | translate}}">
+          </mat-form-field>
+
+
+          <mat-form-field>
+            <input matInput type="text" id="docName" [(ngModel)]="docName"
+                   formControlName="docName" placeholder="{{'Document Name' | translate}}">
+          </mat-form-field>
+
+          <div>
+            <button mat-raised-button class="btn-hover-accent"  (click)="create()" type="submit" [disabled]="!docAckCreateForm.valid"
+                    [innerHTML]="'Create' | translate"></button>
+
+            <button mat-raised-button class="btn-hover-accent"   (click)="cancel()"
+                    [innerHTML]="'Cancel' | translate"></button>
+          </div>
+
+
+        </form>
+
+
+
+      </div>
+    </mat-card-content>
+
+  </mat-card>
+</div>
+

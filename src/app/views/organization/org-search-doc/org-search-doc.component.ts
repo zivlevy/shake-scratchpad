@@ -60,7 +60,7 @@ export class OrgSearchDocComponent implements OnInit, OnDestroy {
 
   filterDocumentsByTerm() {
     const value = this.searchTerm;
-    if (value !== '') {
+    if (value !== '' && (this.edited || this.published || this.version) ) {
       return this.orgService.serachDocsByTerm(value, this.docNameOnly, this.edited, this.published, this.version);
     } else {
       return Promise.resolve([]);
@@ -68,13 +68,13 @@ export class OrgSearchDocComponent implements OnInit, OnDestroy {
   }
 
   openDoc(docId: string, docType: string, docVersion: string) {
-    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion, true, this.searchTerm ]);
+    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion, true, this.searchTerm ])
+      .catch(err => console.log(err));
   }
 
   editDoc(docId: string, docType: string, docVersion: string) {
-    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, docType, docVersion, true, this.searchTerm]);
-
-
+    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, docType, docVersion, true, this.searchTerm])
+      .catch(err => console.log(err));
   }
 
   deleteDocVersion(docId: string, docType: string, docVersion: string) {
@@ -89,7 +89,7 @@ export class OrgSearchDocComponent implements OnInit, OnDestroy {
         if (result) {
           this.orgService.deleteDocVersion(docId, docVersion)
             .then(() => {
-              this.toaster.toastInfo('Document deleted success');
+              this.toaster.toastInfo('Document deletion succeeded');
               setTimeout(() => this.checkboxClick$.next(), 1500);
               setTimeout(() => this.checkboxClick$.next(), 3000);
             })
