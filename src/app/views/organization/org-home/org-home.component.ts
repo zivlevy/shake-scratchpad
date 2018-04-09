@@ -88,7 +88,7 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
   }
 
   newDoc() {
-    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, '', 'n', 0]);
+    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, '', 'n', 0, 'false', '']);
   }
 
   treeDocClicked(ev) {

@@ -38,6 +38,9 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
   // dialogs
   publishDialogRef: MatDialogRef<PublishDialogComponent>;
 
+  searchPhrase: string = '';
+  isSearch: boolean = false;
+
   constructor(public orgService: OrgService,
               private route: ActivatedRoute,
               private router: Router,
@@ -70,6 +73,8 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
         this.currentDocId = params.docId;
         this.currentDocType = params.docType;
         this.currentDocVersion = params.docVersion;
+        this.searchPhrase = params.searchPhrase;
+        this.isSearch = params.isSearch === 'true';
         if (params.docType === 'n') {
           return Observable.of(null);
         } else {
@@ -115,7 +120,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
       this.orgService.saveDoc(this.currentDoc.uid, docData)
         .then(res => {
           // go to edit of new version
-          this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, 'e', 0])
+          this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, 'e', 0, 'false', ''])
             .then(() => this.isSaving = false);
         });
     } else {
@@ -123,7 +128,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
       this.orgService.addDoc(docData)
         .then((docId: any) => {
           // go to edit of new version
-          this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, 'e', 0]);
+          this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, 'e', 0, 'false', '']);
           this.isSaving = false;
         })
         .catch(err => {
@@ -168,6 +173,9 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
   }
 
 
+  toggleSearch() {
+    this.isSearch = ! this.isSearch;
+  }
 
   goToOrgHome() {
     this.router.navigate([`org/${this.currentOrg}`]);

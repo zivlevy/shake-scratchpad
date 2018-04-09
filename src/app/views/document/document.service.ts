@@ -9,7 +9,7 @@ export class DocumentService {
 
 
   // doc list view
-  SkTreeListFronJSON(docJson: string): Array<SkSection | SkItem> {
+  SkTreeListFromJSON(docJson: string): Array<SkSection | SkItem> {
     const docObject = JSON.parse(docJson);
     const docTree = new SkSection().deserialize(docObject);
     console.log(docTree);

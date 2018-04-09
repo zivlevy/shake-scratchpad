@@ -29,7 +29,7 @@ const routes: Routes = [
               {path: 'user-profile', component: UserProfileComponent, canActivate: [OrgGuard]},
               {path: 'org-admin-users', component: OrgAdminUsersComponent, canActivate: [OrgGuard]} ,
               {path: 'org-admin', component: OrgAdminOrgComponent, canActivate: [OrgGuard]},
-              {path: 'org-doc-edit/:docId/:docType/:docVersion', component: OrgDocEditComponent, canActivate: [OrgGuard]},
+              {path: 'org-doc-edit/:docId/:docType/:docVersion/:isSearch/:searchPhrase', component: OrgDocEditComponent, canActivate: [OrgGuard]},
               {path: 'org-doc-view/:docId/:docType/:docVersion/:isSearch/:searchPhrase', component: OrgDocViewComponent, canActivate: [OrgGuard]},
               {path: 'org-doc-read-acks', component: OrgDocReadAcksComponent, canActivate: [OrgGuard]},
               {path: 'org-doc-read-ack/:docAckId', component: OrgDocReadAckEditComponent, canActivate: [OrgGuard]},

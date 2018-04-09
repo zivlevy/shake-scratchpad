@@ -18,6 +18,10 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   @ViewChild('tree') tree;
   @ViewChild('itemTreeTrigger') treeMenuTrigger;
+
+  @Input() searchPhrase: string = '';
+  @Input() isSearch: boolean = false;
+
   isCtrlKey: boolean;
   treeNode: TreeNode;
   currentTreeNode: TreeNode; // the selected tree node

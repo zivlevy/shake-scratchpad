@@ -15,6 +15,9 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   @Input() ident: number = 10;
   @Input() currentTask: number = 0;
 
+  @Input() searchPhrase: string = '';
+  @Input() isSearch: boolean = false;
+
   taskList: Array<SkSection>;
   viewTask: Array<SkSection | SkItem>;
   docName: string = '';
