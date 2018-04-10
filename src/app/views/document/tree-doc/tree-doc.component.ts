@@ -1,4 +1,4 @@
-import {Component, Input, NgZone, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, NgZone, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {IActionMapping, ITreeOptions, KEYS, TREE_ACTIONS, TreeNode} from 'angular-tree-component';
 import {SK_ITEM_TYPE, SkItem, SkSection, SkTreeNode} from '../../../model/document';
 
@@ -21,6 +21,8 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   @Input() searchPhrase: string = '';
   @Input() isSearch: boolean = false;
+
+  @Output() editTreeClicked: EventEmitter<any> = new EventEmitter();
 
   isCtrlKey: boolean;
   treeNode: TreeNode;
@@ -51,13 +53,11 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     if (this.docData) {
-      console.log(JSON.parse(this.docData.data));
       this.nodes = [];
       this.nodes.push(JSON.parse(this.docData.data));
 
       setTimeout(() => {
         this.tree.treeModel.expandAll();
-        console.log(this.tree);
       }, 0);
     }
   }
@@ -98,16 +98,19 @@ export class TreeDocComponent implements OnInit, OnChanges {
       tree.focusDrillDown();
     }
   }
-  makeWarning (node) {
+
+  makeWarning(node) {
     node.data.type = SK_ITEM_TYPE.SK_ITEM_TYPE_WARNING;
   }
 
-  makeInfo( node){
+  makeInfo(node) {
     node.data.type = SK_ITEM_TYPE.SK_ITEM_TYPE_INFO;
   }
 
   addBrotherItem(tree, node, section?: boolean, above?: boolean) {
-    if (!node.parent.parent) {return; }
+    if (!node.parent.parent) {
+      return;
+    }
     const indexInsert = above ? node.index : node.index + 1;
     if (section) {
       node.parent.data.nodes.splice(indexInsert, 0, {data: '', nodes: []});
@@ -166,13 +169,13 @@ export class TreeDocComponent implements OnInit, OnChanges {
         'solid-lines': 'Solid Lines'
       },
       direction: this.isRTL ? 'rtl' : 'ltr',
-      toolbarButtons: ['bold', 'italic', 'underline',  'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
+      toolbarButtons: ['bold', 'italic', 'underline', 'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
         'insertLink', 'insertTable', 'undo', 'redo'],
-      toolbarButtonsSM:  ['bold', 'italic', 'underline',  'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
+      toolbarButtonsSM: ['bold', 'italic', 'underline', 'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
         'insertLink', 'insertTable', 'undo', 'redo'],
-      toolbarButtonsMD:  ['bold', 'italic', 'underline',  'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
+      toolbarButtonsMD: ['bold', 'italic', 'underline', 'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
         'insertLink', 'insertTable', 'undo', 'redo'],
-      toolbarButtonsXS:  ['bold', 'italic', 'underline',  'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
+      toolbarButtonsXS: ['bold', 'italic', 'underline', 'outdent', 'indent', 'fontFamily', 'fontSize', '-', 'color', 'align', 'formatOL', 'formatUL',
         'insertLink', 'insertTable', 'undo', 'redo'],
       quickInsertTags: [''],
       events: {
@@ -181,8 +184,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
           this.inEditorClick = true;
 
         },
-        'froalaEditor.focus':  (e, editor) => {
-          console.log(node.data.data);
+        'froalaEditor.focus': (e, editor) => {
           this.tree.treeModel.setSelectedNode(node);
           this.tree.treeModel.setFocusedNode(node);
           this.tree.treeModel.setActiveNode(node, true);
@@ -191,14 +193,13 @@ export class TreeDocComponent implements OnInit, OnChanges {
           editor.events.on('keydown', (ev) => {
             ev.stopPropagation();
             if (ev.originalEvent.key === 'ArrowDown' && ev.shiftKey) {
-              console.log('add item');
               this.zone.run(() => {
                 this.addBrotherItem(this.tree.treeModel, this.currentTreeNode, false);
               });
-            } else if ( ev.originalEvent.key === 'Enter' && node.children) {
+            } else if (ev.originalEvent.key === 'Enter' && node.children) {
               const event = ev;
               this.zone.run(() => {
-                this.addChildItem( this.tree.treeModel, this.currentTreeNode, false);
+                this.addChildItem(this.tree.treeModel, this.currentTreeNode, false);
               });
             }
           });
@@ -234,12 +235,14 @@ export class TreeDocComponent implements OnInit, OnChanges {
   /******************
    *  HELPERS
    *****************/
+  private treeClicked() {
+    console.log(' tree clicked)');
+    this.editTreeClicked.emit();
+  }
 
   private makeTempDoc = (sk): { data: string, plainText: string } => {
     const plainText = {plainText: ''};
     const tree = this.treeNodeToSkSection(this.nodes[0], plainText);
-    console.log(plainText);
-    console.log(tree);
     return {data: JSON.stringify(tree), plainText: plainText.plainText};
   }
 

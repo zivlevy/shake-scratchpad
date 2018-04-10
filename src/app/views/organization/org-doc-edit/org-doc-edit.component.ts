@@ -206,4 +206,8 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
 
   }
+
+  editTreeClicked(){
+    this.isSearch = false;
+  }
 }

@@ -274,7 +274,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private deleteItem(node) {
+   deleteItem(node) {
     if (!this.allowEdit) { return; }
     if (node.data.isDoc) {
       this.confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -296,7 +296,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private removeDocFromTree (node) {
+  removeDocFromTree (node) {
     if (!this.allowEdit) { return; }
     const tempDocId = node.data.docId;
     const tempName = node.data.name;
