@@ -27,6 +27,7 @@
   "Create an account": "יצירת חשבון",
   "New to Shake?": "משתמש חדש?",
   "User not Found": "משתמש לא נמצא",
+  "Forgot password?": "שכחת סיסמה?",
 
 
   "Signup component":"========= Signup Component=========",
@@ -106,7 +107,7 @@
   "Join": "הצטרפות",
 
   "Org Editor DocAck management": "========= Org Editor DocAck management=========",
-  "Docs Read & Acknowledge Management": "ניהול קרא וחתום",
+  "Read & Sign Management": "ניהול קרא וחתום",
   "Active only": "פעילים בלבד",
   "Document Name": "שם מסמך",
   "Date Created": "תאריך יצירה",
@@ -125,9 +126,9 @@
   "Add Read & Sign": "הוספת קרא וחתום",
   "Delete Read & Sign": "מחיקת קרא וחתום",
   "Edit Read & Sign": "עריכת קרא וחתום",
-  "New Doc Ack": "קרא וחתום חדש",
+  "New Read & Sign": "קרא וחתום חדש",
   "Delete Read & Sign ?": "למחוק קרא וחתום ?",
-  "Read & Acknowledge Edit": "עריכת קרא וחתום",
+  "Read & Sign Edit": "עריכת קרא וחתום",
   "Require All": "דרישת חתימה מכולם",
   "Require None": "ביטול כל דרישות החתימה",
 

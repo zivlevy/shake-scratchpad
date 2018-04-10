@@ -13,16 +13,6 @@ export class OrgDocService {
 
   getOrgDocsAcks$ (orgId: string): Observable<any> {
     return this.firestoreService.colWithIds$(`org/${orgId}/docsAcks`);
-      // .map(docsAcks => {
-      //   docsAcks.forEach(docAck => {
-      //     this.afs.doc(`org/${orgId}/docs/${docAck.docId}`).valueChanges()
-      //       .take(1)
-      //       .subscribe((doc: any) => {
-      //         docAck.docName = doc.name;
-      //       });
-      //   });
-      //   return docsAcks;
-      // });
   }
 
 
@@ -131,9 +121,26 @@ export class OrgDocService {
       .update(data);
   }
 
-  createNewDocAck(orgId: string, data): Promise<any> {
-    return this.afs.collection(`org/${orgId}/docsAcks`).add(data);
+  // *************************************
+  // Cloud Function onDocAckCreate
+  // *************************************
+  createNewDocAck(orgId: string, docAckName: string, docId: string, docName: string ): Promise<any> {
+    const data = {
+      name: docAckName,
+      docId: docId,
+      docName: docName,
+      requiredSignatures: 0, actualSignatures: 0,
+      isActive: true,
+      dateCreated: this.firestoreService.timestamp
+    }
+    return  this.afs.collection(`org/${orgId}/docsAcks`).add(data);
   }
 
+  removeDocAckFromDoc(orgId: string, docId: string, docAckId: string) {
+    return this.afs.doc(`org/${orgId}/docs/${docId}/docAcks/${docAckId}`).delete();
+  }
 
+  addDocAckToDoc(orgId: string, docId: string, docAckId: string) {
+    return this.afs.doc(`org/${orgId}/docs/${docId}/docAcks/${docAckId}`).set({});
+  }
 }

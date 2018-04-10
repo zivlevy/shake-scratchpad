@@ -140,6 +140,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.lngService.setLanguadge(lng);
   }
 
+  resetPassword() {
+    this.auth.resetPassword(this.email.value)
+      .then(() => this.toaster.toastSuccess('Password reset mail sent'));
+  }
+
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);

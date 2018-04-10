@@ -241,6 +241,16 @@ export const onOrgUserDocSignCreate = functions.firestore.document(`org/{orgId}/
     .catch(err => console.log(err));
 });
 
+export const onDocAckCreate = functions.firestore.document(`org/{orgId}/docsAcks/{docAckId}`).onCreate((data, context) => {
+  const orgId = context.params.orgId;
+  const docId = data.data().docId;
+  const docAckId = context.params.docAckId;
+
+  const db = admin.firestore();
+
+  return db.collection('org').doc(orgId).collection('docs').doc(docId).collection('docAcks').doc(docAckId).set({});
+});
+
 export const onDocAckUserAdd = functions.firestore.document(`org/{orgId}/docsAcks/{docAckId}/users/{uid}`).onCreate((data, context) => {
   const orgId = context.params.orgId;
   const uid = context.params.uid;

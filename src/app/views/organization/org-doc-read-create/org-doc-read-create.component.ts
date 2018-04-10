@@ -54,15 +54,7 @@ export class OrgDocReadCreateComponent implements OnInit, OnDestroy {
   }
 
   create() {
-    this.orgDocService.createNewDocAck(this.orgId, {
-      name: this.docAckName,
-      docId: this.docId,
-      docName: this.docName,
-      requiredSignatures: 0,
-      actualSignatures: 0,
-      isActive: true,
-      dateCreated: this.firestoreService.timestamp
-    })
+    this.orgDocService.createNewDocAck(this.orgId, this.docAckName, this.docId, this.docName)
       .then(res => {
         this.router.navigate([`org/${this.orgId}/org-doc-read-ack`, res.id])
           .catch(err => console.log(err));

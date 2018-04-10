@@ -508,12 +508,28 @@ export class OrgService {
   deleteDoc(docId: string) {
     const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
     const verRef = `org/${this.localCurrentOrg}/docs/${docId}/versions/`;
-    this.firestoreService.deleteCollection(verRef, 5)
-      .subscribe(res => console.log(res), null, () => {
-          this.deleteDocFromTree(docId);
-          docRef.delete();
-        }
-      );
+    const docAcksRef = `org/${this.localCurrentOrg}/docs/${docId}/docAcks/`;
+
+    this.firestoreService.colWithIds$(docAcksRef)
+      .take(1)
+      .subscribe(docAcksIds => {
+        docAcksIds.forEach(docAckId => {
+          this.deActivateReadAck(this.localCurrentOrg, docAckId.id, docId)
+            .catch(err => console.log(err));
+          this.closeReadAck(this.localCurrentOrg, docAckId.id)
+            .catch(err => console.log(err));
+        });
+      },
+        null,
+        () => {
+          this.firestoreService.deleteCollection(verRef, 5)
+            .subscribe(res => console.log(res), null, () => {
+                this.deleteDocFromTree(docId);
+                docRef.delete();
+              }
+            );
+        });
+
   }
 
   deleteDocVersion(docId: string, version: string) {
@@ -866,20 +882,30 @@ export class OrgService {
     });
   }
 
-  deActivateReadAck(orgId: string, readAckId: string) {
+  deActivateReadAck(orgId: string, readAckId: string, docId: string) {
     const removeAll =  this.removeReqDocAckFromAll(orgId, readAckId);
+    const removeFromDoc = this.orgDocService.removeDocAckFromDoc(orgId, docId, readAckId);
     const deActivate =  this.firestoreService.upsert(`org/${orgId}/docsAcks/${readAckId}`, {
       isActive: false,
     });
 
-    return Promise.all([removeAll, deActivate])
+    return Promise.all([removeAll, deActivate, removeFromDoc])
       .catch(err => console.log(err));
   }
 
-  activateReadAck(orgId: string, readAckId: string) {
+  closeReadAck(orgId: string, readAckId: string) {
     return this.firestoreService.upsert(`org/${orgId}/docsAcks/${readAckId}`, {
+      isClosed: true,
+    });
+  }
+
+  activateReadAck(orgId: string, readAckId: string, docId: string) {
+    const addToDoc = this.orgDocService.addDocAckToDoc(orgId, docId, readAckId);
+    const setActive = this.firestoreService.upsert(`org/${orgId}/docsAcks/${readAckId}`, {
       isActive: true,
     });
+
+    return Promise.all([addToDoc, setActive]);
   }
 }
 

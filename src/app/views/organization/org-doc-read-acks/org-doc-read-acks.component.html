@@ -39,6 +39,7 @@
       <mat-cell *matCellDef="let element">
         <mat-checkbox
           (change)="isActiveChanged($event, element)"
+          [disabled]="element.isClosed"
           [checked]="element.isActive"></mat-checkbox>
       </mat-cell>
     </ng-container>
@@ -65,6 +66,7 @@
       &nbsp;
     <button mat-raised-button color="primary"
             matTooltip="{{'Edit Read & Sign' | translate}}" matTooltipPosition="after"
+            [disabled]="!element.isActive"
             (click)="editReadAck(element)">
       <i class="fa fa-pencil"></i>
     </button>

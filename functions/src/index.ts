@@ -22,6 +22,7 @@ export const onOrgInviteCreate = orgFunctions.onOrgInviteCreate;
 export const onOrgUserDocSignCreate = orgFunctions.onOrgUserDocSignCreate;
 export const onDocAckUserAdd = orgFunctions.onDocAckUserAdd;
 export const onDocAckUserRemove = orgFunctions.onDocAckUserRemove;
+export const onDocAckCreate = orgFunctions.onDocAckCreate;
 
 // users
 export const deleteUser =  usersFunctions.deleteUser;

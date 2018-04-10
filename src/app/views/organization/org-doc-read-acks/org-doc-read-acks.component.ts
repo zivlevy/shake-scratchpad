@@ -5,6 +5,7 @@ import {OrgDocService} from '../org-doc.service';
 import {OrgService} from '../org.service';
 import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
+import {ToasterService} from "../../../core/toaster.service";
 
 export interface OrgAcks {
   name: string;
@@ -31,6 +32,7 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
   constructor(private orgService: OrgService,
               private router: Router,
               private dialog: MatDialog,
+              private toaster: ToasterService,
               private orgDocService: OrgDocService) { }
 
   ngOnInit() {
@@ -79,13 +81,14 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
 
   isActiveChanged(event, readAck) {
     if (event.checked) {
-      this.orgService.activateReadAck(this.orgId, readAck.id)
+      this.orgService.activateReadAck(this.orgId, readAck.id, readAck.docId)
         .catch(err => console.log(err));
     } else {
-      this.orgService.deActivateReadAck(this.orgId, readAck.id)
+      this.orgService.deActivateReadAck(this.orgId, readAck.id, readAck.docId)
         .catch(err => console.log(err));
     }
   }
+
 
   // applyFilterFilter(filterValue: string) {
   //   filterValue = filterValue.trim(); // Remove whitespace
