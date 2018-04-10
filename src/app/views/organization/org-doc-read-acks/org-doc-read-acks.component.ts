@@ -5,7 +5,7 @@ import {OrgDocService} from '../org-doc.service';
 import {OrgService} from '../org.service';
 import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
-import {ToasterService} from "../../../core/toaster.service";
+import {ToasterService} from '../../../core/toaster.service';
 
 export interface OrgAcks {
   name: string;
@@ -62,7 +62,9 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
     this.confirmDialogRef.afterClosed()
       .subscribe(result => {
         if (result) {
-          this.orgDocService.deleteOrgDocAckP(this.orgId, readAck.id)
+          // this.orgDocService.deleteOrgDocAckP(this.orgId, readAck.id)
+
+          this.orgDocService.deleteDocAck(this.orgId, readAck.id, readAck.docId)
             .catch(err => console.log(err));        }
       });
 
