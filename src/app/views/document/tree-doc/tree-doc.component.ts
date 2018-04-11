@@ -1,9 +1,19 @@
-import {Component, EventEmitter, Input, NgZone, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  NgZone,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {IActionMapping, ITreeOptions, KEYS, TREE_ACTIONS, TreeNode} from 'angular-tree-component';
 import {SK_ITEM_TYPE, SkItem, SkSection, SkTreeNode} from '../../../model/document';
 
 import {v4} from 'uuid';
-
+import * as _ from 'lodash';
 
 @Component({
   selector: 'sk-tree-doc',
@@ -21,7 +31,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   @Input() searchPhrase: string = '';
   @Input() isSearch: boolean = false;
-
+  searchTemp: any = '';
   @Output() editTreeClicked: EventEmitter<any> = new EventEmitter();
 
   isCtrlKey: boolean;
@@ -51,17 +61,67 @@ export class TreeDocComponent implements OnInit, OnChanges {
     };
   }
 
-  ngOnChanges() {
-    if (this.docData) {
-      this.nodes = [];
-      this.nodes.push(JSON.parse(this.docData.data));
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+    // if the change is in the doc itself
+    if (changes.docData && !changes.docData.firstChange) {
+      if (this.docData) {
+        this.nodes = [];
+        const myNodes = JSON.parse(this.docData.data);
+        this.nodes.push(JSON.parse(this.docData.data));
+        setTimeout(() => {
+          this.tree.treeModel.expandAll();
+        }, 0);
+      }
 
-      setTimeout(() => {
-        this.tree.treeModel.expandAll();
-      }, 0);
+    } else if (changes.isSearch && !changes.isSearch.firstChange) {
+      if (changes.isSearch.currentValue) {
+        const docToSearch = this.getDoc().data;
+        const myNodes = JSON.parse(docToSearch);
+        this.searchTemp = _.cloneDeep(myNodes);
+        console.log( ' start search');
+        if (this.searchPhrase !== '') {
+          const serachRes = this.doSearch(_.cloneDeep(this.searchTemp));
+          this.nodes = [];
+          this.nodes.push(serachRes);
+          setTimeout(() => {
+            this.tree.treeModel.expandAll();
+          }, 0); }
+      } else {
+        console.log( ' end search');
+        this.nodes = [];
+        this.nodes.push(this.searchTemp);
+        setTimeout(() => {
+          this.tree.treeModel.expandAll();
+        }, 0);
+      }
     }
+    else if (changes.searchPhrase && !changes.searchPhrase.firstChange) {
+      if (this.isSearch && this.searchPhrase !== '') {
+        const serachRes = this.doSearch(_.cloneDeep(this.searchTemp));
+        this.nodes = [];
+        this.nodes.push(serachRes);
+        setTimeout(() => {
+          this.tree.treeModel.expandAll();
+        }, 0);
+      } else {
+        this.nodes = [];
+        this.nodes.push(this.searchTemp);
+        setTimeout(() => {
+          this.tree.treeModel.expandAll();
+        }, 0);
+      }
+    }
+
   }
 
+  doSearch(node) {
+    node.data = node.data.replace(new RegExp(this.searchPhrase, 'g'), `<span style="background-color: lightcoral;">${this.searchPhrase}</span>`);
+    if (node.nodes) {
+      node.nodes.forEach(childNode => this.doSearch(childNode));
+    }
+    return node;
+  }
 
   /******************
    *  USER ACTIONS
@@ -82,12 +142,12 @@ export class TreeDocComponent implements OnInit, OnChanges {
   }
 
 
-  private nodeMoved(ev) {
+   nodeMoved(ev) {
     this.currentTreeNode = ev.node;
 
   }
 
-  private addChildItem(tree, node, section?: boolean) {
+   addChildItem(tree, node, section?: boolean) {
     if (node.data.nodes) {
       if (section) {
         node.data.nodes.push({data: '', nodes: []});
@@ -122,12 +182,12 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   }
 
-  private deleteItem(tree, node) {
+  deleteItem(tree, node) {
     node.parent.data.nodes.splice(node.index, 1);
     tree.update();
   }
 
-  private getTreeActionMapping(): IActionMapping {
+  getTreeActionMapping(): IActionMapping {
     return {
       keys: {
         [KEYS.RIGHT]: null,
@@ -148,7 +208,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
     };
   }
 
-  private editorOptions(node) {
+  editorOptions(node) {
     return {
       // key: 'flhg1ifwftfB-13jbH-9miA11iycwqufsvhiF3xsp==',
       key: 'lvnfclG5eiyyd1bz==',
@@ -220,7 +280,14 @@ export class TreeDocComponent implements OnInit, OnChanges {
     this.nodes = [{data: '', nodes: []}];
   }
 
-  getDoc() {
+  getDoc( removeSearch: boolean = false) {
+    if (removeSearch && this.isSearch) {
+      this.nodes = [];
+      this.nodes.push(this.searchTemp);
+      setTimeout(() => {
+        this.tree.treeModel.expandAll();
+      }, 0);
+    }
     // create saved representation of doc
     const docToSave = this.makeTempDoc(this.nodes[0]);
 
@@ -235,8 +302,12 @@ export class TreeDocComponent implements OnInit, OnChanges {
   /******************
    *  HELPERS
    *****************/
-  private treeClicked() {
+   treeClicked() {
     console.log(' tree clicked)');
+    // if we are in search - switch to non search version
+    if (this.isSearch) {
+      console.log('switching back');
+    }
     this.editTreeClicked.emit();
   }
 
