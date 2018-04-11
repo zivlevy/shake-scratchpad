@@ -20,7 +20,7 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
   currentUser: OrgUser;
   orgId: string;
 
-  orgUsersDisplayedColumns = ['isPending', 'photo', 'displayName', 'isAdmin', 'isEditor', 'isViewer', 'Actions'];
+  orgUsersDisplayedColumns = ['isPending', 'photo', 'displayName', 'isViewer', 'isEditor', 'isAdmin', 'Actions'];
   orgUsersDataSource = new MatTableDataSource<OrgUser>();
 
   destroy$: Subject<boolean> = new Subject<boolean>();
