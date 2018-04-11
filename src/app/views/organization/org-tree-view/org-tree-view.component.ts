@@ -224,7 +224,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  private addChildItem(node) {
+  addChildItem(node) {
     if (!this.allowEdit) { return; }
     if (!node.type) {
       this.inputDialogRef = this.dialog.open(InputDialogComponent, {
@@ -274,7 +274,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-   deleteItem(node) {
+  deleteItem(node) {
     if (!this.allowEdit) { return; }
     if (node.data.isDoc) {
       this.confirmDialogRef = this.dialog.open(ConfirmDialogComponent, {

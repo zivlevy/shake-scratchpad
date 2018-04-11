@@ -29,6 +29,37 @@ export class OrgDocService {
     return this.afs.doc(`org/${orgId}/docsAcks/${docAckId}`).delete();
   }
 
+  deleteDocAck(orgId: string, docAckId: string, docId: string) {
+    return new Promise((resolve, reject) => {
+
+      const deleteArray = [];
+
+      this.firestoreService.colWithIds$(`org/${orgId}/docsAcks/${docAckId}/users`)
+        .take(1)
+        .subscribe(users => {
+          users.forEach(user => {
+            console.log('user', user);
+            deleteArray.push(this.afs.doc(`org/${orgId}/users/${user.id}/docsAcks/${docAckId}`).delete());
+            deleteArray.push(this.afs.doc(`org/${orgId}/docsAcks/${docAckId}/users/${user.id}`).delete());
+          });
+
+        },
+          null,
+          () => {
+          console.log('complete');
+          console.log(`org/${orgId}/docsAcks/${docAckId}`);
+          console.log(`org/${orgId}/docs/${docId}/docsAcks/${docAckId}`);
+          deleteArray.push(this.afs.doc(`org/${orgId}/docsAcks/${docAckId}`).delete());
+          deleteArray.push(this.afs.doc(`org/${orgId}/docs/${docId}/docAcks/${docAckId}`).delete());
+          Promise.all(deleteArray)
+            .then(() => resolve())
+            .catch(err => reject(err));
+        });
+    });
+
+
+  }
+
   getDocAckUsers$(orgId: string, docAckId: string): Observable<any> {
     return this.firestoreService.colWithIds$(`org/${orgId}/users`)
       .map(resArray => {
@@ -132,7 +163,7 @@ export class OrgDocService {
       requiredSignatures: 0, actualSignatures: 0,
       isActive: true,
       dateCreated: this.firestoreService.timestamp
-    }
+    };
     return  this.afs.collection(`org/${orgId}/docsAcks`).add(data);
   }
 
