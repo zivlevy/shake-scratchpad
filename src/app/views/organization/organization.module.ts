@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CoreModule} from '../../core/core.module';
 import {OrganizationRoutingModule} from './organization-routing.module';
-import {OrgGuard} from './guards/org.guard';
+import {OrgAdminGuard, OrgEditorGuard, OrgGuard} from "./guards/org.guard";
 import {OrgService} from './org.service';
 import {TranslateModule} from '@ngx-translate/core';
 import {ReactiveFormsModule , FormsModule} from '@angular/forms';
@@ -82,6 +82,8 @@ import { OrgDocReadCreateComponent } from './org-doc-read-create/org-doc-read-cr
   ],
   providers: [
     OrgGuard,
+    OrgAdminGuard,
+    OrgEditorGuard,
     OrgService,
     OrgDocService
   ]

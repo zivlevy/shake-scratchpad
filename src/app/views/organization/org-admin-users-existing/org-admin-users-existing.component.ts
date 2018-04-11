@@ -36,7 +36,6 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe(orgUser => {
         this.currentUser = orgUser;
-        console.log('current', this.currentUser);
       });
 
     this.orgService.getCurrentOrg$()
@@ -47,7 +46,6 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
           .takeUntil(this.destroy$)
           .subscribe(users => {
             this.orgUsersDataSource.data = users;
-            console.log(users);
           });
       });
 

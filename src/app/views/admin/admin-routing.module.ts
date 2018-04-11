@@ -4,6 +4,7 @@ import {AdminComponent} from './admin/admin.component';
 import {UserProfileComponent} from '../../shared/user-profile/user-profile.component';
 import {AdminOrgsManagementComponent} from './admin-orgs-management/admin-orgs-management.component';
 import {AdminUsersManagementComponent} from './admin-users-management/admin-users-management.component';
+import {SkAdminGuard} from './admin.guard';
 
 const routes: Routes = [
   {
@@ -11,8 +12,8 @@ const routes: Routes = [
     children: [
       {path: '', component: AdminComponent, children: [
           {path: 'user-profile', component: UserProfileComponent},
-          {path: 'admin-users', component: AdminUsersManagementComponent},
-          {path: 'admin-orgs', component: AdminOrgsManagementComponent},
+          {path: 'admin-users', component: AdminUsersManagementComponent, canActivate: [SkAdminGuard]},
+          {path: 'admin-orgs', component: AdminOrgsManagementComponent, canActivate: [SkAdminGuard]},
         ],
       },
     ]

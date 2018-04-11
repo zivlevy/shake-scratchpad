@@ -52,7 +52,6 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
       .subscribe((orgUser: OrgUser) => {
         this.user.isLoadingOrgUser = false;
         this.user.currentOrgUser = orgUser;
-        console.log(orgUser);
       });
 
     // get org private data
@@ -106,7 +105,6 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
         this.requestName = params.get('name').replace('+', ' ');
       }
       this.requestEmail = params.get('mail');
-      console.log(this.returnRoute, this.requestEmail, this.requestName);
 
       if (this.returnRoute) {
         if (this.requestEmail) {

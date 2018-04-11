@@ -11,6 +11,7 @@ import { AdminUsersManagementComponent } from './admin-users-management/admin-us
 import {MaterialModule} from '../../material/material.module';
 import {DeleteApproveComponent} from '../../shared/dialogs/delete-approve/delete-approve.component';
 import {AdminService} from './admin.service';
+import {SkAdminGuard} from "./admin.guard";
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import {AdminService} from './admin.service';
     DeleteApproveComponent
   ],
   providers: [
+    SkAdminGuard,
     AdminService
   ]
 })
