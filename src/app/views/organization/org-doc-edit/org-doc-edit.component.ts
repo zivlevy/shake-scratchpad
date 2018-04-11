@@ -115,7 +115,8 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
 
 
   saveDocument() {
-    const docData = this.editor.getDoc();
+    this.isSearch = false;
+    const docData = this.editor.getDoc( true);
     if (this.currentDoc && this.currentDoc.uid) {
       this.orgService.saveDoc(this.currentDoc.uid, docData)
         .then(res => {
@@ -139,8 +140,8 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
   }
 
   publishDocument() {
-
-    const docData = this.editor.getDoc();
+    this.isSearch = false;
+    const docData = this.editor.getDoc(true);
     if (this.currentDoc && this.currentDoc.uid) {
       this.publishDialogRef = this.dialog.open(PublishDialogComponent);
 
@@ -205,5 +206,9 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
     // Now let's also unsubscribe from the subject itself:
     this.destroy$.unsubscribe();
 
+  }
+
+  editTreeClicked(){
+    this.isSearch = false;
   }
 }

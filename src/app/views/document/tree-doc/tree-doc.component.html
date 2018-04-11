@@ -1,13 +1,14 @@
-<div id="tree-wrapper" *ngIf="nodes.length >0">
-  <tree-root #tree [nodes]="nodes" [options]="tree_options"
-             (activate)="nodeMoved($event)">
+<div id="tree-wrapper" *ngIf="nodes.length >0" (click)="treeClicked()">
+    <tree-root #tree [nodes]="nodes" [options]="tree_options"
+               (activate)="nodeMoved($event)">
 
-    <ng-template #treeNodeTemplate let-node let-index="index">
-      <div (contextmenu)="openTreeMenu($event)" (click)="treeEditorClick($event, node)">
-        <div *ngIf="treeNode === node" #itemTreeTrigger="matMenuTrigger" [dir]="isRTL ? 'rtl' : 'ltr'" [matMenuTriggerFor]="treeMenu"></div>
-        <div
-          class="editor"
-          [ngClass]="{
+      <ng-template #treeNodeTemplate let-node let-index="index">
+        <div (contextmenu)="openTreeMenu($event)" (click)="treeEditorClick($event, node)">
+          <div *ngIf="treeNode === node" #itemTreeTrigger="matMenuTrigger" [dir]="isRTL ? 'rtl' : 'ltr'"
+               [matMenuTriggerFor]="treeMenu"></div>
+          <div
+            class="editor"
+            [ngClass]="{
             'set-rtl': isRTL,
             'section-editor-ltr': !isRTL && node.data.nodes,
             'section-editor-rtl': isRTL && node.data.nodes,
@@ -18,32 +19,54 @@
             'item-info' : node.data.type === 0,
             'item-warning' : node.data.type === 1
             }"
-          [froalaEditor]="editorOptions(node)" [(ngModel)]="node.data.data">
+            [froalaEditor]="editorOptions(node)" [(ngModel)]="node.data.data">
+          </div>
         </div>
-      </div>
-    </ng-template>
-  </tree-root>
+      </ng-template>
+    </tree-root>
+
 </div>
 
 
 <!-- Menu -->
-<mat-menu #treeMenu="matMenu" [overlapTrigger]="'false'" >
-  <button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(tree.treeModel, treeNode)"><mat-icon>create</mat-icon>Add Item</button>
-  <button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(tree.treeModel, treeNode , true)"><mat-icon>create_new_folder</mat-icon>Add Section</button>
-  <button *ngIf="!treeNode?.children && treeNode?.data.type !== 1" mat-menu-item (click)="makeWarning(treeNode)"><mat-icon>warning</mat-icon>Set warning</button>
-  <button *ngIf="!treeNode?.children && treeNode?.data.type !== 0" mat-menu-item (click)="makeInfo(treeNode)"><mat-icon>info</mat-icon>Set info</button>
-  <button *ngIf="treeNode?.parent.parent" mat-menu-item (click)="deleteItem(tree.treeModel, treeNode)"><mat-icon>delete</mat-icon>Delete</button>
-  <button *ngIf="treeNode?.parent.parent" mat-menu-item [matMenuTriggerFor]="sectionSatMenu"><mat-icon>create_new_folder</mat-icon>Sections</button>
-  <button *ngIf="treeNode?.parent.parent" mat-menu-item [matMenuTriggerFor]="itemSatMenu"><mat-icon>create</mat-icon>Items</button>
+<mat-menu #treeMenu="matMenu" [overlapTrigger]="'false'">
+  <button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(tree.treeModel, treeNode)">
+    <mat-icon>create</mat-icon>
+    Add Item
+  </button>
+  <button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(tree.treeModel, treeNode , true)">
+    <mat-icon>create_new_folder</mat-icon>
+    Add Section
+  </button>
+  <button *ngIf="!treeNode?.children && treeNode?.data.type !== 1" mat-menu-item (click)="makeWarning(treeNode)">
+    <mat-icon>warning</mat-icon>
+    Set warning
+  </button>
+  <button *ngIf="!treeNode?.children && treeNode?.data.type !== 0" mat-menu-item (click)="makeInfo(treeNode)">
+    <mat-icon>info</mat-icon>
+    Set info
+  </button>
+  <button *ngIf="treeNode?.parent.parent" mat-menu-item (click)="deleteItem(tree.treeModel, treeNode)">
+    <mat-icon>delete</mat-icon>
+    Delete
+  </button>
+  <button *ngIf="treeNode?.parent.parent" mat-menu-item [matMenuTriggerFor]="sectionSatMenu">
+    <mat-icon>create_new_folder</mat-icon>
+    Sections
+  </button>
+  <button *ngIf="treeNode?.parent.parent" mat-menu-item [matMenuTriggerFor]="itemSatMenu">
+    <mat-icon>create</mat-icon>
+    Items
+  </button>
 </mat-menu>
 
-<mat-menu #itemSatMenu="matMenu" >
-<button mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, false, true)">Add above</button>
-<button mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, false)">Add below</button>
+<mat-menu #itemSatMenu="matMenu">
+  <button mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, false, true)">Add above</button>
+  <button mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, false)">Add below</button>
 </mat-menu>
 
 
-<mat-menu #sectionSatMenu="matMenu" >
-<button mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, true, true)">Add above</button>
-<button mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, true)">Add below</button>
+<mat-menu #sectionSatMenu="matMenu">
+  <button mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, true, true)">Add above</button>
+  <button mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, true)">Add below</button>
 </mat-menu>

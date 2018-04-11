@@ -57,7 +57,7 @@
 
   <!-- EDITOR -->
   <div [hidden]="isPreview" >
-    <sk-tree-doc #editor [docData]="currentEditData" [isRTL]="rtl"  [isSearch]="isSearch" [searchPhrase]="searchPhrase" ></sk-tree-doc>
+    <sk-tree-doc #editor [docData]="currentEditData" [isRTL]="rtl"  [isSearch]="isSearch" [searchPhrase]="searchPhrase" (editTreeClicked)="editTreeClicked()"></sk-tree-doc>
 
   </div>
 
