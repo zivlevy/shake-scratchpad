@@ -9,7 +9,7 @@ import {OrgDocEditComponent} from './org-doc-edit/org-doc-edit.component';
 import {OrgDocViewComponent} from './org-doc-view/org-doc-view.component';
 import {OrgDocReadAcksComponent} from './org-doc-read-acks/org-doc-read-acks.component';
 import {OrgDocReadAckEditComponent} from './org-doc-read-ack-edit/org-doc-read-ack-edit.component';
-import {OrgGuard} from './guards/org.guard';
+import {OrgAdminGuard, OrgEditorGuard, OrgGuard} from './guards/org.guard';
 import {OrgUserJoinComponent} from './org-user-join/org-user-join.component';
 import {OrgContainerComponent} from './org-container/org-container.component';
 import {OrgHomeComponent} from './org-home/org-home.component';
@@ -28,13 +28,13 @@ const routes: Routes = [
               {path: 'login', component: LoginComponent},
               {path: 'register', component: SignupComponent},
               {path: 'user-profile', component: UserProfileComponent, canActivate: [OrgGuard]},
-              {path: 'org-admin-users', component: OrgAdminUsersComponent, canActivate: [OrgGuard]} ,
-              {path: 'org-admin', component: OrgAdminOrgComponent, canActivate: [OrgGuard]},
-              {path: 'org-doc-edit/:docId/:docType/:docVersion/:isSearch/:searchPhrase', component: OrgDocEditComponent, canActivate: [OrgGuard]},
+              {path: 'org-admin-users', component: OrgAdminUsersComponent, canActivate: [OrgAdminGuard]} ,
+              {path: 'org-admin', component: OrgAdminOrgComponent, canActivate: [OrgAdminGuard]},
+              {path: 'org-doc-edit/:docId/:docType/:docVersion/:isSearch/:searchPhrase', component: OrgDocEditComponent, canActivate: [OrgEditorGuard]},
               {path: 'org-doc-view/:docId/:docType/:docVersion/:isSearch/:searchPhrase', component: OrgDocViewComponent, canActivate: [OrgGuard]},
-              {path: 'org-doc-read-acks', component: OrgDocReadAcksComponent, canActivate: [OrgGuard]},
-              {path: 'org-doc-read-ack-new', component: OrgDocReadCreateComponent, canActivate: [OrgGuard]},
-              {path: 'org-doc-read-ack/:docAckId', component: OrgDocReadAckEditComponent, canActivate: [OrgGuard]},
+              {path: 'org-doc-read-acks', component: OrgDocReadAcksComponent, canActivate: [OrgEditorGuard]},
+              {path: 'org-doc-read-ack-new', component: OrgDocReadCreateComponent, canActivate: [OrgEditorGuard]},
+              {path: 'org-doc-read-ack/:docAckId', component: OrgDocReadAckEditComponent, canActivate: [OrgEditorGuard]},
 
             ]},
         ]

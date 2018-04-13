@@ -12,8 +12,7 @@ export class OrgGuard implements CanActivate {
     constructor(private orgService: OrgService,
                 private route: ActivatedRoute,
                 private router: Router,
-                ) {
-    }
+                ) { }
 
     canActivate(next: ActivatedRouteSnapshot,
                 state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
@@ -21,8 +20,7 @@ export class OrgGuard implements CanActivate {
 
       return this.orgService.getOrgUserByOrgID$(orgId)
         .switchMap( user => {
-          // console.log(user);
-          if (user && user.roles) {
+          if (user && user.roles && !user.isPending) {
             return Observable.of(true);
           } else {
             this.router.navigate(['org', orgId, 'org-join'])
@@ -31,6 +29,54 @@ export class OrgGuard implements CanActivate {
           }
         });
     }
+}
 
+@Injectable()
+export class OrgAdminGuard implements CanActivate {
 
+  constructor(private orgService: OrgService,
+              private route: ActivatedRoute,
+              private router: Router,
+  ) { }
+
+  canActivate(next: ActivatedRouteSnapshot,
+              state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    const orgId = next.parent.params.id;
+
+    return this.orgService.getOrgUserByOrgID$(orgId)
+      .switchMap( user => {
+        if (user && user.roles.admin ) {
+          return Observable.of(true);
+        } else {
+          this.router.navigate(['org', orgId, 'org-join'])
+            .catch(err => console.log(err));
+          return Observable.of(false);
+        }
+      });
+  }
+}
+
+@Injectable()
+export class OrgEditorGuard implements CanActivate {
+
+  constructor(private orgService: OrgService,
+              private route: ActivatedRoute,
+              private router: Router,
+  ) { }
+
+  canActivate(next: ActivatedRouteSnapshot,
+              state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    const orgId = next.parent.params.id;
+
+    return this.orgService.getOrgUserByOrgID$(orgId)
+      .switchMap( user => {
+        if (user && user.roles.editor ) {
+          return Observable.of(true);
+        } else {
+          this.router.navigate(['org', orgId, 'org-join'])
+            .catch(err => console.log(err));
+          return Observable.of(false);
+        }
+      });
+  }
 }

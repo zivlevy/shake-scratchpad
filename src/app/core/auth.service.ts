@@ -109,10 +109,31 @@ export class AuthService {
         });
     }
 
+    isCurrentSkAdmin$(): Observable<boolean> {
+      return this.getSkUser$()
+        .switchMap(user => {
+          return this.afs.doc(`skAdmins/${user.uid}`).valueChanges()
+            .map((res: any) => {
+              return res ? res.isSkAdmin : null;
+            });
+        });
+    }
+
+
     isSkEditor$(uid: string): Observable<boolean> {
       return this.afs.doc(`skAdmins/${uid}`).valueChanges()
         .map((res: any) => {
           return res ? res.isSkEditor : null;
+        });
+    }
+
+    isCurrentSkEditor$(): Observable<boolean> {
+      return this.getSkUser$()
+        .switchMap(user => {
+          return this.afs.doc(`skAdmins/${user.uid}`).valueChanges()
+            .map((res: any) => {
+              return res ? res.isSkEditor : null;
+            });
         });
     }
 

@@ -6,6 +6,7 @@
       <mat-header-cell *matHeaderCellDef> {{'Pending' | translate}}</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-checkbox [checked]="element.isPending"
+                      [disabled]="element.isPending && !element.roles.editor && !element.roles.admin && !element.roles.viewer"
                       (change) = "isPendingClicked(element.id, $event)" >
         </mat-checkbox>
       </mat-cell>
@@ -26,7 +27,7 @@
       <mat-header-cell *matHeaderCellDef> {{'Admin' | translate}}</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-checkbox [checked]="element.roles.admin"
-                      [disabled]="currentUser && currentUser.uid === element.uid"
+                      [disabled]="currentUser && currentUser.uid === element.uid || element.roles.admin && !element.roles.editor && !element.roles.viewer && !element.isPending"
                       (change) = "isAdminClicked(element.id, $event)" >
 
         </mat-checkbox>
@@ -37,6 +38,7 @@
       <mat-header-cell *matHeaderCellDef> {{'Editor' | translate}}</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-checkbox [checked]="element.roles.editor"
+                      [disabled]="element.roles.editor && !element.roles.admin && !element.roles.viewer && !element.isPending"
                       (change) = "isEditorClicked(element.id, $event)" >
 
         </mat-checkbox>
@@ -47,6 +49,7 @@
       <mat-header-cell *matHeaderCellDef> {{'Viewer' | translate}}</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-checkbox [checked]="element.roles.viewer"
+                      [disabled]="element.roles.viewer && !element.roles.admin && !element.roles.editor && !element.isPending"
                       (change) = "isViewerClicked(element.id, $event)" >
         </mat-checkbox>
       </mat-cell>
