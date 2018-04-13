@@ -4,15 +4,12 @@
 @import '../node_modules/bootstrap/scss/bootstrap';
 @import "../node_modules/ng2-file-input/ng2-file-input.scss";
 //@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
-// fonts
-//@import url('https://fonts.googleapis.com/css?family=Roboto:300');
-@import url('https://fonts.googleapis.com/css?family=Rubik&subset=hebrew');
+@import '~@angular/material/theming';
 
 // tree
 @import '~angular-tree-component/dist/angular-tree-component.css';
 
-@import '~@angular/material/theming';
+
 
 
 
