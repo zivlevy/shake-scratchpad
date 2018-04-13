@@ -12,7 +12,6 @@ export class DocumentService {
   SkTreeListFromJSON(docJson: string): Array<SkSection | SkItem> {
     const docObject = JSON.parse(docJson);
     const docTree = new SkSection().deserialize(docObject);
-    console.log(docTree);
     const resultArry = [];
     docTree.level = 0;
     return this.makeTreeList(docTree, resultArry, docTree, 0);
