@@ -58,8 +58,8 @@
       </ng-container>
 
       <ng-container matColumnDef="Actions">
-        <mat-header-cell *matHeaderCellDef [innerHTML]="'Actions' | translate"></mat-header-cell>
-        <mat-cell  *matCellDef="let element">
+        <mat-header-cell [ngClass.lt-sm]="'small'" *matHeaderCellDef [innerHTML]="'Actions' | translate"></mat-header-cell>
+        <mat-cell  [ngClass.lt-sm]="'small'" *matCellDef="let element">
           <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="center">
             <button mat-raised-button color="warn"
                     [ngClass.lt-sm]="'btn-small'"
@@ -68,7 +68,7 @@
                     (click)="readAckDelete(element)">
               <i class="fa fa-trash"></i>
             </button>
-            &nbsp;
+            <span fxHide.lt-sm>&nbsp;</span>
             <button mat-raised-button color="primary"
                     [ngClass.lt-sm]="'btn-small'"
                     matTooltip="{{'Edit Read & Sign' | translate}}" matTooltipPosition="after"

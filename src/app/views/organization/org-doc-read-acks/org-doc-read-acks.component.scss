@@ -20,6 +20,25 @@ button {
   width: 70px;
 }
 
+
+@media (max-width: 600px){
+  .mat-card{
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .mat-row {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .mat-header-row {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+
 .top-row {
   margin-top: 25px;
 }
@@ -29,6 +48,8 @@ button {
 .mat-header-cell:nth-child(2)
 {
   flex: 0 0 20%;
+  text-align: start;
+
 }
 
 .mat-cell:nth-child(3),
@@ -49,6 +70,14 @@ button {
 .mat-header-cell:nth-child(7)
 {
   flex: 1 1 150px;
+  display: flex;
+  justify-content: center;
+}
+
+.small.mat-cell:nth-child(7),
+.small.mat-header-cell:nth-child(7)
+{
+  flex: 0 0 50px;
   display: flex;
   justify-content: center;
 }
