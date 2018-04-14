@@ -15,20 +15,6 @@ export class OrgDocService {
     return this.firestoreService.colWithIds$(`org/${orgId}/docsAcks`);
   }
 
-
-  deleteOrgDocAckP(orgId: string, docAckId: string) {
-    this.afs.collection(`org/${orgId}/users`).valueChanges()
-      .take(1)
-      .subscribe(orgUsers => {
-        orgUsers.map((orgUser: any) => {
-          this.afs.doc(`org/${orgId}/users/${orgUser.uid}/docsAcks/${docAckId}`).delete()
-            .catch(err => console.log(err));
-        });
-      });
-
-    return this.afs.doc(`org/${orgId}/docsAcks/${docAckId}`).delete();
-  }
-
   deleteDocAck(orgId: string, docAckId: string, docId: string) {
     return new Promise((resolve, reject) => {
 
@@ -46,9 +32,6 @@ export class OrgDocService {
         },
           null,
           () => {
-          console.log('complete');
-          console.log(`org/${orgId}/docsAcks/${docAckId}`);
-          console.log(`org/${orgId}/docs/${docId}/docsAcks/${docAckId}`);
           deleteArray.push(this.afs.doc(`org/${orgId}/docsAcks/${docAckId}`).delete());
           deleteArray.push(this.afs.doc(`org/${orgId}/docs/${docId}/docAcks/${docAckId}`).delete());
           Promise.all(deleteArray)
@@ -74,24 +57,6 @@ export class OrgDocService {
               } else {
                 res.isRequired = false;
                 res.hasSigned = false;
-              }
-            });
-        });
-        return resArray;
-      });
-  }
-
-  getDeActivateDocAckUsers$(orgId: string, docAckId: string): Observable<any> {
-
-    return this.firestoreService.colWithIds$(`org/${orgId}/docsAcks/${docAckId}/users`)
-      .map(resArray => {
-        resArray.forEach(res => {
-          this.afs.doc(`org/${orgId}/users/${res.id}`).valueChanges()
-            .subscribe((userData: any) => {
-              if (userData) {
-                res.isRequired = true;
-                res.displayName = userData.displayName;
-                res.photoURL = userData.photoURL;
               }
             });
         });

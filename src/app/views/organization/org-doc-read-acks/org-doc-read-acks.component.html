@@ -1,83 +1,89 @@
-<div class="readAcks-container mat-elevation-z8">
+<div fxLayout="column" [ngClass]="'table-page-small'" [ngClass.gt-sm]="'table-page-big'">
 
-  <span>
-    <button mat-raised-button color="primary" (click)="addReadAck()"
-            matTooltip="{{'Add Read & Sign' | translate}}" matTooltipPosition="after">
-      <i class="fa fa-plus"></i>
-    </button>
+  <mat-card fxFlex="1 1 100%">
 
-    <mat-checkbox (change)="activeOnlyChanged($event)" [checked]="true" >{{'Active only' | translate}}</mat-checkbox>
-  </span>
+    <h1 > {{ 'Read & Sign items Management' | translate}}</h1>
 
+    <div >
 
-  <div class="table-header">
-    <!--<mat-form-field>-->
-      <!--<input matInput (keyup)="applyFilterFilter($event.target.value)" placeholder="Filter">-->
-    <!--</mat-form-field>-->
-  </div>
+    </div>
 
-  <mat-table #table1 class="readAcks-table" [dataSource]="readAcksDataSource">
+    <div class="top-row" fxLayout="row" fxLayoutAlign="space-evenly">
+      <button mat-raised-button color="primary" (click)="addReadAck()"
+              [ngClass.lt-sm]="'btn-small'"
+              matTooltip="{{'Add Read & Sign' | translate}}" matTooltipPosition="after">
+        <i class="fa fa-plus"></i>
+      </button>
 
+      <mat-checkbox (change)="activeOnlyChanged($event)" [checked]="true" >{{'Active only' | translate}}</mat-checkbox>
+    </div>
 
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef [innerHTML]="'Name' | translate"></mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="docName">
-      <mat-header-cell *matHeaderCellDef [innerHTML]="'Document Name' | translate"></mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.docName}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="date Created">
-      <mat-header-cell *matHeaderCellDef [innerHTML]="'Date Created' | translate"></mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.dateCreated | date}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="isActive">
-      <mat-header-cell *matHeaderCellDef [innerHTML]="'Active Read & Sign' | translate"></mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <mat-checkbox
-          (change)="isActiveChanged($event, element)"
-          [disabled]="element.isClosed"
-          [checked]="element.isActive"></mat-checkbox>
-      </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="required Signatures">
-      <mat-header-cell *matHeaderCellDef [innerHTML]="'Required Signatures' | translate"></mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.requiredSignatures}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="actual Signatures">
-      <mat-header-cell *matHeaderCellDef [innerHTML]="'Actual Signatures' | translate"></mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.actualSignatures}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="Actions">
-    <mat-header-cell *matHeaderCellDef [innerHTML]="'Actions' | translate"></mat-header-cell>
-    <mat-cell  *matCellDef="let element">
-    <button mat-raised-button color="warn"
-            matTooltip="{{'Delete Read & Sign' | translate}}" matTooltipPosition="after"
-            [disabled]="element.actualSignatures > 0"
-            (click)="readAckDelete(element)">
-      <i class="fa fa-trash"></i>
-    </button>
-      &nbsp;
-    <button mat-raised-button color="primary"
-            matTooltip="{{'Edit Read & Sign' | translate}}" matTooltipPosition="after"
-            [disabled]="!element.isActive"
-            (click)="editReadAck(element)">
-      <i class="fa fa-pencil"></i>
-    </button>
+    <mat-table #table1 class="readAcks-table" [dataSource]="readAcksDataSource">
 
 
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef [innerHTML]="'Name' | translate"></mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
 
-    </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="docName">
+        <mat-header-cell *matHeaderCellDef [innerHTML]="'Document Name' | translate"></mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.docName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="date Created">
+        <mat-header-cell *matHeaderCellDef [innerHTML]="'Date Created' | translate"></mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.dateCreated | date}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="isActive">
+        <mat-header-cell fxHide.lt-sm *matHeaderCellDef [innerHTML]="'Active Read & Sign' | translate"></mat-header-cell>
+        <mat-cell fxHide.lt-sm *matCellDef="let element">
+          <mat-checkbox
+            (change)="isActiveChanged($event, element)"
+            [disabled]="element.isClosed"
+            [checked]="element.isActive"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="required Signatures">
+        <mat-header-cell fxHide.lt-sm *matHeaderCellDef [innerHTML]="'Required Signatures' | translate"></mat-header-cell>
+        <mat-cell fxHide.lt-sm *matCellDef="let element"> {{element.requiredSignatures}} </mat-cell>
+      </ng-container>
 
 
-    <mat-header-row *matHeaderRowDef="readAcksDisplayColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: readAcksDisplayColumns;"></mat-row>
-  </mat-table>
+      <ng-container matColumnDef="actual Signatures">
+        <mat-header-cell fxHide.lt-sm *matHeaderCellDef [innerHTML]="'Actual Signatures' | translate"></mat-header-cell>
+        <mat-cell fxHide.lt-sm *matCellDef="let element"> {{element.actualSignatures}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Actions">
+        <mat-header-cell [ngClass.lt-sm]="'small'" *matHeaderCellDef [innerHTML]="'Actions' | translate"></mat-header-cell>
+        <mat-cell  [ngClass.lt-sm]="'small'" *matCellDef="let element">
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="center">
+            <button mat-raised-button color="warn"
+                    [ngClass.lt-sm]="'btn-small'"
+                    matTooltip="{{'Delete Read & Sign' | translate}}" matTooltipPosition="after"
+                    [disabled]="element.actualSignatures > 0"
+                    (click)="readAckDelete(element)">
+              <i class="fa fa-trash"></i>
+            </button>
+            <span fxHide.lt-sm>&nbsp;</span>
+            <button mat-raised-button color="primary"
+                    [ngClass.lt-sm]="'btn-small'"
+                    matTooltip="{{'Edit Read & Sign' | translate}}" matTooltipPosition="after"
+                    [disabled]="!element.isActive"
+                    (click)="editReadAck(element)">
+              <i class="fa fa-pencil"></i>
+            </button>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="readAcksDisplayColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: readAcksDisplayColumns;"></mat-row>
+    </mat-table>
+  </mat-card>
+
 </div>

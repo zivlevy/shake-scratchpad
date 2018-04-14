@@ -86,6 +86,10 @@ $global-typography: mat-typography-config(
 
 // global
 
+* {
+  outline: none !important;
+}
+
 body {
   font-family: 'Rubik', sans-serif;
   margin: 0;
@@ -173,6 +177,33 @@ th, td {
   height:  460px;
 }
 
+.table-page-big {
+  width: 1000px;
+  margin-top: 25px;
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+  justify-content: center;
+  text-align: center;
+}
+
+.table-page-small {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  justify-content: center;
+  text-align: center;
+
+}
+
+.btn-big {
+
+}
+
+.btn-small {
+  width: 44px !important;
+  min-width: 1% !important;
+}
 
 .btn-hover-accent:hover:enabled {
   background-color: #871782;
@@ -182,8 +213,8 @@ th, td {
 
 
 .toastSuccess {
-  background-color: green;
-  color: white;
+  background-color: #a2fb72;
+  color: black;
 }
 
 .toastInfo {
@@ -192,7 +223,7 @@ th, td {
 }
 
 .toastError {
-  background-color: darkred;
-  color: white;
+  background-color: #fd7373;
+  color: black;
 }
 
