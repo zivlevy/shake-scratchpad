@@ -32,6 +32,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
   @Input() searchPhrase: string = '';
   @Input() isSearch: boolean = false;
   searchTemp: any = '';
+  isReadyForSearch:boolean = false;
   @Output() editTreeClicked: EventEmitter<any> = new EventEmitter();
 
   isCtrlKey: boolean;
@@ -68,12 +69,15 @@ export class TreeDocComponent implements OnInit, OnChanges {
         this.nodes = [];
         const myNodes = JSON.parse(this.docData.data);
         this.nodes.push(JSON.parse(this.docData.data));
+        this.isReadyForSearch = true;
+        this.searchTemp = _.cloneDeep(myNodes);
         setTimeout(() => {
           this.tree.treeModel.expandAll();
         }, 0);
       }
 
-    } else if (changes.isSearch && !changes.isSearch.firstChange) {
+    }
+    if (changes.isSearch &&  changes.isSearch.currentValue !== undefined && this.isReadyForSearch) {
       if (changes.isSearch.currentValue) {
         const docToSearch = this.getDoc().data;
         const myNodes = JSON.parse(docToSearch);
@@ -93,7 +97,8 @@ export class TreeDocComponent implements OnInit, OnChanges {
         }, 0);
       }
     }
-    else if (changes.searchPhrase && !changes.searchPhrase.firstChange) {
+
+     if (changes.searchPhrase && changes.searchPhrase.currentValue !== undefined  && this.isReadyForSearch) {
       if (this.isSearch && this.searchPhrase !== '') {
         const serachRes = this.doSearch(_.cloneDeep(this.searchTemp));
         this.nodes = [];

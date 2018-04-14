@@ -72,7 +72,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
         this.currentDocId = params.docId;
         this.currentDocType = params.docType;
         this.currentDocVersion = params.docVersion;
-        this.searchPhrase = params.searchPhrase;
+        this.searchPhrase = params.searchPhrase === '**' ? '' : params.searchPhrase;
         this.isSearch = params.isSearch === 'true';
         return this.orgService.getDoc$(params.docId);
       })
