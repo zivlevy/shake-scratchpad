@@ -73,7 +73,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
         this.currentDocId = params.docId;
         this.currentDocType = params.docType;
         this.currentDocVersion = params.docVersion;
-        this.searchPhrase = params.searchPhrase;
+        this.searchPhrase = params.searchPhrase === '**' ? '' : params.searchPhrase;
         this.isSearch = params.isSearch === 'true';
         if (params.docType === 'n') {
           return Observable.of(null);
@@ -121,7 +121,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
       this.orgService.saveDoc(this.currentDoc.uid, docData)
         .then(res => {
           // go to edit of new version
-          this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, 'e', 0, 'false', ''])
+          this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, 'e', 0, 'false', '**'])
             .then(() => this.isSaving = false);
         });
     } else {
@@ -129,7 +129,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
       this.orgService.addDoc(docData)
         .then((docId: any) => {
           // go to edit of new version
-          this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, 'e', 0, 'false', '']);
+          this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, 'e', 0, 'false', '**']);
           this.isSaving = false;
         })
         .catch(err => {

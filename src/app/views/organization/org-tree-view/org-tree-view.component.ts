@@ -316,7 +316,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  private saveTree() {
+  saveTree() {
     if (!this.allowEdit) { return; }
     const tree = this.orgService.makeJsonTree(this.tree.treeModel.roots);
     this.orgService.saveOrgTree(tree)

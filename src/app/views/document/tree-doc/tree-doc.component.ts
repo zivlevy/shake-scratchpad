@@ -64,6 +64,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // if the change is in the doc itself
+    console.log(changes);
     if (changes.docData && !changes.docData.firstChange) {
       if (this.docData) {
         this.nodes = [];
@@ -71,6 +72,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
         this.nodes.push(JSON.parse(this.docData.data));
         this.isReadyForSearch = true;
         this.searchTemp = _.cloneDeep(myNodes);
+        this.initSearch();
         setTimeout(() => {
           this.tree.treeModel.expandAll();
         }, 0);
@@ -115,6 +117,16 @@ export class TreeDocComponent implements OnInit, OnChanges {
       }
     }
 
+  }
+
+  initSearch(){
+    if (this.searchPhrase !== '') {
+      const serachRes = this.doSearch(_.cloneDeep(this.searchTemp));
+      this.nodes = [];
+      this.nodes.push(serachRes);
+      setTimeout(() => {
+        this.tree.treeModel.expandAll();
+      }, 0); }
   }
 
   doSearch(node) {
