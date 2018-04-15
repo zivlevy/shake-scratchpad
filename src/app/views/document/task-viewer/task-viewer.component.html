@@ -9,8 +9,21 @@
 
   <p id="doc-name" [innerHTML]="docName"></p>
 
-</div>
 
+
+</div>
+<!-- Search navigation -->
+<div id="searchbar" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="isSearch && searchTaskArray.length > 0 && searchPhrase !== ''">
+  <button mat-button class="topbar-button mat-icon-button" (click)="nextSearchTask()">
+    <mat-icon>file_download</mat-icon>
+  </button>
+  <p class="topbar-p">{{currentSearchTask+1}}/{{searchTaskArray.length}}</p>
+  <button mat-button class="topbar-button mat-icon-button"  (click)="previousSearchTask()">
+    <mat-icon>file_upload</mat-icon>
+  </button>
+
+  <p id="search-phrase" [innerHTML]="searchPhrase"></p>
+</div>
 <div *ngIf="docJson" id="doc-wrapper" class="mat-elevation-z8" [ngClass]="{'set-rtl': isRTL}">
   <div *ngFor="let item of viewTask">
     <div fxLayout [ngClass]="{

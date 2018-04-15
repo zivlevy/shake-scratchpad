@@ -17,9 +17,8 @@ export class TaskViewerComponent implements OnInit, OnChanges {
 
   @Input() searchPhrase: string = '';
   @Input() isSearch: boolean = false;
-  searchResultsCount: number = 0;
-  searchTaskArray: Array<number>;
-
+  searchTaskArray: Array<number> = [];
+  currentSearchTask: number = 0;
   taskList: Array<SkSection>;
   viewTask: Array<SkSection | SkItem>;
   docName: string = '';
@@ -43,7 +42,9 @@ export class TaskViewerComponent implements OnInit, OnChanges {
 
   doSearch(){
     if (this.isSearch && this.searchPhrase !== '') {
-      this.searchResultsCount = 0;
+      this.searchTaskArray = [];
+      this.currentSearchTask = 0;
+
       let arrCounter = 0;
       this.taskList.forEach( (item: any) => {
           let isFound = false;
@@ -53,11 +54,16 @@ export class TaskViewerComponent implements OnInit, OnChanges {
           item.docs[0].data = item.docs[0].data.replace(new RegExp(ref, 'g'), `$1<span style="background-color: lightcoral;">${this.searchPhrase}</span>$2`);
           // item.docs[0].data = item.docs[0].data.replace(/(\>[^\>\<]*)הנחיות([^\>\<]*\<)/g, '$1זיו$2');
           item.parents.forEach( (parent: SkSection) => {
+            if (parent.data.match(new RegExp(ref, 'g'))) { isFound = true; }
             parent.data = parent.data.replace(new RegExp(ref, 'g'), `$1<span style="background-color: lightcoral;">${this.searchPhrase}</span>$2`);
           });
+          if (isFound) {
+            this.searchTaskArray.push(arrCounter);
+          }
           arrCounter++;
         }
       );
+      console.log(this.searchTaskArray.length);
     }
   }
 
@@ -72,6 +78,23 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   previousTask() {
     if (this.currentTask > 0) {
       this.currentTask--;
+      this.setViewTask();
+    }
+  }
+
+  nextSearchTask() {
+    if (this.currentSearchTask < this.searchTaskArray.length - 1) {
+      this.currentSearchTask++;
+      this.currentTask = this.searchTaskArray[this.currentSearchTask];
+      this.setViewTask();
+
+    }
+  }
+
+  previousSearchTask() {
+    if (this.currentSearchTask > 0) {
+      this.currentSearchTask--;
+      this.currentTask = this.searchTaskArray[this.currentSearchTask];
       this.setViewTask();
     }
   }
