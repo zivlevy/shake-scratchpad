@@ -17,6 +17,8 @@ export class TaskViewerComponent implements OnInit, OnChanges {
 
   @Input() searchPhrase: string = '';
   @Input() isSearch: boolean = false;
+  searchResultsCount: number = 0;
+  searchTaskArray: Array<number>;
 
   taskList: Array<SkSection>;
   viewTask: Array<SkSection | SkItem>;
@@ -32,9 +34,30 @@ export class TaskViewerComponent implements OnInit, OnChanges {
     if (this.docJson) {
       this.docName = JSON.parse(this.docJson).data;
       this.taskList  = this.docService.SKTasksList(this.docJson);
+      this.doSearch();
       this.currentTask = 0;
       this.setViewTask();
       console.log(this.taskList);
+    }
+  }
+
+  doSearch(){
+    if (this.isSearch && this.searchPhrase !== '') {
+      this.searchResultsCount = 0;
+      let arrCounter = 0;
+      this.taskList.forEach( (item: any) => {
+          let isFound = false;
+        const ref: string = `(\>[^\>\<]*)${this.searchPhrase}([^\>\<]*\<)`;
+          if (item.docs[0].data.match(new RegExp(ref, 'g'))) { isFound = true; }
+        // item.docs[0].data = item.docs[0].data.replace(new RegExp(this.searchPhrase, 'g'), `<span style="background-color: lightcoral;">${this.searchPhrase}</span>`);
+          item.docs[0].data = item.docs[0].data.replace(new RegExp(ref, 'g'), `$1<span style="background-color: lightcoral;">${this.searchPhrase}</span>$2`);
+          // item.docs[0].data = item.docs[0].data.replace(/(\>[^\>\<]*)הנחיות([^\>\<]*\<)/g, '$1זיו$2');
+          item.parents.forEach( (parent: SkSection) => {
+            parent.data = parent.data.replace(new RegExp(ref, 'g'), `$1<span style="background-color: lightcoral;">${this.searchPhrase}</span>$2`);
+          });
+          arrCounter++;
+        }
+      );
     }
   }
 

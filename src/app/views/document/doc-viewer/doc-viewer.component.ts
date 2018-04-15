@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {SkDoc, SkDocData, SkItem, SkSection, SK_ITEM_TYPE} from '../../../model/document';
 import {DocumentService} from '../document.service';
+
 @Component({
   selector: 'sk-doc-viewer',
   templateUrl: './doc-viewer.component.html',
@@ -14,8 +15,10 @@ export class DocViewerComponent implements OnInit, OnChanges {
   @Input() searchPhrase: string = '';
   @Input() isSearch: boolean = false;
   docList: Array<SkSection | SkItem>;
+
   constructor(private docService: DocumentService
-              ) { }
+  ) {
+  }
 
   ngOnInit() {
   }
@@ -31,9 +34,12 @@ export class DocViewerComponent implements OnInit, OnChanges {
     }
   }
 
-  doSearch(){
+  doSearch() {
     if (this.isSearch && this.searchPhrase !== '') {
-      this.docList.forEach( item => item.data = item.data.replace(new RegExp(this.searchPhrase, 'g'), `<span style="background-color: lightcoral;">${this.searchPhrase}</span>`));
+      this.docList.forEach((item: any) => {
+        const ref: string = `(\>[^\>\<]*)${this.searchPhrase}([^\>\<]*\<)`;
+        item.data = item.data.replace(new RegExp(ref, 'g'), `$1<span style="background-color: lightcoral;">${this.searchPhrase}</span>$2`);
+      });
     }
   }
 

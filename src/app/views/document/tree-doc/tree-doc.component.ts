@@ -32,7 +32,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
   @Input() searchPhrase: string = '';
   @Input() isSearch: boolean = false;
   searchTemp: any = '';
-  isReadyForSearch:boolean = false;
+  isReadyForSearch: boolean = false;
   @Output() editTreeClicked: EventEmitter<any> = new EventEmitter();
 
   isCtrlKey: boolean;
@@ -79,18 +79,12 @@ export class TreeDocComponent implements OnInit, OnChanges {
       }
 
     }
-    if (changes.isSearch &&  changes.isSearch.currentValue !== undefined && this.isReadyForSearch) {
+    if (changes.isSearch && changes.isSearch.currentValue !== undefined && this.isReadyForSearch) {
       if (changes.isSearch.currentValue) {
         const docToSearch = this.getDoc().data;
         const myNodes = JSON.parse(docToSearch);
         this.searchTemp = _.cloneDeep(myNodes);
-        if (this.searchPhrase !== '') {
-          const serachRes = this.doSearch(_.cloneDeep(this.searchTemp));
-          this.nodes = [];
-          this.nodes.push(serachRes);
-          setTimeout(() => {
-            this.tree.treeModel.expandAll();
-          }, 0); }
+        this.initSearch();
       } else {
         this.nodes = [];
         this.nodes.push(this.searchTemp);
@@ -100,14 +94,9 @@ export class TreeDocComponent implements OnInit, OnChanges {
       }
     }
 
-     if (changes.searchPhrase && changes.searchPhrase.currentValue !== undefined  && this.isReadyForSearch) {
+    if (changes.searchPhrase && changes.searchPhrase.currentValue !== undefined && this.isReadyForSearch) {
       if (this.isSearch && this.searchPhrase !== '') {
-        const serachRes = this.doSearch(_.cloneDeep(this.searchTemp));
-        this.nodes = [];
-        this.nodes.push(serachRes);
-        setTimeout(() => {
-          this.tree.treeModel.expandAll();
-        }, 0);
+        this.initSearch();
       } else {
         this.nodes = [];
         this.nodes.push(this.searchTemp);
@@ -119,18 +108,20 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   }
 
-  initSearch(){
+  initSearch() {
     if (this.searchPhrase !== '') {
       const serachRes = this.doSearch(_.cloneDeep(this.searchTemp));
       this.nodes = [];
       this.nodes.push(serachRes);
       setTimeout(() => {
         this.tree.treeModel.expandAll();
-      }, 0); }
+      }, 0);
+    }
   }
 
   doSearch(node) {
-    node.data = node.data.replace(new RegExp(this.searchPhrase, 'g'), `<span style="background-color: lightcoral;">${this.searchPhrase}</span>`);
+    const ref: string = `(\>[^\>\<]*)${this.searchPhrase}([^\>\<]*\<)`;
+    node.data = node.data.replace(new RegExp(ref, 'g'), `$1<span style="background-color: lightcoral;">${this.searchPhrase}</span>$2`);
     if (node.nodes) {
       node.nodes.forEach(childNode => this.doSearch(childNode));
     }
@@ -156,12 +147,12 @@ export class TreeDocComponent implements OnInit, OnChanges {
   }
 
 
-   nodeMoved(ev) {
+  nodeMoved(ev) {
     this.currentTreeNode = ev.node;
 
   }
 
-   addChildItem(tree, node, section?: boolean) {
+  addChildItem(tree, node, section?: boolean) {
     if (node.data.nodes) {
       if (section) {
         node.data.nodes.push({data: '', nodes: []});
@@ -294,7 +285,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
     this.nodes = [{data: '', nodes: []}];
   }
 
-  getDoc( removeSearch: boolean = false) {
+  getDoc(removeSearch: boolean = false) {
     if (removeSearch && this.isSearch) {
       this.nodes = [];
       this.nodes.push(this.searchTemp);
@@ -316,7 +307,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
   /******************
    *  HELPERS
    *****************/
-   treeClicked() {
+  treeClicked() {
     this.editTreeClicked.emit();
   }
 
