@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MatDialog, MatTableDataSource} from '@angular/material';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {MatDialog, MatSort, MatTableDataSource} from "@angular/material";
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../../organization/org.service';
 import {Subject} from 'rxjs/Subject';
@@ -25,13 +25,15 @@ export interface SkAdmin {
   templateUrl: './admin-users-management.component.html',
   styleUrls: ['./admin-users-management.component.scss']
 })
-export class AdminUsersManagementComponent implements OnInit, OnDestroy {
+export class AdminUsersManagementComponent implements OnInit, OnDestroy, AfterViewInit {
 
   adminsDisplayedColumns = ['photoURL', 'displayName', 'email', 'isSkAdmin', 'isSkEditor'];
   adminsDataSource = new MatTableDataSource<SkAdmin>();
 
   usersDisplayedColumns = ['photoURL', 'displayName', 'email', 'isSkAdmin', 'isSkEditor'];
   usersDataSource = new MatTableDataSource<User>();
+
+  @ViewChild(MatSort) sort: MatSort;
 
   currentUser;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -60,6 +62,10 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy {
         this.adminsDataSource.data = res;
       });
 
+  }
+
+  ngAfterViewInit() {
+    this.usersDataSource.sort = this.sort;
   }
 
   applyUsersFilter(filterValue: string) {

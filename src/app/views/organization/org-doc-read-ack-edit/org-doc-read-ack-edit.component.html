@@ -72,7 +72,7 @@
           </button>
         </div>
 
-        <mat-table #table class="org-users-table" [dataSource]="orgUsersDocAckSource">
+        <mat-table #table class="org-users-table" matSort [dataSource]="orgUsersDocAckSource" >
 
           <ng-container matColumnDef="isRequired">
             <mat-header-cell *matHeaderCellDef fxLayout="column">
@@ -95,7 +95,7 @@
           </ng-container>
 
           <ng-container matColumnDef="displayName">
-            <mat-header-cell *matHeaderCellDef> {{'Display Name' | translate}} </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{'Display Name' | translate}} </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.displayName}} </mat-cell>
           </ng-container>
 
