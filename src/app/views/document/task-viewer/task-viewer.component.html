@@ -9,9 +9,8 @@
 
   <p id="doc-name" [innerHTML]="docName"></p>
 
-
-
 </div>
+
 <!-- Search navigation -->
 <div id="searchbar" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="isSearch && searchTaskArray.length > 0 && searchPhrase !== ''">
   <button mat-button class="topbar-button mat-icon-button" (click)="nextSearchTask()">
