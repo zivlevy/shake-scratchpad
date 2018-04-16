@@ -39,7 +39,9 @@
 
     <span class="fillsapce"></span>
 
-    <p>{{docVersiontitle}}</p>
+    <p id="doc-name" [innerHTML]="docName"></p>
+
+    <p>{{docVersionTitle | translate}} {{docVersionNumber}}</p>
 
     <button mat-button class="back-button mat-icon-button" (click)="goToOrgHome()">
       <mat-icon>home</mat-icon>

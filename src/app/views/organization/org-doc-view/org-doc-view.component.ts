@@ -27,7 +27,9 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   currentDocType: string;
   currentDocVersion: number;
   currentEditData: SkDocData;
-  docVersiontitle: string = '';
+  docVersionTitle: string = '';
+  docVersionNumber: string = '';
+  docName: string = '';
   isNumbering: boolean = true;
   searchPhrase: string = '';
   isSearch: boolean = false;
@@ -83,15 +85,23 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
             this.docAckId = reqDocAckId;
           });
         console.log(this.currentOrg, this.currentOrgUser, this.currentDocId, this.currentSkUser.uid);
+        console.log(doc);
+        if (doc) {
+          this.docName = doc.name;
+        }
         this.currentDoc = doc;
         if (this.currentDocType === 'p') {
-          this.docVersiontitle = `Published version ${doc.version}`;
+          this.docVersionTitle = 'Version';
+          this.docVersionNumber = String(doc.version);
+
           return Observable.of(doc.publishVersion);
         } else if (this.currentDocType === 'e') {
-          this.docVersiontitle = `Edit version`;
+          this.docVersionTitle = `Edit version`;
+          this.docVersionNumber = '';
           return Observable.of(doc.editVersion);
         } else {
-          this.docVersiontitle = `Archive version ${this.currentDocVersion}`;
+          this.docVersionTitle = `Archive version`;
+          this.docVersionNumber = String(this.currentDocVersion);
           return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion )
             .take(1);
         }

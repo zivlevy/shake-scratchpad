@@ -14,6 +14,7 @@
   "Edit": "עריכה",
   "View": "תצוגה",
   "Create": "יצירה",
+  "Version": "גרסה",
 
   "login component":"========= LogIn Component=========",
   "Login to ShaKE": "כניסה ל ShaKE",
@@ -153,5 +154,8 @@
   "Messages": "הודעות",
   "Search": "חיפוש",
   "Numbering": "מספור",
-  "Section View": "תצוגה בפרקים"
+  "Section View": "תצוגה בפרקים",
+  "Edit version": "גרסת עריכה",
+  "Archive version": "גרסת ארכיון"
+
 }
