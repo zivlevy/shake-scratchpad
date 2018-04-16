@@ -155,7 +155,7 @@ export class OrgService {
   }
 
   updateOrgUsersOrgName(orgId: string, orgName: string) {
-    const actions: Array<any> = new Array<any>();
+    const actions: Array<any> = [];
     return new Promise<any>(resolve => {
       this.firestoreService.colWithIds$(`org/${orgId}/users`)
         .subscribe(users => {
@@ -179,23 +179,30 @@ export class OrgService {
 
   // Delete additional user data
   deleteOrgUser(uid: string) {
-    const orgUserDelete = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${uid}`).delete();
-    const userOrgDelete = this.afs.doc(`users/${uid}/orgs/${this.currentOrg$.getValue()}`).delete();
 
-    return Promise.all([orgUserDelete, userOrgDelete]);
+    const toDelete: Array<any> = [];
+    return new Promise<any> ( resolve => {
+      this.firestoreService.colWithIds$(`org/${this.localCurrentOrg}/users/${uid}/docsAcks`)
+        .take(1)
+        .subscribe(docAcks => {
+          docAcks.forEach(docAck => {
+            this.orgDocService.removeOrgUserReqDocAck(this.localCurrentOrg, docAck.id, uid)
+              .catch(err => console.log(err));
+          });
+        }, null,
+        () => {
+        toDelete.push(this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${uid}`).delete());
+        toDelete.push(this.afs.doc(`users/${uid}/orgs/${this.currentOrg$.getValue()}`).delete());
+
+        Promise.all(toDelete)
+          .catch(err => console.log(err))
+          .then(resolve);
+        });
+    });
+
   }
 
-  // getOrgUser$() {
-  //   return this.afAuth.authState
-  //     .switchMap((user => {
-  //       if (!user) {
-  //         return Observable.of(null);
-  //       } else {
-  //         const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
-  //         return userRef.valueChanges();
-  //       }
-  //     }));
-  // }
+
   getOrgUser$() {
     return this.afAuth.authState
       .switchMap((user => {
