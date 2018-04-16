@@ -29,13 +29,13 @@
     </button>
 
     <!-- SEARCH BUTTON -->
-    <button  mat-button class="rightside-buttons mat-icon-button" (click)="toggleSearch()"
+    <button *ngIf="!isTaskView"  mat-button class="rightside-buttons mat-icon-button" (click)="toggleSearch()"
             matTooltip="{{'Search' | translate}}" matTooltipPosition="after">
       <mat-icon>search</mat-icon>
     </button>
 
     <!-- SEARCH input -->
-    <input *ngIf="isSearch" [(ngModel)]="searchPhrase">
+    <input *ngIf="isSearch && !isTaskView" [(ngModel)]="searchPhrase">
 
     <span class="fillsapce"></span>
 
@@ -51,5 +51,5 @@
 
   <!-- DOC VIEWER-->
   <sk-doc-viewer *ngIf="!isTaskView" [isSearch]="isSearch" [searchPhrase]="searchPhrase" [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-doc-viewer>
-  <sk-task-viewer *ngIf="isTaskView" [isSearch]="isSearch" [searchPhrase]="searchPhrase" [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-task-viewer>
+  <sk-task-viewer *ngIf="isTaskView" [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-task-viewer>
 </div>

@@ -15,8 +15,8 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   @Input() ident: number = 10;
   @Input() currentTask: number = 0;
 
-  @Input() searchPhrase: string = '';
-  @Input() isSearch: boolean = false;
+  searchPhrase: string = '';
+  isSearch: boolean = false;
   searchTaskArray: Array<number> = [];
   currentSearchTask: number = 0;
   taskList: Array<SkSection>;
@@ -29,7 +29,6 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-
     if (this.docJson) {
       this.docName = JSON.parse(this.docJson).data;
       this.taskList  = this.docService.SKTasksList(this.docJson);
@@ -41,6 +40,7 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   }
 
   doSearch(){
+
     if (this.isSearch && this.searchPhrase !== '') {
       this.searchTaskArray = [];
       this.currentSearchTask = 0;
@@ -50,9 +50,7 @@ export class TaskViewerComponent implements OnInit, OnChanges {
           let isFound = false;
         const ref: string = `(\>[^\>\<]*)${this.searchPhrase}([^\>\<]*\<)`;
           if (item.docs[0].data.match(new RegExp(ref, 'g'))) { isFound = true; }
-        // item.docs[0].data = item.docs[0].data.replace(new RegExp(this.searchPhrase, 'g'), `<span style="background-color: lightcoral;">${this.searchPhrase}</span>`);
           item.docs[0].data = item.docs[0].data.replace(new RegExp(ref, 'g'), `$1<span style="background-color: lightcoral;">${this.searchPhrase}</span>$2`);
-          // item.docs[0].data = item.docs[0].data.replace(/(\>[^\>\<]*)הנחיות([^\>\<]*\<)/g, '$1זיו$2');
           item.parents.forEach( (parent: SkSection) => {
             if (parent.data.match(new RegExp(ref, 'g'))) { isFound = true; }
             parent.data = parent.data.replace(new RegExp(ref, 'g'), `$1<span style="background-color: lightcoral;">${this.searchPhrase}</span>$2`);
@@ -106,4 +104,7 @@ export class TaskViewerComponent implements OnInit, OnChanges {
     console.log(this.viewTask);
   }
 
+  toggleSearch() {
+    this.isSearch = !this.isSearch;
+  }
 }

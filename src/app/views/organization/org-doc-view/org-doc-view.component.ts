@@ -119,6 +119,10 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
 
   toggleTaskView() {
     this.isTaskView = !this.isTaskView;
+    if (this.isTaskView) {
+      this.isSearch = false;
+      this.searchPhrase = '';
+    }
   }
 
   goToOrgHome() {
