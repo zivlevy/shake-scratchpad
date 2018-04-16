@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../../organization/org.service';
 import {Org} from '../../../model/org';
-import {MatDialog, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatSort, MatTableDataSource} from "@angular/material";
 import {DeleteApproveComponent} from '../../../shared/dialogs/delete-approve/delete-approve.component';
 import {AdminService} from '../admin.service';
 import 'rxjs/add/operator/takeUntil';
@@ -13,13 +13,15 @@ import 'rxjs/add/operator/takeUntil';
   templateUrl: './admin-orgs-management.component.html',
   styleUrls: ['./admin-orgs-management.component.scss']
 })
-export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
+export class AdminOrgsManagementComponent implements OnInit, OnDestroy, AfterViewInit {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   currentUser: any;
 
-  orgsDisplayColumns = ['orgId', 'Logo', 'org Name', 'Actions'];
+  orgsDisplayColumns = ['orgId', 'Logo', 'orgName', 'Actions'];
   orgsDataSource = new MatTableDataSource<Org>();
+
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private authService: AuthService,
               private adminService: AdminService,
@@ -39,6 +41,10 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy {
       .subscribe( orgs => {
         this.orgsDataSource.data = orgs;
       });
+  }
+
+  ngAfterViewInit() {
+    this.orgsDataSource.sort = this.sort;
   }
 
   applyOrgsFilter(filterValue: string) {

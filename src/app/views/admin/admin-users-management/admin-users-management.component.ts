@@ -66,6 +66,7 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy, AfterVi
 
   ngAfterViewInit() {
     this.usersDataSource.sort = this.sort;
+    this.adminsDataSource.sort = this.sort;
   }
 
   applyUsersFilter(filterValue: string) {

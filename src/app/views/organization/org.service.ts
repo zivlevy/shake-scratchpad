@@ -368,13 +368,23 @@ export class OrgService {
   }
 
   getDoc$(docId: string): Observable<SkDoc> {
-    const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
-    return docRef.snapshotChanges()
-      .map(res => {
+    // const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
+    // return docRef.snapshotChanges()
+    //   .map(res => {
+    //
+    //     const doc: SkDoc = {uid: res.payload.id, ... res.payload.data()};
+    //     return doc;
+    //   });
 
-        const doc: SkDoc = {uid: res.payload.id, ... res.payload.data()};
-        return doc;
+    return this.currentOrg$
+      .switchMap(orgId => {
+        return this.afs.doc<any>(`org/${orgId}/docs/${docId}`).snapshotChanges()
+          .map(res => {
+                const doc: SkDoc = {uid: res.payload.id, ... res.payload.data()};
+                return doc;
+          });
       });
+
   }
 
   addDoc(editVersion: SkDocData) {
