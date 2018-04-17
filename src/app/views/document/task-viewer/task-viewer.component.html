@@ -7,22 +7,40 @@
     <mat-icon>file_upload</mat-icon>
   </button>
 
-  <p id="doc-name" [innerHTML]="docName"></p>
+  <!-- SEARCH BUTTON -->
+  <button mat-button class="topbar-button rightside-buttons mat-icon-button" (click)="toggleSearch()"
+          matTooltip="{{'Search' | translate}}" matTooltipPosition="after">
+    <mat-icon>search</mat-icon>
+  </button>
 
+  <!-- SEARCH input -->
+  <input *ngIf="isSearch " (change)="doSearch()" [(ngModel)]="searchPhrase">
+
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="isSearch && searchTaskArray.length > 0 && searchPhrase !== ''">
+    <button mat-button class="topbar-button mat-icon-button" (click)="nextSearchTask()">
+      <mat-icon>file_download</mat-icon>
+    </button>
+    <!--<p class="topbar-p">{{currentSearchTask+1}}/{{searchTaskArray.length}}</p>-->
+
+    <button mat-button class="topbar-button mat-icon-button"  (click)="previousSearchTask()">
+      <mat-icon>file_upload</mat-icon>
+    </button>
+
+  </div>
 </div>
-
 <!-- Search navigation -->
-<div id="searchbar" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="isSearch && searchTaskArray.length > 0 && searchPhrase !== ''">
-  <button mat-button class="topbar-button mat-icon-button" (click)="nextSearchTask()">
-    <mat-icon>file_download</mat-icon>
-  </button>
-  <p class="topbar-p">{{currentSearchTask+1}}/{{searchTaskArray.length}}</p>
-  <button mat-button class="topbar-button mat-icon-button"  (click)="previousSearchTask()">
-    <mat-icon>file_upload</mat-icon>
-  </button>
+<!--<div id="searchbar" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="isSearch && searchTaskArray.length > 0 && searchPhrase !== ''">-->
+  <!--<button mat-button class="topbar-button mat-icon-button" (click)="nextSearchTask()">-->
+    <!--<mat-icon>file_download</mat-icon>-->
+  <!--</button>-->
+  <!--<p class="topbar-p">{{currentSearchTask+1}}/{{searchTaskArray.length}}</p>-->
+  <!--<button mat-button class="topbar-button mat-icon-button"  (click)="previousSearchTask()">-->
+    <!--<mat-icon>file_upload</mat-icon>-->
+  <!--</button>-->
 
-  <p id="search-phrase" [innerHTML]="searchPhrase"></p>
-</div>
+  <!--<p id="search-phrase" [innerHTML]="searchPhrase"></p>-->
+<!--</div>-->
+
 <div *ngIf="docJson" id="doc-wrapper" class="mat-elevation-z8" [ngClass]="{'set-rtl': isRTL}">
   <div *ngFor="let item of viewTask">
     <div fxLayout [ngClass]="{

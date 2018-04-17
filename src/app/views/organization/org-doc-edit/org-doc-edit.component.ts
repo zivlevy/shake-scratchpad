@@ -26,7 +26,9 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
   currentDocType: string;
   currentDocVersion: number;
   currentEditData: SkDocData;
-  docVersiontitle: string = '';
+  docVersionTitle: string = '';
+  docVersionNumber: string = '';
+  docName: string = ''
   isDirty: boolean = false;
 
   isPreview: boolean = false;
@@ -82,27 +84,47 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
         }
       })
       .switchMap((doc: SkDoc | null) => {
-        if (doc) {
-          this.currentDoc = doc;
-          if (this.currentDocType === 'p') {
-            this.docVersiontitle = `Published version ${doc.version}`;
-            return Observable.of(doc.publishVersion);
-          } else if (this.currentDocType === 'e') {
-            this.docVersiontitle = `Edit version`;
-            return Observable.of(doc.editVersion);
-          } else {
-            this.docVersiontitle = `Archive version ${this.currentDocVersion}`;
-            return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion)
-              .take(1);
-          }
-        } else {
-          // this is a new doc
-          this.docVersiontitle = 'New doc';
-          this.currentDoc = null;
-          this.editor.newDoc();
-          return Observable.of(null);
-        }
+        // if (doc) {
+        //   this.docName = doc.name;
+        //   this.currentDoc = doc;
+        //   if (this.currentDocType === 'p') {
+        //     this.docVersionTitle = `Published version ${doc.version}`;
+        //     return Observable.of(doc.publishVersion);
+        //   } else if (this.currentDocType === 'e') {
+        //     this.docVersionTitle = `Edit version`;
+        //     return Observable.of(doc.editVersion);
+        //   } else {
+        //     this.docVersionTitle = `Archive version ${this.currentDocVersion}`;
+        //     return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion)
+        //       .take(1);
+        //   }
+        // } else {
+        //   // this is a new doc
+        //   this.docVersionTitle = 'New doc';
+        //   this.currentDoc = null;
+        //   this.editor.newDoc();
+        //   return Observable.of(null);
+        // }
 
+        if (doc) {
+          this.docName = doc.name;
+        }
+        this.currentDoc = doc;
+        if (this.currentDocType === 'p') {
+          this.docVersionTitle = 'Version';
+          this.docVersionNumber = String(doc.version);
+
+          return Observable.of(doc.publishVersion);
+        } else if (this.currentDocType === 'e') {
+          this.docVersionTitle = `Edit version`;
+          this.docVersionNumber = '';
+          return Observable.of(doc.editVersion);
+        } else {
+          this.docVersionTitle = `Archive version`;
+          this.docVersionNumber = String(this.currentDocVersion);
+          return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion )
+            .take(1);
+        }
       })
       .takeUntil(this.destroy$)
       .subscribe((docData) => {

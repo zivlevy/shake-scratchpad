@@ -9,7 +9,7 @@
         </mat-form-field>
       </div>
 
-      <mat-table #table1 class="admins-table" [dataSource]="adminsDataSource">
+      <mat-table #table1  class="admins-table" [dataSource]="adminsDataSource">
 
         <!-- Name Column -->
         <ng-container matColumnDef="photoURL">
@@ -20,7 +20,7 @@
 
         <!-- Name Column -->
         <ng-container matColumnDef="displayName">
-          <mat-header-cell *matHeaderCellDef> Display Name </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef > Display Name </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.displayName}} </mat-cell>
         </ng-container>
 
@@ -73,7 +73,7 @@
         </mat-form-field>
       </div>
 
-      <mat-table #table class="users-table" [dataSource]="usersDataSource">
+      <mat-table #table matSort class="users-table" [dataSource]="usersDataSource">
 
         <!-- photo URL Column -->
         <ng-container matColumnDef="photoURL">
@@ -84,7 +84,7 @@
 
         <!-- Name Column -->
         <ng-container matColumnDef="displayName">
-          <mat-header-cell *matHeaderCellDef> Display Name </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Display Name </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.displayName}} </mat-cell>
         </ng-container>
 

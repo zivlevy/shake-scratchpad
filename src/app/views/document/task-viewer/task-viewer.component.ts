@@ -15,8 +15,8 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   @Input() ident: number = 10;
   @Input() currentTask: number = 0;
 
-  @Input() searchPhrase: string = '';
-  @Input() isSearch: boolean = false;
+  searchPhrase: string = '';
+  isSearch: boolean = false;
   searchTaskArray: Array<number> = [];
   currentSearchTask: number = 0;
   taskList: Array<SkSection>;
@@ -29,7 +29,6 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-
     if (this.docJson) {
       this.docName = JSON.parse(this.docJson).data;
       this.taskList  = this.docService.SKTasksList(this.docJson);
@@ -41,6 +40,7 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   }
 
   doSearch(){
+
     if (this.isSearch && this.searchPhrase !== '') {
       this.searchTaskArray = [];
       this.currentSearchTask = 0;
@@ -104,4 +104,7 @@ export class TaskViewerComponent implements OnInit, OnChanges {
     console.log(this.viewTask);
   }
 
+  toggleSearch() {
+    this.isSearch = !this.isSearch;
+  }
 }

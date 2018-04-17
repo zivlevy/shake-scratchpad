@@ -47,7 +47,9 @@
 
     <span class="fillsapce"></span>
 
-    <p>{{docVersiontitle}}</p>
+    <p id="doc-name" [innerHTML]="docName"></p>
+
+    <p>{{docVersionTitle | translate}} {{docVersionNumber}}</p>
 
     <button mat-button class="back-button mat-icon-button" (click)="goToOrgHome()">
       <mat-icon>home</mat-icon>
@@ -64,7 +66,7 @@
   <!-- VIEWER -->
   <div [hidden]="!isPreview">
     <sk-doc-viewer  *ngIf="!isTaskView" [isSearch]="isSearch" [searchPhrase]="searchPhrase" [docJson]="previewData" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-doc-viewer>
-    <sk-task-viewer  *ngIf="isTaskView"  [isSearch]="isSearch" [searchPhrase]="searchPhrase" [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-task-viewer>
+    <sk-task-viewer  *ngIf="isTaskView"  [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering"></sk-task-viewer>
   </div>
 
 </div>

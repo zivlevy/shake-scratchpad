@@ -6,7 +6,7 @@
     </mat-form-field>
   </div>
 
-  <mat-table #table1 class="orgs-table" [dataSource]="orgsDataSource">
+  <mat-table #table1 matSort class="orgs-table" [dataSource]="orgsDataSource">
 
     <ng-container matColumnDef="orgId">
       <mat-header-cell *matHeaderCellDef> orgId </mat-header-cell>
@@ -21,8 +21,8 @@
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="org Name">
-      <mat-header-cell *matHeaderCellDef> Org Name </mat-header-cell>
+    <ng-container matColumnDef="orgName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Org Name </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.orgName}} </mat-cell>
     </ng-container>
 

@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {OrgService} from '../org.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {OrgDocService} from '../org-doc.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatTableDataSource} from '@angular/material';
+import {MatSort, MatTableDataSource} from "@angular/material";
 import {FirestoreService} from '../../../core/firestore.service';
 import {DatePipe} from '@angular/common';
 
@@ -17,7 +17,7 @@ export interface UserDocAck {
   templateUrl: './org-doc-read-ack-edit.component.html',
   styleUrls: ['./org-doc-read-ack-edit.component.scss']
 })
-export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
+export class OrgDocReadAckEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -36,6 +36,8 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
 
   orgUsersDocAckDisplayedColumns = [ 'isRequired', 'photo', 'displayName', 'hasSigned', 'signedAt'];
   orgUsersDocAckSource = new MatTableDataSource<UserDocAck>();
+
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private route: ActivatedRoute,
               private fb: FormBuilder,
@@ -101,6 +103,10 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy {
 
       });
 
+  }
+
+  ngAfterViewInit() {
+    this.orgUsersDocAckSource.sort = this.sort;
   }
 
   loadData() {
