@@ -144,6 +144,8 @@
   "No document found!": "לא נמצאו מסמכים",
   "Insert search term": "אין ביטוי לחיפוש",
   "Document deletion succeeded": "מחיקת מסמך הצליחה",
+  "Section": "מקטע",
+  "of": "מתוך",
 
   "doc tree view": "========= Doc Tree View =========",
   "Un-publish document?": "ביטול פרסום מסמך ?",

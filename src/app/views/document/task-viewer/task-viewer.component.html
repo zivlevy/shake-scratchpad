@@ -1,9 +1,13 @@
 <div id="topbar" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-  <button mat-button class="topbar-button mat-icon-button" (click)="nextTask()">
+  <button mat-button class="topbar-button mat-icon-button"
+          [disabled]="currentTask + 1 >= sectionList.length"
+          (click)="nextSection()">
     <mat-icon>file_download</mat-icon>
   </button>
-  <p class="topbar-p">{{currentTask+1}}/{{taskList.length}}</p>
-  <button mat-button class="topbar-button mat-icon-button"  (click)="previousTask()">
+  <p class="topbar-p"> {{'Section' | translate}} {{currentTask+1}} {{'of' | translate}} {{sectionList.length}}</p>
+  <button mat-button class="topbar-button mat-icon-button"
+          [disabled]="currentTask <= 0"
+          (click)="previousSection()">
     <mat-icon>file_upload</mat-icon>
   </button>
 
@@ -14,35 +18,28 @@
   </button>
 
   <!-- SEARCH input -->
-  <input *ngIf="isSearch " (change)="doSearch()" [(ngModel)]="searchPhrase">
+  <input *ngIf="isSearch " (keyup)="ngOnChanges()" [(ngModel)]="searchPhrase">
 
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="isSearch && searchTaskArray.length > 0 && searchPhrase !== ''">
-    <button mat-button class="topbar-button mat-icon-button" (click)="nextSearchTask()">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="isSearch && searchPhrase !== ''">
+    <button mat-button class="topbar-button mat-icon-button"
+            [disabled]="searchSectionArray.length === 0 || currentTask >= searchSectionArray[searchSectionArray.length - 1]"
+            (click)="nextSearchSection()">
       <mat-icon>file_download</mat-icon>
     </button>
-    <!--<p class="topbar-p">{{currentSearchTask+1}}/{{searchTaskArray.length}}</p>-->
 
-    <button mat-button class="topbar-button mat-icon-button"  (click)="previousSearchTask()">
+    <!--<p class="topbar-p">{{currentSearchSectionIndex+1}}/{{searchSectionArray.length}}</p>-->
+
+    <button mat-button class="topbar-button mat-icon-button"
+            [disabled]="searchSectionArray.length === 0 || currentTask <= searchSectionArray[0]"
+            (click)="previousSearchSection()">
       <mat-icon>file_upload</mat-icon>
     </button>
 
   </div>
 </div>
-<!-- Search navigation -->
-<!--<div id="searchbar" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="isSearch && searchTaskArray.length > 0 && searchPhrase !== ''">-->
-  <!--<button mat-button class="topbar-button mat-icon-button" (click)="nextSearchTask()">-->
-    <!--<mat-icon>file_download</mat-icon>-->
-  <!--</button>-->
-  <!--<p class="topbar-p">{{currentSearchTask+1}}/{{searchTaskArray.length}}</p>-->
-  <!--<button mat-button class="topbar-button mat-icon-button"  (click)="previousSearchTask()">-->
-    <!--<mat-icon>file_upload</mat-icon>-->
-  <!--</button>-->
-
-  <!--<p id="search-phrase" [innerHTML]="searchPhrase"></p>-->
-<!--</div>-->
 
 <div *ngIf="docJson" id="doc-wrapper" class="mat-elevation-z8" [ngClass]="{'set-rtl': isRTL}">
-  <div *ngFor="let item of viewTask">
+  <div *ngFor="let item of viewSection">
     <div fxLayout [ngClass]="{
        'item-warning': item.type === 1,
        'section' : item.nodes,
