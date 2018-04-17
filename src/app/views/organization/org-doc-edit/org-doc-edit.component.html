@@ -25,7 +25,7 @@
     </button>
 
     <!-- Taskview BUTTON-->
-    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleTaskView()"
+    <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleSectionView()"
             matTooltip="{{'Section View' | translate}}" matTooltipPosition="after">
     <mat-icon>dns</mat-icon>
     </button>
@@ -37,13 +37,13 @@
     </button>
 
     <!-- SEARCH BUTTON -->
-    <button  mat-button class="rightside-buttons mat-icon-button" (click)="toggleSearch()"
+    <button  mat-button  *ngIf="!isTaskView"  class="rightside-buttons mat-icon-button" (click)="toggleSearch()"
              matTooltip="{{'Search' | translate}}" matTooltipPosition="after">
       <mat-icon>search</mat-icon>
     </button>
 
     <!-- SEARCH input -->
-    <input *ngIf="isSearch" [(ngModel)]="searchPhrase">
+    <input *ngIf="isSearch && !isTaskView" [(ngModel)]="searchPhrase">
 
     <span class="fillsapce"></span>
 

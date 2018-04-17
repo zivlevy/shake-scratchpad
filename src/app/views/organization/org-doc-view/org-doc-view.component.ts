@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {SkDoc, SkDocData} from '../../../model/document';
@@ -117,7 +117,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
     this.isNumbering = !this.isNumbering;
   }
 
-  toggleTaskView() {
+  toggleSectionView() {
     this.isTaskView = !this.isTaskView;
     if (this.isTaskView) {
       this.isSearch = false;

@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {SkDoc, SkDocData} from '../../../model/document';
 import {OrgService} from '../org.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -28,8 +28,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
   currentEditData: SkDocData;
   docVersionTitle: string = '';
   docVersionNumber: string = '';
-  docName: string = ''
-  isDirty: boolean = false;
+  docName: string = '';
 
   isPreview: boolean = false;
   previewData: string;
@@ -84,27 +83,6 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
         }
       })
       .switchMap((doc: SkDoc | null) => {
-        // if (doc) {
-        //   this.docName = doc.name;
-        //   this.currentDoc = doc;
-        //   if (this.currentDocType === 'p') {
-        //     this.docVersionTitle = `Published version ${doc.version}`;
-        //     return Observable.of(doc.publishVersion);
-        //   } else if (this.currentDocType === 'e') {
-        //     this.docVersionTitle = `Edit version`;
-        //     return Observable.of(doc.editVersion);
-        //   } else {
-        //     this.docVersionTitle = `Archive version ${this.currentDocVersion}`;
-        //     return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion)
-        //       .take(1);
-        //   }
-        // } else {
-        //   // this is a new doc
-        //   this.docVersionTitle = 'New doc';
-        //   this.currentDoc = null;
-        //   this.editor.newDoc();
-        //   return Observable.of(null);
-        // }
 
         if (doc) {
           this.docName = doc.name;
@@ -141,7 +119,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
     const docData = this.editor.getDoc( true);
     if (this.currentDoc && this.currentDoc.uid) {
       this.orgService.saveDoc(this.currentDoc.uid, docData)
-        .then(res => {
+        .then(() => {
           // go to edit of new version
           this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, 'e', 0, 'false', '**'])
             .then(() => this.isSaving = false);
@@ -215,9 +193,14 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
     this.isNumbering = !this.isNumbering;
   }
 
-  toggleTaskView() {
+  toggleSectionView() {
     this.isTaskView = !this.isTaskView;
+    if (this.isTaskView) {
+      this.isSearch = false;
+      this.searchPhrase = '';
+    }
   }
+
   showEdit() {
     this.isPreview = false;
   }
