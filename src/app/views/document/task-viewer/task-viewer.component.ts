@@ -96,7 +96,6 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   previousSearchSection() {
     this.currentSearchSectionIndex = 0;
     for (let i = this.searchSectionArray.length - 1; i > 0 ; i--) {
-      console.log(i, this.searchSectionArray[i], this.currentTask )
       if (this.searchSectionArray[i] < this.currentTask) {
         this.currentSearchSectionIndex = i;
         break;
