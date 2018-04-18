@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
-import { AuthService } from "../../../core/auth.service";
+import { AuthService } from '../../../core/auth.service';
 
 @Component({
   selector: 'sk-homepage',

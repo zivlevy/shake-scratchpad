@@ -1,10 +1,12 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
-import {MatDialog, MatSort, MatTableDataSource} from "@angular/material";
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MatDialog, MatSort, MatTableDataSource} from '@angular/material';
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../../organization/org.service';
 import {Subject} from 'rxjs/Subject';
 import {ToasterService} from '../../../core/toaster.service';
 import 'rxjs/add/operator/takeUntil';
+import {MediaService} from '../../../core/media.service';
+import {Router} from '@angular/router';
 export interface User {
   id: string;
   uid: string;
@@ -40,6 +42,8 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy, AfterVi
 
   constructor(private authService: AuthService,
               private orgService: OrgService,
+              private mediaService: MediaService,
+              private router: Router,
               private dialog: MatDialog,
               private toaster: ToasterService) { }
 
@@ -57,11 +61,19 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy, AfterVi
       });
 
     this.authService.getSkAdmins$()
-      // .takeUntil(this.destroy$)
+      .takeUntil(this.destroy$)
       .subscribe( res => {
         this.adminsDataSource.data = res;
       });
 
+    this.mediaService.getSmallScreen$()
+      .takeUntil(this.destroy$)
+      .subscribe(isSmallScreen => {
+        if (isSmallScreen) {
+          this.router.navigate([`too-small`])
+            .catch(err => console.log(err));
+        }
+      });
   }
 
   ngAfterViewInit() {

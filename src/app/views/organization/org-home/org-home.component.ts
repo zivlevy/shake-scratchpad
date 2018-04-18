@@ -26,8 +26,8 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
 
   constructor(private orgService: OrgService,
               private media: ObservableMedia,
-              route: ActivatedRoute,
-              public router: Router,
+              private route: ActivatedRoute,
+              private router: Router,
               private lngService: LanguageService) { }
 
   ngOnInit() {

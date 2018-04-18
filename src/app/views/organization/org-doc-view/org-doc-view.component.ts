@@ -131,6 +131,9 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   }
 
   gotoEdit() {
+    if (!this.searchPhrase) {
+      this.searchPhrase = '**';
+    }
     this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, this.currentDocType, this.currentDocVersion, this.isSearch, this.searchPhrase])
       .catch(err => console.log(err));
   }

@@ -1,0 +1,14 @@
+<div class="message-page-background" fxLayout="column" fxLayoutAlign="start center">
+
+  <mat-card class="too-small-card" fxLayout="column" fxLayoutAlign="space-evenly center">
+    <img mat-card-image class="too-small-image" src="/assets/icons/icon-250.png" >
+    <mat-card-title style="text-align: center">
+      {{ 'TXT_screen_too_small' | translate}}
+    </mat-card-title>
+    <mat-card-actions>
+      <button mat-raised-button class="btn-hover-accent" (click)="home()">
+        <mat-icon>home</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

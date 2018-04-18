@@ -5,7 +5,8 @@
   "TXT_email_change_message": "After an email change, a verification email will be sent to the new address",
   "TXT_org_join_message": "Click Join button to request organisation membership",
   "TXT_org_join_pending": "Your request is pending approval. When approved, you'll be routed to our home page",
-  "TXT_org_invited_join": "Your invite is being processed. You will shortly be routed to our home page"
-
+  "TXT_org_invited_join": "Your invite is being processed. You will shortly be routed to our home page",
+  "TXT_screen_too_small": "This operation is available only on screens wider than 960px",
+  "TXT_not_found": "Undefined URL"
 
 }

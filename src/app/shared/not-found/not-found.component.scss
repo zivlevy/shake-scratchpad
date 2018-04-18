@@ -1,19 +1,16 @@
-.wrapper {
-  margin:0;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  //background-color: lightpink;
-  color:black;
-  font-family: "Arial";
-  text-align: center;
+.card-big {
+  width: 800px;
+  height: 400px;
+
 }
 
-h1 {
-   position: relative;
-   top:48%;
- }
-h3 {
-  position: relative;
-  top:47%;
+.card-small {
+  width: 90%;
+  height: 400px;
+  margin-top: 25px;
+
+}
+
+.shake-image {
+  width: 150px;
 }

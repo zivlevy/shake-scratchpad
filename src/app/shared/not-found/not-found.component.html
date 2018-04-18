@@ -1,18 +1,16 @@
-<div class="wrapper">
-  <div class="row">
-    <div class="col-4 col-md-3">
-      <a href="/"><img src="assets/img/shake-logo/logo_left_text.svg" class="img-fluid"></a>
-    </div>
-    <div class="container-fluid">
-      <div class="row ">
-        <div class="col-md-7 offset-1">
-          <h1 class="text-left display-1">Oops !</h1>
-          <h3 class="text-left h3">We can't find the page</h3>
-          <h3 class="text-left h3">you are looking for</h3>
-          <br>
-          <h3 class="text-left h5">Consider going to <a href="/">SHAKE Home Page</a></h3>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="message-page-background" fxLayout="column" fxLayoutAlign="center center">
+
+  <mat-card [ngClass]="'card-small'" [ngClass.gt-sm]="'card-big'" fxLayout="column" fxLayoutAlign="space-evenly center">
+    <img mat-card-image class="shake-image" src="/assets/icons/icon-250.png" >
+    <mat-card-title style="text-align: center">
+      {{ 'TXT_not_found' | translate}}
+    </mat-card-title>
+    <mat-card-actions>
+      <button mat-raised-button class="btn-hover-accent" (click)="home()">
+        <mat-icon>home</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </div>
+
+

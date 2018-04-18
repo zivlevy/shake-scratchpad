@@ -68,12 +68,22 @@ export class OrgSearchDocComponent implements OnInit, OnDestroy {
   }
 
   openDoc(docId: string, docType: string, docVersion: string) {
-    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion, true, this.searchTerm ])
+    let isSearch = true;
+    if (this.searchTerm === '*') {
+      isSearch = false;
+      this.searchTerm = '**';
+    }
+    this.router.navigate([`org/${this.currentOrg}/org-doc-view`, docId, docType, docVersion, isSearch, this.searchTerm ])
       .catch(err => console.log(err));
   }
 
   editDoc(docId: string, docType: string, docVersion: string) {
-    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, docType, docVersion, true, this.searchTerm])
+    let isSearch = true;
+    if (this.searchTerm === '*') {
+      isSearch = false;
+      this.searchTerm = '**';
+    }
+    this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, docId, docType, docVersion, isSearch, this.searchTerm])
       .catch(err => console.log(err));
   }
 

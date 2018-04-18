@@ -14,6 +14,8 @@ import {OrgUserJoinComponent} from './org-user-join/org-user-join.component';
 import {OrgContainerComponent} from './org-container/org-container.component';
 import {OrgHomeComponent} from './org-home/org-home.component';
 import {OrgDocReadCreateComponent} from './org-doc-read-create/org-doc-read-create.component';
+import {ScreenTooSmallComponent} from '../../shared/screen-too-small/screen-too-small.component';
+import {NotFoundComponent} from '../../shared/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -35,6 +37,8 @@ const routes: Routes = [
               {path: 'org-doc-read-acks', component: OrgDocReadAcksComponent, canActivate: [OrgEditorGuard]},
               {path: 'org-doc-read-ack-new', component: OrgDocReadCreateComponent, canActivate: [OrgEditorGuard]},
               {path: 'org-doc-read-ack/:docAckId', component: OrgDocReadAckEditComponent, canActivate: [OrgEditorGuard]},
+              {path: 'too-small', component: ScreenTooSmallComponent},
+              {path: '**', component: NotFoundComponent}
 
             ]},
         ]

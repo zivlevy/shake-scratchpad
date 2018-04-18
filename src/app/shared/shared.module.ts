@@ -14,10 +14,11 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {CoreModule} from '../core/core.module';
 import {NavAdminComponent} from './nav-admin/nav-admin.component';
 import {DeleteApproveComponent} from './dialogs/delete-approve/delete-approve.component';
-import {MaterialModule} from "../material/material.module";
-import {ConfirmDialogComponent} from "./dialogs/confirm-dialog/confirm-dialog.component";
+import {MaterialModule} from '../material/material.module';
+import {ConfirmDialogComponent} from './dialogs/confirm-dialog/confirm-dialog.component';
 import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
 import { NotAuthenticatedComponent } from './not-authenticated/not-authenticated.component';
+import { ScreenTooSmallComponent } from './screen-too-small/screen-too-small.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { NotAuthenticatedComponent } from './not-authenticated/not-authenticated
     DeleteApproveComponent,
     ConfirmDialogComponent,
     InputDialogComponent,
-    NotAuthenticatedComponent
+    NotAuthenticatedComponent,
+    ScreenTooSmallComponent
   ],
   exports: [
     SpinnerComponent,

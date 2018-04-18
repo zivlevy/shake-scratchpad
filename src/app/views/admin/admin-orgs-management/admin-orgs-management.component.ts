@@ -1,12 +1,14 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../../organization/org.service';
 import {Org} from '../../../model/org';
-import {MatDialog, MatSort, MatTableDataSource} from "@angular/material";
+import {MatDialog, MatSort, MatTableDataSource} from '@angular/material';
 import {DeleteApproveComponent} from '../../../shared/dialogs/delete-approve/delete-approve.component';
 import {AdminService} from '../admin.service';
 import 'rxjs/add/operator/takeUntil';
+import {MediaService} from '../../../core/media.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'sk-admin-orgs-management',
@@ -26,6 +28,8 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy, AfterVie
   constructor(private authService: AuthService,
               private adminService: AdminService,
               private orgService: OrgService,
+              private mediaService: MediaService,
+              private router: Router,
               private dialog: MatDialog,
               ) {}
 
@@ -40,6 +44,15 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy, AfterVie
       .takeUntil(this.destroy$)
       .subscribe( orgs => {
         this.orgsDataSource.data = orgs;
+      });
+
+    this.mediaService.getSmallScreen$()
+      .takeUntil(this.destroy$)
+      .subscribe(isSmallScreen => {
+        if (isSmallScreen) {
+          this.router.navigate([`too-small`])
+            .catch(err => console.log(err));
+        }
       });
   }
 

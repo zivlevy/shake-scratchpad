@@ -9,8 +9,8 @@
     </div>
 
     <div class="top-row" fxLayout="row" fxLayoutAlign="space-evenly">
-      <button mat-raised-button color="primary" (click)="addReadAck()"
-              [ngClass.lt-sm]="'btn-small'"
+      <button mat-raised-button (click)="addReadAck()"
+              class="btn-hover-accent btn-responsive"
               matTooltip="{{'Add Read & Sign' | translate}}" matTooltipPosition="after">
         <i class="fa fa-plus"></i>
       </button>
@@ -59,18 +59,18 @@
 
       <ng-container matColumnDef="Actions">
         <mat-header-cell [ngClass.lt-sm]="'small'" *matHeaderCellDef [innerHTML]="'Actions' | translate"></mat-header-cell>
-        <mat-cell  [ngClass.lt-sm]="'small'" *matCellDef="let element">
+        <mat-cell  [ngClass.lt-sm]="'small'" *matCellDef="let element" style="overflow: visible">
           <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="center">
-            <button mat-raised-button color="warn"
-                    [ngClass.lt-sm]="'btn-small'"
+            <button mat-raised-button
+                    class="btn-hover-warn btn-responsive"
                     matTooltip="{{'Delete Read & Sign' | translate}}" matTooltipPosition="after"
                     [disabled]="element.actualSignatures > 0"
                     (click)="readAckDelete(element)">
               <i class="fa fa-trash"></i>
             </button>
             <span fxHide.lt-sm>&nbsp;</span>
-            <button mat-raised-button color="primary"
-                    [ngClass.lt-sm]="'btn-small'"
+            <button mat-raised-button
+                    class="btn-hover-accent btn-responsive"
                     matTooltip="{{'Edit Read & Sign' | translate}}" matTooltipPosition="after"
                     [disabled]="!element.isActive"
                     (click)="editReadAck(element)">

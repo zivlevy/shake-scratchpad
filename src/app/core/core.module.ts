@@ -13,6 +13,7 @@ import { SetDirectionDirective } from './set-direction.directive';
 import {DataPackageService} from './data-package.service';
 import {FileService} from './file.service';
 import {ToasterService} from './toaster.service';
+import {MediaService} from './media.service';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import {ToasterService} from './toaster.service';
     SetDirectionDirective,
     DataPackageService,
     FileService,
-    ToasterService
+    ToasterService,
+    MediaService
   ],
   declarations: [SafeHtmlPipe, SetDirectionDirective],
   exports: [SafeHtmlPipe]

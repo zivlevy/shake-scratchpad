@@ -158,6 +158,9 @@
   "Numbering": "מספור",
   "Section View": "תצוגה בפרקים",
   "Edit version": "גרסת עריכה",
-  "Archive version": "גרסת ארכיון"
+  "Archive version": "גרסת ארכיון",
+
+  "TXT_screen_too_small": "פעולה זו מתאפשרת רק במסכים רחבים מ - 960 פיקסלים",
+  "TXT_not_found": "כתובת לא מוגדרת"
 
 }

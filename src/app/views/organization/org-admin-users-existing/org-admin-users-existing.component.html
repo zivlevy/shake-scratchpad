@@ -1,6 +1,6 @@
 <div class="org-users-container mat-elevation-z8">
 
-  <mat-table #table class="org-users-table" [dataSource]="orgUsersDataSource">
+  <mat-table #table class="org-users-table" [dataSource]="orgUsersDataSource" >
 
     <ng-container matColumnDef="isPending">
       <mat-header-cell *matHeaderCellDef> {{'Pending' | translate}}</mat-header-cell>
@@ -54,14 +54,16 @@
         </mat-checkbox>
       </mat-cell>
     </ng-container>
+    <!--class="btn-responsive btn-hover-warn mat-elevation-z8"-->
+    <!--style="box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);"-->
 
     <ng-container matColumnDef="Actions">
       <mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</mat-header-cell>
-      <mat-cell  *matCellDef="let element">
-        <button mat-raised-button color="warn"
+      <mat-cell  *matCellDef="let element" style="overflow: visible">
+        <button mat-raised-button class="btn-hover-warn"
                 matTooltip="{{'User Delete' | translate}}" matTooltipPosition="after"
                 (click)="userDeleted(element.id)">
-          <i  class="fa fa-trash"></i>
+          <i class="fa fa-trash"></i>
         </button>
       </mat-cell>
     </ng-container>

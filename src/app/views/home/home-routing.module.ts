@@ -8,16 +8,11 @@ import {OrgAdminOrgComponent} from '../organization/org-admin-org/org-admin-org.
 import {HomeContentComponent} from './home-content/home-content.component';
 import {LoginComponent} from '../../shared/login/login.component';
 import {SignupComponent} from '../../shared/signup/signup.component';
-import {AuthGuard} from "../../shared/guards/auth.guard";
-import {NotAuthenticatedComponent} from "../../shared/not-authenticated/not-authenticated.component";
+import {AuthGuard} from '../../shared/guards/auth.guard';
+import {NotAuthenticatedComponent} from '../../shared/not-authenticated/not-authenticated.component';
+import {ScreenTooSmallComponent} from '../../shared/screen-too-small/screen-too-small.component';
 
 
-// const routes: Routes = [
-//   {path: '', component: HomepageComponent},
-//   {path: 'home', component: HomepageComponent},
-//   {path: 'add-org', component: AddOrgComponent},
-//   {path: 'user-profile', component: UserProfileComponent},
-// ];
 
 const routes: Routes = [
   {
@@ -33,6 +28,7 @@ const routes: Routes = [
           {path: 'add-org', component: AddOrgComponent, canActivate: [AuthGuard]},
           {path: 'org-admin', component: OrgAdminOrgComponent, canActivate: [AuthGuard]},
           {path: 'org-admin-users', component: OrgAdminUsersComponent, canActivate: [AuthGuard]},
+          {path: 'too-small', component: ScreenTooSmallComponent}
         ]
       }
     ]
