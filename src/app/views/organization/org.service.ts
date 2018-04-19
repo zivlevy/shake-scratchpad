@@ -544,8 +544,7 @@ export class OrgService {
    * build JSON tree from screen tree
    *********************************/
 
-  // makeJsonTree = (roots: Array<any>): string => {
-  makeJsonTree  (roots: Array<any>): string {
+  makeJsonTree(roots: Array<any>): string {
     const result = [];
     roots.forEach(root => result.push(this.treeNodeToDBObject(root)));
     return JSON.stringify(result);
@@ -575,7 +574,7 @@ export class OrgService {
    * build JSON tree from memory tree
    *********************************/
 
-  makeJsonTreeFromMemory = (roots: Array<any>): string => {
+  makeJsonTreeFromMemory(roots: Array<any>): string  {
     const result = [];
     roots.forEach(root => result.push(this.treeNodeToDBObjectFromMemory(root)));
     return JSON.stringify(result);
@@ -612,8 +611,7 @@ export class OrgService {
         } else {
           return this.firestoreService.doc$(`org/${currentOrg}`)
             .map((result: any) => {
-              const tree = JSON.parse(result.orgTreeJson);
-              return tree;
+              return JSON.parse(result.orgTreeJson);
             });
         }
 
