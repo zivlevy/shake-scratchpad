@@ -82,8 +82,6 @@ export class OrgService {
   }
 
   private setOrganization(orgId: string) {
-    // this.localCurrentOrg = null;
-    // this.currentOrg$.next(null);
 
     return this.afs.collection('org').doc(orgId).collection('publicData').doc('info')
       .snapshotChanges()
@@ -99,50 +97,30 @@ export class OrgService {
       });
   }
 
-  // orgExistsP(orgId: string) {
-  //   return new Promise<boolean>(resolve => {
-  //     this.afs.collection('org').doc(orgId).collection('publicData').doc('info')
-  //       .snapshotChanges()
-  //       .take(1)
-  //       .do(org => {
-  //         if (org.payload.exists) {
-  //           resolve(true);
-  //         } else {
-  //           resolve(false);
-  //         }
-  //       })
-  //       .subscribe();
-  //   });
-  // }
-
   /************************
    Org User API
    ************************/
 
-  joinToOrg() {
-    this.authService.getSkUser$()
-      .take(1)
-      .subscribe(skUser => {
-        this.setUserInfo(skUser);
-          // .then(() => {
-          //   this.router.navigate([`org/${this.currentOrg$.getValue()}`]);
-          // });
-      });
-
+  joinOrg() {
+    return new Promise<any>((resolve, reject) => {
+      this.authService.getSkUser$()
+        .take(1)
+        .subscribe(skUser => {
+          this.setUserInfo(skUser)
+            .catch(err => reject(err))
+            .then(resolve);
+        });
+    });
   }
 
-  // Sets initial user data to firestore after successful org Join
+  // Sets initial user data to fireStore after successful org Join
   private setUserInfo(user) {
     // set the org to the user
-    console.log(this.orgPublicData$.getValue().orgName);
-    const orgUserRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}/orgs/${this.currentOrg$.getValue()}`);
-    orgUserRef.set({
+    const userOrgRef = this.afs.doc(`users/${user.uid}/orgs/${this.currentOrg$.getValue()}`).set({
       orgName: this.orgPublicData$.getValue().orgName
     });
 
     // set the user data in the org
-    console.log(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
-    const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`);
     const data: OrgUser = {
       uid: user.uid,
       isPending: true,
@@ -151,12 +129,13 @@ export class OrgService {
       email: user.email,
       photoURL: user.photoURL ? user.photoURL : ''
     };
-    return userRef.set(data);
+    const orgUserRef = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`).set(data);
+    return Promise.all([userOrgRef, orgUserRef]);
   }
 
   updateOrgUsersOrgName(orgId: string, orgName: string) {
     const actions: Array<any> = [];
-    return new Promise<any>(resolve => {
+    return new Promise<any>((resolve, reject) => {
       this.firestoreService.colWithIds$(`org/${orgId}/users`)
         .subscribe(users => {
           users.forEach(user => {
@@ -164,7 +143,7 @@ export class OrgService {
             actions.push(action);
           });
           Promise.all(actions)
-            .catch(err => console.log(err))
+            .catch(err => reject(err))
             .then(resolve);
         });
     });
@@ -181,7 +160,7 @@ export class OrgService {
   deleteOrgUser(uid: string) {
 
     const toDelete: Array<any> = [];
-    return new Promise<any> ( resolve => {
+    return new Promise<any> ( (resolve, reject) => {
       this.firestoreService.colWithIds$(`org/${this.localCurrentOrg}/users/${uid}/docsAcks`)
         .take(1)
         .subscribe(docAcks => {
@@ -195,7 +174,7 @@ export class OrgService {
         toDelete.push(this.afs.doc(`users/${uid}/orgs/${this.currentOrg$.getValue()}`).delete());
 
         Promise.all(toDelete)
-          .catch(err => console.log(err))
+          .catch(err => reject(err))
           .then(resolve);
         });
     });
@@ -343,19 +322,6 @@ export class OrgService {
     return this.orgPrivateData$.asObservable();
   }
 
-  // Written by Ran
-
-  // getOrgNameP(orgId: string): Promise<string> {
-  //   return new Promise<string>((resolve) => {
-  //     const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
-  //     document.valueChanges()
-  //       .take(1)
-  //       .subscribe(res => {
-  //         resolve(res ? res.orgName : null);
-  //       });
-  //   });
-  // }
-
   setOrgPublicData(orgId, newData) {
     const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${orgId}/publicData/info`);
     return document.update(newData);
@@ -368,20 +334,6 @@ export class OrgService {
       'isAdmin': isAdmin,
       'isEditor': isEditor,
       'isViewer': isViewer
-    });
-  }
-
-  /************************
-   Org Admin API
-   ************************/
-  getOrgUsersList$() {
-    const orgUsersRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/users`);
-    return orgUsersRef.snapshotChanges().map(actions => {
-      return actions.map(a => {
-        const data = a.payload.doc.data() as OrgUser;
-        const id = a.payload.doc.id;
-        return {uid: id, ...data};
-      });
     });
   }
 
@@ -401,20 +353,12 @@ export class OrgService {
   }
 
   getDoc$(docId: string): Observable<SkDoc> {
-    // const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
-    // return docRef.snapshotChanges()
-    //   .map(res => {
-    //
-    //     const doc: SkDoc = {uid: res.payload.id, ... res.payload.data()};
-    //     return doc;
-    //   });
 
     return this.currentOrg$
       .switchMap(orgId => {
         return this.afs.doc<any>(`org/${orgId}/docs/${docId}`).snapshotChanges()
           .map(res => {
-                const doc: SkDoc = {uid: res.payload.id, ... res.payload.data()};
-                return doc;
+                return {uid: res.payload.id, ... res.payload.data()};
           });
       });
 
@@ -471,7 +415,8 @@ export class OrgService {
             res['publishVersion'] = {...res.editVersion};
           } else {
             const docVersionsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}/versions/${res.version}`);
-            docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0});
+            docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0})
+              .catch(err => console.log(err));
           }
 
         // change  in tree
@@ -510,7 +455,8 @@ export class OrgService {
             res['publishVersion'] = {...res.editVersion};
           } else {
             const docVersionsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}/versions/${res.version}`);
-            docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0});
+            docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0})
+              .catch(err => console.log(err));
           }
         }
         // change  in tree
@@ -534,7 +480,8 @@ export class OrgService {
           isPublish: false
         };
         const docVersionsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}/versions/${res.version}`);
-        docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0});
+        docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0})
+          .catch(err => console.log(err));
 
         // change  in tree
         this.editDocInTree(uid, objToSave);
@@ -543,7 +490,7 @@ export class OrgService {
       });
   }
 
-  serachDocsByTerm(searchString: string, namesOnly: boolean, edited: boolean, published: boolean, version: boolean) {
+  searchDocsByTerm(searchString: string, namesOnly: boolean, edited: boolean, published: boolean, version: boolean) {
     const orgPrivateData = this.orgPrivateData$.getValue();
     return this.algoliaService.searchDocs(this.localCurrentOrg, orgPrivateData.searchKey, searchString, namesOnly, edited, published, version);
   }
@@ -568,7 +515,8 @@ export class OrgService {
           this.firestoreService.deleteCollection(verRef, 5)
             .subscribe(res => console.log(res), null, () => {
                 this.deleteDocFromTree(docId);
-                docRef.delete();
+                docRef.delete()
+                  .catch(err => console.log(err));
               }
             );
         });
@@ -579,44 +527,10 @@ export class OrgService {
     return this.firestoreService.delete(`org/${this.localCurrentOrg}/docs/${docId}/versions/${version}`);
   }
 
-  deleteDocP(orgId: string, docId: string): Promise<any> {
-
-    // TODO add remove from tree
-    return new Promise((resolve, reject) => {
-      const docRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${orgId}/docs/${docId}`);
-      const verRef = `org/${orgId}/docs/${docId}/versions/`;
-      console.log(orgId, docId);
-      this.firestoreService.deleteCollection(verRef, 5)
-        .subscribe(
-          res => console.log(res),
-          err => {
-            console.log(err);
-            reject(err);
-          },
-          () => {
-            docRef.delete()
-              .then(() => resolve())
-              .catch(err => reject(err));
-          }
-        );
-    });
-  }
-
   getDocVersion$(docId: string, versionNo: number) {
     return this.firestoreService.doc$(`org/${this.localCurrentOrg}/docs/${docId}/versions/${versionNo}`);
   }
 
-  getAllVersions$(docId: string): Observable<any> {
-    const versionsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/docs/${docId}/versions`);
-    return versionsRef.snapshotChanges()
-      .map(docs => {
-        return docs.map(a => {
-          const data = a.payload.doc.data() as SkDoc;
-          const id = a.payload.doc.id;
-          return {uid: id, ...data};
-        });
-      });
-  }
 
   /****************************
    * Org Tree

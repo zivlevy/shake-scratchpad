@@ -159,7 +159,7 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
   }
 
   join() {
-    this.orgService.joinToOrg();
+    this.orgService.joinOrg();
   }
 
   ngOnDestroy() {

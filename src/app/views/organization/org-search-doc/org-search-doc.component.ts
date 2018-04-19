@@ -61,7 +61,7 @@ export class OrgSearchDocComponent implements OnInit, OnDestroy {
   filterDocumentsByTerm() {
     const value = this.searchTerm;
     if (value !== '' && (this.edited || this.published || this.version) ) {
-      return this.orgService.serachDocsByTerm(value, this.docNameOnly, this.edited, this.published, this.version);
+      return this.orgService.searchDocsByTerm(value, this.docNameOnly, this.edited, this.published, this.version);
     } else {
       return Promise.resolve([]);
     }
