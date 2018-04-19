@@ -544,7 +544,8 @@ export class OrgService {
    * build JSON tree from screen tree
    *********************************/
 
-  makeJsonTree = (roots: Array<any>): string => {
+  // makeJsonTree = (roots: Array<any>): string => {
+  makeJsonTree  (roots: Array<any>): string {
     const result = [];
     roots.forEach(root => result.push(this.treeNodeToDBObject(root)));
     return JSON.stringify(result);
