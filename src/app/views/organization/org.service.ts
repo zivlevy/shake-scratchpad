@@ -113,7 +113,11 @@ export class OrgService {
     });
   }
 
+  // *************************************
+  // Cloud Function userAddOrg
+  // *************************************
   // Sets initial user data to fireStore after successful org Join
+  // It initiates the cloud function, but the cloud function does nothing in this case
   private setUserInfo(user) {
     // set the org to the user
     const userOrgRef = this.afs.doc(`users/${user.uid}/orgs/${this.currentOrg$.getValue()}`).set({
