@@ -6,7 +6,7 @@
 
     <!--BUTTONS SECTION-->
     <div [ngClass.xs]="'header-section-small'" fxLayout="row" fxLayoutAlign="start center"
-         fxFlexOrder="3" fxFlexOrder.gt-xs="1">
+         fxFlexOrder="2" fxFlexOrder.gt-xs="1">
       <!-- Signature Required -->
       <button *ngIf="docAckId" mat-button class="rightside-buttons mat-icon-button" (click)="signDocument()"
               matTooltip="{{'Sign Document Read' | translate}}" matTooltipPosition="after">
@@ -30,12 +30,6 @@
               matTooltip="{{'Edit' | translate}}" matTooltipPosition="after">
         <mat-icon>edit</mat-icon>
       </button>
-    </div>
-
-
-    <!--SEARCH SECTION-->
-    <div *ngIf="!isTaskView" [ngClass.xs]="'header-section-small'" fxLayout="row" fxLayoutAlign="start center"
-         fxFlexOrder="2">
 
       <!-- SEARCH BUTTON -->
       <button *ngIf="!isTaskView"  mat-button class="rightside-buttons mat-icon-button" (click)="toggleSearch()"
@@ -43,8 +37,15 @@
         <mat-icon>search</mat-icon>
       </button>
 
+    </div>
+
+
+    <!--SEARCH SECTION-->
+    <div *ngIf="isSearch && !isTaskView" [ngClass.xs]="'header-section-small'" fxLayout="row" fxLayoutAlign="start center"
+         fxFlexOrder="3" fxFlexOrder.gt-xs="2">
+
       <!-- SEARCH input -->
-      <input *ngIf="isSearch && !isTaskView" [(ngModel)]="searchPhrase">
+      <input *ngIf="isSearch && !isTaskView" [(ngModel)]="searchPhrase" style="-webkit-margin-start: 20px">
 
     </div>
 

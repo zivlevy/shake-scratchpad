@@ -13,19 +13,20 @@
       <mat-icon>file_upload</mat-icon>
     </button>
 
-  </div>
-
-  <div [ngClass.xs]="'header-section-small'" fxLayout="row" fxLayoutAlign="start center">
     <!-- SEARCH BUTTON -->
     <button mat-button class="topbar-button rightside-buttons mat-icon-button" (click)="toggleSearch()"
             matTooltip="{{'Search' | translate}}" matTooltipPosition="after">
       <mat-icon>search</mat-icon>
     </button>
+  </div>
+
+  <div *ngIf="isSearch " [ngClass.xs]="'header-section-small'" fxLayout="row" fxLayoutAlign="start center">
+
 
     <!-- SEARCH input -->
-    <input *ngIf="isSearch " (keyup)="ngOnChanges()" [(ngModel)]="searchPhrase">
+    <input *ngIf="isSearch " (keyup)="ngOnChanges()" [(ngModel)]="searchPhrase"  style="-webkit-margin-start: 20px">
 
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="isSearch && searchPhrase !== ''">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" *ngIf="isSearch && searchPhrase !== ''">
       <button mat-button class="topbar-button mat-icon-button"
               [disabled]="searchSectionArray.length === 0 || currentTask >= searchSectionArray[searchSectionArray.length - 1]"
               (click)="nextSearchSection()">
