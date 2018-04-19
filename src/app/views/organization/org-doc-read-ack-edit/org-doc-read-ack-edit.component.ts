@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {OrgService} from '../org.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {OrgDocService} from '../org-doc.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatSort, MatTableDataSource} from "@angular/material";
+import {MatSort, MatTableDataSource} from '@angular/material';
 import {FirestoreService} from '../../../core/firestore.service';
 import {DatePipe} from '@angular/common';
 
@@ -94,7 +94,7 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy, AfterViewI
                 }
               });
 
-            this.orgDocService.getDocAckUsers$(this.orgId, this.docAckId)
+            this.orgService.getDocAckUsers$(this.orgId, this.docAckId)
               .takeUntil(this.destroy$)
               .subscribe(res => {
                 this.orgUsersDocAckSource.data = res;

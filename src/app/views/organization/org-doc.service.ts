@@ -43,26 +43,7 @@ export class OrgDocService {
 
   }
 
-  getDocAckUsers$(orgId: string, docAckId: string): Observable<any> {
-    return this.firestoreService.colWithIds$(`org/${orgId}/users`)
-      .map(resArray => {
-        resArray.forEach(res => {
-          this.afs.doc(`org/${orgId}/docsAcks/${docAckId}/users/${res.id}`).valueChanges()
-            // .take(1)
-            .subscribe((userSignature: any) => {
-              if (userSignature) {
-                res.isRequired = true;
-                res.hasSigned = userSignature.hasSigned;
-                res.signedAt = userSignature.signedAt;
-              } else {
-                res.isRequired = false;
-                res.hasSigned = false;
-              }
-            });
-        });
-        return resArray;
-      });
-  }
+
 
   isSignatureRequired$(orgId: string, uid: string, docId: string) {
 
