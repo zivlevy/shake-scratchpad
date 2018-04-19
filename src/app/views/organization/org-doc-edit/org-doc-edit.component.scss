@@ -1,16 +1,22 @@
 @import '../../../../app/core/scss/shake';
 
-.wrapper {
+.wrapper-big {
   padding-bottom: 20px;
   max-width: 800px;
   margin: 20px auto;
   background-color: whitesmoke;
 }
+
+.wrapper-small {
+  max-width: 100%;
+  background-color: whitesmoke;
+}
+
 .header {
   height: 50px;
   min-height: 50px;
   max-height: 50px;
-  background-color: $sk-bar-color;
+  background-color: #00405c;
   color: white;
 }
 

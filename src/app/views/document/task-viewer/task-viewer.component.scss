@@ -46,11 +46,25 @@
   color: white;
   margin: 0 20px;
 }
-#topbar {
-  height:40px;
-  background-color: #CB4B16;
+
+.section-bar-small {
+  min-height:40px;
+  background-color: #176b89;
 }
 
+.section-bar-big {
+  height:40px;
+  min-height: 40px;
+  max-height: 40px;
+  background-color: #176b89;
+}
+
+.header-section-small {
+  width: 100%;;
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+}
 #searchbar {
   height:40px;
   background-color: #1e80e6;

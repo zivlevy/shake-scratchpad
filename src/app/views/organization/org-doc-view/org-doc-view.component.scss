@@ -1,15 +1,36 @@
-.wrapper {
+.wrapper-big {
   padding-bottom: 20px;
   max-width: 800px;
   margin: 20px auto;
   background-color: whitesmoke;
 }
-.header {
+
+.wrapper-small {
+  max-width: 100%;
+  background-color: whitesmoke;
+}
+
+.header-big {
   height: 50px;
   min-height: 50px;
   max-height: 50px;
-  background-color: #03a9f4;
+  background-color: #5299b9;
   color: white;
+}
+
+.header-small {
+  //height: 50px;
+  min-height: 50px;
+  //max-height: 50px;
+  background-color: #5299b9;
+  color: white;
+}
+
+.header-section-small {
+  width: 100%;;
+  height: 45px;
+  min-height: 45px;
+  max-height: 45px;
 }
 
 .back-button {
