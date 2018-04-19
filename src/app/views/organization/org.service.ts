@@ -255,7 +255,9 @@ export class OrgService {
   }
 
   addOrgToUser(orgId: string, uid: string) {
-    return this.afs.collection('users').doc(uid).collection('orgs').doc(orgId).set({});
+    return this.afs.collection('users').doc(uid).collection('orgs').doc(orgId).set({
+      orgName: this.orgPublicData$.getValue().orgName
+    });
 
   }
 
@@ -703,7 +705,8 @@ export class OrgService {
           this.deleteOrgDocRecursion(item, index, array, docId);
         });
         const treeJson = this.makeJsonTreeFromMemory(tree);
-        this.saveOrgTree(treeJson);
+        this.saveOrgTree(treeJson)
+          .catch(err => console.log(err));
       });
   }
 
@@ -723,16 +726,17 @@ export class OrgService {
       .take(1)
       .subscribe(tree => {
         tree.forEach((item, index, array) => {
-          this.editOrgDocNameRecurtion(item, index, array, docId, newDocName);
+          this.editOrgDocNameRecursion(item, index, array, docId, newDocName);
         });
         const treeJson = this.makeJsonTreeFromMemory(tree);
-        this.saveOrgTree(treeJson);
+        this.saveOrgTree(treeJson)
+          .catch(err => console.log(err));
       });
   }
 
-  private editOrgDocNameRecurtion(treeNode, index, array, docId, newDocName) {
+  private editOrgDocNameRecursion(treeNode, index, array, docId, newDocName) {
     if (treeNode.children) {
-      treeNode.children.forEach((child, childIndex, childParent) => this.editOrgDocNameRecurtion(child, childIndex, childParent, docId, newDocName));
+      treeNode.children.forEach((child, childIndex, childParent) => this.editOrgDocNameRecursion(child, childIndex, childParent, docId, newDocName));
     } else {
       if (treeNode.id === docId) {
         treeNode.name = newDocName;
@@ -747,17 +751,18 @@ export class OrgService {
       .take(1)
       .subscribe(tree => {
         tree.forEach((item, index, array) => {
-          this.editOrgDocRecurtion(item, index, array, docId, docData);
+          this.editOrgDocRecursion(item, index, array, docId, docData);
         });
         const treeJson = this.makeJsonTreeFromMemory(tree);
-        this.saveOrgTree(treeJson);
+        this.saveOrgTree(treeJson)
+          .catch(err => console.log(err));
       });
   }
 
 
-  private editOrgDocRecurtion(treeNode, index, array, docId, docData) {
+  private editOrgDocRecursion(treeNode, index, array, docId, docData) {
     if (treeNode.children) {
-      treeNode.children.forEach((child, childIndex, childParent) => this.editOrgDocRecurtion(child, childIndex, childParent, docId, docData));
+      treeNode.children.forEach((child, childIndex, childParent) => this.editOrgDocRecursion(child, childIndex, childParent, docId, docData));
     } else {
       if (treeNode.id === docId) {
         treeNode.name = docData.name;

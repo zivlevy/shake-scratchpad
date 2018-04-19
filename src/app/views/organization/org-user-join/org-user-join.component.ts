@@ -21,6 +21,7 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
   queryParams: Params;
   destroy$: Subject<boolean> = new Subject<boolean>();
   inviteRoute = false;
+  afterTimeDelay = false;
   //
   constructor(private authService: AuthService,
               private orgService: OrgService,
@@ -28,6 +29,8 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit() {
+
+    setTimeout(() => this.afterTimeDelay = true, 3000);
 
     // get current org
     this.orgService.getCurrentOrg$()

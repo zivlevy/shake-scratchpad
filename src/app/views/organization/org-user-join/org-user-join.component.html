@@ -1,6 +1,6 @@
 <div id="wrapper">
 
-  <mat-card *ngIf="!inviteRoute &&  (uid && !currentOrgUser)" fxLayout="column" fxLayoutAlign="center">
+  <mat-card *ngIf="afterTimeDelay && !inviteRoute &&  (uid && !currentOrgUser)" fxLayout="column" fxLayoutAlign="center">
     <div class="text-center">
       {{ 'TXT_org_join_message' | translate }}
     </div>
