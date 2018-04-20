@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
-import {OrgService} from "../../views/organization/org.service";
-import {Subject} from "rxjs/Subject";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {OrgService} from '../../views/organization/org.service';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   templateUrl: './not-found.component.html',

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 import 'rxjs/add/operator/takeUntil';
 @Component({
   selector: 'sk-admin',
@@ -25,11 +25,13 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.router.navigate([`/login`]);
+    this.router.navigate([`/login`])
+      .catch(err => console.log(err));
   }
 
   signup() {
-    this.router.navigate([`/register`]);
+    this.router.navigate([`/register`])
+      .catch(err => console.log(err));
   }
   ngOnDestroy() {
     // force unsubscribe

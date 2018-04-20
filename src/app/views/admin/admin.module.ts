@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin/admin.component';
 import {SharedModule} from '../../shared/shared.module';
@@ -11,7 +10,7 @@ import { AdminUsersManagementComponent } from './admin-users-management/admin-us
 import {MaterialModule} from '../../material/material.module';
 import {DeleteApproveComponent} from '../../shared/dialogs/delete-approve/delete-approve.component';
 import {AdminService} from './admin.service';
-import {SkAdminGuard} from "./admin.guard";
+import {SkAdminGuard} from './admin.guard';
 
 @NgModule({
   imports: [

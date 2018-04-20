@@ -53,7 +53,7 @@ export class AdminService {
   deleteOrgRefs(orgId: string) {
     return new Promise((resolve, reject) => {
 
-      const deleteArray = new Array<Promise<any>>();
+      const deleteArray = [];
 
       this.firestoreService.colWithIds$(`org/${orgId}/users`)
         .take(1)

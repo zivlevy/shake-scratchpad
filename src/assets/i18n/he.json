@@ -20,6 +20,7 @@
   "Login to ShaKE": "כניסה ל ShaKE",
   "Email": "דואל",
   "Please enter a valid email": "יש להכניס אימייל חוקי",
+  "Display name can not by empty": "שם לא יכול להיות ריק",
   "Password": "סיסמה",
   "Password must be between 6 and 24 chars and have at least one number":"סיסמה צריכה להיות בין 6 ל24 תוים ולהכיל לפחות מספר אחד",
   "Login": "כניסה למערכת",

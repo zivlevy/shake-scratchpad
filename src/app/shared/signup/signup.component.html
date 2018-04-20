@@ -23,7 +23,7 @@
                      formControlName="displayName" placeholder="{{'Display Name' | translate}}">
             </mat-form-field>
             <div *ngIf="displayName.invalid && displayName.dirty" class="error-message"
-                 [innerHTML]="'Dispaly name can not by empty' | translate">
+                 [innerHTML]="'Display name can not by empty' | translate">
             </div>
           </div>
 
@@ -89,77 +89,4 @@
   </mat-card>
 </div>
 
-<!--<div id="full-page">-->
 
-
-  <!--<div class="wrapper">-->
-    <!--<div class="d-flex justify-content-center">-->
-      <!--<img src="assets/img/shake-logo.png" id="logo" [routerLink]="['']">-->
-    <!--</div>-->
-
-    <!--<form [formGroup]="signupForm" (ngSubmit)="signup()">-->
-      <!--<div class="form-header p-0">-->
-        <!--<h1 [innerHTML]="'Register to Shake' | translate"></h1>-->
-      <!--</div>-->
-      <!--<div class="form-body">-->
-
-        <!--<div>-->
-          <!--<mat-form-field>-->
-            <!--<input matInput type="text" id="displayName"-->
-                   <!--formControlName="displayName" placeholder="{{'Display Name' | translate}}">-->
-          <!--</mat-form-field>-->
-          <!--<div *ngIf="displayName.invalid && displayName.dirty" class="error-message"-->
-               <!--[innerHTML]="'Dispaly name can not by empty' | translate">-->
-          <!--</div>-->
-        <!--</div>-->
-
-        <!--<div>-->
-          <!--<mat-form-field>-->
-            <!--<input matInput type="email" id="email"-->
-                   <!--formControlName="email" placeholder="{{'Email' | translate}}">-->
-          <!--</mat-form-field>-->
-          <!--<div *ngIf="email.invalid && email.dirty" class="error-message"-->
-               <!--[innerHTML]="'Please enter a valid email' | translate">-->
-          <!--</div>-->
-        <!--</div>-->
-
-        <!--<div>-->
-          <!--<mat-form-field>-->
-            <!--<input matInput type="password" id="password"-->
-                   <!--formControlName="password" placeholder="{{'Password' | translate}}">-->
-          <!--</mat-form-field>-->
-          <!--<div *ngIf="password.invalid && password.touched" class="error-message"-->
-               <!--[innerHTML]="'Password must be between 6 and 24 chars and have at least one number' | translate">-->
-          <!--</div>-->
-        <!--</div>-->
-
-        <!--<div>-->
-          <!--<mat-form-field>-->
-            <!--<input matInput type="password" id="confirmPassword"-->
-                   <!--formControlName="confirmPassword" placeholder="{{'Confirm password' | translate}}">-->
-          <!--</mat-form-field>-->
-          <!--<div *ngIf="signupForm.errors" class="error-message"-->
-               <!--[innerHTML]="'Password don\'t match' | translate">-->
-          <!--</div>-->
-        <!--</div>-->
-
-
-        <!--<button mat-raised-button color="primary" type="submit" [disabled]="!signupForm.valid"-->
-                <!--[innerHTML]="'Register' | translate"></button>-->
-      <!--</div>-->
-    <!--</form>-->
-
-    <!--<div class="form-body text-center">-->
-      <!--<span [innerHTML]="'Already Shake user?' | translate"></span>-->
-      <!--<a (click)="gotoLogin()"-->
-         <!--[innerHTML]="'Go to Login' | translate"-->
-      <!--&gt;</a>-->
-    <!--</div>-->
-
-    <!--<div class="flags d-flex justify-content-center">-->
-      <!--<img src="assets/img/il.png" (click)="setLng('he')">-->
-      <!--<img src="assets/img/us.png" (click)="setLng('en')">-->
-    <!--</div>-->
-
-  <!--</div>-->
-<!--</div>-->

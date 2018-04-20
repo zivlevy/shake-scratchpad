@@ -53,17 +53,6 @@ export class HomeService {
     });
   }
 
-  getOrgs$() {
-    const orgCollection: AngularFirestoreCollection<any> = this.afs.collection('org');
-    return orgCollection.snapshotChanges().map(arr => {
-      return arr.map(snap => {
-        const data = snap.payload.doc.data();
-        const id = snap.payload.doc.id;
-        return {id, ...data};
-      });
-    });
-  }
-
   orgIdExists$(orgId: string) {
     const orgDoc: AngularFirestoreDocument<any> = this.afs.collection('org').doc(orgId).collection('publicData').doc('info');
     return orgDoc.snapshotChanges().map(snap => {

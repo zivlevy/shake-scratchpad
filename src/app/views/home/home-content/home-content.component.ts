@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {AuthService} from '../../../core/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -30,15 +30,13 @@ export class HomeContentComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.router.navigate([`login`], {queryParams: {returnUrl: '/'}});
-  }
-
-  logout() {
-    this.authService.logout();
+    this.router.navigate([`login`], {queryParams: {returnUrl: '/'}})
+      .catch(err => console.log(err));
   }
 
   addOrganization(){
-    this.router.navigate([`add-org`]);
+    this.router.navigate([`add-org`])
+      .catch(err => console.log(err));
   }
 
   ngOnDestroy() {

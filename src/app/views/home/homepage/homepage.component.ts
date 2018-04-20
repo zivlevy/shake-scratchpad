@@ -18,7 +18,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
               public authService: AuthService) {
 
     this.authService.getUser$()
-      // .takeUntil(this.destroy$)
+      .takeUntil(this.destroy$)
       .subscribe(authUser => {
         this.currentUser = authUser;
       });
@@ -29,19 +29,13 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.router.navigate([`/login`]);
+    this.router.navigate([`/login`])
+      .catch(err => console.log(err));
   }
 
   signup() {
-    this.router.navigate([`/register`]);
-  }
-
-  logout() {
-    this.authService.logout();
-  }
-
-  addOrganization(){
-    this.router.navigate([`add-org`]);
+    this.router.navigate([`/register`])
+      .catch(err => console.log(err));
   }
 
   ngOnDestroy() {
