@@ -100,7 +100,8 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   signup() {
     this.auth.emailSignUp(this.email.value, this.password.value).then(user => {
-      user.sendEmailVerification();
+      user.sendEmailVerification()
+        .catch(err => console.log(err));
       this.auth.createUserInitialData(user.uid, this.email.value , this.displayName.value, )
         .catch(err => console.log(err));
 
@@ -120,7 +121,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       } else {
         this.router.navigate([''])
           .catch(err => console.log(err));
-        window.location.reload();
+        // window.location.reload();
       }
 
     }).catch(err => {

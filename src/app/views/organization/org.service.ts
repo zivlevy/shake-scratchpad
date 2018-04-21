@@ -254,7 +254,11 @@ export class OrgService {
     return this.afs.collection('org').doc(orgId).collection('invites').doc(email).delete();
   }
 
+  // *************************************
+  // Cloud Function userAddOrg
+  // *************************************
   addOrgToUser(orgId: string, uid: string) {
+    console.log('Here');
     return this.afs.collection('users').doc(uid).collection('orgs').doc(orgId).set({
       orgName: this.orgPublicData$.getValue().orgName
     });

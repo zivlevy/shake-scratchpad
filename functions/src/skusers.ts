@@ -42,11 +42,12 @@ export const userAddOrg = functions.firestore.document(`users/{uid}/orgs/{orgId}
   const userRef = db.doc(`users/${uid}`);
   return userRef.get()
     .then((user: any) => {
-      const inviteRef = db.doc(`org/${orgId}/invites/${user.data().email}`);
+      const uemail = user.data().email.toLowerCase();
+      const inviteRef = db.doc(`org/${orgId}/invites/${uemail}`);
       return inviteRef.get()
         .then(invite => {
           if (invite.data()) {
-            const inviteRefDelete = db.doc(`org/${orgId}/invites/${user.data().email}`).delete();
+            const inviteRefDelete = db.doc(`org/${orgId}/invites/${uemail}`).delete();
             const orgUserSet = db.doc(`org/${orgId}/users/${uid}`).set({
                 isPending: false,
                 roles: {

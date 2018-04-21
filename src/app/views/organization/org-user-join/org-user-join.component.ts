@@ -15,8 +15,8 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
 
   orgId: string;
   orgHome: string;
-  // currentSkUser: SkUser;
   uid: string;
+  uemail: string;
   currentOrgUser: OrgUser;
   queryParams: Params;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -46,17 +46,12 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
 
       });
 
-    this.authService.getSkUser$()
-      .takeUntil(this.destroy$)
-      .subscribe(user => {
-        console.log(user);
-      });
-
     this.authService.getUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
+        console.log(user);
         this.uid = user ? user.uid : null;
-        console.log(this.uid);
+        this.uemail = user ? user.email.toLowerCase() : null;
       });
 
     // get queryParams to see if we came here from an Invite
@@ -64,7 +59,6 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
       .takeUntil(this.destroy$)
       .subscribe((params: Params) => {
         this.queryParams = params;
-        console.log(this.route);
       });
 
 
@@ -72,7 +66,6 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
     this.orgService.getOrgUser$()
       .takeUntil(this.destroy$)
       .subscribe((orgUser: OrgUser) => {
-        console.log('orgUser', orgUser);
         // this.user.isLoadingOrgUser = false;
         this.currentOrgUser = orgUser;
       });
@@ -126,11 +119,18 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
           }
 
         } else {
-          // user is logged in
-          if (this.queryParams['mail']) {
-            this.inviteRoute = true;
-            this.processInvite(this.queryParams['name'].replace('+', ' '), this.queryParams['mail']);
-          }
+
+          this.orgService.getOrgUserInvite$(this.orgId, this.uemail)
+            .takeUntil(this.destroy$)
+            .subscribe((invite: any) => {
+              if (invite) {
+                this.inviteRoute = true;
+                if (!this.currentOrgUser) {
+                  this.orgService.addOrgToUser(this.orgId, this.uid)
+                    .catch(err => console.log(err));
+                }
+              }
+            });
           if (this.currentOrgUser && !this.currentOrgUser.isPending) {
             this.router.navigate([`org/${this.orgId}`])
               .catch(err => console.log(err));
@@ -139,26 +139,6 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
       });
 
 
-  }
-
-  processInvite(userName: string, userMail: string) {
-    console.log('processing ', this.orgId, userName, userMail);
-
-    this.orgService.getOrgUserInvite$(this.orgId, userMail)
-      .takeUntil(this.destroy$)
-      .subscribe((invite: any) => {
-        if (invite) {
-
-          if (!this.currentOrgUser) {
-            this.orgService.addOrgToUser(this.orgId, this.uid)
-              .catch(err => console.log(err));
-          }
-        } else {
-          console.log('navigating');
-          this.router.navigate([this.orgHome])
-            .catch(err => console.log(err));
-        }
-      });
   }
 
   join() {

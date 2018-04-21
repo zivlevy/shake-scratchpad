@@ -16,6 +16,7 @@ import {OrgHomeComponent} from './org-home/org-home.component';
 import {OrgDocReadCreateComponent} from './org-doc-read-create/org-doc-read-create.component';
 import {ScreenTooSmallComponent} from '../../shared/screen-too-small/screen-too-small.component';
 import {NotFoundComponent} from '../../shared/not-found/not-found.component';
+import {AuthGuard} from "../../shared/guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -29,7 +30,7 @@ const routes: Routes = [
               {path: 'org-join', component: OrgUserJoinComponent},
               {path: 'login', component: LoginComponent},
               {path: 'register', component: SignupComponent},
-              {path: 'user-profile', component: UserProfileComponent, canActivate: [OrgGuard]},
+              {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
               {path: 'org-admin-users', component: OrgAdminUsersComponent, canActivate: [OrgAdminGuard]} ,
               {path: 'org-admin', component: OrgAdminOrgComponent, canActivate: [OrgAdminGuard]},
               {path: 'org-doc-edit/:docId/:docType/:docVersion/:isSearch/:searchPhrase', component: OrgDocEditComponent, canActivate: [OrgEditorGuard]},
