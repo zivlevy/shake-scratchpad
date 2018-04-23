@@ -141,7 +141,10 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
         // TODO - set to this.inviteForm.reset() once the bug is fixed by google
         this.resetForm(this.inviteForm);
         this.inviteForm.controls['isViewer'].setValue(true);
-      });
+      })
+      .catch(() => {
+        this.toaster.toastError('Invitation Rejected');
+      })
   }
 
    resetForm(formGroup: FormGroup) {

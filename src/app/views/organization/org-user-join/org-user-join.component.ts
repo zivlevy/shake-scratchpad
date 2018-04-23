@@ -49,7 +49,6 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
     this.authService.getUser$()
       .takeUntil(this.destroy$)
       .subscribe(user => {
-        console.log(user);
         this.uid = user ? user.uid : null;
         this.uemail = user ? user.email.toLowerCase() : null;
       });
@@ -119,18 +118,32 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
           }
 
         } else {
-
+          // if the user is logged in
+          // 1st - check if there is an invite waiting
           this.orgService.getOrgUserInvite$(this.orgId, this.uemail)
             .takeUntil(this.destroy$)
             .subscribe((invite: any) => {
+
               if (invite) {
                 this.inviteRoute = true;
-                if (!this.currentOrgUser) {
+
+                // if (for some reason) there is an invite while the user is pending
+                if (this.currentOrgUser) {
+                  this.orgService.deleteLocalOrgFromSelf(this.uid)
+                    .catch(err => console.log(err))
+                    .then(() => {
+                      // else - there is an invite. Add the user to this org
+                      this.orgService.addOrgToUser(this.orgId, this.uid)
+                        .catch(err => console.log(err));
+                    });
+                } else {
                   this.orgService.addOrgToUser(this.orgId, this.uid)
                     .catch(err => console.log(err));
                 }
               }
             });
+
+          // if the user is logged in and is already org member
           if (this.currentOrgUser && !this.currentOrgUser.isPending) {
             this.router.navigate([`org/${this.orgId}`])
               .catch(err => console.log(err));

@@ -21,6 +21,7 @@ import {OrgTreeNode} from '../../model/org-tree';
 import {AlgoliaService} from '../../core/algolia.service';
 import {LanguageService} from '../../core/language.service';
 import {OrgDocService} from './org-doc.service';
+import {reject} from "q";
 
 
 @Injectable()
@@ -185,6 +186,13 @@ export class OrgService {
 
   }
 
+  deleteLocalOrgFromSelf(uid: string) {
+    return new Promise<any>((resolve, reject) => {
+      this.afs.doc(`users/${uid}/orgs/${this.currentOrg$.getValue()}`).delete()
+        .then(resolve)
+        .catch(err => reject(err));
+    });
+  }
 
   getOrgUser$() {
     return this.afAuth.authState
@@ -338,13 +346,45 @@ export class OrgService {
   }
 
   setOrgInvites(orgId, displayName, email, isAdmin, isEditor, isViewer) {
-    const emailLowerCase = email.toLowerCase();
-    return this.firestoreService.upsert(`org/${orgId}/invites/${emailLowerCase}`, {
-      'displayName': displayName,
-      'isAdmin': isAdmin,
-      'isEditor': isEditor,
-      'isViewer': isViewer
+    return new Promise<any>((resolve, reject) => {
+      const emailLowerCase = email.toLowerCase();
+      this.checkOrgUserByMail(orgId, emailLowerCase)
+        .then(res => {
+          console.log(res);
+          if (!res) {
+            this.firestoreService.upsert(`org/${orgId}/invites/${emailLowerCase}`, {
+              'displayName': displayName,
+              'isAdmin': isAdmin,
+              'isEditor': isEditor,
+              'isViewer': isViewer
+            })
+              .then(resolve);
+          } else {
+            reject();
+          }
+        });
+    })
+
+  }
+
+  checkOrgUserByMail(orgId: string, email: string) {
+    return new Promise<boolean>((resolve) => {
+      this.afs.collection(`org/${orgId}/users`).valueChanges()
+        .take(1)
+        .subscribe(orgUsers => {
+          orgUsers.forEach((orgUser: any) => {
+            if (orgUser.email.toLowerCase() === email) {
+              if (orgUser.isPending) {
+                resolve(false);
+              } else {
+                resolve(true);
+              }
+            }
+          });
+          resolve(false);
+        });
     });
+
   }
 
   /************************

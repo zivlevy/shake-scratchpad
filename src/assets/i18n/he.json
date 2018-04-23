@@ -101,6 +101,7 @@
   "Invitation Sent": "הזמנה נשלחה",
   "Invitations Sent": "הזמנות נשלחו",
   "Invitation Delete": "מחיקת הזמנה",
+  "Invitation Rejected": "הזמנה נדחתה",
 
   "org-join component": "========= Org Join Component =========",
   "TXT_org_join_message": "לחיצה על הצטרפות לבקשת חברות בארגון",

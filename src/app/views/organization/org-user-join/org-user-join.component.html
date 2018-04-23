@@ -7,7 +7,7 @@
     <button mat-raised-button color="primary" (click)="join()" [innerHTML]="'Join' | translate"> Join</button>
   </mat-card>
 
-  <mat-card *ngIf="currentOrgUser?.isPending" fxLayout="column" fxLayoutAlign="center">
+  <mat-card *ngIf="!inviteRoute && currentOrgUser?.isPending" fxLayout="column" fxLayoutAlign="center">
     <div class="text-center">
       {{ 'TXT_org_join_pending' | translate }}
     </div>
