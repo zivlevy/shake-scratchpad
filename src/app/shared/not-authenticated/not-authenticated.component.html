@@ -1,15 +1,18 @@
-<mat-card>
-  <div [ngStyle]="{'direction': direction}">
-    <div mat-card-title >
-      <h4 [innerHTML]="'You need to confirm your email' | translate"></h4>
-      <h4 [innerHTML]="'before using Shake.' | translate"></h4>
-    </div>
-    <div class="wrapper">
-      <div mat-card-actions class="pt-24" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="30px">
-        <button mat-raised-button class="mat-accent mr-16" (click)="resend()"
-                [innerHTML]="'Resend confirmation email' | translate"></button>
-      </div>
-    </div>
-  </div>
-</mat-card>
+<div class="message-page-background" fxLayout="column" fxLayoutAlign="center center">
+
+  <mat-card [ngClass]="'card-small'" [ngClass.gt-sm]="'card-big'" fxLayout="column" fxLayoutAlign="space-evenly center">
+    <img mat-card-image class="shake-image" src="/assets/icons/icon-250.png" >
+    <mat-card-title style="text-align: center">
+      {{ 'You need to confirm your email' | translate}}
+      <br>
+      {{ 'before using Shake' | translate}}
+
+    </mat-card-title>
+    <mat-card-actions>
+      <button mat-raised-button class="btn-hover-accent" (click)="resend()"
+              [innerHTML]="'Resend confirmation email' | translate">
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
 

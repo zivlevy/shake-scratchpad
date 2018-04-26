@@ -1,24 +1,17 @@
-@import "../../../app/core/scss/shake";
-.mat-card-title {
 
-  background-color: $sk-bar-color;
-  color: white;
-  text-align: center;
-  padding: 20px;
-}
-
-.wrapper {
-  padding: 0 24px 24px 24px;
-
+.card-big {
+  width: 800px;
+  height: 400px;
 
 }
 
-#actions {
-  margin: 0 auto;
+.card-small {
+  width: 90%;
+  height: 400px;
+  margin-top: 25px;
+
 }
 
-.mat-card {
-  margin: 50px auto;
-  padding: 0 ;
-  max-width: 500px;
+.shake-image {
+  width: 150px;
 }

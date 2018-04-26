@@ -41,6 +41,12 @@
   "Password don't match": "הסיסמה לא תואמת",
   "Go to Login": "מעבר לדף כניסה",
 
+  "Message Screens":"========= Message Screens=========",
+  "Resend confirmation email": "שליחה מחדש של מייל אישור כתובת",
+  "Mail Sent": "מייל נשלח",
+  "You need to confirm your email": "נדרש לאשר את כתובת הדואל שלך",
+  "before using ShaKE": "לפני השימוש ב - ShaKE",
+
   "UserProfile component":"========= User-Profile Component=========",
   "User Profile": "פרופיל משתמש",
   "My Organizations": "הארגונים שלי",

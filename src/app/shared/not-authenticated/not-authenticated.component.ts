@@ -3,6 +3,7 @@ import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs/Subject';
 import {LanguageService} from '../../core/language.service';
 import {AuthService} from '../../core/auth.service';
+import {ToasterService} from '../../core/toaster.service';
 
 @Component({
   selector: 'sk-not-authenticated',
@@ -14,6 +15,7 @@ export class NotAuthenticatedComponent implements OnInit, OnDestroy {
   direction: string = 'ltr';
 
   constructor(private lngService: LanguageService,
+              private toasterService: ToasterService,
               private authService: AuthService) {
     this.lngService.getDirection$()
       .pipe(
@@ -26,7 +28,9 @@ export class NotAuthenticatedComponent implements OnInit, OnDestroy {
 
   resend(){
     this.authService.sendEmailVerification()
-      .then()
+      .then(() => {
+        this.toasterService.toastSuccess('Mail Sent');
+      })
       .catch(err => console.log(err));
   }
 

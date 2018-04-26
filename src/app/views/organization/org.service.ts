@@ -21,7 +21,6 @@ import {OrgTreeNode} from '../../model/org-tree';
 import {AlgoliaService} from '../../core/algolia.service';
 import {LanguageService} from '../../core/language.service';
 import {OrgDocService} from './org-doc.service';
-import {reject} from "q";
 
 
 @Injectable()
@@ -363,7 +362,7 @@ export class OrgService {
             reject();
           }
         });
-    })
+    });
 
   }
 
