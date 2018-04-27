@@ -9,7 +9,7 @@
   <mat-sidenav-content [ngClass]="{'mat-content-rtl': rtl && sideOpen, 'mat-content-ltr': !rtl && sideOpen}">
 
 
-    <button *ngIf="currentOrgUser?.roles.editor" mat-fab class="mat-accent-bg"
+    <button *ngIf="currentOrgUser?.roles.editor" mat-fab class="btn-hover-accent"
             matTooltip="{{'New Document' | translate}}" matTooltipPosition="after"
             [ngClass]="{'add-doc-button': !rtl, 'add-doc-button-rtl': rtl}" (click)="newDoc()">
       <mat-icon>playlist_add</mat-icon>

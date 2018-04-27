@@ -4,10 +4,6 @@
 
     <h1 > {{ 'Read & Sign items Management' | translate}}</h1>
 
-    <div >
-
-    </div>
-
     <div class="top-row" fxLayout="row" fxLayoutAlign="space-evenly">
       <button mat-raised-button (click)="addReadAck()"
               class="btn-hover-accent btn-responsive"
@@ -19,7 +15,6 @@
     </div>
 
     <mat-table #table1 class="readAcks-table" [dataSource]="readAcksDataSource">
-
 
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef [innerHTML]="'Name' | translate"></mat-header-cell>

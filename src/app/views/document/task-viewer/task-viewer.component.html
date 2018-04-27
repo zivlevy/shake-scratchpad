@@ -2,16 +2,19 @@
 
   <div [ngClass.xs]="'header-section-small'" fxLayout="row" fxLayoutAlign="start center">
     <button mat-button class="topbar-button mat-icon-button"
-            [disabled]="currentTask + 1 >= sectionList.length"
-            (click)="nextSection()">
-      <mat-icon>file_download</mat-icon>
+            [disabled]="currentTask <= 0"
+            (click)="previousSection()">
+      <mat-icon *ngIf="isRTL">navigate_next</mat-icon>
+      <mat-icon *ngIf="!isRTL">navigate_before</mat-icon>
     </button>
     <p class="topbar-p"> {{'Section' | translate}} {{currentTask+1}} {{'of' | translate}} {{sectionList.length}}</p>
     <button mat-button class="topbar-button mat-icon-button"
-            [disabled]="currentTask <= 0"
-            (click)="previousSection()">
-      <mat-icon>file_upload</mat-icon>
+            [disabled]="currentTask + 1 >= sectionList.length"
+            (click)="nextSection()">
+      <mat-icon *ngIf="isRTL">navigate_before</mat-icon>
+      <mat-icon *ngIf="!isRTL">navigate_next</mat-icon>
     </button>
+
 
     <!-- SEARCH BUTTON -->
     <button mat-button class="topbar-button rightside-buttons mat-icon-button" (click)="toggleSearch()"
