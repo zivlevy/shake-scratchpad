@@ -83,26 +83,33 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
         }
       })
       .switchMap((doc: SkDoc | null) => {
-
+        console.log(this.currentDocType);
         if (doc) {
           this.docName = doc.name;
-        }
-        this.currentDoc = doc;
-        if (this.currentDocType === 'p') {
-          this.docVersionTitle = 'Version';
-          this.docVersionNumber = String(doc.version);
+          this.currentDoc = doc;
+          if (this.currentDocType === 'p') {
+            this.docVersionTitle = 'Version';
+            this.docVersionNumber = String(doc.version);
 
-          return Observable.of(doc.publishVersion);
-        } else if (this.currentDocType === 'e') {
-          this.docVersionTitle = `Edit version`;
-          this.docVersionNumber = '';
-          return Observable.of(doc.editVersion);
+            return Observable.of(doc.publishVersion);
+          } else if (this.currentDocType === 'e') {
+            this.docVersionTitle = `Edit version`;
+            this.docVersionNumber = '';
+            return Observable.of(doc.editVersion);
+          } else {
+            this.docVersionTitle = `Archive version`;
+            this.docVersionNumber = String(this.currentDocVersion);
+            return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion )
+              .take(1);
+          }
         } else {
-          this.docVersionTitle = `Archive version`;
-          this.docVersionNumber = String(this.currentDocVersion);
-          return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion )
-            .take(1);
+          // this is a new doc
+          this.docVersionTitle = 'New doc';
+          this.currentDoc = null;
+          this.editor.newDoc();
+          return Observable.of(null);
         }
+
       })
       .takeUntil(this.destroy$)
       .subscribe((docData) => {
@@ -112,6 +119,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
       });
 
   }
+
 
 
   saveDocument() {

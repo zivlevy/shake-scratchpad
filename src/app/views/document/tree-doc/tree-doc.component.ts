@@ -14,6 +14,7 @@ import {SK_ITEM_TYPE, SkItem, SkSection, SkTreeNode} from '../../../model/docume
 
 import {v4} from 'uuid';
 import * as _ from 'lodash';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'sk-tree-doc',
@@ -215,8 +216,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   editorOptions(node) {
     return {
-      // key: 'flhg1ifwftfB-13jbH-9miA11iycwqufsvhiF3xsp==',
-      key: 'lvnfclG5eiyyd1bz==',
+      key: environment.froala.key,
       fontSizeSelection: true,
       multiLine: !node.children,
       fontSize: ['8', '10', '12', '14', '16', '18', '20', '24'],
