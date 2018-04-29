@@ -15,6 +15,7 @@
   "View": "תצוגה",
   "Create": "יצירה",
   "Version": "גרסה",
+  "Rename": "שינוי שם",
 
   "login component":"========= LogIn Component=========",
   "Login to ShaKE": "כניסה ל ShaKE",
@@ -164,9 +165,25 @@
   "Messages": "הודעות",
   "Search": "חיפוש",
   "Numbering": "מספור",
-  "Section View": "תצוגה בפרקים",
+  "Section View": "תצוגת מקטעים",
   "Edit version": "גרסת עריכה",
   "Archive version": "גרסת ארכיון",
+
+  "doc edit": "========= Doc Edit =========",
+  "Set warning": "סימון אזהרה",
+  "Set info": "סימון מידע",
+  "Add Section": "הוספת מקטע",
+  "Add Item": "הוספת פריט",
+  "Above": "מעל",
+  "Child": "בתוך",
+  "Below": "מתחת",
+
+  "Tree edit": "========= Tree Edit =========",
+  "Expand all": "הרחב הכל",
+  "Collapse all": "צמצם הכל",
+  "Un-publish": "ביטול פרסום",
+  "Remove": "הסרה מהעץ",
+  "Insert Folder": "הוספת תיקיה",
 
   "TXT_screen_too_small": "פעולה זו מתאפשרת רק במסכים רחבים מ - 960 פיקסלים",
   "TXT_not_found": "כתובת לא מוגדרת"

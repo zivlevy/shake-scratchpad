@@ -29,19 +29,20 @@
     <!-- SEARCH input -->
     <input *ngIf="isSearch " (keyup)="ngOnChanges()" [(ngModel)]="searchPhrase"  style="-webkit-margin-start: 20px">
 
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" *ngIf="isSearch && searchPhrase !== ''">
-      <button mat-button class="topbar-button mat-icon-button"
-              [disabled]="searchSectionArray.length === 0 || currentTask >= searchSectionArray[searchSectionArray.length - 1]"
-              (click)="nextSearchSection()">
-        <mat-icon>file_download</mat-icon>
-      </button>
+    <div fxLayout="row" fxLayoutAlign="start center" *ngIf="isSearch && searchPhrase !== ''">
 
-      <!--<p class="topbar-p">{{currentSearchSectionIndex+1}}/{{searchSectionArray.length}}</p>-->
-
-      <button mat-button class="topbar-button mat-icon-button"
+      <button mat-button class="topbar-button mat-icon-button" style="width: 25px"
               [disabled]="searchSectionArray.length === 0 || currentTask <= searchSectionArray[0]"
               (click)="previousSearchSection()">
-        <mat-icon>file_upload</mat-icon>
+        <mat-icon *ngIf="isRTL">navigate_next</mat-icon>
+        <mat-icon *ngIf="!isRTL">navigate_before</mat-icon>
+      </button>
+
+      <button mat-button class="topbar-button mat-icon-button" style="width: 25px"
+              [disabled]="searchSectionArray.length === 0 || currentTask >= searchSectionArray[searchSectionArray.length - 1]"
+              (click)="nextSearchSection()">
+        <mat-icon *ngIf="isRTL">navigate_before</mat-icon>
+        <mat-icon *ngIf="!isRTL">navigate_next</mat-icon>
       </button>
 
     </div>

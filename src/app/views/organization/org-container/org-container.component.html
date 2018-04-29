@@ -16,7 +16,7 @@
 
       <button  class="nav-button" mat-button [matMenuTriggerFor]="menu"  *ngIf="user.currentOrgUser &&
     (user.currentOrgUser?.roles?.admin || user.currentOrgUser?.roles?.editor) && user.currentAuthUser">
-        <i class="fa fa-gear"></i> <span class="fa fa-caret-down"></span>
+        <mat-icon>build</mat-icon> <span class="fa fa-caret-down"></span>
       </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item [routerLink]="'org-admin'" [innerHTML]="'Organization Management' | translate"

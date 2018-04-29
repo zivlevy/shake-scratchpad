@@ -23,7 +23,7 @@ export class NotFoundComponent implements OnInit, OnDestroy {
   }
 
   home() {
-    if (this.orgId) {
+    if (this.orgId && this.orgId !== '_noOrg') {
       this.router.navigate([`org/${this.orgId}`])
         .catch(err => console.log(err));
     } else {

@@ -32,13 +32,13 @@
       <!-- Taskview BUTTON-->
       <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleSectionView()"
               matTooltip="{{'Section View' | translate}}" matTooltipPosition="after">
-        <mat-icon>dns</mat-icon>
+        <mat-icon>view_headline</mat-icon>
       </button>
 
       <!-- PREVIEW BUTTON -->
       <button *ngIf="!isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showPreview()"
               matTooltip="{{'Preview' | translate}}" matTooltipPosition="after">
-        <mat-icon>pageview</mat-icon>
+        <mat-icon>remove_red_eye</mat-icon>
       </button>
 
       <!-- SEARCH BUTTON -->

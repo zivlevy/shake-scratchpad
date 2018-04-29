@@ -16,7 +16,7 @@
 
   <ul>
     <li class="doc-name" *ngFor="let docAck of docsAcks" (click)="docAckClicked(docAck)">
-      <i class="fa fa-file-text" style="color: green"></i><span fxFlex="5px"></span>{{ docAck.docAckName }}
+      <i class="fa fa-file-text publishDoc"></i><span fxFlex="5px"></span>{{ docAck.docAckName }}
     </li>
   </ul>
   <div *ngIf="docsAcks && docsAcks.length == 0">

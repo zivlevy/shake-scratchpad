@@ -7,6 +7,14 @@
     <!--BUTTONS SECTION-->
     <div [ngClass.xs]="'header-section-small'" fxLayout="row" fxLayoutAlign="start center"
          fxFlexOrder="2" fxFlexOrder.gt-xs="1">
+
+      <!-- EDIT BUTTON -->
+      <button *ngIf="currentOrgUser?.roles.editor" mat-button class="rightside-buttons mat-icon-button" (click)="gotoEdit()"
+              matTooltip="{{'Edit' | translate}}" matTooltipPosition="after">
+        <mat-icon>edit</mat-icon>
+      </button>
+
+
       <!-- Signature Required -->
       <button *ngIf="docAckId" mat-button class="rightside-buttons mat-icon-button" (click)="signDocument()"
               matTooltip="{{'Sign Document Read' | translate}}" matTooltipPosition="after">
@@ -22,13 +30,7 @@
       <!-- Taskview BUTTON-->
       <button mat-button class="rightside-buttons mat-icon-button" (click)="toggleSectionView()"
               matTooltip="{{'Section View' | translate}}" matTooltipPosition="after">
-        <mat-icon>dns</mat-icon>
-      </button>
-
-      <!-- EDIT BUTTON -->
-      <button *ngIf="currentOrgUser?.roles.editor" mat-button class="rightside-buttons mat-icon-button" (click)="gotoEdit()"
-              matTooltip="{{'Edit' | translate}}" matTooltipPosition="after">
-        <mat-icon>edit</mat-icon>
+        <mat-icon>view_headline</mat-icon>
       </button>
 
       <!-- SEARCH BUTTON -->
