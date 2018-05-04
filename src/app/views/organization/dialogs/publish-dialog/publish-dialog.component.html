@@ -1,10 +1,18 @@
-<div mat-dialog-title>Publish</div>
+<div mat-dialog-title>
+  {{'Publish' | translate}}
+</div>
 <div class="wrapper">
 
   <div class="actions">
-    <button mat-button color="primary" (click)="publish()">New version</button>
-    <button mat-button color="primary" (click)="publishSame()">Just update</button>
-    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button color="primary" (click)="publish()">
+      {{'New version' | translate}}
+    </button>
+    <button mat-button color="primary" (click)="publishSame()">
+      {{'Just update' | translate}}
+    </button>
+    <button mat-button mat-dialog-close>
+      {{'Cancel' | translate}}
+    </button>
   </div>
 
 

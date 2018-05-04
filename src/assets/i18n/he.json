@@ -38,7 +38,7 @@
   "Display Name": "שם",
   "Register": "הרשמה",
   "Already Shake user?": "כבר רשום ל Shake?",
-  "Confirm password": "אמת סיסמה",
+  "Confirm password": "אימות סיסמה",
   "Password don't match": "הסיסמה לא תואמת",
   "Go to Login": "מעבר לדף כניסה",
 
@@ -184,6 +184,8 @@
   "Un-publish": "ביטול פרסום",
   "Remove": "הסרה מהעץ",
   "Insert Folder": "הוספת תיקיה",
+  "Just update": "עדכון בלבד",
+  "New version": "גרסה חדשה",
 
   "TXT_screen_too_small": "פעולה זו מתאפשרת רק במסכים רחבים מ - 960 פיקסלים",
   "TXT_not_found": "כתובת לא מוגדרת"
