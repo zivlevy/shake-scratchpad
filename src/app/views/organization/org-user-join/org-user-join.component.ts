@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrgService} from '../org.service';
-import {Subject} from 'rxjs/Subject';
+import {Subject, Observable} from 'rxjs';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from '../../../core/auth.service';
 import {OrgUser} from '../../../model/org-user';
-import {Observable} from 'rxjs/Observable';
+import 'rxjs-compat';
 
 @Component({
   selector: 'sk-org-user-join',

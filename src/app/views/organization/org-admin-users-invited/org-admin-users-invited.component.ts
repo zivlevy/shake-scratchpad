@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from "@angular/core";
 import {InviteRecord} from "../org-admin-users-invite/org-admin-users-invite.component";
 import {MatTableDataSource} from "@angular/material";
 import {OrgService} from "../org.service";
-import {Subject} from "rxjs/Subject";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'sk-org-admin-users-invited',

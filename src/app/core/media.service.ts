@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
-import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class MediaService {

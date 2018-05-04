@@ -6,7 +6,7 @@ import {OrgService} from '../org.service';
 import {IActionMapping, ITreeOptions, TREE_ACTIONS, TreeNode} from 'angular-tree-component';
 import {SkDoc} from '../../../model/document';
 import {LanguageService} from '../../../core/language.service';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {OrgTreeNode} from '../../../model/org-tree';
 import {takeUntil} from 'rxjs/operators';
 import {OrgUser} from '../../../model/org-user';
@@ -259,7 +259,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputDialogRef.afterClosed()
         .subscribe(result => {
           if (result) {
-            const newId = v4.v4();
+            // const newId = v4.v4();
             const indexInsert = above ? node.index : node.index + 1;
             node.parent.data.children.splice(indexInsert, 0, {name: result, children: []});
             this.tree.treeModel.update();

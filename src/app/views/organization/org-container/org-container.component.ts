@@ -3,11 +3,11 @@ import {OrgService} from '../org.service';
 import {AuthService} from '../../../core/auth.service';
 import {OrgUser} from '../../../model/org-user';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {User} from '../../../model/user';
 import {LanguageService} from '../../../core/language.service';
 import {Org} from '../../../model/org';
-import 'rxjs/add/operator/takeUntil';
+
 
 @Component({
   selector: 'sk-org-container',

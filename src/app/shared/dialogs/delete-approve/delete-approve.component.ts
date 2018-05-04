@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {LanguageService} from '../../../core/language.service';
 import {takeUntil} from 'rxjs/operators';
 

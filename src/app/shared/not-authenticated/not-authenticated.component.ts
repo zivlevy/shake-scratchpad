@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {LanguageService} from '../../core/language.service';
 import {AuthService} from '../../core/auth.service';
 import {ToasterService} from '../../core/toaster.service';

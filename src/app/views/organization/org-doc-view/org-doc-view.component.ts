@@ -1,17 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
+import {Subject, Observable} from 'rxjs';
 import {SkDoc, SkDocData} from '../../../model/document';
 import {OrgService} from '../org.service';
 import {OrgUser} from '../../../model/org-user';
-import {Observable} from 'rxjs/Observable';
 import {LanguageService} from '../../../core/language.service';
 import {OrgDocService} from '../org-doc.service';
 import {AuthService} from '../../../core/auth.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import {ToasterService} from '../../../core/toaster.service';
-import 'rxjs/add/operator/takeUntil';
+
 @Component({
   selector: 'sk-org-doc-view',
   templateUrl: './org-doc-view.component.html',

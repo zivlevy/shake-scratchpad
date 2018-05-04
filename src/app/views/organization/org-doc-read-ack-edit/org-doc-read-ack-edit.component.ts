@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {OrgService} from '../org.service';
 import {ActivatedRoute} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {OrgDocService} from '../org-doc.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';

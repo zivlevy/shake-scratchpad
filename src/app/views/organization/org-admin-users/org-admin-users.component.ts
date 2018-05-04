@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {MediaService} from '../../../core/media.service';
 import {OrgService} from '../org.service';
 

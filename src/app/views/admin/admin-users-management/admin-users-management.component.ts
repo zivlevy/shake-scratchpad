@@ -2,9 +2,9 @@ import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/c
 import {MatDialog, MatSort, MatTableDataSource} from '@angular/material';
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../../organization/org.service';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {ToasterService} from '../../../core/toaster.service';
-import 'rxjs/add/operator/takeUntil';
+
 import {MediaService} from '../../../core/media.service';
 import {Router} from '@angular/router';
 export interface User {

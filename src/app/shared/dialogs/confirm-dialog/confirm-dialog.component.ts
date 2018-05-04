@@ -2,7 +2,7 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {LanguageService} from '../../../core/language.service';
 import {takeUntil} from 'rxjs/operators';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'confirm-dialog',

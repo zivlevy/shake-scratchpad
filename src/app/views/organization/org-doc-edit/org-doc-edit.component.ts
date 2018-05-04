@@ -2,13 +2,12 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {SkDoc, SkDocData} from '../../../model/document';
 import {OrgService} from '../org.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
+import {Subject, Observable} from 'rxjs';
 import {OrgUser} from '../../../model/org-user';
-import {Observable} from 'rxjs/Observable';
 import {LanguageService} from '../../../core/language.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {PublishDialogComponent} from '../dialogs/publish-dialog/publish-dialog.component';
-import 'rxjs/add/operator/takeUntil';
+
 import {filter} from 'rxjs/operators';
 
 @Component({

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef, MatTableDataSource} from '@angular/material';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {OrgDocService} from '../org-doc.service';
 import {OrgService} from '../org.service';
 import {Router} from '@angular/router';

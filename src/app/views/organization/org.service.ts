@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/observable/combineLatest';
+
+
+
+
+
+
 import {ChildActivationEnd, Router} from '@angular/router';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {AuthService} from '../../core/auth.service';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {OrgUser} from '../../model/org-user';
@@ -21,8 +20,8 @@ import {OrgTreeNode} from '../../model/org-tree';
 import {AlgoliaService} from '../../core/algolia.service';
 import {LanguageService} from '../../core/language.service';
 import {OrgDocService} from './org-doc.service';
-
-
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs-compat';
 @Injectable()
 export class OrgService {
   private currentOrg$: BehaviorSubject<string> = new BehaviorSubject('');

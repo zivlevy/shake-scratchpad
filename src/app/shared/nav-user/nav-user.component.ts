@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../../core/auth.service';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import {LanguageService} from '../../core/language.service';
 import {OrgService} from '../../views/organization/org.service';

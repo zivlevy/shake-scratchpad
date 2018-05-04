@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFirestore} from 'angularfire2/firestore';
-import 'rxjs/add/operator/switchMap';
-import {Observable} from 'rxjs/Observable';
+
+import {Observable} from 'rxjs';
 import {FirestoreService} from './firestore.service';
 import {SkUser} from '../model/user';
+import 'rxjs/add/operator/take';
 
 
 

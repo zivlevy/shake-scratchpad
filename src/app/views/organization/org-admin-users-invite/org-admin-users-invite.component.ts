@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OrgService} from '../org.service';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material';
 import {FileService} from '../../../core/file.service';

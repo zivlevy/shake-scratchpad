@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../org.service';
 import {MatDialog, MatDialogRef, MatTableDataSource} from '@angular/material';

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {FirestoreService} from '../../core/firestore.service';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/count';
+import {Observable} from 'rxjs';
+
 
 @Injectable()
 export class OrgDocService {

@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {AuthService} from '../../../core/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import 'rxjs/add/operator/takeUntil';
+
 @Component({
   selector: 'sk-home-content',
   templateUrl: './home-content.component.html',

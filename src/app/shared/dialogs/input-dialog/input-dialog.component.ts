@@ -2,7 +2,7 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {takeUntil} from 'rxjs/operators';
 import {LanguageService} from '../../../core/language.service';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'sk-input-dialog',

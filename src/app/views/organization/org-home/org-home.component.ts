@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
 import {OrgService} from '../org.service';
 import {OrgUser} from '../../../model/org-user';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LanguageService} from '../../../core/language.service';
-import 'rxjs/add/operator/takeUntil';
+
 import {Org} from '../../../model/org';
 @Component({
   selector: 'sk-org-home',

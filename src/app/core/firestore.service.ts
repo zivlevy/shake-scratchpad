@@ -3,15 +3,13 @@ import { AngularFirestore,
   AngularFirestoreCollection,
   AngularFirestoreDocument
 } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable ,  from as fromPromise } from 'rxjs';
 import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/switchMap';
-import * as firebase from 'firebase/app';
 
-import { fromPromise } from 'rxjs/observable/fromPromise';
+
+
+
+import * as firebase from 'firebase/app';
 import { expand, takeWhile, mergeMap, take } from 'rxjs/operators';
 
 

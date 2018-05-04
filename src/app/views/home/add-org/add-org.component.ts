@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {AuthService} from '../../../core/auth.service';
 import {HomeService} from '../home.service';
 import {LanguageService} from '../../../core/language.service';
@@ -9,7 +9,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {DataPackageService} from '../../../core/data-package.service';
 import {ImageService} from '../../../core/image.service';
 import {OrgService} from '../../organization/org.service';
-import 'rxjs/add/operator/takeUntil';
+
 @Component({
   selector: 'sk-add-org',
   templateUrl: './add-org.component.html',

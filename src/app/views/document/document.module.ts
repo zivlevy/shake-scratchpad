@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {DocumentRoutingModule} from './document-routing.module';
 import {FormsModule} from '@angular/forms';
 import {FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
-import {ContextMenuModule} from 'ngx-contextmenu';
+// import {ContextMenuModule} from 'ngx-contextmenu';
 import {MaterialModule} from '../../material/material.module';
 import { TreeDocComponent } from './tree-doc/tree-doc.component';
 import {TreeModule} from 'angular-tree-component';
@@ -17,7 +17,7 @@ import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
-    ContextMenuModule,
+    // ContextMenuModule,
     CommonModule,
     DocumentRoutingModule,
     FormsModule,

@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MediaService} from '../../core/media.service';
 import {Router} from '@angular/router';
 import {OrgService} from '../../views/organization/org.service';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'sk-screen-too-small',

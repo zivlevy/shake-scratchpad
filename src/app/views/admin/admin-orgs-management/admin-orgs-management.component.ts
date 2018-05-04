@@ -1,12 +1,12 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {AuthService} from '../../../core/auth.service';
 import {OrgService} from '../../organization/org.service';
 import {Org} from '../../../model/org';
 import {MatDialog, MatSort, MatTableDataSource} from '@angular/material';
 import {DeleteApproveComponent} from '../../../shared/dialogs/delete-approve/delete-approve.component';
 import {AdminService} from '../admin.service';
-import 'rxjs/add/operator/takeUntil';
+
 import {MediaService} from '../../../core/media.service';
 import {Router} from '@angular/router';
 

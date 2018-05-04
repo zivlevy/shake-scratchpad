@@ -1,11 +1,10 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {OrgService} from '../org.service';
-import {Subject} from 'rxjs/Subject';
+import {Subject, Observable} from 'rxjs';
 import {OrgUser} from '../../../model/org-user';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/observable/fromEvent';
+
+
 import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ToasterService} from '../../../core/toaster.service';

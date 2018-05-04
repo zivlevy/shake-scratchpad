@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {AuthService} from '../../core/auth.service';
 import {CropperSettings} from 'ng2-img-cropper';
 import {ImageService} from '../../core/image.service';

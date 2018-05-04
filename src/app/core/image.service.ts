@@ -3,9 +3,9 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
 import {AuthService} from './auth.service';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/retryWhen';
-import 'rxjs/add/operator/delay';
+import {Observable} from 'rxjs';
+
+
 
 
 @Injectable()
