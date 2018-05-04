@@ -1,10 +1,6 @@
 const algoliasearch = require('algoliasearch');
 const functions = require('firebase-functions');
 
-// const ALGOLIA_APP_ID = 'OH29RANN3N';
-// const ALGOLIA_ADMIN_KEY = 'c782dd173961404a169945f8079361a3';
-// const ALGOLIA_SEARCH_KEY = '36aee713e12b4f08ee8f1ba9c4bc6360';
-
 const ALGOLIA_APP_ID = functions.config().algolia.app_id;
 const ALGOLIA_ADMIN_KEY = functions.config().algolia.admin_key;
 const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key;

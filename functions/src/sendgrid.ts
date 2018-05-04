@@ -1,8 +1,6 @@
 const functions = require('firebase-functions');
 
 const SENDGRID_API_KEY = functions.config().sendgrid.key;
-// const orgInviteEn = 'd51d046f-dd17-411a-8135-a5e810a307e1';
-// const orgInviteHe = 'a246b010-1bb4-4d22-b23d-244f645e5989';
 const orgInviteEn = functions.config().sendgrid.org_invite_en;
 const orgInviteHe = functions.config().sendgrid.org_invite_he;
 const domainName = functions.config().domain.name;
