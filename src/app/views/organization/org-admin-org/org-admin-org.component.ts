@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CropperSettings} from 'ng2-img-cropper';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LanguageService} from '../../../core/language.service';
 import {OrgService} from '../org.service';
 import {ImageService} from '../../../core/image.service';
