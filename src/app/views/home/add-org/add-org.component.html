@@ -40,7 +40,7 @@
           <div>
             <mat-form-field>
               <mat-select formControlName="language" placeholder="{{'Language' | translate}}"
-                          (change)="languageChanged($event.value)">
+                          (selectionChange)="languageChanged($event.value)">
                 <mat-option value="he">עברית</mat-option>
                 <mat-option value=en>English</mat-option>
               </mat-select>
