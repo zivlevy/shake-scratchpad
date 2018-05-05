@@ -155,7 +155,9 @@ export const newOrgRequest = functions.firestore
           }).catch();
 
         // set org data in user
-        const  setOrgInUserRecord = usersRef.set({}).catch();
+        const  setOrgInUserRecord = usersRef.set({
+          orgName: newOrg.orgName
+        }).catch();
 
         // init algolia Index
         const initAlgoliaIndex = algoliaInitIndex(newOrg.orgId);

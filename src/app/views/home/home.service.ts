@@ -17,6 +17,9 @@ export class HomeService {
     });
   }
 
+  // *************************************
+  // Cloud Function newOrgRequest
+  // *************************************
   setNewOrg(orgId: string, orgName: string, language: string, sector: string) {
     const orgDocRef: AngularFirestoreDocument<any> = this.afs.collection(`orgRequested`).doc(orgId);
     if (!this.currentSkUser.photoURL) {
