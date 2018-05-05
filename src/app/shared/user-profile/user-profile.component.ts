@@ -4,6 +4,7 @@ import {AuthService} from '../../core/auth.service';
 import {CropperSettings} from 'ng2-img-cropper';
 import {ImageService} from '../../core/image.service';
 import {ToasterService} from '../../core/toaster.service';
+import {takeUntil} from 'rxjs/operators';
 
 
 @Component({
@@ -51,7 +52,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authService.getSkUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         this.data.image = user.photoURL;
         this.currentSkUser = user;
@@ -61,7 +62,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       });
 
     this.authService.getUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         this.currentAuthUser = user;
         this.newEmail = user.email;

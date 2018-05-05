@@ -9,6 +9,7 @@ import {AdminService} from '../admin.service';
 
 import {MediaService} from '../../../core/media.service';
 import {Router} from '@angular/router';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-admin-orgs-management',
@@ -35,19 +36,19 @@ export class AdminOrgsManagementComponent implements OnInit, OnDestroy, AfterVie
 
   ngOnInit() {
     this.authService.getUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(authUser => {
         this.currentUser = authUser;
       });
 
     this.adminService.getOrgs$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe( orgs => {
         this.orgsDataSource.data = orgs;
       });
 
     this.mediaService.getSmallScreen$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(isSmallScreen => {
         if (isSmallScreen) {
           this.router.navigate([`too-small`])

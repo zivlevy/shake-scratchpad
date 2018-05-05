@@ -10,6 +10,7 @@ import {AuthService} from '../../../core/auth.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import {ToasterService} from '../../../core/toaster.service';
+import {takeUntil, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-org-doc-view',
@@ -52,20 +53,22 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // direcrtion
     this.lngService.getDirection$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(dir => this.rtl = (dir === 'rtl'));
 
     // get current org
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(org => this.currentOrg = org);
     // get current user
     this.orgService.getOrgUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => this.currentOrgUser = user);
     this.authService.getSkUser$()
-      .takeUntil(this.destroy$)
-      .subscribe(skUser => this.currentSkUser = skUser);
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(skUser => {
+        this.currentSkUser = skUser;
+      });
 
     // get doc info from route params
     this.route.params
@@ -76,10 +79,10 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
         this.searchPhrase = params.searchPhrase === '**' ? '' : params.searchPhrase;
         this.isSearch = params.isSearch === 'true';
         return this.orgService.getDoc$(params.docId);
-      })
-      .switchMap( (doc: SkDoc) => {
+      }).pipe(
+      switchMap( (doc: SkDoc) => {
         this.orgDocService.isSignatureRequired$(this.currentOrg, this.currentSkUser.uid, this.currentDocId)
-          .takeUntil(this.destroy$)
+          .pipe(takeUntil(this.destroy$))
           .subscribe(reqDocAckId => {
             this.docAckId = reqDocAckId;
           });
@@ -105,7 +108,8 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
             .take(1);
         }
       })
-      .takeUntil(this.destroy$)
+    )
+      .pipe(takeUntil(this.destroy$))
       .subscribe((docData) => {
         this.currentEditData = docData;
       });

@@ -7,6 +7,7 @@ import {Subject} from 'rxjs';
 import {User} from '../../../model/user';
 import {LanguageService} from '../../../core/language.service';
 import {Org} from '../../../model/org';
+import {takeUntil} from 'rxjs/operators';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
 
     // get current authenticatedUser
     this.authService.getUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         this.user.currentAuthUser = user;
         this.user.isAuthenticated = user ? user.emailVerified : null;
@@ -48,7 +49,7 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
 
     // get user info
     this.orgService.getOrgUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((orgUser: OrgUser) => {
         this.user.isLoadingOrgUser = false;
         this.user.currentOrgUser = orgUser;
@@ -56,7 +57,7 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
 
     // get org private data
     this.orgService.getOrgPrivateData$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(orgData => {
         if (orgData) {
           this.org.orgSearchKey = orgData.searchKey;
@@ -64,7 +65,7 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
       });
 
     this.authService.getSkUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         // console.log('getSkUser', user);
         this.user.currentSkUser = user;
@@ -72,7 +73,7 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
 
     // get current org
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(org => {
         if (org === '_noOrg ') {
           this.router.navigate(['/noOrg'])
@@ -88,7 +89,7 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
 
     // get org public data
     this.orgService.getOrgPublicData$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(orgData => {
         if (orgData && orgData.orgName) {
           this.org.orgName = orgData.orgName;

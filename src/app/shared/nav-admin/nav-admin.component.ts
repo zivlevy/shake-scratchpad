@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LanguageService} from '../../core/language.service';
 import {Subject} from 'rxjs';
 import {AuthService} from '../../core/auth.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-nav-admin',
@@ -21,14 +22,15 @@ export class NavAdminComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // get current language
     this.lngService.getLanguadge$()
-      .takeUntil(this.destroy$).subscribe(lng => {
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(lng => {
       console.log(lng);
       this.rtl = lng === 'he';
     });
 
     // init user info
     this.authService.getUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
 
         this.currentAuthUser = user;

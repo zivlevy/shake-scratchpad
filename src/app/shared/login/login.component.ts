@@ -6,6 +6,7 @@ import {AuthService} from '../../core/auth.service';
 import {LanguageService} from '../../core/language.service';
 import {ToasterService} from '../../core/toaster.service';
 import {OrgService} from '../../views/organization/org.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-login',
@@ -34,7 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     // get current org
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(org => {
         this.orgId = org;
       });

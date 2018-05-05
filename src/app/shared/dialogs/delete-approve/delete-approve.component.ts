@@ -18,9 +18,8 @@ export class DeleteApproveComponent implements OnInit, OnDestroy {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private lngService: LanguageService) {
     this.lngService.getDirection$()
-      .pipe(
-        takeUntil(this.destroy$)
-      ).subscribe(dir => this.direction = dir);
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(dir => this.direction = dir);
     this.confirmMessage = data.msg;
   }
 

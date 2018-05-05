@@ -7,6 +7,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {FirestoreService} from '../../../core/firestore.service';
 import {DatePipe} from '@angular/common';
+import {takeUntil} from 'rxjs/operators';
 
 export interface UserDocAck {
   photo: string;
@@ -74,17 +75,17 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy, AfterViewI
     });
 
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(orgId => {
         this.orgId = orgId;
 
         this.route.params
-          .takeUntil(this.destroy$)
+          .pipe(takeUntil(this.destroy$))
           .subscribe(params => {
             this.docAckId = params.docAckId;
 
             this.orgDocService.getOrgDocAck$(this.orgId, this.docAckId)
-              .takeUntil(this.destroy$)
+              .pipe(takeUntil(this.destroy$))
               .subscribe(docAck => {
                 if (docAck) {
                   this.currentDocAck = docAck;
@@ -95,7 +96,7 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy, AfterViewI
               });
 
             this.orgService.getDocAckUsers$(this.orgId, this.docAckId)
-              .takeUntil(this.destroy$)
+              .pipe(takeUntil(this.destroy$))
               .subscribe(res => {
                 this.orgUsersDocAckSource.data = res;
               });

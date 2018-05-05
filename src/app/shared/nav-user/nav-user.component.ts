@@ -4,6 +4,7 @@ import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import {LanguageService} from '../../core/language.service';
 import {OrgService} from '../../views/organization/org.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-nav-user',
@@ -26,12 +27,12 @@ export class NavUserComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.lngService.getLanguadge$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(lng => this.currentLng = lng );
 
     // init user info
     this.authService.getUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
 
         this.currentAuthUser = user;
@@ -40,7 +41,7 @@ export class NavUserComponent implements OnInit, OnDestroy {
       });
 
     this.authService.getSkUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         this.currentSkUser = user;
         if (user === null) {

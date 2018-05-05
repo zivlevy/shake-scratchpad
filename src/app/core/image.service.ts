@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 import 'firebase/storage';
 import {AuthService} from './auth.service';
-import {Observable} from 'rxjs';
 
-
+import { FirebaseApp } from 'angularfire2';
 
 
 @Injectable()
@@ -13,7 +12,8 @@ export class ImageService {
   currentAuthUser;
 
   constructor(private afs: AngularFirestore,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private  fb: FirebaseApp) {
 
     authService.getUser$().subscribe(user => {
       if (user) {
@@ -28,7 +28,7 @@ export class ImageService {
 
   uploadUserImg(img, userId: string) {
     return new Promise((resolve, reject) => {
-      const storageRef = firebase.storage().ref();
+      const storageRef = this.fb.storage().ref();
       storageRef.child(`${this.usersImagePath}/${userId}`)
         .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
         console.log(snapshot);
@@ -41,7 +41,7 @@ export class ImageService {
 
   uploadOrgLogo(img, orgId: string) {
     return new Promise<string>((resolve, reject) => {
-      const storageRef = firebase.storage().ref();
+      const storageRef = this.fb.storage().ref();
       storageRef.child(`${this.orgImagePath}/${orgId}logo.png`)
         .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
         console.log(snapshot.downloadURL);
@@ -51,7 +51,7 @@ export class ImageService {
   }
 
   deleteOrgLogoP(orgId: string) {
-    const storageRef = firebase.storage().ref().child(`orgs/${orgId}logo.png`);
+    const storageRef = this.fb.storage().ref().child(`orgs/${orgId}logo.png`);
     return storageRef
       .getDownloadURL()             // used to test if file exists
       .then(() => {
@@ -63,7 +63,7 @@ export class ImageService {
   }
 
   deleteOrgBannerP(orgId: string) {
-    const storageRef = firebase.storage().ref().child(`orgs/${orgId}banner.png`);
+    const storageRef = this.fb.storage().ref().child(`orgs/${orgId}banner.png`);
     return storageRef
       .getDownloadURL()             // used to test if file exists
       .then(() => {
@@ -76,7 +76,7 @@ export class ImageService {
 
   uploadOrgBanner(img, orgId: string) {
     return new Promise<string>((resolve, reject) => {
-      const storageRef = firebase.storage().ref();
+      const storageRef = this.fb.storage().ref();
       storageRef.child(`${this.orgImagePath}/${orgId}banner.png`)
         .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
         console.log(snapshot.downloadURL);
@@ -87,13 +87,13 @@ export class ImageService {
 
 
   getDataPackageLogoUrl$(fileName: string) {
-    return firebase.storage().ref()
+    return this.fb.storage().ref()
       .child(`dataPackages/logos/${fileName}`)
       .getDownloadURL();
   }
 
   getDataPackageBannerUrl$(fileName: string) {
-    return firebase.storage().ref()
+    return this.fb.storage().ref()
       .child(`dataPackages/banners/${fileName}`)
       .getDownloadURL();
   }

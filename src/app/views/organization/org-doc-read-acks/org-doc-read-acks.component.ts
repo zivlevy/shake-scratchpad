@@ -6,6 +6,7 @@ import {OrgService} from '../org.service';
 import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import {ToasterService} from '../../../core/toaster.service';
+import {takeUntil} from 'rxjs/operators';
 
 export interface OrgAcks {
   name: string;
@@ -37,13 +38,13 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.orgId = res;
 
         this.readAcksDataSource.filter = 'true';
         this.orgDocService.getOrgDocsAcks$(this.orgId)
-          .takeUntil(this.destroy$)
+          .pipe(takeUntil(this.destroy$))
           .subscribe(readAcks => {
             this.readAcksDataSource.data = readAcks;
             this.readAcksDataSource.filterPredicate =

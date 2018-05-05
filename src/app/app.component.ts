@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {AuthService} from './core/auth.service';
 import {LanguageService} from './core/language.service';
-
+import { AngularFirestore } from 'angularfire2/firestore';
+import * as firebase from 'firebase';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -16,10 +17,16 @@ export class AppComponent implements OnInit {
     // content;
     constructor(private translate: TranslateService,
                 private authService: AuthService,
-                private lngService: LanguageService) {
+                private lngService: LanguageService,
+                private db: AngularFirestore) {
+      // todo remove in future when new angularFire2 is ready
+      const firestore = firebase.firestore();
+      const settings = {/* your settings... */ timestampsInSnapshots: true};
+      firestore.settings(settings);
 
-        translate.setDefaultLang('en');
+      translate.setDefaultLang('en');
         this.lngService.setLanguadge('en');
+
     }
 
     ngOnInit() {

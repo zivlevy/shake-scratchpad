@@ -7,6 +7,7 @@ import {ToasterService} from '../../../core/toaster.service';
 
 import {MediaService} from '../../../core/media.service';
 import {Router} from '@angular/router';
+import {takeUntil} from 'rxjs/operators';
 export interface User {
   id: string;
   uid: string;
@@ -49,25 +50,25 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy, AfterVi
 
   ngOnInit() {
     this.authService.getSkUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.currentUser = res;
       });
 
     this.authService.getUsers$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.usersDataSource.data = res;
       });
 
     this.authService.getSkAdmins$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe( res => {
         this.adminsDataSource.data = res;
       });
 
     this.mediaService.getSmallScreen$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(isSmallScreen => {
         if (isSmallScreen) {
           this.router.navigate([`too-small`])

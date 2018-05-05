@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {AuthService} from '../../../core/auth.service';
 import {Router} from '@angular/router';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-admin',
@@ -18,7 +19,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authService.getUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(authUser => {
         this.currentUser = authUser;
       });
