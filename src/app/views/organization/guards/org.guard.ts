@@ -3,7 +3,7 @@ import {
   CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot,
   ActivatedRoute, Router
 } from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {OrgService} from '../org.service';
 import {switchMap} from 'rxjs/operators';
 
@@ -23,11 +23,11 @@ export class OrgGuard implements CanActivate {
         .pipe(
           switchMap( user => {
             if (user && user.roles && !user.isPending) {
-              return Observable.of(true);
+              return of(true);
             } else {
               this.router.navigate(['org', orgId, 'org-join'])
                 .catch(err => console.log(err));
-              return Observable.of(false);
+              return of(false);
             }
           })
         );
@@ -50,11 +50,11 @@ export class OrgAdminGuard implements CanActivate {
       .pipe(
         switchMap( user => {
           if (user && user.roles.admin ) {
-            return Observable.of(true);
+            return of(true);
           } else {
             this.router.navigate(['org', orgId, 'org-join'])
               .catch(err => console.log(err));
-            return Observable.of(false);
+            return of(false);
           }
         })
       );

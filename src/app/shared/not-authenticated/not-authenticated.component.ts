@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {takeUntil} from 'rxjs/operators';
+import {switchMap, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {LanguageService} from '../../core/language.service';
 import {AuthService} from '../../core/auth.service';
 import {ToasterService} from '../../core/toaster.service';
+import {Observable} from 'rxjs/index';
 
 @Component({
   selector: 'sk-not-authenticated',
@@ -21,9 +22,20 @@ export class NotAuthenticatedComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$)
       ).subscribe(dir => this.direction = dir);
+
+    this.authService.getUser$()
+      .pipe(
+        takeUntil(this.destroy$))
+      .subscribe(user => {
+          console.log('*******');
+          console.log(user);
+          console.log(user.emailVerified);
+        }, err => console.log(err),
+        () => console.log('completed'));
   }
 
   ngOnInit() {
+
   }
 
   resend(){
