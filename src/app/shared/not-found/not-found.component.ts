@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {OrgService} from '../../views/organization/org.service';
 import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   templateUrl: './not-found.component.html',
@@ -16,7 +17,7 @@ export class NotFoundComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(org => {
         this.orgId = org;
       });

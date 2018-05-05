@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {LanguageService} from '../../../core/language.service';
 
 import {Org} from '../../../model/org';
+import {takeUntil} from 'rxjs/operators';
 @Component({
   selector: 'sk-org-home',
   templateUrl: './org-home.component.html',
@@ -33,19 +34,19 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // get current org
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(org => this.currentOrg = org);
 
     // get current orgUser
     this.orgService.getOrgUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => this.currentOrgUser = user);
 
     this.org.bannerUrl = 'assets/img/shake banner.png';
 
     // get org public data
     this.orgService.getOrgPublicData$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(orgData => {
         if (orgData && orgData.orgName) {
           this.org.orgName = orgData.orgName;
@@ -57,7 +58,7 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
 
     // directions
     this.lngService.getDirection$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(dir => this.rtl = (dir === 'rtl'));
 
     if (this.media.isActive('gt-sm')) {
@@ -69,7 +70,7 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
     }
 
     this.media.asObservable()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((change: MediaChange) => {
         if (change.mqAlias !== 'xs' && change.mqAlias !== 'sm') {
           this.sideOpen = true;

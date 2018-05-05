@@ -4,7 +4,9 @@ import {Subject, Observable} from 'rxjs';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from '../../../core/auth.service';
 import {OrgUser} from '../../../model/org-user';
+import { combineLatest } from 'rxjs';
 import 'rxjs-compat';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-org-user-join',
@@ -34,7 +36,7 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
 
     // get current org
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(org => {
         if (org === '_noOrg') {
           this.router.navigate(['/noOrg'])
@@ -47,7 +49,7 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
       });
 
     this.authService.getUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         this.uid = user ? user.uid : null;
         this.uemail = user ? user.email.toLowerCase() : null;
@@ -55,7 +57,7 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
 
     // get queryParams to see if we came here from an Invite
     this.route.queryParams
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
         this.queryParams = params;
       });
@@ -63,14 +65,14 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
 
     // get Org User
     this.orgService.getOrgUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((orgUser: OrgUser) => {
         // this.user.isLoadingOrgUser = false;
         this.currentOrgUser = orgUser;
       });
 
-    Observable.combineLatest(this.orgService.getCurrentOrg$(), this.authService.getUser$(), this.route.queryParams, this.orgService.getOrgUser$())
-      .takeUntil(this.destroy$)
+    combineLatest(this.orgService.getCurrentOrg$(), this.authService.getUser$(), this.route.queryParams, this.orgService.getOrgUser$())
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         console.log(this.orgId, this.uid, this.queryParams, this.currentOrgUser);
         if (! this.orgId) {
@@ -121,7 +123,7 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
           // if the user is logged in
           // 1st - check if there is an invite waiting
           this.orgService.getOrgUserInvite$(this.orgId, this.uemail)
-            .takeUntil(this.destroy$)
+            .pipe(takeUntil(this.destroy$))
             .subscribe((invite: any) => {
 
               if (invite) {

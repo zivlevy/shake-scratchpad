@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import { AuthService } from '../../../core/auth.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-homepage',
@@ -18,7 +19,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
               public authService: AuthService) {
 
     this.authService.getUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(authUser => {
         this.currentUser = authUser;
       });

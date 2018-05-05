@@ -3,6 +3,7 @@ import {MediaService} from '../../core/media.service';
 import {Router} from '@angular/router';
 import {OrgService} from '../../views/organization/org.service';
 import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-screen-too-small',
@@ -34,7 +35,9 @@ export class ScreenTooSmallComponent implements OnInit, OnDestroy {
     //
     // get current org
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
       .subscribe(org => {
         this.orgId = org;
       });

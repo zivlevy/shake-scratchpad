@@ -5,7 +5,7 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 import {MatTableDataSource} from '@angular/material';
 import {FileService} from '../../../core/file.service';
 import {ToasterService} from '../../../core/toaster.service';
-
+import {takeUntil} from 'rxjs/operators';
 export class InviteRecord {
 
   constructor(
@@ -62,7 +62,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
     );
 
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(orgId => {
         this.orgId = orgId;
       });

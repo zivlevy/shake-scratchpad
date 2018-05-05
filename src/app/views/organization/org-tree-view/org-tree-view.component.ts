@@ -47,7 +47,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.lngService.getDirection$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(dir => {
         this.isRTL = (dir === 'rtl');
       });

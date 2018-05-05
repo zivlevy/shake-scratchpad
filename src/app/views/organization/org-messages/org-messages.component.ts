@@ -3,6 +3,7 @@ import {Subject} from 'rxjs';
 import {OrgService} from '../org.service';
 import {DocAck} from '../../../model/document';
 import {Router} from '@angular/router';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-org-messages',
@@ -20,7 +21,7 @@ export class OrgMessagesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // get current org
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(org => this.currentOrg = org);
 
     this.orgService.getOrgUserDocAcks$()

@@ -3,14 +3,9 @@ import { AngularFirestore,
   AngularFirestoreCollection,
   AngularFirestoreDocument
 } from 'angularfire2/firestore';
-import { Observable ,  from as fromPromise } from 'rxjs';
-import 'rxjs/add/operator/do';
-
-
-
-
-import * as firebase from 'firebase/app';
-import { expand, takeWhile, mergeMap, take } from 'rxjs/operators';
+import { Observable ,  from } from 'rxjs';
+import * as firebase from 'firebase';
+import { expand, takeWhile, mergeMap, take , tap} from 'rxjs/operators';
 
 
 type CollectionPredicate<T>   = string |  AngularFirestoreCollection<T>;
@@ -99,21 +94,35 @@ export class FirestoreService {
   inspectDoc(ref: DocPredicate<any>): void {
     const tick = new Date().getTime();
     this.doc(ref).snapshotChanges()
-      .take(1)
-      .do(d => {
-        const tock = new Date().getTime() - tick;
-        console.log(`Loaded Document in ${tock}ms`, d);
-      })
+      .pipe(
+        take(1),
+        tap (d => {
+          const tock = new Date().getTime() - tick;
+          console.log(`Loaded Document in ${tock}ms`, d);
+        })
+      )
+      // .take(1)
+      // .do(d => {
+      //   const tock = new Date().getTime() - tick;
+      //   console.log(`Loaded Document in ${tock}ms`, d);
+      // })
       .subscribe();
   }
   inspectCol(ref: CollectionPredicate<any>): void {
     const tick = new Date().getTime();
     this.col(ref).snapshotChanges()
-      .take(1)
-      .do(c => {
-        const tock = new Date().getTime() - tick;
-        console.log(`Loaded Collection in ${tock}ms`, c);
-      })
+      .pipe(
+        take(1),
+        tap (d => {
+          const tock = new Date().getTime() - tick;
+          console.log(`Loaded Collection in ${tock}ms`);
+        })
+      )
+      // .take(1)
+      // .do(c => {
+      //   const tock = new Date().getTime() - tick;
+      //   console.log(`Loaded Collection in ${tock}ms`, c);
+      // })
       .subscribe();
   }
   /// **************
@@ -138,17 +147,16 @@ export class FirestoreService {
   /// Atomic batch example
   /// **************
   /// Just an example, you will need to customize this method.
-  atomic() {
-    const batch = firebase.firestore().batch();
-    /// add your operations here
-    const itemDoc = firebase.firestore().doc('items/myCoolItem');
-    const userDoc = firebase.firestore().doc('users/userId');
-    const currentTime = this.timestamp;
-    batch.update(itemDoc, { timestamp: currentTime });
-    batch.update(userDoc, { timestamp: currentTime });
-    /// commit operations
-    return batch.commit();
-  }
+  // atomic() {
+  //   /// add your operations here
+  //   const itemDoc = firebase.firestore().doc('items/myCoolItem');
+  //   const userDoc = firebase.firestore().doc('users/userId');
+  //   const currentTime = this.timestamp;
+  //   batch.update(itemDoc, { timestamp: currentTime });
+  //   batch.update(userDoc, { timestamp: currentTime });
+  //   /// commit operations
+  //   return batch.commit();
+  // }
 
   atomicBatchDelete(docArray: Array<string>) {
     const batch = firebase.firestore().batch();
@@ -182,7 +190,7 @@ export class FirestoreService {
         snapshot.forEach(doc => {
           batch.delete(doc.payload.doc.ref);
         });
-        return fromPromise( batch.commit() ).map(() => snapshot.length);
+        return from( batch.commit() ).map(() => snapshot.length);
       })
     );
   }

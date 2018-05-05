@@ -7,6 +7,7 @@ import {ImageService} from '../../../core/image.service';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import * as _ from 'lodash';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-org-admin-org',
@@ -89,7 +90,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
     this.bannerUrl = 'assets/img/shake banner.png';
     // get current org
     this.orgService.getOrgPublicData$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(org => {
         if (org) {
           this.currentOrg = org;

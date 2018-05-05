@@ -35,7 +35,7 @@ import {MaterialModule} from './material/material.module';
 import {AdminModule} from './views/admin/admin.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AuthGuard} from './shared/guards/auth.guard';
-
+import {AngularFireStorageModule} from 'angularfire2/storage';
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,6 +69,7 @@ import {AuthGuard} from './shared/guards/auth.guard';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     TooltipModule.forRoot(),
     Ng2FileInputModule.forRoot(),
     TooltipModule.forRoot(),
@@ -87,6 +88,7 @@ import {AuthGuard} from './shared/guards/auth.guard';
 
 })
 export class AppModule {
+
 }
 
 

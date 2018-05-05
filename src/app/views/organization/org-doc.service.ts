@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {FirestoreService} from '../../core/firestore.service';
 import {Observable} from 'rxjs';
-
+import {switchMap} from 'rxjs/operators';
 
 @Injectable()
 export class OrgDocService {
@@ -48,7 +48,8 @@ export class OrgDocService {
   isSignatureRequired$(orgId: string, uid: string, docId: string) {
 
     return this.firestoreService.colWithIds$(`org/${orgId}/users/${uid}/docsAcks`)
-      .switchMap(docsAcks => {
+      .pipe(
+        switchMap(docsAcks => {
         let docAckId = null;
         docsAcks.forEach((docAck: any) => {
           if (docAck.docId === docId && !docAck.hasSigned) {
@@ -56,7 +57,8 @@ export class OrgDocService {
           }
         });
         return Observable.of(docAckId);
-      });
+      }));
+
   }
 
   // *************************************

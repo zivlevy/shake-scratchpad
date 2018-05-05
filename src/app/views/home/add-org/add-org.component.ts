@@ -9,6 +9,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {DataPackageService} from '../../../core/data-package.service';
 import {ImageService} from '../../../core/image.service';
 import {OrgService} from '../../organization/org.service';
+import {takeUntil, take} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-add-org',
@@ -76,14 +77,13 @@ export class AddOrgComponent implements OnInit, OnDestroy {
   }
 
   updateSector(sector: string) {
-    console.log(this.language);
     this.sector = sector;
   }
 
   updateSectors(language: string) {
     this.sectors = [];
     this.homeService.getLanguageSectors$(language)
-      .take(1)
+      .pipe(take(1))
       .subscribe(sectorsList => {
         for (const sector of sectorsList) {
           this.sectors.push(sector.id);
@@ -105,7 +105,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
         const imagesUrls = res[1];
         console.log(imagesUrls);
         this.homeService.waitForOrg(this.orgId.value)
-          .takeUntil(this.destroy$)
+          .pipe(takeUntil(this.destroy$))
           .subscribe(res1 => {
             console.log(res1);
             if (res1 && res1.orgId) {

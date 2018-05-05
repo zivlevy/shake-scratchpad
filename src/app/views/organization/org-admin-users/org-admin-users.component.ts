@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {MediaService} from '../../../core/media.service';
 import {OrgService} from '../org.service';
+import {takeUntil} from 'rxjs/operators';
 
 
 @Component({
@@ -23,12 +24,12 @@ export class OrgAdminUsersComponent implements OnInit, OnDestroy {
 
     // get current org
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(org => {
         this.orgId = org;
 
         this.mediaService.getSmallScreen$()
-          .takeUntil(this.destroy$)
+          .pipe(takeUntil(this.destroy$))
           .subscribe(isSmallScreen => {
             if (isSmallScreen) {
               this.router.navigate([`org/${this.orgId}/too-small`])

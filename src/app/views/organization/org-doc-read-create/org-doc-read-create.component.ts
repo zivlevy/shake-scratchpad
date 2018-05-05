@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {OrgService} from '../org.service';
 import {OrgDocService} from '../org-doc.service';
 import {FirestoreService} from '../../../core/firestore.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-org-doc-read-create',
@@ -41,7 +42,7 @@ export class OrgDocReadCreateComponent implements OnInit, OnDestroy {
     });
 
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(res => {
         this.orgId = res;
       });

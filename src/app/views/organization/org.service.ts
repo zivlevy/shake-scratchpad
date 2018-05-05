@@ -2,10 +2,6 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 
 
-
-
-
-
 import {ChildActivationEnd, Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {AuthService} from '../../core/auth.service';
@@ -20,8 +16,10 @@ import {OrgTreeNode} from '../../model/org-tree';
 import {AlgoliaService} from '../../core/algolia.service';
 import {LanguageService} from '../../core/language.service';
 import {OrgDocService} from './org-doc.service';
-import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs-compat';
+import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {combineLatest} from 'rxjs';
+
 @Injectable()
 export class OrgService {
   private currentOrg$: BehaviorSubject<string> = new BehaviorSubject('');
@@ -41,6 +39,7 @@ export class OrgService {
               private orgDocService: OrgDocService,
               private lngService: LanguageService) {
 
+
     this.localCurrentOrg = null;
     this.currentOrg$.next(null);
 
@@ -50,9 +49,12 @@ export class OrgService {
       })
       .filter((event: any) => {
         return event.snapshot._lastPathIndex === 1;
-      })
-      .map(event => event.snapshot.params.id)
-      .distinctUntilChanged()
+      }).pipe(
+      map(event => event.snapshot.params.id),
+      distinctUntilChanged()
+    )
+    // .map(event => event.snapshot.params.id)
+    // .distinctUntilChanged()
       .subscribe((id: any) => {
         this.setOrganization(id)
           .subscribe(() => {
@@ -163,23 +165,23 @@ export class OrgService {
   deleteOrgUser(uid: string) {
 
     const toDelete: Array<any> = [];
-    return new Promise<any> ( (resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
       this.firestoreService.colWithIds$(`org/${this.localCurrentOrg}/users/${uid}/docsAcks`)
         .take(1)
         .subscribe(docAcks => {
-          docAcks.forEach(docAck => {
-            this.orgDocService.removeOrgUserReqDocAck(this.localCurrentOrg, docAck.id, uid)
-              .catch(err => console.log(err));
-          });
-        }, null,
-        () => {
-        toDelete.push(this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${uid}`).delete());
-        toDelete.push(this.afs.doc(`users/${uid}/orgs/${this.currentOrg$.getValue()}`).delete());
+            docAcks.forEach(docAck => {
+              this.orgDocService.removeOrgUserReqDocAck(this.localCurrentOrg, docAck.id, uid)
+                .catch(err => console.log(err));
+            });
+          }, null,
+          () => {
+            toDelete.push(this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${uid}`).delete());
+            toDelete.push(this.afs.doc(`users/${uid}/orgs/${this.currentOrg$.getValue()}`).delete());
 
-        Promise.all(toDelete)
-          .catch(err => reject(err))
-          .then(resolve);
-        });
+            Promise.all(toDelete)
+              .catch(err => reject(err))
+              .then(resolve);
+          });
     });
 
   }
@@ -192,34 +194,40 @@ export class OrgService {
     });
   }
 
-  getOrgUser$() {
+  getOrgUser$(): any {
     return this.afAuth.authState
-      .switchMap((user => {
-        if (!user) {
-          return Observable.of(null);
-        } else {
-          return this.currentOrg$
-            .switchMap((org => {
-              if (!org) {
-                return Observable.of(null);
-              } else {
-                return this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`).valueChanges();
-              }
-            }));
-        }
-      }));
+      .pipe(
+        switchMap((user => {
+          if (!user) {
+            return Observable.of(null);
+          } else {
+            return this.currentOrg$
+              .pipe(
+                switchMap((org => {
+                  if (!org) {
+                    return Observable.of(null);
+                  } else {
+                    return this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`).valueChanges();
+                  }
+                }))
+              );
+          }
+        }))
+      );
   }
 
-  getOrgUserByOrgID$(orgId) {
+  getOrgUserByOrgID$(orgId): Observable<any>{
     return this.afAuth.authState
-      .switchMap((user => {
-        if (!user) {
-          return Observable.of(null);
-        } else {
-          const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${orgId}/users/${user.uid}`);
-          return userRef.valueChanges();
-        }
-      }));
+      .pipe(
+        switchMap((user => {
+          if (!user) {
+            return Observable.of(null);
+          } else {
+            const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${orgId}/users/${user.uid}`);
+            return userRef.valueChanges();
+          }
+        }))
+      );
   }
 
   getNonPendingOrgUsers$(orgId) {
@@ -248,6 +256,7 @@ export class OrgService {
         return resArray;
       });
   }
+
   getOrgUserInvite$(orgId: string, email: string) {
     return this.afs.collection('org').doc(orgId).collection('invites').doc(email).valueChanges();
   }
@@ -280,45 +289,51 @@ export class OrgService {
 
     this.currentOrg$
       .distinctUntilChanged()
-      .switchMap(newOrgId => {
-        if (!newOrgId) {
-          return Observable.of(null);
+      .pipe(
+        switchMap(newOrgId => {
+          if (!newOrgId) {
+            return Observable.of(null);
+          }
+          const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}/publicData/info`);
+          return document.valueChanges()
+            .map(orgData => {
+              if (orgData) {
+                return orgData;
+              } else {
+                return null;
+              }
+            });
+        })
+      )
+      .subscribe(orgPublicData => {
+        if (orgPublicData) {
+          this.lngService.setLanguadge(orgPublicData.language);
         }
-        const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}/publicData/info`);
-        return document.valueChanges()
-          .map(orgData => {
-            if (orgData) {
-              return orgData;
-            } else {
-              return null;
-            }
-          });
-      }).subscribe(orgPublicData => {
-      if (orgPublicData) {
-        this.lngService.setLanguadge(orgPublicData.language);
-      }
-      this.orgPublicData$.next(orgPublicData);
-    });
+        this.orgPublicData$.next(orgPublicData);
+      });
   }
 
   private updateOrgPrivateData() {
 
     this.currentOrg$
-      .distinctUntilChanged()
-      .switchMap(newOrgId => {
-        if (!newOrgId) {
-          return Observable.of(null);
-        }
-        const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}`);
-        return document.valueChanges()
-          .map(orgData => {
-            if (orgData) {
-              return orgData;
-            } else {
-              return null;
-            }
-          });
-      }).subscribe(orgPrivateData => this.orgPrivateData$.next(orgPrivateData));
+      .pipe(
+        distinctUntilChanged(),
+        switchMap(newOrgId => {
+          if (!newOrgId) {
+            return Observable.of(null);
+          }
+          const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}`);
+          return document.valueChanges()
+            .map(orgData => {
+              if (orgData) {
+                return orgData;
+              } else {
+                return null;
+              }
+            });
+        })
+      )
+      .subscribe(orgPrivateData => this.orgPrivateData$.next(orgPrivateData));
   }
 
   /************************
@@ -403,19 +418,22 @@ export class OrgService {
   getDoc$(docId: string): Observable<SkDoc> {
 
     return this.currentOrg$
-      .switchMap(orgId => {
-        return this.afs.doc<any>(`org/${orgId}/docs/${docId}`).snapshotChanges()
-          .map(res => {
-                return {uid: res.payload.id, ... res.payload.data()};
-          });
-      });
+      .pipe(
+        switchMap(orgId => {
+          return this.afs.doc<any>(`org/${orgId}/docs/${docId}`).snapshotChanges()
+            .map(res => {
+              return {uid: res.payload.id, ... res.payload.data()};
+            });
+        })
+      );
 
   }
 
   addDoc(editVersion: SkDocData) {
     return new Promise<string>((resolve, reject) => {
       const docsRef: AngularFirestoreCollection<any> = this.afs.collection<any>(`org/${this.localCurrentOrg}/docs`);
-      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+      // const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+      const timestamp = this.firestoreService.timestamp;
       editVersion.createdBy = this.currentSkUser.uid;
       editVersion.createdAt = timestamp;
       const objToSave: SkDoc = {editVersion: editVersion, name: editVersion.name, version: 0};
@@ -439,7 +457,7 @@ export class OrgService {
       });
   }
 
-  publishDocById(docId: string){
+  publishDocById(docId: string) {
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}`);
     docsRef.valueChanges().take(1).toPromise()
       .then(res => {
@@ -456,22 +474,22 @@ export class OrgService {
           isPublish: true
         };
 
-          objToSave['version'] = (res.version || 0) + 1;
+        objToSave['version'] = (res.version || 0) + 1;
 
-          // if current published - move to versions
-          if (!res.publishVersion) {
-            res['publishVersion'] = {...res.editVersion};
-          } else {
-            const docVersionsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}/versions/${res.version}`);
-            docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0})
-              .catch(err => console.log(err));
-          }
+        // if current published - move to versions
+        if (!res.publishVersion) {
+          res['publishVersion'] = {...res.editVersion};
+        } else {
+          const docVersionsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${docId}/versions/${res.version}`);
+          docVersionsRef.set({...res.publishVersion, versionAt: timestamp, version: res.version || 0})
+            .catch(err => console.log(err));
+        }
 
         // change  in tree
         this.editDocInTree(docId, objToSave);
 
         return docsRef.update(objToSave);
-      } );
+      });
   }
 
   publishDoc(uid: string, editVersion: SkDocData, updateVersionNo: boolean = true) {
@@ -551,13 +569,13 @@ export class OrgService {
     this.firestoreService.colWithIds$(docAcksRef)
       .take(1)
       .subscribe(docAcksIds => {
-        docAcksIds.forEach(docAckId => {
-          this.deActivateReadAck(this.localCurrentOrg, docAckId.id, docId)
-            .catch(err => console.log(err));
-          this.closeReadAck(this.localCurrentOrg, docAckId.id)
-            .catch(err => console.log(err));
-        });
-      },
+          docAcksIds.forEach(docAckId => {
+            this.deActivateReadAck(this.localCurrentOrg, docAckId.id, docId)
+              .catch(err => console.log(err));
+            this.closeReadAck(this.localCurrentOrg, docAckId.id)
+              .catch(err => console.log(err));
+          });
+        },
         null,
         () => {
           this.firestoreService.deleteCollection(verRef, 5)
@@ -618,7 +636,7 @@ export class OrgService {
    * build JSON tree from memory tree
    *********************************/
 
-  makeJsonTreeFromMemory(roots: Array<any>): string  {
+  makeJsonTreeFromMemory(roots: Array<any>): string {
     const result = [];
     roots.forEach(root => result.push(this.treeNodeToDBObjectFromMemory(root)));
     return JSON.stringify(result);
@@ -649,33 +667,36 @@ export class OrgService {
   private getOrgTreeFromJson$(): Observable<Array<OrgTreeNode>> {
 
     return this.getCurrentOrg$()
-      .switchMap(currentOrg => {
-        if (!currentOrg) {
-          return Observable.of(null);
-        } else {
-          return this.firestoreService.doc$(`org/${currentOrg}`)
-            .map((result: any) => {
-              return JSON.parse(result.orgTreeJson);
-            });
-        }
-
-      });
+      .pipe(
+        switchMap(currentOrg => {
+          if (!currentOrg) {
+            return Observable.of(null);
+          } else {
+            return this.firestoreService.doc$(`org/${currentOrg}`)
+              .map((result: any) => {
+                return JSON.parse(result.orgTreeJson);
+              });
+          }
+        })
+      );
   }
 
   private getOrgJsonTree(): Observable<string> {
     return this.getCurrentOrg$()
-      .switchMap(currentOrg => {
-        return this.firestoreService.doc$(`org/${currentOrg}`)
-          .map((result: any) => {
-            return result.orgTreeJson;
-          });
-      });
+      .pipe(
+        switchMap(currentOrg => {
+          return this.firestoreService.doc$(`org/${currentOrg}`)
+            .map((result: any) => {
+              return result.orgTreeJson;
+            });
+        })
+      );
   }
 
   getOrgTreeByUser$(): Observable<any> {
-    return Observable.combineLatest(this.getOrgUser$(), this.getOrgTreeFromJson$())
+    return combineLatest(this.getOrgUser$(), this.getOrgTreeFromJson$())
       .map(res => {
-        const user = res[0];
+        const user: any = res[0];
         const tree = res [1];
         if (user && user.roles.editor) {
           return tree;
@@ -684,7 +705,9 @@ export class OrgService {
           if (tree) {
             tree.forEach(treeNode => {
               const node = this.makePublishTree(treeNode);
-              if (node) { publicTree.push( node ); }
+              if (node) {
+                publicTree.push(node);
+              }
             });
           }
 
@@ -707,29 +730,33 @@ export class OrgService {
     } else {
       if (treeNode.isDoc && treeNode.isPublish) {
         return treeNode;
-      } else { return null; }
+      } else {
+        return null;
+      }
     }
   }
 
   getTreeOrgDocs$() {
-    return Observable.combineLatest(this.getAllDocs$(), this.getOrgTreeFromJson$())
-      .switchMap(res => {
-        const docs = res[0];
-        const orgTree = JSON.stringify(res[1]);
-        const freeDocs = [];
-        docs.forEach((doc: SkDoc) => {
-          if (orgTree.indexOf(doc.uid) === -1) {
-            const docItem = {
-              id: doc.uid,
-              name: doc.name,
-              isDoc: true,
-              docId: doc.uid
-            };
-            freeDocs.push(docItem);
-          }
-        });
-        return Observable.of(freeDocs);
-      });
+    return combineLatest(this.getAllDocs$(), this.getOrgTreeFromJson$())
+      .pipe(
+        switchMap(res => {
+          const docs = res[0];
+          const orgTree = JSON.stringify(res[1]);
+          const freeDocs = [];
+          docs.forEach((doc: SkDoc) => {
+            if (orgTree.indexOf(doc.uid) === -1) {
+              const docItem = {
+                id: doc.uid,
+                name: doc.name,
+                isDoc: true,
+                docId: doc.uid
+              };
+              freeDocs.push(docItem);
+            }
+          });
+          return Observable.of(freeDocs);
+        })
+      );
   }
 
 
@@ -835,17 +862,20 @@ export class OrgService {
     const org$ = this.getCurrentOrg$();
     const user$ = this.getOrgUser$();
 
-    return org$.switchMap(orgId => {
-      return user$.switchMap(user => {
-        if (orgId && orgId !== '_noOrg' && user) {
-          return this.afs.collection(`org/${orgId}/users/${user.uid}/docsAcks`).valueChanges()
-            .map(docAcks => docAcks.filter((docAck: DocAck) => !docAck.hasSigned));
-        } else {
-          return Observable.from([]);
-        }
+    return org$
+      .pipe(
+        switchMap(orgId => {
+          return user$.switchMap(user => {
+            if (orgId && orgId !== '_noOrg' && user) {
+              return this.afs.collection(`org/${orgId}/users/${user.uid}/docsAcks`).valueChanges()
+                .map(docAcks => docAcks.filter((docAck: DocAck) => !docAck.hasSigned));
+            } else {
+              return Observable.from([]);
+            }
 
-      });
-    });
+          });
+        })
+      );
   }
 
   addReqDocAckToAll(orgId: string, docAckId: string, docAckName: string, docId: string): Promise<any> {
@@ -890,9 +920,9 @@ export class OrgService {
   }
 
   deActivateReadAck(orgId: string, readAckId: string, docId: string) {
-    const removeAll =  this.removeReqDocAckFromAll(orgId, readAckId);
+    const removeAll = this.removeReqDocAckFromAll(orgId, readAckId);
     const removeFromDoc = this.orgDocService.removeDocAckFromDoc(orgId, docId, readAckId);
-    const deActivate =  this.firestoreService.upsert(`org/${orgId}/docsAcks/${readAckId}`, {
+    const deActivate = this.firestoreService.upsert(`org/${orgId}/docsAcks/${readAckId}`, {
       isActive: false,
     });
 

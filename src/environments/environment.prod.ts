@@ -8,12 +8,12 @@ export const environment = {
     // storageBucket: 'shakescratchpad.appspot.com',
     // messagingSenderId: '898581880696'
 
-    apiKey: "AIzaSyB8pc10cVoot3abqHPmggRqyqGDgCFMEvk",
-    authDomain: "shake-sb.firebaseapp.com",
-    databaseURL: "https://shake-sb.firebaseio.com",
-    projectId: "shake-sb",
-    storageBucket: "shake-sb.appspot.com",
-    messagingSenderId: "482709151534"
+    apiKey: 'AIzaSyB8pc10cVoot3abqHPmggRqyqGDgCFMEvk',
+    authDomain: 'shake-sb.firebaseapp.com',
+    databaseURL: 'https://shake-sb.firebaseio.com',
+    projectId: 'shake-sb',
+    storageBucket: 'shake-sb.appspot.com',
+    messagingSenderId: '482709151534'
 
   },
   algolia: {

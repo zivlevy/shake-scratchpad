@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {ToasterService} from '../../../core/toaster.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-org-search-doc',
@@ -39,12 +40,12 @@ export class OrgSearchDocComponent implements OnInit, OnDestroy {
 
     // get current org
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(org => this.currentOrg = org);
 
     // get current orgUser
     this.orgService.getOrgUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => this.currentOrgUser = user);
 
     Observable.merge(

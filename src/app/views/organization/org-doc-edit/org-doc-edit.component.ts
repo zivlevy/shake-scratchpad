@@ -8,7 +8,7 @@ import {LanguageService} from '../../../core/language.service';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {PublishDialogComponent} from '../dialogs/publish-dialog/publish-dialog.component';
 
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-org-doc-edit',
@@ -54,63 +54,65 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
 
     // direcrtion
     this.lngService.getDirection$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(dir => this.rtl = (dir === 'rtl'));
 
 
     // get current org
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(org => this.currentOrg = org);
+
     // get current user
     this.orgService.getOrgUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => this.currentOrgUser = user);
 
     // get doc info from route params
     this.route.params
-      .switchMap(params => {
-        this.currentDocId = params.docId;
-        this.currentDocType = params.docType;
-        this.currentDocVersion = params.docVersion;
-        this.searchPhrase = params.searchPhrase === '**' ? '' : params.searchPhrase;
-        this.isSearch = params.isSearch === 'true';
-        if (params.docType === 'n') {
-          return Observable.of(null);
-        } else {
-          return this.orgService.getDoc$(params.docId);
-        }
-      })
-      .switchMap((doc: SkDoc | null) => {
-        console.log(this.currentDocType);
-        if (doc) {
-          this.docName = doc.name;
-          this.currentDoc = doc;
-          if (this.currentDocType === 'p') {
-            this.docVersionTitle = 'Version';
-            this.docVersionNumber = String(doc.version);
-
-            return Observable.of(doc.publishVersion);
-          } else if (this.currentDocType === 'e') {
-            this.docVersionTitle = `Edit version`;
-            this.docVersionNumber = '';
-            return Observable.of(doc.editVersion);
+      .pipe(
+        switchMap(params => {
+          this.currentDocId = params.docId;
+          this.currentDocType = params.docType;
+          this.currentDocVersion = params.docVersion;
+          this.searchPhrase = params.searchPhrase === '**' ? '' : params.searchPhrase;
+          this.isSearch = params.isSearch === 'true';
+          if (params.docType === 'n') {
+            return Observable.of(null);
           } else {
-            this.docVersionTitle = `Archive version`;
-            this.docVersionNumber = String(this.currentDocVersion);
-            return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion )
-              .take(1);
+            return this.orgService.getDoc$(params.docId);
           }
-        } else {
-          // this is a new doc
-          this.docVersionTitle = 'New doc';
-          this.currentDoc = null;
-          this.editor.newDoc();
-          return Observable.of(null);
-        }
+        }),
+        switchMap((doc: SkDoc | null) => {
+          console.log(this.currentDocType);
+          if (doc) {
+            this.docName = doc.name;
+            this.currentDoc = doc;
+            if (this.currentDocType === 'p') {
+              this.docVersionTitle = 'Version';
+              this.docVersionNumber = String(doc.version);
 
-      })
-      .takeUntil(this.destroy$)
+              return Observable.of(doc.publishVersion);
+            } else if (this.currentDocType === 'e') {
+              this.docVersionTitle = `Edit version`;
+              this.docVersionNumber = '';
+              return Observable.of(doc.editVersion);
+            } else {
+              this.docVersionTitle = `Archive version`;
+              this.docVersionNumber = String(this.currentDocVersion);
+              return this.orgService.getDocVersion$(this.currentDoc.uid, this.currentDocVersion )
+                .take(1);
+            }
+          } else {
+            // this is a new doc
+            this.docVersionTitle = 'New doc';
+            this.currentDoc = null;
+            this.editor.newDoc();
+            return Observable.of(null);
+          }
+        })
+      )
+      .pipe(takeUntil(this.destroy$))
       .subscribe((docData) => {
         if (docData) {
           this.currentEditData = docData;

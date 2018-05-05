@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {OrgUser} from '../../../model/org-user';
 import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import {ToasterService} from '../../../core/toaster.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-org-admin-users-existing',
@@ -33,17 +34,17 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.orgService.getOrgUser$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(orgUser => {
         this.currentUser = orgUser;
       });
 
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(orgId => {
         this.orgId = orgId;
         this.auth.getOrgUsers$(orgId)
-          .takeUntil(this.destroy$)
+          .pipe(takeUntil(this.destroy$))
           .subscribe(users => {
             this.orgUsersDataSource.data = users;
           });

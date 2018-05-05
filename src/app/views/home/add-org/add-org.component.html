@@ -40,7 +40,7 @@
           <div>
             <mat-form-field>
               <mat-select formControlName="language" placeholder="{{'Language' | translate}}"
-                          (change)="languageChanged($event.value)">
+                          (selectionChange)="languageChanged($event.value)">
                 <mat-option value="he">עברית</mat-option>
                 <mat-option value=en>English</mat-option>
               </mat-select>
@@ -50,7 +50,7 @@
           <div>
             <mat-form-field>
               <mat-select formControlName="sector" placeholder="{{'Sector' | translate}}"
-                          (change)="updateSector($event.value)">
+                          (selectionChange)="updateSector($event.value)">
                 <mat-option *ngFor="let sector of sectors" [value]="sector">{{sector}}</mat-option>
               </mat-select>
             </mat-form-field>
@@ -81,6 +81,6 @@
 </div>
 
 
-<ngx-spinner [type]="'timer'" [bdOpacity]="0.9" [size]="'large'"></ngx-spinner>
+<ngx-spinner [type]="'timer'"  [size]="'large'"></ngx-spinner>
 <h3 *ngIf="isWaiting" class="wait-msg text-center">Creating your organization. Please wait ....</h3>
 

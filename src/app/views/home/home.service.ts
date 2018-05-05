@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 import {Router} from '@angular/router';
 import {AuthService} from '../../core/auth.service';
+import {map} from "rxjs/operators";
 
 @Injectable()
 export class HomeService {
@@ -44,13 +45,15 @@ export class HomeService {
 
   getLanguageSectors$(language: string) {
     const sectorsCollection: AngularFirestoreCollection<any> = this.afs.collection('dataPackages').doc(language).collection('sectors');
-    return sectorsCollection.snapshotChanges().map(arr => {
+    return sectorsCollection.snapshotChanges()
+      .pipe(
+        map(arr => {
       return arr.map(snap => {
         const data = snap.payload.doc.data();
         const id = snap.payload.doc.id;
         return {id, ...data};
       });
-    });
+    }));
   }
 
   orgIdExists$(orgId: string) {

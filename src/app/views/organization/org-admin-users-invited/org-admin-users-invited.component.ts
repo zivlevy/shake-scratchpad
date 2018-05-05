@@ -3,6 +3,7 @@ import {InviteRecord} from "../org-admin-users-invite/org-admin-users-invite.com
 import {MatTableDataSource} from "@angular/material";
 import {OrgService} from "../org.service";
 import {Subject} from "rxjs";
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'sk-org-admin-users-invited',
@@ -20,11 +21,11 @@ export class OrgAdminUsersInvitedComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.orgService.getCurrentOrg$()
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(orgId => {
         this.orgId = orgId;
         this.orgService.getOrgUsersInvites$(orgId)
-          .takeUntil(this.destroy$)
+          .pipe(takeUntil(this.destroy$))
           .subscribe((users: any) => {
             this.dataSource.data = users;
           });

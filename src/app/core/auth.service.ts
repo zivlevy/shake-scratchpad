@@ -5,7 +5,10 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable} from 'rxjs';
 import {FirestoreService} from './firestore.service';
 import {SkUser} from '../model/user';
-import 'rxjs/add/operator/take';
+import { take, switchMap } from 'rxjs/operators';
+
+
+// import 'rxjs/add/operator/take';
 
 
 
@@ -73,9 +76,10 @@ export class AuthService {
     }
 
     getSkUser$(): Observable<any>{
-      return this.getUser$().switchMap(user => {
-         return user ? this.afs.doc(`users/${user.uid}`).valueChanges() : Observable.of(null);
-      });
+      return this.getUser$()
+        .pipe(switchMap(user => {
+          return user ? this.afs.doc(`users/${user.uid}`).valueChanges() : Observable.of(null);
+        }));
     }
 
     updateUserProfile(uid, displayName, photoURL): Promise<any> | null {
@@ -112,12 +116,12 @@ export class AuthService {
 
     isCurrentSkAdmin$(): Observable<boolean> {
       return this.getSkUser$()
-        .switchMap(user => {
+        .pipe(switchMap(user => {
           return this.afs.doc(`skAdmins/${user.uid}`).valueChanges()
             .map((res: any) => {
               return res ? res.isSkAdmin : null;
             });
-        });
+        }));
     }
 
 
@@ -130,12 +134,12 @@ export class AuthService {
 
     isCurrentSkEditor$(): Observable<boolean> {
       return this.getSkUser$()
-        .switchMap(user => {
+        .pipe(switchMap(user => {
           return this.afs.doc(`skAdmins/${user.uid}`).valueChanges()
             .map((res: any) => {
               return res ? res.isSkEditor : null;
             });
-        });
+        }));
     }
 
     getUsers$(): Observable<any> {
@@ -148,7 +152,10 @@ export class AuthService {
         .map(resArray => {
           resArray.forEach(res => {
             this.afs.doc(`users/${res.id}`).valueChanges()
-              .take(1)
+              .pipe(
+                take(1)
+              )
+              // .take(1)
               .subscribe((userData: any) => {
                 res.displayName = userData.displayName;
                 res.photoURL = userData.photoURL;
@@ -164,7 +171,10 @@ export class AuthService {
         .map(resArray => {
           resArray.forEach(res => {
             this.afs.doc(`users/${res.id}`).valueChanges()
-              .take(1)
+              .pipe(
+                take(1)
+              )
+              // .take(1)
               .subscribe((userData: any) => {
                 res.displayName = userData.displayName;
                 res.photoURL = userData.photoURL;
