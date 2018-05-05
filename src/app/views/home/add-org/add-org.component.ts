@@ -85,6 +85,7 @@ export class AddOrgComponent implements OnInit, OnDestroy {
     this.homeService.getLanguageSectors$(language)
       .pipe(take(1))
       .subscribe(sectorsList => {
+        console.log(sectorsList);
         for (const sector of sectorsList) {
           this.sectors.push(sector.id);
         }
