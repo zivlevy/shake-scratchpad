@@ -5,7 +5,6 @@ import {OrgUser} from '../../../model/org-user';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {User} from '../../../model/user';
-import {LanguageService} from '../../../core/language.service';
 import {Org} from '../../../model/org';
 import {takeUntil} from 'rxjs/operators';
 
@@ -30,7 +29,6 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private orgService: OrgService,
-              private lngService: LanguageService,
               private authService: AuthService,
   ) {}
 

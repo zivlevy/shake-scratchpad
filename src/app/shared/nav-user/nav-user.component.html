@@ -1,5 +1,5 @@
 <div *ngIf="currentAuthUser">
-  <button [dir]="myDir" mat-button [matMenuTriggerFor]="menu" (click)="openContextMenu($event)">
+  <button [dir]="myDir" mat-button [matMenuTriggerFor]="menu"  >
     <i *ngIf="!currentSkUser || !currentSkUser.photoURL || currentSkUser.photoURL === ''"
        class="fa fa-user-circle"></i>
     <img class="rounded-circle userImg"
@@ -8,7 +8,7 @@
     <span class="fa fa-caret-down"></span>
   </button>
 
-  <mat-menu  #menu="matMenu">
+  <mat-menu  #menu="matMenu" [overlapTrigger]="false">
     <button mat-menu-item [routerLink]="'user-profile'" [innerHTML]="'User Profile' | translate"></button>
     <button mat-menu-item (click)="logout()" [innerHTML]="'Logout' | translate"></button>
     <hr>

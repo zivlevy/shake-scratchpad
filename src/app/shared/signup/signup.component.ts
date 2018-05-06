@@ -100,7 +100,12 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   signup() {
     this.auth.emailSignUp(this.email.value, this.password.value).then(user => {
-      user.sendEmailVerification()
+      const actionCodeSettings = {
+        url: 'https://shake.network/org/ROMKnowledge',
+        handleCodeInApp: false
+      };
+      user.sendEmailVerification(actionCodeSettings)
+        .then(res => console.log(res))
         .catch(err => console.log(err));
       this.auth.createUserInitialData(user.uid, this.email.value , this.displayName.value, )
         .catch(err => console.log(err));

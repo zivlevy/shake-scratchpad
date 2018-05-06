@@ -249,3 +249,7 @@ th, td {
   color: black;
 }
 
+//TODO - try to remove when cdk npm is updated
+.cdk-overlay-container{
+  direction: ltr;
+}

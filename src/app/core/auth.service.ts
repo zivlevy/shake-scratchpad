@@ -5,7 +5,7 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {Observable, of} from 'rxjs';
 import {FirestoreService} from './firestore.service';
 import {SkUser} from '../model/user';
-import { take, switchMap } from 'rxjs/operators';
+import { take, switchMap, map } from 'rxjs/operators';
 
 
 // import 'rxjs/add/operator/take';
@@ -23,6 +23,8 @@ export class AuthService {
 
       this.getUser$().subscribe(user => {
         if (user) {
+          console.log('here');
+          console.log(user.emailVerified)
           this.currentAuthUser = user;
         }
       });
@@ -53,7 +55,11 @@ export class AuthService {
     }
 
     sendEmailVerification(){
-      return this.currentAuthUser.sendEmailVerification();
+      const actionCodeSettings = {
+        url: 'https://shake.network/org/ROMKnowledge',
+        handleCodeInApp: false
+      };
+      return this.currentAuthUser.sendEmailVerification(actionCodeSettings);
     }
 
     resetPassword(email: string) {
@@ -63,12 +69,14 @@ export class AuthService {
 
     isAuth$() {
         return this.afAuth.authState
-            .map(user => {
-                if (! user) {
-                    return false;
-                }
-                return !user.isAnonymous && user.emailVerified  ;
-              });
+          .pipe(
+            map(user => {
+              if (! user) {
+                return false;
+              }
+              return !user.isAnonymous && user.emailVerified  ;
+            })
+          );
     }
 
     getUser$() {
