@@ -1,11 +1,9 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../../core/auth.service';
 import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import {LanguageService} from '../../core/language.service';
-import {OrgService} from '../../views/organization/org.service';
 import {takeUntil} from 'rxjs/operators';
-import {MatMenuTrigger} from "@angular/material";
 
 @Component({
   selector: 'sk-nav-user',
@@ -19,28 +17,17 @@ export class NavUserComponent implements OnInit, OnDestroy {
   currentLng;
   isAuthenticated: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  myOrgs: Array<any>; // = new Array<any>();
-  myDir: string = 'rtl';
-  @ViewChild(MatMenuTrigger) public menuTrigger: MatMenuTrigger;
+  myOrgs: Array<any>;
+
   constructor(private authService: AuthService,
               private router: Router,
-              public lngService: LanguageService,
-              private orgService: OrgService) {}
+              public lngService: LanguageService) {}
 
   ngOnInit() {
     this.lngService.getLanguadge$()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(lng => {
-        this.currentLng = lng;
-         if (lng === 'en') {
-           this.myDir = 'ltr';
-         } else {
-           this.myDir = 'rtl';
-         }
-        console.log(this.myDir);
-      } );
+      .subscribe(lng => this.currentLng = lng );
 
-    // init user info
     this.authService.getUser$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
@@ -65,10 +52,6 @@ export class NavUserComponent implements OnInit, OnDestroy {
                 'id': org.id,
                 'name': org.orgName
               });
-              // this.orgService.getOrgNameP(orgIdObj.id)
-              //   .then(orgName => {
-              //
-              //   });
             });
           });
       });
@@ -86,11 +69,6 @@ export class NavUserComponent implements OnInit, OnDestroy {
       .catch(err => console.log(err));
   }
 
-  openContextMenu(event) {
-    event.preventDefault();
-
-    this.menuTrigger.openMenu();
-  }
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);
