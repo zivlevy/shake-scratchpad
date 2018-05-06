@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFirestore} from 'angularfire2/firestore';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {FirestoreService} from './firestore.service';
 import {SkUser} from '../model/user';
 import { take, switchMap } from 'rxjs/operators';
@@ -78,7 +78,7 @@ export class AuthService {
     getSkUser$(): Observable<any>{
       return this.getUser$()
         .pipe(switchMap(user => {
-          return user ? this.afs.doc(`users/${user.uid}`).valueChanges() : Observable.of(null);
+          return user ? this.afs.doc(`users/${user.uid}`).valueChanges() :  of(null);
         }));
     }
 

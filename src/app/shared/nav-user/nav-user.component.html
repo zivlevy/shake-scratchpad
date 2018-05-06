@@ -3,7 +3,7 @@
     <i *ngIf="!currentSkUser || !currentSkUser.photoURL || currentSkUser.photoURL === ''"
        class="fa fa-user-circle"></i>
     <img class="rounded-circle userImg"
-         *ngIf="currentSkUser && currentSkUser.photoURL != ''"
+         *ngIf="currentSkUser && currentSkUser.photoURL"
          [src]="currentSkUser?.photoURL" alt="">
     <span class="fa fa-caret-down"></span>
   </button>
