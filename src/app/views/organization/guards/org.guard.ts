@@ -77,11 +77,11 @@ export class OrgEditorGuard implements CanActivate {
       .pipe(
         switchMap( user => {
           if (user && user.roles.editor ) {
-            return Observable.of(true);
+            return of(true);
           } else {
             this.router.navigate(['org', orgId, 'org-join'])
               .catch(err => console.log(err));
-            return Observable.of(false);
+            return of(false);
           }
         })
       );

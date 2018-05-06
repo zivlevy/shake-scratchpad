@@ -14,7 +14,7 @@
       <button mat-button *ngIf="!user.currentAuthUser" (click)="login()" [innerHTML]="'Login' | translate"></button>
       <button mat-button *ngIf="!user.currentAuthUser" (click)="signup()" [innerHTML]="'Signup' | translate"></button>
 
-      <button  class="nav-button" mat-button [matMenuTriggerFor]="menu"  *ngIf="user.currentOrgUser &&
+      <button  [dir]="rtl ? 'rtl' : 'ltr'" class="nav-button" mat-button [matMenuTriggerFor]="menu"  *ngIf="user.currentOrgUser &&
     (user.currentOrgUser?.roles?.admin || user.currentOrgUser?.roles?.editor) && user.currentAuthUser">
         <mat-icon>build</mat-icon> <span class="fa fa-caret-down"></span>
       </button>

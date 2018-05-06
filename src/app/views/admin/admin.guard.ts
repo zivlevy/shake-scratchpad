@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {AuthService} from '../../core/auth.service';
 import {switchMap} from 'rxjs/operators';
 @Injectable()
@@ -17,11 +17,11 @@ export class SkAdminGuard implements CanActivate {
       .pipe(
         switchMap( isAdmin => {
           if (isAdmin) {
-            return Observable.of(true);
+            return of(true);
           } else {
             this.router.navigate([''])
               .catch(err => console.log(err));
-            return Observable.of(false);
+            return of(false);
           }
         })
       );
@@ -42,11 +42,11 @@ export class SkEditorGuard implements CanActivate {
       .pipe(
         switchMap( isAdmin => {
           if (isAdmin) {
-            return Observable.of(true);
+            return of(true);
           } else {
             this.router.navigate([''])
               .catch(err => console.log(err));
-            return Observable.of(false);
+            return of(false);
           }
         })
       );

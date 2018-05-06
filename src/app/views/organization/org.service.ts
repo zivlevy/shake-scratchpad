@@ -18,7 +18,7 @@ import {LanguageService} from '../../core/language.service';
 import {OrgDocService} from './org-doc.service';
 import 'rxjs-compat';
 import {distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {combineLatest} from 'rxjs';
+import {combineLatest, of} from 'rxjs';
 
 @Injectable()
 export class OrgService {
@@ -49,12 +49,13 @@ export class OrgService {
       })
       .filter((event: any) => {
         return event.snapshot._lastPathIndex === 1;
-      }).pipe(
-      map(event => event.snapshot.params.id),
-      distinctUntilChanged()
-    )
-    // .map(event => event.snapshot.params.id)
-    // .distinctUntilChanged()
+      })
+      .pipe(
+        map(event => event.snapshot.params.id),
+        distinctUntilChanged()
+      )
+      // .map(event => event.snapshot.params.id)
+      // .distinctUntilChanged()
       .subscribe((id: any) => {
         this.setOrganization(id)
           .subscribe(() => {
@@ -199,13 +200,13 @@ export class OrgService {
       .pipe(
         switchMap((user => {
           if (!user) {
-            return Observable.of(null);
+            return of(null);
           } else {
             return this.currentOrg$
               .pipe(
                 switchMap((org => {
                   if (!org) {
-                    return Observable.of(null);
+                    return of(null);
                   } else {
                     return this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`).valueChanges();
                   }
@@ -216,12 +217,12 @@ export class OrgService {
       );
   }
 
-  getOrgUserByOrgID$(orgId): Observable<any>{
+  getOrgUserByOrgID$(orgId): Observable<any> {
     return this.afAuth.authState
       .pipe(
         switchMap((user => {
           if (!user) {
-            return Observable.of(null);
+            return of(null);
           } else {
             const userRef: AngularFirestoreDocument<OrgUser> = this.afs.doc(`org/${orgId}/users/${user.uid}`);
             return userRef.valueChanges();
@@ -292,7 +293,7 @@ export class OrgService {
       .pipe(
         switchMap(newOrgId => {
           if (!newOrgId) {
-            return Observable.of(null);
+            return of(null);
           }
           const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}/publicData/info`);
           return document.valueChanges()
@@ -320,7 +321,7 @@ export class OrgService {
         distinctUntilChanged(),
         switchMap(newOrgId => {
           if (!newOrgId) {
-            return Observable.of(null);
+            return of(null);
           }
           const document: AngularFirestoreDocument<any> = this.afs.doc(`org/${newOrgId}`);
           return document.valueChanges()
@@ -670,7 +671,7 @@ export class OrgService {
       .pipe(
         switchMap(currentOrg => {
           if (!currentOrg) {
-            return Observable.of(null);
+            return of(null);
           } else {
             return this.firestoreService.doc$(`org/${currentOrg}`)
               .map((result: any) => {
@@ -754,7 +755,7 @@ export class OrgService {
               freeDocs.push(docItem);
             }
           });
-          return Observable.of(freeDocs);
+          return of(freeDocs);
         })
       );
   }

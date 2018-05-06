@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subject, Observable} from 'rxjs';
+import {Subject, of} from 'rxjs';
 import {SkDoc, SkDocData} from '../../../model/document';
 import {OrgService} from '../org.service';
 import {OrgUser} from '../../../model/org-user';
@@ -96,11 +96,11 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
           this.docVersionTitle = 'Version';
           this.docVersionNumber = String(doc.version);
 
-          return Observable.of(doc.publishVersion);
+          return of(doc.publishVersion);
         } else if (this.currentDocType === 'e') {
           this.docVersionTitle = `Edit version`;
           this.docVersionNumber = '';
-          return Observable.of(doc.editVersion);
+          return of(doc.editVersion);
         } else {
           this.docVersionTitle = `Archive version`;
           this.docVersionNumber = String(this.currentDocVersion);

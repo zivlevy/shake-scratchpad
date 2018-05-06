@@ -143,10 +143,10 @@ export class FirestoreService {
       return doc;
     });
   }
-  /// **************
-  /// Atomic batch example
-  /// **************
-  /// Just an example, you will need to customize this method.
+  // /**************
+  //  Atomic batch example
+  //  **************/
+  // // Just an example, you will need to customize this method.
   // atomic() {
   //   /// add your operations here
   //   const itemDoc = firebase.firestore().doc('items/myCoolItem');

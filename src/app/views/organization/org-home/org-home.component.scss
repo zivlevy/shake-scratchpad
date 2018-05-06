@@ -1,4 +1,8 @@
 //@import 'src/app/core/scss/shake';
+
+#wrapper {
+  height: calc( 100vh - 64px );
+}
 .wrap {
   margin: 0;
 }
@@ -18,9 +22,6 @@
   margin-right: 0px!important;
 }
 
-#container {
-  height: 100%;
-}
 
 .add-doc-button-rtl{
   background-color: white;

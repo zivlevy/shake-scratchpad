@@ -1,5 +1,5 @@
 <div *ngIf="currentAuthUser">
-  <button mat-button [matMenuTriggerFor]="menu">
+  <button [dir]="myDir" mat-button [matMenuTriggerFor]="menu" (click)="openContextMenu($event)">
     <i *ngIf="!currentSkUser || !currentSkUser.photoURL || currentSkUser.photoURL === ''"
        class="fa fa-user-circle"></i>
     <img class="rounded-circle userImg"

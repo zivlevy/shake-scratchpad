@@ -1,54 +1,57 @@
-<img  class="bannerImage" [src]="org?.bannerUrl">
-<mat-sidenav-container id="container" >
+<div id="wrapper" fxLayout="column">
+  <img  class="bannerImage" [src]="org?.bannerUrl">
+  <mat-sidenav-container fxFlex="100 0 auto">
 
-  <!-- SIDENAV -->
-  <mat-sidenav #sidenav align="start" [opened]="sideOpen" [mode]="sideMode" class="wrap mat-elevation-z12">
-    <sk-org-tree-view [allowEdit]="'true'" (selectedDoc)="treeDocClicked($event)"></sk-org-tree-view>
-  </mat-sidenav>
+    <!-- SIDENAV -->
+    <mat-sidenav #sidenav align="start" [opened]="sideOpen" [mode]="sideMode" class="wrap mat-elevation-z12">
+      <sk-org-tree-view [allowEdit]="'true'" (selectedDoc)="treeDocClicked($event)"></sk-org-tree-view>
+    </mat-sidenav>
 
-  <mat-sidenav-content [ngClass]="{'mat-content-rtl': rtl && sideOpen, 'mat-content-ltr': !rtl && sideOpen}">
+    <mat-sidenav-content [ngClass]="{'mat-content-rtl': rtl && sideOpen, 'mat-content-ltr': !rtl && sideOpen}">
 
 
-    <button *ngIf="currentOrgUser?.roles.editor" mat-fab class="btn-hover-accent"
-            matTooltip="{{'New Document' | translate}}" matTooltipPosition="after"
-            [ngClass]="{'add-doc-button': !rtl, 'add-doc-button-rtl': rtl}" (click)="newDoc()">
-      <mat-icon>playlist_add</mat-icon>
+      <button *ngIf="currentOrgUser?.roles.editor" mat-fab class="btn-hover-accent"
+              matTooltip="{{'New Document' | translate}}" matTooltipPosition="after"
+              [ngClass]="{'add-doc-button': !rtl, 'add-doc-button-rtl': rtl}" (click)="newDoc()">
+        <mat-icon>playlist_add</mat-icon>
 
-    </button>
+      </button>
 
-    <mat-tab-group style="margin-left: 20px; margin-right: 20px">
+      <mat-tab-group style="margin-left: 20px; margin-right: 20px">
 
-      <!-- Messages Tab -->
-      <mat-tab label="{{'Messages' | translate}}">
-        <!-- HEADER -->
-        <div>
-          <div fxLayout="row" fxLayoutAlign="start center">
-            <button mat-button fxHide.gt-sm (click)="sidenav.toggle()"
-                    matTooltip="{{'Documents Tree' | translate}}" matTooltipPosition="after">
-              <mat-icon>menu</mat-icon>
-            </button>
-            <h3 [innerHTML]="'Messages' | translate"></h3>
+        <!-- Messages Tab -->
+        <mat-tab label="{{'Messages' | translate}}">
+          <!-- HEADER -->
+          <div>
+            <div fxLayout="row" fxLayoutAlign="start center">
+              <button mat-button fxHide.gt-sm (click)="sidenav.toggle()"
+                      matTooltip="{{'Documents Tree' | translate}}" matTooltipPosition="after">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <h3 [innerHTML]="'Messages' | translate"></h3>
+            </div>
           </div>
-        </div>
-        <sk-org-messages></sk-org-messages>
-      </mat-tab>
+          <sk-org-messages></sk-org-messages>
+        </mat-tab>
 
-      <!-- Serach docs Tab -->
-      <mat-tab label="{{'Search' | translate}}">
-        <!-- HEADER -->
-        <div>
-          <div fxLayout="row" fxLayoutAlign="start center">
-            <button mat-button fxHide.gt-sm (click)="sidenav.toggle()"
-                    matTooltip="{{'Documents Tree' | translate}}" matTooltipPosition="after">
-              <mat-icon>menu</mat-icon>
-            </button>
-            <h3 [innerHTML]="'Search' | translate"></h3>
+        <!-- Serach docs Tab -->
+        <mat-tab label="{{'Search' | translate}}">
+          <!-- HEADER -->
+          <div>
+            <div fxLayout="row" fxLayoutAlign="start center">
+              <button mat-button fxHide.gt-sm (click)="sidenav.toggle()"
+                      matTooltip="{{'Documents Tree' | translate}}" matTooltipPosition="after">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <h3 [innerHTML]="'Search' | translate"></h3>
+            </div>
           </div>
-        </div>
-        <sk-org-search-doc></sk-org-search-doc>
-      </mat-tab>
+          <sk-org-search-doc></sk-org-search-doc>
+        </mat-tab>
 
-    </mat-tab-group>
+      </mat-tab-group>
 
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+

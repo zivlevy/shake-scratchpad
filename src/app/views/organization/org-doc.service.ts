@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {FirestoreService} from '../../core/firestore.service';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 
 @Injectable()
@@ -56,7 +56,7 @@ export class OrgDocService {
             docAckId = docAck.id;
           }
         });
-        return Observable.of(docAckId);
+        return of(docAckId);
       }));
 
   }
