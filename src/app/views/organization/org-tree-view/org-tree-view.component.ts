@@ -64,6 +64,9 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
 
     this.orgService.getOrgTreeByUser$()
+      .pipe(
+        takeUntil(this.destroy$)
+      )
       .subscribe(orgTree => {
         this.tree_options = {
           rtl: this.isRTL,
