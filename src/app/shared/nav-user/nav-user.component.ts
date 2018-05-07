@@ -4,7 +4,7 @@ import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import {LanguageService} from '../../core/language.service';
 import {takeUntil} from 'rxjs/operators';
-import {OrgService} from "../../views/organization/org.service";
+import {OrgService} from '../../views/organization/org.service';
 
 @Component({
   selector: 'sk-nav-user',
@@ -69,10 +69,15 @@ export class NavUserComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    console.log(this.logoutRoute);
-    this.router.navigate([this.logoutRoute])
-      .catch(err => console.log(err));
     this.authService.logout();
+    if (this.logoutRoute === '') {
+      this.router.navigate(['login']);
+    } else {
+      this.router.navigate([this.logoutRoute])
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 
   orgClicked(orgId: string) {

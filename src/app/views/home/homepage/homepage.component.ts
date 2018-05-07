@@ -18,15 +18,15 @@ export class HomepageComponent implements OnInit, OnDestroy {
               private router: Router,
               public authService: AuthService) {
 
+
+  }
+
+  ngOnInit() {
     this.authService.getUser$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(authUser => {
         this.currentUser = authUser;
       });
-  }
-
-  ngOnInit() {
-
   }
 
   login() {
