@@ -1,5 +1,8 @@
 export const environment = {
   production: true,
+  domain: {
+    name: 'htpps://shake.network'
+  },
   firebase: {
     apiKey: 'AIzaSyDwhlfoyY89v88KaPc99UYaDXgk0Lx4fr4',
     authDomain: 'shakescratchpad.firebaseapp.com',

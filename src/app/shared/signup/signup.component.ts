@@ -5,6 +5,8 @@ import {Subject} from 'rxjs';
 import {AuthService} from '../../core/auth.service';
 import {LanguageService} from '../../core/language.service';
 import {ToasterService} from '../../core/toaster.service';
+import {takeUntil} from 'rxjs/operators';
+import {OrgService} from '../../views/organization/org.service';
 
 @Component({
   selector: 'sk-signup',
@@ -19,17 +21,34 @@ export class SignupComponent implements OnInit, OnDestroy {
   requestName: string;
   requestEmail: string;
   emailBlocked = false;
+  homeRoute: string;
+  orgId: string;
 
   constructor(public fb: FormBuilder,
-              public auth: AuthService,
+              public authService: AuthService,
               private router: Router,
               private route: ActivatedRoute,
               private lngService: LanguageService,
+              private orgService: OrgService,
               private toaster: ToasterService) {
 
   }
 
   ngOnInit() {
+
+    // get current org
+    this.orgService.getCurrentOrg$()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(org => {
+        this.orgId = org;
+        if (org) {
+          this.homeRoute = 'org/' + org;
+        } else {
+          this.homeRoute = '';
+        }
+      });
+
+
     this.route.queryParamMap.subscribe(params => {
       this.returnRoute = params.get('returnUrl');
       if (params.get('name')) {
@@ -93,41 +112,34 @@ export class SignupComponent implements OnInit, OnDestroy {
     return this.signupForm.get('displayName');
   }
 
-  get confirmPassword() {
-    return this.signupForm.get('confirmPassword');
-  }
-
-
   signup() {
-    this.auth.emailSignUp(this.email.value, this.password.value).then(user => {
-      const actionCodeSettings = {
-        url: 'https://shake.network/org/ROMKnowledge',
-        handleCodeInApp: false
-      };
-      user.sendEmailVerification(actionCodeSettings)
-        .then(res => console.log(res))
+    this.authService.emailSignUp(this.email.value, this.password.value).then(user => {
+      this.authService.sendEmailVerification(user, this.homeRoute)
         .catch(err => console.log(err));
-      this.auth.createUserInitialData(user.uid, this.email.value , this.displayName.value, )
+      this.authService.createUserInitialData(user.uid, this.email.value , this.displayName.value, )
         .catch(err => console.log(err));
 
-      let queryParams;
-      if (this.returnRoute) {
-        if (this.requestEmail) {
-          queryParams = {
-            name: this.requestName,
-            mail: this.requestEmail
-          };
-          this.router.navigate([this.returnRoute], {queryParams: queryParams})
-            .catch(err => console.log(err));
-        } else {
-          this.router.navigate([this.returnRoute])
-            .catch(err => console.log(err));
-        }
-      } else {
-        this.router.navigate([''])
-          .catch(err => console.log(err));
-        // window.location.reload();
-      }
+      this.router.navigate([this.homeRoute])
+        .catch(err => console.log(err));
+
+      // let queryParams;
+      // if (this.returnRoute) {
+      //   if (this.requestEmail) {
+      //     queryParams = {
+      //       name: this.requestName,
+      //       mail: this.requestEmail
+      //     };
+      //     this.router.navigate([this.returnRoute], {queryParams: queryParams})
+      //       .catch(err => console.log(err));
+      //   } else {
+      //     this.router.navigate([this.returnRoute])
+      //       .catch(err => console.log(err));
+      //   }
+      // } else {
+      //   this.router.navigate([this.homeRoute])
+      //     .catch(err => console.log(err));
+      //   // window.location.reload();
+      // }
 
     }).catch(err => {
       this.toaster.toastError(err.message);
@@ -137,28 +149,33 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   gotoLogin() {
     let queryParams;
-
-    if (this.returnRoute) {
-      if (this.requestEmail) {
-        queryParams = {
-          returnUrl: this.returnRoute,
-          name: this.requestName,
-          mail: this.requestEmail
-        };
-      } else {
-        queryParams = {
-          returnUrl: this.returnRoute
-        };
-      }
-      // this.router.navigate([`${this.returnRoute}/login`], {queryParams: {returnUrl: this.returnRoute}});
-      const orgId = this.router.routerState.snapshot.url.match('org/(.*)/')[1];
-      this.router.navigate(['org/' + orgId + '/login'], {queryParams: queryParams})
+    queryParams = {
+      returnUrl: this.returnRoute,
+      name: this.requestName,
+      mail: this.requestEmail
+    };
+    this.router.navigate([this.homeRoute + '/login'], {queryParams: queryParams})
         .catch(err => console.log(err));
 
-    } else {
-      this.router.navigate(['login'])
-        .catch(err => console.log(err));
-    }
+    // if (this.returnRoute) {
+    //   if (this.requestEmail) {
+    //     queryParams = {
+    //       returnUrl: this.returnRoute,
+    //       name: this.requestName,
+    //       mail: this.requestEmail
+    //     };
+    //   } else {
+    //     queryParams = {
+    //       returnUrl: this.returnRoute
+    //     };
+    //   }
+    //   this.router.navigate(['org/' + this.orgId + '/login'], {queryParams: queryParams})
+    //     .catch(err => console.log(err));
+    //
+    // } else {
+    //   this.router.navigate(['login'])
+    //     .catch(err => console.log(err));
+    // }
   }
 
   setLng(lng) {

@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   requestName: string;
   requestEmail: string;
   emailBlocked = false;
+  homeRoute: string;
   orgId: string;
 
   constructor(private fb: FormBuilder,
@@ -38,6 +39,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(org => {
         this.orgId = org;
+        if (org) {
+          this.homeRoute = 'org/' + org;
+        } else {
+          this.homeRoute = '';
+        }
       });
 
     this.route.queryParamMap.subscribe(params => {
@@ -84,26 +90,27 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     this.auth.login(this.email.value, this.password.value).then(() => {
+      this.router.navigate([this.homeRoute])
+        .catch(err => console.log(err));
 
-      let queryParams;
-      if (this.returnRoute) {
-        if (this.requestEmail) {
-          queryParams = {
-            name: this.requestName,
-            mail: this.requestEmail
-          };
-          this.router.navigate([this.returnRoute], {queryParams: queryParams})
-            .catch(err => console.log(err));
-        } else {
-          this.router.navigate([this.returnRoute])
-            .catch(err => console.log(err));
-        }
-      } else {
-        const homeRoute = this.router.url.slice(0, -5);
-        this.router.navigate([homeRoute])
-          .catch(err => console.log(err));
-        // window.location.reload();
-      }
+      // let queryParams;
+      // if (this.returnRoute) {
+      //   if (this.requestEmail) {
+      //     queryParams = {
+      //       name: this.requestName,
+      //       mail: this.requestEmail
+      //     };
+      //     this.router.navigate([this.returnRoute], {queryParams: queryParams})
+      //       .catch(err => console.log(err));
+      //   } else {
+      //     this.router.navigate([this.returnRoute])
+      //       .catch(err => console.log(err));
+      //   }
+      // } else {
+      //   this.router.navigate([this.homeRoute])
+      //     .catch(err => console.log(err));
+      //   // window.location.reload();
+      // }
     })
       .catch(err => {
         if (err.code === 'auth/user-not-found') {
@@ -117,25 +124,32 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   gotoRegister() {
     let queryParams;
+    queryParams = {
+      returnUrl: this.returnRoute,
+      name: this.requestName,
+      mail: this.requestEmail
+    };
+    this.router.navigate([this.homeRoute + '/register'], {queryParams: queryParams})
+      .catch(err => console.log(err));
 
-    if (this.returnRoute) {
-      if (this.requestEmail) {
-        queryParams = {
-          returnUrl: this.returnRoute,
-          name: this.requestName,
-          mail: this.requestEmail
-        };
-      } else {
-        queryParams = {
-          returnUrl: this.returnRoute
-        };
-      }
-      this.router.navigate(['org/' + this.orgId + `/register`], {queryParams: queryParams})
-        .catch(err => console.log(err));
-    } else {
-      this.router.navigate(['register'])
-        .catch(err => console.log(err));
-    }
+    // if (this.returnRoute) {
+    //   if (this.requestEmail) {
+    //     queryParams = {
+    //       returnUrl: this.returnRoute,
+    //       name: this.requestName,
+    //       mail: this.requestEmail
+    //     };
+    //   } else {
+    //     queryParams = {
+    //       returnUrl: this.returnRoute
+    //     };
+    //   }
+    //   this.router.navigate(['org/' + this.orgId + `/register`], {queryParams: queryParams})
+    //     .catch(err => console.log(err));
+    // } else {
+    //   this.router.navigate(['register'])
+    //     .catch(err => console.log(err));
+    // }
   }
 
   setLng(lng) {

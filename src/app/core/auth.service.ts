@@ -6,11 +6,7 @@ import {Observable, of} from 'rxjs';
 import {FirestoreService} from './firestore.service';
 import {SkUser} from '../model/user';
 import { take, switchMap, map } from 'rxjs/operators';
-
-
-// import 'rxjs/add/operator/take';
-
-
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
@@ -53,12 +49,12 @@ export class AuthService {
         .catch(err => console.log(err));
     }
 
-    sendEmailVerification(){
+    sendEmailVerification(user, homeRoute: string){
       const actionCodeSettings = {
-        url: 'https://shake.network/org/ROMKnowledge',
+        url: environment.domain.name + '/' + homeRoute,
         handleCodeInApp: false
       };
-      return this.currentAuthUser.sendEmailVerification(actionCodeSettings);
+      return user.sendEmailVerification(actionCodeSettings);
     }
 
     resetPassword(email: string) {

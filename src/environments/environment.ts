@@ -5,6 +5,9 @@
 
 export const environment = {
   production: false,
+  domain: {
+    name: 'http://localhost:4200'
+  },
   firebase: {
     // apiKey: 'AIzaSyAy3oqTQVzqjFnu1DfNhCOQbawEfPIb108',
     // authDomain: 'shake-c53cb.firebaseapp.com',

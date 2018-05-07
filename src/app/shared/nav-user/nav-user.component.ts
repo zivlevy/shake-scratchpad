@@ -4,6 +4,7 @@ import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import {LanguageService} from '../../core/language.service';
 import {takeUntil} from 'rxjs/operators';
+import {OrgService} from '../../views/organization/org.service';
 
 @Component({
   selector: 'sk-nav-user',
@@ -11,7 +12,7 @@ import {takeUntil} from 'rxjs/operators';
   styleUrls: ['./nav-user.component.scss']
 })
 export class NavUserComponent implements OnInit, OnDestroy {
-  @Input() logoutRoute = '';
+  // @Input() logoutRoute = '';
   currentAuthUser;
   currentSkUser;
   currentLng;
@@ -19,8 +20,12 @@ export class NavUserComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   myOrgs: Array<any>; // = new Array<any>();
   myDir: string = 'rtl';
+  homeRoute: string;
+  orgId: string;
+
   constructor(private authService: AuthService,
               private router: Router,
+              private orgService: OrgService,
               public lngService: LanguageService) {}
 
   ngOnInit() {
@@ -34,6 +39,18 @@ export class NavUserComponent implements OnInit, OnDestroy {
            this.myDir = 'rtl';
          }
       } );
+
+    // get current org
+    this.orgService.getCurrentOrg$()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(org => {
+        this.orgId = org;
+        if (org) {
+          this.homeRoute = 'org/' + org;
+        } else {
+          this.homeRoute = '';
+        }
+      });
 
     // init user info
     this.authService.getUser$()
@@ -69,13 +86,16 @@ export class NavUserComponent implements OnInit, OnDestroy {
     this.authService.logout()
       .catch(err => console.log(err));
 
-    if (this.logoutRoute === '') {
-      this.router.navigate(['login'])
-        .catch(err => console.log(err));
-    } else {
-      this.router.navigate([this.logoutRoute])
-        .catch(err => console.log(err));
-    }
+    this.router.navigate([this.homeRoute + '/login'])
+      .catch(err => console.log(err));
+
+    // if (this.logoutRoute === '') {
+    //   this.router.navigate(['login'])
+    //     .catch(err => console.log(err));
+    // } else {
+    //   this.router.navigate([this.logoutRoute])
+    //     .catch(err => console.log(err));
+    // }
   }
 
   orgClicked(orgId: string) {
