@@ -99,9 +99,10 @@ export class LoginComponent implements OnInit, OnDestroy {
             .catch(err => console.log(err));
         }
       } else {
-        this.router.navigate([''])
+        const homeRoute = this.router.url.slice(0, -5);
+        this.router.navigate([homeRoute])
           .catch(err => console.log(err));
-        window.location.reload();
+        // window.location.reload();
       }
     })
       .catch(err => {

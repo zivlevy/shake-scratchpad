@@ -4,7 +4,6 @@ import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
 import {LanguageService} from '../../core/language.service';
 import {takeUntil} from 'rxjs/operators';
-import {OrgService} from '../../views/organization/org.service';
 
 @Component({
   selector: 'sk-nav-user',
@@ -22,8 +21,7 @@ export class NavUserComponent implements OnInit, OnDestroy {
   myDir: string = 'rtl';
   constructor(private authService: AuthService,
               private router: Router,
-              public lngService: LanguageService,
-              private orgService: OrgService) {}
+              public lngService: LanguageService) {}
 
   ngOnInit() {
     this.lngService.getLanguadge$()
@@ -35,7 +33,6 @@ export class NavUserComponent implements OnInit, OnDestroy {
          } else {
            this.myDir = 'rtl';
          }
-        console.log(this.myDir);
       } );
 
     // init user info
@@ -69,14 +66,15 @@ export class NavUserComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.authService.logout();
+    this.authService.logout()
+      .catch(err => console.log(err));
+
     if (this.logoutRoute === '') {
-      this.router.navigate(['login']);
+      this.router.navigate(['login'])
+        .catch(err => console.log(err));
     } else {
       this.router.navigate([this.logoutRoute])
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => console.log(err));
     }
   }
 

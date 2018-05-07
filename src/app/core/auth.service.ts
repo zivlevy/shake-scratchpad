@@ -23,8 +23,6 @@ export class AuthService {
 
       this.getUser$().subscribe(user => {
         if (user) {
-          console.log('here');
-          console.log(user.emailVerified)
           this.currentAuthUser = user;
         }
       });
@@ -52,11 +50,7 @@ export class AuthService {
 
     logout() {
       return this.afAuth.auth.signOut()
-        .then(res => {
-          console.log(res);
-      }).catch( err => {
-        console.log(err);
-        });
+        .catch(err => console.log(err));
     }
 
     sendEmailVerification(){
