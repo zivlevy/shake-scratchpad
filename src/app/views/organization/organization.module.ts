@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CoreModule} from '../../core/core.module';
 import {OrganizationRoutingModule} from './organization-routing.module';
-import {OrgAdminGuard, OrgEditorGuard, OrgGuard} from "./guards/org.guard";
+import {OrgAdminGuard, OrgEditorGuard, OrgGuard} from './guards/org.guard';
 import {OrgService} from './org.service';
 import {TranslateModule} from '@ngx-translate/core';
 import {ReactiveFormsModule , FormsModule} from '@angular/forms';
@@ -33,6 +33,7 @@ import { OrgContainerComponent } from './org-container/org-container.component';
 import { OrgHomeComponent } from './org-home/org-home.component';
 import { OrgSearchDocComponent } from './org-search-doc/org-search-doc.component';
 import { OrgDocReadCreateComponent } from './org-doc-read-create/org-doc-read-create.component';
+import {PapaParseModule} from 'ngx-papaparse';
 
 @NgModule({
   imports: [
@@ -51,8 +52,8 @@ import { OrgDocReadCreateComponent } from './org-doc-read-create/org-doc-read-cr
     FormsModule,
     TreeModule,
     FlexLayoutModule,
-    MaterialModule
-
+    MaterialModule,
+    PapaParseModule
   ],
   declarations: [
     OrgAdminUsersComponent,

@@ -5,6 +5,7 @@ import {CropperSettings} from 'ng2-img-cropper';
 import {ImageService} from '../../core/image.service';
 import {ToasterService} from '../../core/toaster.service';
 import {takeUntil} from 'rxjs/operators';
+import {EmailService} from "../../core/email.service";
 
 
 @Component({
@@ -34,6 +35,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService,
               private imageService: ImageService,
               private toaster: ToasterService,
+              private emailService: EmailService
               ) {
 
     this.cropperSettings = new CropperSettings();
@@ -105,9 +107,11 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   emailValidate(email: string): boolean {
-    const emailRegex = new RegExp('^([\\w\\!\\#$\\%\\&\\\'\\*\\+\\-\\/\\=\\?\\^\\`{\\|\\}\\~]+\\.)*[\\w\\!\\#$\\%\\&\\\'\\*\\+\\-\\/\\=\\?\\^\\`{\\|\\}\\~]+@((((([a-z0-9]{1}[a-z0-9\\-]{0,62}[a-z0-9]{1})|[a-z])\\.)+[a-z]{2,6})|(\\d{1,3}\\.){3}\\d{1,3}(\\:\\d{1,5})?)$');
-    return emailRegex.test(email.toLowerCase());
+    return this.emailService.isValidEmail(email);
+    // const emailRegex = new RegExp('^([\\w\\!\\#$\\%\\&\\\'\\*\\+\\-\\/\\=\\?\\^\\`{\\|\\}\\~]+\\.)*[\\w\\!\\#$\\%\\&\\\'\\*\\+\\-\\/\\=\\?\\^\\`{\\|\\}\\~]+@((((([a-z0-9]{1}[a-z0-9\\-]{0,62}[a-z0-9]{1})|[a-z])\\.)+[a-z]{2,6})|(\\d{1,3}\\.){3}\\d{1,3}(\\:\\d{1,5})?)$');
+    // return emailRegex.test(email.toLowerCase());
   }
+
   uploadSingle() {
     console.log(this.data, this.data.image);
     this.imageService.uploadUserImg(this.data.image, this.currentSkUser.uid)

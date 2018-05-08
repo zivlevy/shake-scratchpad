@@ -1,117 +1,153 @@
+<div fxLayout="row">
+  <mat-card fxFlex="1 1 30%">
+    <mat-card-title>
+      {{'New Invitation' | translate}}
+    </mat-card-title>
 
 
-<mat-card fxFlex="1 1 30%">
-  <mat-card-title>
-    {{'New Invitation' | translate}}
-  </mat-card-title>
+
+    <form [formGroup]="inviteForm" (ngSubmit)="manualSend()">
 
 
+      <small><mat-checkbox formControlName="advanced">{{'Advanced' | translate}}</mat-checkbox></small>
 
-  <form [formGroup]="inviteForm" (ngSubmit)="manualSend()">
+      <div class="form-body">
 
-
-    <small><mat-checkbox formControlName="advanced">{{'Advanced' | translate}}</mat-checkbox></small>
-
-    <div class="form-body">
-
-      <div>
-        <mat-form-field>
-          <input matInput type="text" id="displayName"
-                 formControlName="displayName" placeholder="{{'Display Name' | translate}}">
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field>
-          <input matInput id="email" type="email"
-                 formControlName="email" placeholder="{{'Email' | translate}}">
-        </mat-form-field>
-        <div *ngIf="email && email.invalid && email.dirty" class="error-message"
-             [innerHTML]="'Please enter a valid email' | translate">
+        <div>
+          <mat-form-field>
+            <input matInput type="text" id="displayName"
+                   formControlName="displayName" placeholder="{{'Display Name' | translate}}">
+          </mat-form-field>
         </div>
+
+        <div>
+          <mat-form-field>
+            <input matInput id="email" type="email"
+                   formControlName="email" placeholder="{{'Email' | translate}}">
+          </mat-form-field>
+          <div *ngIf="email && email.invalid && email.dirty" class="error-message"
+               [innerHTML]="'Please enter a valid email' | translate">
+          </div>
+        </div>
+
+        <div>
+          <mat-checkbox id="isViewer" formControlName="isViewer">{{'Viewer' | translate}}</mat-checkbox>
+        </div>
+
+        <div>
+          <mat-checkbox id="isEditor" formControlName="isEditor">{{'Editor' | translate}}</mat-checkbox>
+        </div>
+
+        <div>
+          <mat-checkbox id="isAdmin" formControlName="isAdmin">{{'Admin' | translate}}</mat-checkbox>
+        </div>
+
       </div>
 
-      <div>
-        <mat-checkbox id="isAdmin" formControlName="isAdmin">{{'Admin' | translate}}</mat-checkbox>
+      <div fxLayout="row">
+
+        <button mat-raised-button class="btn-hover-accent buttons-row" type="submit" [disabled]="!inviteForm.valid"
+                matTooltip="{{'Send Invitation' | translate}}">
+          <mat-icon>mail</mat-icon>
+        </button>
+
+        <button *ngIf="advanced" mat-raised-button [disabled]="!inviteForm.valid"
+                (click)="addInviteToTable()" class="btn-hover-accent buttons-row"
+                matTooltip="{{'Add invite to list' | translate}}">
+          <mat-icon>playlist_add</mat-icon>
+        </button>
+
       </div>
-      <div>
-        <mat-checkbox id="isEditor" formControlName="isEditor">{{'Editor' | translate}}</mat-checkbox>
-      </div>
-      <div>
-        <mat-checkbox id="isViewer" formControlName="isViewer">{{'Viewer' | translate}}</mat-checkbox>
-      </div>
+
+    </form>
+
+  </mat-card>
+
+  <mat-card *ngIf="advanced" fxFlex="1 1 70%">
+    <mat-card-title>
+      {{'Invites waiting to be sent' | translate}}
+    </mat-card-title>
+
+    <div fxLayout="row">
+
+      <button mat-raised-button (click)="FileSelect.click()"
+              class="btn-hover-accent buttons-row"
+              matTooltip="{{'Read From File' | translate}}">
+        <mat-icon>archive</mat-icon>
+      </button>
+      <input hidden type="file" #FileSelect (change)="readInvitesFromFile($event)">
+
+      <button mat-raised-button (click)="tableInvitesSend()"
+              [disabled]="invites.length === 0" class="btn-hover-accent buttons-row"
+              matTooltip="{{'Send Table invitations' | translate}}">
+        <mat-icon>mail</mat-icon>
+      </button>
+
+      <button mat-raised-button
+              (click)="tableInvitesDelete()"
+              [disabled]="invites.length === 0" class="btn-hover-warn buttons-row"
+              matTooltip="{{'Delete Table invitations' | translate}}">
+        <i class="fa fa-trash"></i>
+      </button>
     </div>
 
-    <div>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!inviteForm.valid"
-              [innerHTML]="'Send Invitation' | translate"></button>
-      <button *ngIf="advanced" mat-raised-button color="primary"  [disabled]="!inviteForm.valid" (click)="addInviteToTable()"
-              [innerHTML]="'Add invite to list' | translate"></button>
+    <mat-table #table [dataSource]="dataSource">
 
-    </div>
+      <ng-container matColumnDef="displayName">
+        <mat-header-cell *matHeaderCellDef> {{'Display Name' | translate}} </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.displayName}} </mat-cell>
+      </ng-container>
 
-  </form>
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef> {{'Email' | translate}} </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+      </ng-container>
 
-</mat-card>
-<mat-card *ngIf="advanced" fxFlex="1 1 70%">
-  <mat-card-title>
-    {{'Invites waiting to be sent' | translate}}
-  </mat-card-title>
+      <ng-container matColumnDef="isViewer">
+        <mat-header-cell *matHeaderCellDef> {{'Viewer' | translate}} </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-checkbox [checked]="element.isViewer"
+                        (change) = "isViewerClicked(element.email, $event)" >
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
 
-  <div>
-    <button mat-raised-button color="primary" (click)="tableInvitesSend()"
-            [disabled]="invites.length === 0">
-      {{'Send Table invitations' | translate}}
-    </button>
+      <ng-container matColumnDef="isEditor">
+        <mat-header-cell *matHeaderCellDef> {{'Editor' | translate}} </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-checkbox [checked]="element.isEditor"
+                        (change) = "isEditorClicked(element.email, $event)" >
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
 
-    <button mat-raised-button color="primary" (click)="FileSelect.click()">
-      {{'Read From File' | translate}}
-    </button>
-    <input hidden type="file" #FileSelect (change)="readInvitesFromFile($event)">
 
-  </div>
+      <ng-container matColumnDef="isAdmin">
+        <mat-header-cell *matHeaderCellDef> {{'Admin' | translate}} </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-checkbox [checked]="element.isAdmin"
+                        (change) = "isAdminClicked(element.email, $event)" >
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
 
-  <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="Actions">
+        <mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</mat-header-cell>
+        <mat-cell  *matCellDef="let element">
+          <button mat-raised-button class="btn-hover-warn"
+                  matTooltip="{{'Invitation Delete' | translate}}" matTooltipPosition="after"
+                  (click)="deleteInviteFromTable(element.email)">
+            <i class="fa fa-trash"></i></button>
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="displayName">
-      <mat-header-cell *matHeaderCellDef> {{'Display Name' | translate}} </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.displayName}} </mat-cell>
-    </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
 
-    <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef> {{'Email' | translate}} </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
-    </ng-container>
+  </mat-card>
+</div>
 
-    <ng-container matColumnDef="isAdmin">
-      <mat-header-cell *matHeaderCellDef> {{'Admin' | translate}} </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.isAdmin}} </mat-cell>
-    </ng-container>
 
-    <ng-container matColumnDef="isEditor">
-      <mat-header-cell *matHeaderCellDef> {{'Editor' | translate}} </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.isEditor}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="isViewer">
-      <mat-header-cell *matHeaderCellDef> {{'Viewer' | translate}} </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.isViewer}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="Actions">
-      <mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</mat-header-cell>
-      <mat-cell  *matCellDef="let element">
-        <button mat-raised-button color="warn"
-                matTooltip="{{'Invitation Delete' | translate}}" matTooltipPosition="after"
-                (click)="deleteInviteFromTable(element.email)">
-          <i class="fa fa-trash"></i></button>
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-
-</mat-card>
 
 

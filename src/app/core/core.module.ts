@@ -14,6 +14,7 @@ import {DataPackageService} from './data-package.service';
 import {FileService} from './file.service';
 import {ToasterService} from './toaster.service';
 import {MediaService} from './media.service';
+import {EmailService} from './email.service';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import {MediaService} from './media.service';
     DataPackageService,
     FileService,
     ToasterService,
-    MediaService
+    MediaService,
+    EmailService
   ],
   declarations: [SafeHtmlPipe, SetDirectionDirective],
   exports: [SafeHtmlPipe]

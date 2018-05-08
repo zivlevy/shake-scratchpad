@@ -6,18 +6,20 @@ import {MatTableDataSource} from '@angular/material';
 import {FileService} from '../../../core/file.service';
 import {ToasterService} from '../../../core/toaster.service';
 import {takeUntil} from 'rxjs/operators';
+import {PapaParseService} from 'ngx-papaparse';
+import {EmailService} from "../../../core/email.service";
+
 export class InviteRecord {
 
   constructor(
     public displayName: string,
     public  email: string,
-    public isAdmin: boolean,
+    public isViewer: boolean,
     public isEditor: boolean,
-    public isViewer: boolean) {
+    public isAdmin: boolean) {
 
   }
 }
-
 
 @Component({
   selector: 'sk-org-admin-users-invite',
@@ -25,7 +27,7 @@ export class InviteRecord {
   styleUrls: ['./org-admin-users-invite.component.scss']
 })
 export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
-  displayedColumns = ['displayName', 'email', 'isAdmin', 'isEditor', 'isViewer', 'Actions'];
+  displayedColumns = ['displayName', 'email', 'isViewer', 'isEditor', 'isAdmin',  'Actions'];
   dataSource = new MatTableDataSource<InviteRecord>();
 
   inviteForm: FormGroup;
@@ -37,6 +39,8 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
   constructor(private orgService: OrgService,
               private fb: FormBuilder,
               private fileService: FileService,
+              private papa: PapaParseService,
+              private emailService: EmailService,
               private toaster: ToasterService) {
     this.initInvites();
   }
@@ -107,10 +111,15 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
   }
 
   addInviteToTable() {
-    const invite = new InviteRecord(this.displayName, this.email, this.isAdmin, this.isEditor, this.isViewer);
-    this.invites.push(invite);
-    this.dataSource.data = this.invites;
-    this.initNewInvite();
+    // const invite = new InviteRecord(this.displayName, this.email, this.isAdmin, this.isEditor, this.isViewer);
+    // this.invites.push(invite);
+    if (this.addInviteRecord(new InviteRecord(this.displayName, this.email, this.isAdmin, this.isEditor, this.isViewer))) {
+      this.dataSource.data = this.invites;
+      this.initNewInvite();
+    } else {
+      this.toaster.toastError('Errors Occurred');
+    }
+
   }
 
   deleteInviteFromTable(emailToDelete: string) {
@@ -144,7 +153,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
       })
       .catch(() => {
         this.toaster.toastError('Invitation Rejected');
-      })
+      });
   }
 
    resetForm(formGroup: FormGroup) {
@@ -170,31 +179,113 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
       });
   }
 
-  readInvitesFromFile(event) {
-    const inFile = event.target.files[0];
-    this.fileService.readCsv(inFile)
-      .then((lines: any) => {
-        let isAdmin = false;
-        let isEditor = false;
-        let isViewer = false;
-
-        console.log(lines);
-        console.log(lines.length);
-
-        for (const line of lines) {
-          console.log(line);
-          if (line.length >= 2) {
-            isAdmin = this.fileService.stringToBoolean(line[2]);
-            isEditor = this.fileService.stringToBoolean(line[3]);
-            isViewer = this.fileService.stringToBoolean(line[4]);
-          }
-          const invite = new InviteRecord(line[0], line[1], isAdmin, isEditor, isViewer );
-          this.invites.push(invite);
-          this.dataSource.data = this.invites;
-      }
-    });
+  tableInvitesDelete() {
+    this.initInvites();
+    this.dataSource.data = this.invites;
   }
 
+  stringToBoolean(string){
+    switch (string.toLowerCase().trim()){
+      case 'true': case 'yes': case '1': return true;
+      case 'false': case 'no': case '0': case null: return false;
+      default: return false;
+    }
+  }
+
+  addInviteRecord(invite: InviteRecord): boolean {
+    const newEmail = invite.email;
+
+    const i = this.invites.findIndex(rec => rec.email === newEmail);
+    if (i > -1) {
+      return false;
+    }
+
+    this.invites.push(invite);
+    return true;
+  }
+
+  processLine(line: string): boolean {
+    if (line.length !== 2 && line.length !== 5) {
+      return false;
+    }
+    const displayName = line[0].toLowerCase().trim();
+    const email = line[1].toLowerCase().trim();
+
+    if (!this.emailService.isValidEmail(email)) {
+      return false;
+    }
+
+    if (line.length === 2) {
+      return this.addInviteRecord( new InviteRecord(displayName, email, true, false, false));
+    } else {
+      const isViewer = this.stringToBoolean(line[2]);
+      const isEditor = this.stringToBoolean(line[3]);
+      const isAdmin = this.stringToBoolean(line[4]);
+
+      return this.addInviteRecord(new InviteRecord(displayName, email, isViewer, isEditor, isAdmin)) ;
+
+    }
+
+  }
+
+  readInvitesFromFile(event) {
+    let parseErrors = 0;
+    const inFile = event.target.files[0];
+    this.papa.parse(inFile, {
+      delimiter: ',',
+      complete: results => {
+        for (const result of results.data) {
+          if (!this.processLine(result)) {
+            parseErrors += 1;
+          }
+        }
+        console.log(parseErrors);
+        this.dataSource.data = this.invites;
+        if (parseErrors > 0) {
+          this.toaster.toastError('Errors Occurred');
+        }
+      }
+    });
+    // this.fileService.readCsv(inFile)
+    //   .then((lines: any) => {
+    //     let isAdmin = false;
+    //     let isEditor = false;
+    //     let isViewer = false;
+    //
+    //     console.log(lines);
+    //     console.log(lines.length);
+    //
+    //     for (const line of lines) {
+    //       console.log(line);
+    //       if (line.length >= 2) {
+    //         isViewer = this.fileService.stringToBoolean(line[2]);
+    //         isEditor = this.fileService.stringToBoolean(line[3]);
+    //         isAdmin = this.fileService.stringToBoolean(line[4]);
+    //       }
+    //       const invite = new InviteRecord(line[0], line[1], isViewer, isEditor, isAdmin );
+    //       this.invites.push(invite);
+    //       this.dataSource.data = this.invites;
+    //   }
+    // });
+  }
+
+  isViewerClicked(mail: string, event)
+  {
+    const i = this.invites.findIndex(rec => rec.email === mail);
+    this.invites[i].isViewer = event.checked;
+  }
+
+  isEditorClicked(mail: string, event)
+  {
+    const i = this.invites.findIndex(rec => rec.email === mail);
+    this.invites[i].isEditor = event.checked;
+  }
+
+  isAdminClicked(mail: string, event)
+  {
+    const i = this.invites.findIndex(rec => rec.email === mail);
+    this.invites[i].isAdmin = event.checked;
+  }
 
   ngOnDestroy() {
     // force unsubscribe
