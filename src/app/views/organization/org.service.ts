@@ -359,7 +359,7 @@ export class OrgService {
     return document.update(newData);
   }
 
-  setOrgInvites(orgId, displayName, email, isAdmin, isEditor, isViewer) {
+  setOrgInvites(orgId, displayName, email, isViewer, isEditor, isAdmin) {
     return new Promise<any>((resolve, reject) => {
       const emailLowerCase = email.toLowerCase();
       this.checkOrgUserByMail(orgId, emailLowerCase)
@@ -378,7 +378,36 @@ export class OrgService {
           }
         });
     });
+  }
 
+  setOrgInviteIsViewer(orgId, email, isViewer) {
+    return new Promise<any>((resolve) => {
+      const emailLowerCase = email.toLowerCase();
+      this.firestoreService.update(`org/${orgId}/invites/${emailLowerCase}`, {
+        'isViewer': isViewer
+      })
+        .then(resolve);
+    });
+  }
+
+  setOrgInviteIsEditor(orgId, email, isEditor) {
+    return new Promise<any>((resolve) => {
+      const emailLowerCase = email.toLowerCase();
+      this.firestoreService.update(`org/${orgId}/invites/${emailLowerCase}`, {
+        'isEditor': isEditor
+      })
+        .then(resolve);
+    });
+  }
+
+  setOrgInviteIsAdmin(orgId, email, isAdmin) {
+    return new Promise<any>((resolve) => {
+      const emailLowerCase = email.toLowerCase();
+      this.firestoreService.update(`org/${orgId}/invites/${emailLowerCase}`, {
+        'isAdmin': isAdmin
+      })
+        .then(resolve);
+    });
   }
 
   checkOrgUserByMail(orgId: string, email: string) {

@@ -5,11 +5,12 @@
     </mat-card-title>
 
 
+    <small><mat-checkbox (change)="advancedClick($event)">{{'Advanced' | translate}}</mat-checkbox></small>
 
-    <form [formGroup]="inviteForm" (ngSubmit)="manualSend()">
+    <!--<form [formGroup]="inviteForm" (ngSubmit)="manualSend()">-->
+      <form [formGroup]="inviteForm">
 
 
-      <small><mat-checkbox formControlName="advanced">{{'Advanced' | translate}}</mat-checkbox></small>
 
       <div class="form-body">
 
@@ -46,7 +47,8 @@
 
       <div fxLayout="row">
 
-        <button mat-raised-button class="btn-hover-accent buttons-row" type="submit" [disabled]="!inviteForm.valid"
+        <button mat-raised-button class="btn-hover-accent buttons-row"
+                (click)="manualSend()" [disabled]="!inviteForm.valid"
                 matTooltip="{{'Send Invitation' | translate}}">
           <mat-icon>mail</mat-icon>
         </button>

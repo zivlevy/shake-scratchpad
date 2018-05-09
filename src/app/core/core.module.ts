@@ -11,7 +11,6 @@ import {SafeHtmlPipe} from './safe-html.pipe';
 import {AlgoliaService} from './algolia.service';
 import { SetDirectionDirective } from './set-direction.directive';
 import {DataPackageService} from './data-package.service';
-import {FileService} from './file.service';
 import {ToasterService} from './toaster.service';
 import {MediaService} from './media.service';
 import {EmailService} from './email.service';
@@ -31,7 +30,6 @@ import {EmailService} from './email.service';
     AlgoliaService,
     SetDirectionDirective,
     DataPackageService,
-    FileService,
     ToasterService,
     MediaService,
     EmailService

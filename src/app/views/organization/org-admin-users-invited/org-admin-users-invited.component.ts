@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {InviteRecord} from "../org-admin-users-invite/org-admin-users-invite.component";
-import {MatTableDataSource} from "@angular/material";
-import {OrgService} from "../org.service";
-import {Subject} from "rxjs";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {InviteRecord} from '../org-admin-users-invite/org-admin-users-invite.component';
+import {MatTableDataSource} from '@angular/material';
+import {OrgService} from '../org.service';
+import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -11,7 +11,7 @@ import {takeUntil} from 'rxjs/operators';
   styleUrls: ['./org-admin-users-invited.component.scss']
 })
 export class OrgAdminUsersInvitedComponent implements OnInit, OnDestroy {
-  displayedColumns = ['displayName', 'email', 'isAdmin', 'isEditor', 'isViewer', 'Actions'];
+  displayedColumns = ['displayName', 'email', 'isViewer', 'isEditor', 'isAdmin', 'Actions'];
   dataSource = new MatTableDataSource<InviteRecord>();
   orgId: string;
 
@@ -33,6 +33,24 @@ export class OrgAdminUsersInvitedComponent implements OnInit, OnDestroy {
   }
   inviteDelete(email) {
     this.orgService.deleteOrgUserInviteP(this.orgId, email)
+      .catch(err => console.log(err));
+  }
+
+  isViewerClicked(mail: string, event)
+  {
+    this.orgService.setOrgInviteIsViewer(this.orgId, mail, event.checked)
+      .catch(err => console.log(err));
+  }
+
+  isEditorClicked(mail: string, event)
+  {
+    this.orgService.setOrgInviteIsEditor(this.orgId, mail, event.checked)
+      .catch(err => console.log(err));
+  }
+
+  isAdminClicked(mail: string, event)
+  {
+    this.orgService.setOrgInviteIsAdmin(this.orgId, mail, event.checked)
       .catch(err => console.log(err));
   }
 

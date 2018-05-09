@@ -1,34 +1,40 @@
 <mat-table #table [dataSource]="dataSource">
 
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
-  <!-- Position Column -->
   <ng-container matColumnDef="displayName">
     <mat-header-cell *matHeaderCellDef> {{'Display Name' | translate}} </mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.displayName}} </mat-cell>
   </ng-container>
 
-  <!-- Name Column -->
   <ng-container matColumnDef="email">
     <mat-header-cell *matHeaderCellDef> {{'Email' | translate}} </mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
   </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="isAdmin">
-    <mat-header-cell *matHeaderCellDef> {{'Admin' | translate}} </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.isAdmin}} </mat-cell>
+  <ng-container matColumnDef="isViewer">
+    <mat-header-cell *matHeaderCellDef> {{'Viewer' | translate}} </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-checkbox [checked]="element.isViewer"
+                    (change) = "isViewerClicked(element.id, $event)" >
+      </mat-checkbox>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="isEditor">
     <mat-header-cell *matHeaderCellDef> {{'Editor' | translate}} </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.isEditor}} </mat-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-checkbox [checked]="element.isEditor"
+                    (change) = "isEditorClicked(element.id, $event)" >
+      </mat-checkbox>
+    </mat-cell>
   </ng-container>
 
-  <ng-container matColumnDef="isViewer">
-    <mat-header-cell *matHeaderCellDef> {{'Viewer' | translate}} </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.isViewer}} </mat-cell>
+  <ng-container matColumnDef="isAdmin">
+    <mat-header-cell *matHeaderCellDef> {{'Admin' | translate}} </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <mat-checkbox [checked]="element.isAdmin"
+                    (change) = "isAdminClicked(element.id, $event)" >
+      </mat-checkbox>
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="Actions">

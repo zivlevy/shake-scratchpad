@@ -3,11 +3,10 @@ import {OrgService} from '../org.service';
 import {Subject} from 'rxjs';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatTableDataSource} from '@angular/material';
-import {FileService} from '../../../core/file.service';
 import {ToasterService} from '../../../core/toaster.service';
 import {takeUntil} from 'rxjs/operators';
 import {PapaParseService} from 'ngx-papaparse';
-import {EmailService} from "../../../core/email.service";
+import {EmailService} from '../../../core/email.service';
 
 export class InviteRecord {
 
@@ -29,6 +28,7 @@ export class InviteRecord {
 export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
   displayedColumns = ['displayName', 'email', 'isViewer', 'isEditor', 'isAdmin',  'Actions'];
   dataSource = new MatTableDataSource<InviteRecord>();
+  advanced: boolean;
 
   inviteForm: FormGroup;
 
@@ -38,11 +38,11 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
 
   constructor(private orgService: OrgService,
               private fb: FormBuilder,
-              private fileService: FileService,
               private papa: PapaParseService,
               private emailService: EmailService,
               private toaster: ToasterService) {
     this.initInvites();
+    this.advanced = false;
   }
 
 
@@ -60,7 +60,6 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
         'isAdmin': [false],
         'isEditor': [false],
         'isViewer': [true],
-        'advanced': [false]
 
       }
     );
@@ -92,10 +91,6 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
     return this.inviteForm.get('isViewer').value;
   }
 
-  get advanced() {
-    return this.inviteForm.get('advanced').value;
-  }
-
   initNewInvite() {
     this.inviteForm.controls['displayName'].setValue('');
     this.inviteForm.controls['email'].setValue('');
@@ -108,14 +103,17 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
 
   initInvites() {
     this.invites = [];
+    this.dataSource.data = this.invites;
+
   }
 
   addInviteToTable() {
-    // const invite = new InviteRecord(this.displayName, this.email, this.isAdmin, this.isEditor, this.isViewer);
-    // this.invites.push(invite);
-    if (this.addInviteRecord(new InviteRecord(this.displayName, this.email, this.isAdmin, this.isEditor, this.isViewer))) {
+    if (this.addInviteRecord(new InviteRecord(this.displayName, this.email, this.isViewer, this.isEditor, this.isAdmin))) {
       this.dataSource.data = this.invites;
-      this.initNewInvite();
+
+      // TODO - set to this.inviteForm.reset() once the bug is fixed by google
+      this.resetForm(this.inviteForm);
+      this.inviteForm.controls['isViewer'].setValue(true);
     } else {
       this.toaster.toastError('Errors Occurred');
     }
@@ -135,21 +133,18 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
   }
 
   sendInvite(invite: InviteRecord) {
-    return this.orgService.setOrgInvites(this.orgId, invite.displayName, invite.email, invite.isAdmin, invite.isEditor, invite.isViewer);
+    return this.orgService.setOrgInvites(this.orgId, invite.displayName, invite.email, invite.isViewer, invite.isEditor, invite.isAdmin);
   }
 
   manualSend() {
-    const invite = new InviteRecord(this.displayName, this.email, this.isAdmin, this.isEditor, this.isViewer);
-    this.initNewInvite();
+    const invite = new InviteRecord(this.displayName, this.email, this.isViewer, this.isEditor, this.isAdmin);
+    // TODO - set to this.inviteForm.reset() once the bug is fixed by google
+    this.resetForm(this.inviteForm);
+    this.inviteForm.controls['isViewer'].setValue(true);
 
     this.sendInvite(invite)
       .then(() => {
         this.toaster.toastSuccess('Invitation Sent');
-        this.initInvites();
-        // Added by ziv to workaround reset bug
-        // TODO - set to this.inviteForm.reset() once the bug is fixed by google
-        this.resetForm(this.inviteForm);
-        this.inviteForm.controls['isViewer'].setValue(true);
       })
       .catch(() => {
         this.toaster.toastError('Invitation Rejected');
@@ -246,27 +241,6 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
         }
       }
     });
-    // this.fileService.readCsv(inFile)
-    //   .then((lines: any) => {
-    //     let isAdmin = false;
-    //     let isEditor = false;
-    //     let isViewer = false;
-    //
-    //     console.log(lines);
-    //     console.log(lines.length);
-    //
-    //     for (const line of lines) {
-    //       console.log(line);
-    //       if (line.length >= 2) {
-    //         isViewer = this.fileService.stringToBoolean(line[2]);
-    //         isEditor = this.fileService.stringToBoolean(line[3]);
-    //         isAdmin = this.fileService.stringToBoolean(line[4]);
-    //       }
-    //       const invite = new InviteRecord(line[0], line[1], isViewer, isEditor, isAdmin );
-    //       this.invites.push(invite);
-    //       this.dataSource.data = this.invites;
-    //   }
-    // });
   }
 
   isViewerClicked(mail: string, event)
@@ -287,6 +261,9 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
     this.invites[i].isAdmin = event.checked;
   }
 
+  advancedClick(event) {
+    this.advanced = event.checked;
+  }
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);
