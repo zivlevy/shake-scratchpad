@@ -1,11 +1,15 @@
 <div id="tree-wrapper" *ngIf="nodes.length >0" (click)="treeClicked()">
-    <tree-root #tree [nodes]="nodes" [options]="tree_options"
-               (activate)="nodeMoved($event)">
+  <tree-root #tree [nodes]="nodes" [options]="tree_options"
+             (activate)="nodeMoved($event)">
 
-      <ng-template #treeNodeTemplate let-node let-index="index">
-        <div (contextmenu)="openTreeMenu($event)" (click)="treeEditorClick($event, node)">
-          <div *ngIf="treeNode === node" #itemTreeTrigger="matMenuTrigger" [dir]="isRTL ? 'rtl' : 'ltr'"
-               [matMenuTriggerFor]="treeMenu"></div>
+    <ng-template #treeNodeTemplate let-node let-index="index">
+      <div (contextmenu)="openTreeMenu($event)" >
+        <div fxLayout>
+        <div *ngIf="treeNode === node" #itemTreeTrigger="matMenuTrigger" [dir]="isRTL ? 'rtl' : 'ltr'"
+             [matMenuTriggerFor]="treeMenu"></div>
+          <img id="item-icon" *ngIf="!node.data.nodes"   src="assets/icons/item.png" (click)="treeEditorClick($event, node)">
+
+          <!--<mat-icon *ngIf="!node.data.nodes" fxFlex="2px" (click)="treeEditorClick($event, node)">menu</mat-icon>-->
           <div
             class="editor"
             [ngClass]="{
@@ -22,21 +26,23 @@
             [froalaEditor]="editorOptions(node)" [(ngModel)]="node.data.data">
           </div>
         </div>
-      </ng-template>
-    </tree-root>
+
+      </div>
+    </ng-template>
+  </tree-root>
 
 </div>
 
 
 <!-- Menu -->
-<mat-menu #treeMenu="matMenu" [overlapTrigger]="'false'">
+<mat-menu #treeMenu="matMenu" [overlapTrigger]="'true'">
   <button *ngIf="treeNode?.parent.parent" mat-menu-item [matMenuTriggerFor]="sectionSatMenu">
     <mat-icon>create_new_folder</mat-icon>
     {{'Add Section' | translate}}
   </button>
   <!--<button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(tree.treeModel, treeNode , true)">-->
-    <!--<mat-icon>create_new_folder</mat-icon>-->
-    <!--Add Child Section-->
+  <!--<mat-icon>create_new_folder</mat-icon>-->
+  <!--Add Child Section-->
   <!--</button>-->
 
   <button *ngIf="treeNode?.parent.parent" mat-menu-item [matMenuTriggerFor]="itemSatMenu">
@@ -44,8 +50,8 @@
     {{'Add Item' | translate}}
   </button>
   <!--<button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(tree.treeModel, treeNode)">-->
-    <!--<mat-icon>create</mat-icon>-->
-    <!--Add Child Item-->
+  <!--<mat-icon>create</mat-icon>-->
+  <!--Add Child Item-->
   <!--</button>-->
 
   <button *ngIf="!treeNode?.children && treeNode?.data.type !== 1" mat-menu-item (click)="makeWarning(treeNode)">

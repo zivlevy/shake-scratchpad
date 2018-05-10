@@ -66,35 +66,37 @@
     vertical-align: middle;
     color: #888888;
     text-align: center;
-    content: "\f142";
+    //content: "\f142";
+    content: "";
     display: block;
-    width: 10px;
+    width: 3px;
     height: 100%;
     position: absolute;
     background-color: aliceblue;
     top: 0px;
-    left: -4px;
+    left: 0px;
   }
 }
 
 .item-editor-rtl {
   margin: 0;
-  padding-right: 20px;
-  padding-left: 20px;
+  padding-right: 5px;
+  padding-left: 5px;
   font-size: 16px;
   &:after {
     font-family: FontAwesome;
     vertical-align: middle;
     color: #888888;
     text-align: center;
-    content: "\f142";
+    //content: "\f142";
+    content: "";
     display: block;
-    width: 10px;
+    width: 3px;
     height: 100%;
     position: absolute;
     background-color: aliceblue;
     top: 0px;
-    right: -4px;
+    right: 0px;
   }
   & ul {
     background-color: red;
@@ -136,3 +138,9 @@
   border: 1px solid black;
 }
 
+#item-icon {
+  width:15px;
+  height: 15px;
+  margin: 3px 4px;
+
+}
