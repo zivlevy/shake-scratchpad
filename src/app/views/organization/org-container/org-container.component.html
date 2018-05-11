@@ -21,7 +21,7 @@
 
         <mat-icon>build</mat-icon> <span class="fa fa-caret-down"></span>
       </button>
-      <mat-menu #menu="matMenu" [overlapTrigger]="false">
+      <mat-menu #menu="matMenu" [overlapTrigger]="'false'">
         <button mat-menu-item  [routerLink]="'org-admin'" [innerHTML]="'Organization Management' | translate"
                 *ngIf="user.currentOrgUser && user.currentOrgUser?.roles?.admin && user.currentAuthUser"
         ></button>
