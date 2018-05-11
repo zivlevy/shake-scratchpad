@@ -138,9 +138,15 @@
   border: 1px solid black;
 }
 
-#item-icon {
+.small-icon {
   width:15px;
   height: 15px;
   margin: 3px 4px;
 
+}
+
+.normal-icon {
+  width: 25px;
+  height: 25px;
+  margin: 3px 4px;
 }
