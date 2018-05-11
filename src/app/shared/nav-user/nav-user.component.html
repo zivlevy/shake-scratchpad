@@ -13,7 +13,7 @@
     <button mat-menu-item (click)="logout()" [innerHTML]="'Logout' | translate"></button>
     <hr>
     <div mat-menu-item class="menu-header" disabled [innerHTML]="'My Organizations' | translate"></div>
-    <button mat-menu-item *ngFor="let org of myOrgs" (click)="orgClicked(org.id)">{{org.name}}</button>
+    <button mat-menu-item id="orgname" *ngFor="let org of myOrgs" (click)="orgClicked(org.id)">{{org.name}}</button>
   </mat-menu>
 </div>
 
