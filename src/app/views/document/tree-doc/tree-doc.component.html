@@ -3,7 +3,7 @@
              (activate)="nodeMoved($event)">
 
     <ng-template #treeNodeTemplate let-node let-index="index">
-      <div (contextmenu)="openTreeMenu($event)" >
+      <div (contextmenu)="openTreeMenu($event, node)" >
         <div fxLayout>
         <div *ngIf="treeNode === node" #itemTreeTrigger="matMenuTrigger" [dir]="isRTL ? 'rtl' : 'ltr'"
              [matMenuTriggerFor]="treeMenu"></div>

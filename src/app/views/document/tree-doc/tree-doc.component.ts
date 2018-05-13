@@ -139,12 +139,14 @@ export class TreeDocComponent implements OnInit, OnChanges {
       return;
     }
     this.treeNode = node;
-    setTimeout(() => this.openTreeMenu(ev), 0);
+    setTimeout(() => this.openTreeMenu(ev, node), 0);
   }
 
-  openTreeMenu(ev) {
+  openTreeMenu(ev, node) {
     ev.preventDefault();
-    this.treeMenuTrigger.openMenu();
+    this.treeNode = node;
+    setTimeout(() => this.treeMenuTrigger.openMenu(), 0);
+
   }
 
 
