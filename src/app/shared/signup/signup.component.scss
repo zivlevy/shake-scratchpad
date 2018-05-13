@@ -17,35 +17,6 @@ a:not([href]):not([tabindex]) {
 
 }
 
-//.form-header {
-//  color: #333;
-//  text-align: center;
-//  text-shadow: none;
-//  background-color: transparent;
-//  border: 0;
-//  padding: 10px 20px;
-//  font-family: "Arial";
-//  margin-top: 20px;
-//  line-height: 1.5;
-//  h1 {
-//    font-size: 2rem;
-//  }
-//}
-//
-//.form-body {
-//  border: 1px solid #d8dee2;
-//  border-radius: 5px;
-//  padding: 20px;
-//  font-size: 14px;
-//  background-color: #fff;
-//  margin-top: 16px !important;
-//  box-sizing: border-box;
-//  display: block;
-//  line-height: 1.5;
-//  color: #24292e;
-//
-//}
-
 .flags {
 
   direction: ltr;
@@ -56,3 +27,7 @@ a:not([href]):not([tabindex]) {
   }
 }
 
+.gaps {
+  margin-right: 10px;
+  margin-left: 10px
+}

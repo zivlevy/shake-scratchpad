@@ -143,6 +143,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
   }
 
   openTreeMenu(ev) {
+    console.log(event, this.treeMenuTrigger);
     ev.preventDefault();
     this.treeMenuTrigger.openMenu();
   }

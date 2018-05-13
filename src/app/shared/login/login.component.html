@@ -52,14 +52,14 @@
         <img class="login-icon" src="assets/icons/icon-250.png"  fxHide.lt-sm>
 
         <div class="text-center">
-          <span [innerHTML]="'New to Shake?' | translate"></span>
+          <span [innerHTML]="'New to Shake?' | translate" class="gaps"></span>
           <a (click)="gotoRegister()"
              [innerHTML]="'Create an account' | translate"
           ></a>
         </div>
 
         <div class="text-center">
-          <span [innerHTML]="'Forgot password?' | translate"></span>
+          <span [innerHTML]="'Forgot password?' | translate" class="gaps"></span>
           <button mat-raised-button (click)="resetPassword()" [disabled]="!email.valid"
                   class="btn-hover-accent"
                   [innerHTML]="'Reset Password' | translate"></button>

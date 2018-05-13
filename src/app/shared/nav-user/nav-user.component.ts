@@ -83,19 +83,12 @@ export class NavUserComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.authService.logout()
-      .catch(err => console.log(err));
-
     this.router.navigate([this.homeRoute + '/login'])
       .catch(err => console.log(err));
 
-    // if (this.logoutRoute === '') {
-    //   this.router.navigate(['login'])
-    //     .catch(err => console.log(err));
-    // } else {
-    //   this.router.navigate([this.logoutRoute])
-    //     .catch(err => console.log(err));
-    // }
+    this.authService.logout()
+      .catch(err => console.log(err));
+
   }
 
   orgClicked(orgId: string) {
