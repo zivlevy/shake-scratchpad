@@ -6,9 +6,10 @@ import {
   MatIconModule, MatInputModule, MatListModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule,
   MatProgressSpinnerModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule,
   MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatTabsModule,
-  MatToolbarModule,
+  // MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
@@ -45,7 +46,7 @@ import {MatMenuModule} from '@angular/material/menu';
     MatTableModule,
     MatTabsModule,
     MatStepperModule,
-    MatToolbarModule,
+    // MatToolbarModule,
   ],
   exports: [
     MatAutocompleteModule,
@@ -79,7 +80,7 @@ import {MatMenuModule} from '@angular/material/menu';
     MatTableModule,
     MatTabsModule,
     MatStepperModule,
-    MatToolbarModule,
+    // MatToolbarModule,
   ],
 
   declarations: []
