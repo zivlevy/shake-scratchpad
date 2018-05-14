@@ -37,25 +37,17 @@
 
 <!-- Menu -->
 <mat-menu #treeMenu="matMenu" [overlapTrigger]="'true'">
-  <button *ngIf="treeNode?.parent.parent" mat-menu-item [matMenuTriggerFor]="sectionSatMenu">
+  <button mat-menu-item [matMenuTriggerFor]="sectionSatMenu">
     <!--<mat-icon>create_new_folder</mat-icon>-->
     <img src="assets/icons/section_add.png" class="normal-icon">
     {{'Add Section' | translate}}
   </button>
-  <!--<button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(tree.treeModel, treeNode , true)">-->
-  <!--<mat-icon>create_new_folder</mat-icon>-->
-  <!--Add Child Section-->
-  <!--</button>-->
 
-  <button *ngIf="treeNode?.parent.parent" mat-menu-item [matMenuTriggerFor]="itemSatMenu">
+  <button mat-menu-item [matMenuTriggerFor]="itemSatMenu">
     <!--<mat-icon>create</mat-icon>-->
     <img src="assets/icons/item_add.png" class="normal-icon">
     {{'Add Item' | translate}}
   </button>
-  <!--<button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(tree.treeModel, treeNode)">-->
-  <!--<mat-icon>create</mat-icon>-->
-  <!--Add Child Item-->
-  <!--</button>-->
 
   <button *ngIf="!treeNode?.children && treeNode?.data.type !== 1" mat-menu-item (click)="makeWarning(treeNode)">
     <mat-icon>warning</mat-icon>
@@ -74,26 +66,26 @@
 </mat-menu>
 
 <mat-menu #itemSatMenu="matMenu">
-  <button mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, false, true)">
+  <button *ngIf="treeNode?.parent.parent" mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, false, true)">
     {{'Above' | translate}}
   </button>
   <button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(tree.treeModel, treeNode)">
     {{'Child' | translate}}
   </button>
-  <button mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, false)">
+  <button *ngIf="treeNode?.parent.parent" mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, false)">
     {{'Below' | translate}}
   </button>
 </mat-menu>
 
 
 <mat-menu #sectionSatMenu="matMenu">
-  <button mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, true, true)">
+  <button *ngIf="treeNode?.parent.parent" mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, true, true)">
     {{'Above' | translate}}
   </button>
   <button *ngIf="treeNode?.children" mat-menu-item (click)="addChildItem(tree.treeModel, treeNode , true)">
     {{'Child' | translate}}
   </button>
-  <button mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, true)">
+  <button *ngIf="treeNode?.parent.parent" mat-menu-item (click)="addBrotherItem(tree.treeModel, treeNode, true)">
     {{'Below' | translate}}
   </button>
 </mat-menu>

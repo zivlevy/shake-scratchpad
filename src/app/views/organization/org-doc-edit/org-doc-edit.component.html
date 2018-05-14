@@ -8,42 +8,42 @@
     <div [ngClass.xs]="'header-section-small'" fxLayout="row" fxLayoutAlign="start center"
          fxFlexOrder="2" fxFlexOrder.gt-xs="1">
       <button mat-button class="rightside-buttons mat-icon-button" (click)="publishDocument()"
-              matTooltip="{{'Publish' | translate}}" matTooltipPosition="after">
+              matTooltip="{{'Publish' | translate}}" matTooltipPosition="above">
         <mat-icon>publish</mat-icon>
       </button>
 
       <button mat-button class="rightside-buttons mat-icon-button" (click)="saveDocument()"
-              matTooltip="{{'Save' | translate}}" matTooltipPosition="after">
+              matTooltip="{{'Save' | translate}}" matTooltipPosition="above">
         <mat-icon>save</mat-icon>
       </button>
 
       <!-- EDIT BUTTON -->
       <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showEdit()"
-              matTooltip="{{'Edit' | translate}}" matTooltipPosition="after">
+              matTooltip="{{'Edit' | translate}}" matTooltipPosition="above">
         <mat-icon>edit</mat-icon>
       </button>
 
       <!-- NUMBERING BUTTON-->
       <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()"
-              matTooltip="{{'Numbering' | translate}}" matTooltipPosition="after">
+              matTooltip="{{'Numbering' | translate}}" matTooltipPosition="above">
         <mat-icon>format_list_numbered</mat-icon>
       </button>
 
       <!-- Taskview BUTTON-->
       <button *ngIf="isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="toggleSectionView()"
-              matTooltip="{{'Section View' | translate}}" matTooltipPosition="after">
+              matTooltip="{{'Section View' | translate}}" matTooltipPosition="above">
         <mat-icon>view_headline</mat-icon>
       </button>
 
       <!-- PREVIEW BUTTON -->
       <button *ngIf="!isPreview" mat-button class="rightside-buttons mat-icon-button" (click)="showPreview()"
-              matTooltip="{{'Preview' | translate}}" matTooltipPosition="after">
+              matTooltip="{{'Preview' | translate}}" matTooltipPosition="above">
         <mat-icon>remove_red_eye</mat-icon>
       </button>
 
       <!-- SEARCH BUTTON -->
       <button  mat-button  *ngIf="!isTaskView"  class="rightside-buttons mat-icon-button" (click)="toggleSearch()"
-               matTooltip="{{'Search' | translate}}" matTooltipPosition="after">
+               matTooltip="{{'Search' | translate}}" matTooltipPosition="above">
         <mat-icon>search</mat-icon>
       </button>
 

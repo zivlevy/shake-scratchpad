@@ -10,32 +10,32 @@
 
       <!-- EDIT BUTTON -->
       <button *ngIf="currentOrgUser?.roles.editor" mat-button class="rightside-buttons mat-icon-button" (click)="gotoEdit()"
-              matTooltip="{{'Edit' | translate}}" matTooltipPosition="after">
+              matTooltip="{{'Edit' | translate}}" matTooltipPosition="above">
         <mat-icon>edit</mat-icon>
       </button>
 
 
       <!-- Signature Required -->
       <button *ngIf="docAckId" mat-button class="rightside-buttons mat-icon-button" (click)="signDocument()"
-              matTooltip="{{'Sign Document Read' | translate}}" matTooltipPosition="after">
+              matTooltip="{{'Sign Document Read' | translate}}" matTooltipPosition="above">
         <mat-icon>fingerprint</mat-icon>
       </button>
 
       <!-- NUMBERING BUTTON-->
       <button mat-button class="rightside-buttons mat-icon-button" (click)="toggleNumbering()"
-              matTooltip="{{'Numbering' | translate}}" matTooltipPosition="after">
+              matTooltip="{{'Numbering' | translate}}" matTooltipPosition="above">
         <mat-icon>format_list_numbered</mat-icon>
       </button>
 
       <!-- Taskview BUTTON-->
       <button mat-button class="rightside-buttons mat-icon-button" (click)="toggleSectionView()"
-              matTooltip="{{'Section View' | translate}}" matTooltipPosition="after">
+              matTooltip="{{'Section View' | translate}}" matTooltipPosition="above">
         <mat-icon>view_headline</mat-icon>
       </button>
 
       <!-- SEARCH BUTTON -->
       <button *ngIf="!isTaskView"  mat-button class="rightside-buttons mat-icon-button" (click)="toggleSearch()"
-              matTooltip="{{'Search' | translate}}" matTooltipPosition="after">
+              matTooltip="{{'Search' | translate}}" matTooltipPosition="above">
         <mat-icon>search</mat-icon>
       </button>
 
