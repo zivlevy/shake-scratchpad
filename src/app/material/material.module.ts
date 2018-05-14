@@ -30,7 +30,7 @@ import {MatMenuModule} from '@angular/material/menu';
     MatIconModule,
     MatInputModule,
     MatListModule,
-    MatMenuModule,
+    // MatMenuModule,
     MatNativeDateModule,
     MatPaginatorModule,
     MatProgressBarModule,
