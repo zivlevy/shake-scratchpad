@@ -1,20 +1,41 @@
 import {NgModule} from '@angular/core';
 import {
-  MatAutocompleteModule, MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatChipsModule,
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
   MatDatepickerModule,
-  MatDialogModule, MatExpansionModule, MatFormFieldModule, MatGridListModule,
-  MatIconModule, MatInputModule, MatListModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule,
-  MatProgressSpinnerModule, MatRadioModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule,
-  MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatTabsModule,
-  // MatToolbarModule,
+  MatDialogModule,
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSliderModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatStepperModule,
+  MatTableModule,
+  MatTabsModule, MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   imports: [
     MatMenuModule,
+    MatToolbarModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -31,7 +52,6 @@ import {MatMenuModule} from '@angular/material/menu';
     MatIconModule,
     MatInputModule,
     MatListModule,
-    // MatMenuModule,
     MatNativeDateModule,
     MatPaginatorModule,
     MatProgressBarModule,
@@ -46,9 +66,10 @@ import {MatMenuModule} from '@angular/material/menu';
     MatTableModule,
     MatTabsModule,
     MatStepperModule,
-    // MatToolbarModule,
   ],
   exports: [
+    MatMenuModule,
+    MatToolbarModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -65,7 +86,6 @@ import {MatMenuModule} from '@angular/material/menu';
     MatIconModule,
     MatInputModule,
     MatListModule,
-    MatMenuModule,
     MatNativeDateModule,
     MatPaginatorModule,
     MatProgressBarModule,
@@ -80,7 +100,6 @@ import {MatMenuModule} from '@angular/material/menu';
     MatTableModule,
     MatTabsModule,
     MatStepperModule,
-    // MatToolbarModule,
   ],
 
   declarations: []
