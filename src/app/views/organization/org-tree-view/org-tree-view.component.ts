@@ -305,7 +305,6 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
     const tempName = node.data.name;
     node.parent.data.children.splice(node.index, 1);
     this.tree.treeModel.update();
-    console.log(this.nodes);
     const nodesJson = JSON.stringify(this.nodes);
     const re = new RegExp(tempDocId, 'g');
     const count = (nodesJson.match(re) || [] ).length;
@@ -324,7 +323,6 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
     const tree = this.orgService.makeJsonTree(this.tree.treeModel.roots);
     this.orgService.saveOrgTree(tree)
       .then(() => {
-        console.log('finished');
       });
   }
 

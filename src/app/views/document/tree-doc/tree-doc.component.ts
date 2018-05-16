@@ -65,7 +65,6 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // if the change is in the doc itself
-    console.log(changes);
     if (changes.docData && !changes.docData.firstChange) {
       if (this.docData) {
         this.nodes = [];
@@ -300,6 +299,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
     // add doc name from root node
     docToSave['name'] = this.stripHtml(this.nodes[0].data);
+    docToSave['plainTextSize'] = docToSave.plainText.length;
 
     return docToSave;
 

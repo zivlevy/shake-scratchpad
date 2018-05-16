@@ -51,7 +51,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // direcrtion
+    // direction
     this.lngService.getDirection$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(dir => this.rtl = (dir === 'rtl'));
@@ -86,8 +86,6 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
           .subscribe(reqDocAckId => {
             this.docAckId = reqDocAckId;
           });
-        console.log(this.currentOrg, this.currentOrgUser, this.currentDocId, this.currentSkUser.uid);
-        console.log(doc);
         if (doc) {
           this.docName = doc.name;
         }

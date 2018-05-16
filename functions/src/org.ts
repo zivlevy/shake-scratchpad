@@ -12,6 +12,7 @@ const saveEditDoc = function (orgId, docId, data) {
   if ( data.editVersion !== undefined) {
     editedDoc.name = data.editVersion.name;
     editedDoc.plainText = data.editVersion.plainText;
+    editedDoc.plainTextSize = data.editVersion.plainTextSize;
     editedDoc.docId = docId;
     editedDoc.docType = 'e';
     editedDoc.version = 0;
@@ -27,6 +28,7 @@ const savePublishDoc = function (orgId, docId, data) {
   if ( data.publishVersion !== undefined) {
     publishedDoc.name = data.publishVersion.name;
     publishedDoc.plainText = data.publishVersion.plainText;
+    publishedDoc.plainTextSize = data.publishVersion.plainTextSize;
     publishedDoc.docId = docId;
     publishedDoc.docType = 'p';
     publishedDoc.version = data.version;
@@ -41,6 +43,7 @@ const saveVersionDoc = function (orgId, docId, data) {
   const versionDoc = new AlgoliaDoc;
   versionDoc.name = data.name;
   versionDoc.plainText = data.plainText;
+  versionDoc.plainTextSize = data.plainTextSize;
   versionDoc.docId = docId;
   versionDoc.docType = 'v';
   versionDoc.version = data.version;
@@ -62,7 +65,8 @@ export const onPrivateDocUpdated = functions.firestore.document('org/{orgId}/doc
   if (docData.isPublish) {
     savePublish = savePublishDoc(orgId, docId, docData);
   } else {
-    savePublish = algoliaDeletePublishedDoc(orgId, docId);
+    const publishPlainTextSize = data.before.data().publishVersion.plainTextSize ? data.before.data().publishVersion.plainTextSize : 1;
+    savePublish = algoliaDeletePublishedDoc(orgId, docId, publishPlainTextSize);
   }
 
   return Promise.all([saveEdit, savePublish])
@@ -102,20 +106,23 @@ export const onPrivateDocVersionDeleted = functions.firestore.document('org/{org
   const orgId = context.params.orgId;
   const docId = context.params.docId;
   const version =context.params.version;
+  const plainTextSize = data.data().plainTextSize ? data.data().plainTextSize : 1;
 
-  return algoliaDeleteVersionDoc(orgId, docId, version)
+  return algoliaDeleteVersionDoc(orgId, docId, version, plainTextSize)
     .catch(err => console.log(err));
 });
 
 export const onPrivateDocDeleted = functions.firestore.document('org/{orgId}/docs/{docId}').onDelete((data, context) => {
   const orgId = context.params.orgId;
   const docId = context.params.docId;
+  const editPlainTextSize = data.data().editVersion.plainTextSize ? data.data().editVersion.plainTextSize : 1;
+  const publishPlainTextSize = data.data().publishVersion.plainTextSize ? data.data().publishVersion.plainTextSize : 1;
 
   // edited Version
-  const deleteEdit = algoliaDeleteEditedDoc(orgId, docId);
+  const deleteEdit = algoliaDeleteEditedDoc(orgId, docId, editPlainTextSize);
 
   // published Version
-  const deletePublished = algoliaDeletePublishedDoc(orgId, docId);
+  const deletePublished = algoliaDeletePublishedDoc(orgId, docId, publishPlainTextSize);
 
   return Promise.all([deleteEdit, deletePublished])
     .catch(err => console.log(err));
