@@ -56,7 +56,10 @@ export class NotAuthenticatedComponent implements OnInit, OnDestroy {
       .then(() => {
         this.toasterService.toastSuccess('Mail Sent');
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.toasterService.toastError('Error sending verification mail');
+        console.log(err);
+      });
   }
 
   ngOnDestroy() {

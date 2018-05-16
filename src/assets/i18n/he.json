@@ -46,6 +46,7 @@
   "Message Screens":"========= Message Screens=========",
   "Resend confirmation email": "שליחה מחדש של מייל אישור כתובת",
   "Mail Sent": "מייל נשלח",
+  "Error sending verification mail": "בעיה בשליחת מייל האישור",
   "You need to confirm your email": "נדרש לאשר את כתובת הדואל שלך",
   "before using ShaKE": "לפני השימוש ב - ShaKE",
 
