@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
   domain: {
-    // name: 'https://shake.network'
-    name: 'https://shake-sb.firebaseapp.com'
+    name: 'https://shake.network'
+    // name: 'https://shake-sb.firebaseapp.com'
   },
   firebase: {
     apiKey: 'AIzaSyB8pc10cVoot3abqHPmggRqyqGDgCFMEvk',

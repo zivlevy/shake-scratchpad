@@ -58,18 +58,21 @@ export const onPrivateDocUpdated = functions.firestore.document('org/{orgId}/doc
   const docId = context.params.docId;
 
   // edited Version
+  const oldEditPlainTextSize = data.before.data().editVersion.plainTextSize ?  data.before.data().editVersion.plainTextSize : 1;
+  const deleteOldEdit = algoliaDeleteEditedDoc(orgId, docId, oldEditPlainTextSize);
   const saveEdit = saveEditDoc(orgId, docId, docData);
 
-  let savePublish;
   // published Version
+  let deleteOldPublish, savePublish;
+  if (data.before.data().isPublish) {
+    const oldPublishPlainTextSize = data.before.data().publishVersion.plainTextSize ? data.before.data().publishVersion.plainTextSize : 1;
+    deleteOldPublish = algoliaDeletePublishedDoc(orgId, docId, oldPublishPlainTextSize);
+  }
   if (docData.isPublish) {
     savePublish = savePublishDoc(orgId, docId, docData);
-  } else {
-    const publishPlainTextSize = data.before.data().publishVersion.plainTextSize ? data.before.data().publishVersion.plainTextSize : 1;
-    savePublish = algoliaDeletePublishedDoc(orgId, docId, publishPlainTextSize);
   }
 
-  return Promise.all([saveEdit, savePublish])
+  return Promise.all([deleteOldEdit, saveEdit, deleteOldPublish, savePublish])
     .catch(err => console.log(err));
 });
 
@@ -116,13 +119,16 @@ export const onPrivateDocDeleted = functions.firestore.document('org/{orgId}/doc
   const orgId = context.params.orgId;
   const docId = context.params.docId;
   const editPlainTextSize = data.data().editVersion.plainTextSize ? data.data().editVersion.plainTextSize : 1;
-  const publishPlainTextSize = data.data().publishVersion.plainTextSize ? data.data().publishVersion.plainTextSize : 1;
 
   // edited Version
   const deleteEdit = algoliaDeleteEditedDoc(orgId, docId, editPlainTextSize);
 
   // published Version
-  const deletePublished = algoliaDeletePublishedDoc(orgId, docId, publishPlainTextSize);
+  let deletePublished;
+  if (data.data().isPublish) {
+    const publishPlainTextSize = data.data().publishVersion.plainTextSize ? data.data().publishVersion.plainTextSize : 1;
+    deletePublished = algoliaDeletePublishedDoc(orgId, docId, publishPlainTextSize);
+  }
 
   return Promise.all([deleteEdit, deletePublished])
     .catch(err => console.log(err));

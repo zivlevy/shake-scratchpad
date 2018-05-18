@@ -1,17 +1,25 @@
 <div class="message-page-background" fxLayout="column" fxLayoutAlign="center center">
 
-  <mat-card [ngClass]="'card-small'" [ngClass.gt-sm]="'card-big'" fxLayout="column" fxLayoutAlign="space-evenly center">
+  <mat-card *ngIf="authUser" [ngClass]="'card-small'" [ngClass.gt-sm]="'card-big'" fxLayout="column" fxLayoutAlign="space-evenly center">
     <img mat-card-image class="shake-image" src="/assets/icons/icon-250.png" >
     <mat-card-title style="text-align: center">
       {{ 'You need to confirm your email' | translate}}
       <br>
-      {{ 'before using ShaKE' | translate}}
+      {{ 'by replying to mail from noreply@shake.network' | translate}}
+      <!--<br>-->
+      <!--{{ 'And then to refresh this page' | translate}}-->
+      <!--<br>-->
+      <!--{{ 'before using ShaKE' | translate}}-->
 
     </mat-card-title>
     <mat-card-actions>
-      <button mat-raised-button class="btn-hover-accent" (click)="resend()"
-              [innerHTML]="'Resend confirmation email' | translate">
+      <button mat-raised-button class="btn-hover-accent" (click)="reload()"
+              [innerHTML]="'Confirmed my mail !' | translate">
       </button>
+      <button mat-raised-button class="btn-hover-accent" (click)="resend()"
+              [innerHTML]="'Can not find the mail. Please Resend' | translate">
+      </button>
+
     </mat-card-actions>
   </mat-card>
 </div>

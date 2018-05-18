@@ -52,11 +52,12 @@ export class AuthService {
     sendEmailVerification(user, homeRoute: string){
       const actionCodeSettings = {
         // url: environment.domain.name + '/' + homeRoute,
-        url: 'http://localhost:4200',
+        url: 'http://localhost',
         handleCodeInApp: false
       };
       console.log(actionCodeSettings);
-      return user.sendEmailVerification(actionCodeSettings);
+      return user.sendEmailVerification();
+      // return user.sendEmailVerification(actionCodeSettings);
     }
 
     resetPassword(email: string) {
