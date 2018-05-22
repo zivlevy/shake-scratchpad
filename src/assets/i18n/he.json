@@ -44,11 +44,12 @@
   "Go to Login": "מעבר לדף כניסה",
 
   "Message Screens":"========= Message Screens=========",
-  "Resend confirmation email": "שליחה מחדש של מייל אישור כתובת",
+  "Can not find the mail. Please Resend": "מייל האישור לא נמצא. שלח מחדש",
+  "Confirmed my mail !": "אישרתי את המייל שלי !",
   "Mail Sent": "מייל נשלח",
   "Error sending verification mail": "בעיה בשליחת מייל האישור",
   "You need to confirm your email": "נדרש לאשר את כתובת הדואל שלך",
-  "before using ShaKE": "לפני השימוש ב - ShaKE",
+  "by replying to mail from noreply@shake.network": "בתגובה למייל שיגיע מהכתובת noreply@shake.network",
 
   "UserProfile component":"========= User-Profile Component=========",
   "User Profile": "פרופיל משתמש",

@@ -6,7 +6,7 @@ const ALGOLIA_ADMIN_KEY = functions.config().algolia.admin_key;
 const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key;
 
 const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY);
-const ALGOLIA_MAX_RECORD = 9000;
+const ALGOLIA_MAX_RECORD = 5000;
 
 export class AlgoliaDoc {
   objectID: string;
@@ -22,23 +22,29 @@ const getNumberOfRecords = function(docSize: number) {
   return Math.floor(docSize / ALGOLIA_MAX_RECORD) + 1;
 }
 
-const getPartOfText = function(fullText: string, partNum: number) {
-  const startChar = fullText.lastIndexOf(' ', (partNum - 1) * ALGOLIA_MAX_RECORD);
-  const endChar = fullText.lastIndexOf(' ', partNum * ALGOLIA_MAX_RECORD);
+const getPartOfText = function(fullText: string, startChar: number) {
+  if (startChar + ALGOLIA_MAX_RECORD >= fullText.length) {
+    return fullText.slice(startChar);
+  }
+  const endChar = fullText.lastIndexOf(' ', startChar + ALGOLIA_MAX_RECORD);
   return fullText.slice(startChar, endChar);
 }
 
 export const algoliaSaveDoc = function (orgId, algoliaDoc) {
+  console.log('algoliaSaveDoc', algoliaDoc.plainTextSize, algoliaDoc.docType);
   const index = client.initIndex(orgId);
   const numOfRecs = getNumberOfRecords(algoliaDoc.plainTextSize);
+  console.log(numOfRecs);
   if (numOfRecs === 1) {
     return index.saveObject(algoliaDoc);
   } else {
     const saveArray = [];
+    let startChar = 0;
     for (let i = 1 ; i <= numOfRecs ; i++) {
       const partDoc = new AlgoliaDoc();
       partDoc.name = algoliaDoc.name;
-      partDoc.plainText = getPartOfText(algoliaDoc.plainText, i);
+      partDoc.plainText = getPartOfText(algoliaDoc.plainText, startChar);
+      startChar = startChar + partDoc.plainText.length;
       partDoc.docId = algoliaDoc.docId;
       partDoc.docType = algoliaDoc.docType;
       partDoc.version = algoliaDoc.version;

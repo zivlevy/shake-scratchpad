@@ -42,6 +42,10 @@ export class AlgoliaService {
             const i = results.findIndex(rec => rec.docId === hit.docId && rec.docType === hit.docType);
             if (i === -1) {
               results.push(hit);
+            } else {
+              if (hit.docType === 'v' && results[i].version !== hit.version) {
+                results.push(hit);
+              }
             }
           });
           resolve(results);
