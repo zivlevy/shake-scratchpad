@@ -339,7 +339,7 @@ export class TreeDocComponent implements OnInit, OnChanges {
 
   private stripHtml(str) {
     // Remove some tags
-    str = str.replace(/<[^>]+>/gim, '');
+    str = str.replace(/<[^>]+>/gim, ' ');
 
     // Remove BB code
     str = str.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2 ');
