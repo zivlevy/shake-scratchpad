@@ -8,15 +8,17 @@
       <div class="first-row" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="center center" fxLayoutAlign.gt-xs="space-evenly">
         <div>
           <mat-form-field>
-            <input matInput type="text" id="name" [(ngModel)]="docAckName"
+            <!--<input matInput type="text" id="name" [(ngModel)]="docAckName"-->
+            <input matInput type="text" id="name"
                    formControlName="name" placeholder="{{'Name' | translate}}">
           </mat-form-field>
-          <div>
-            <button *ngIf="currentDocAck && currentDocAck.name !== docAckName" mat-button color="primary"
+          <div  *ngIf="currentDocAck && currentDocAck.name !== docAckName">
+            {{'a' +  docAckName}}
+            <button mat-button color="primary"
                     (click)="nameUpdateClicked()">
               {{'Update' | translate}}
             </button>
-            <button *ngIf="currentDocAck && currentDocAck.name !== docAckName" mat-button color="primary"
+            <button mat-button color="primary"
                     (click)="nameUpdateCanceled()">
               {{'Cancel' | translate}}
             </button>
@@ -25,14 +27,16 @@
 
         <div>
           <mat-form-field>
-            <input matInput type="text" id="docName" [(ngModel)]="docName"
+            <!--<input matInput type="text" id="docName" [(ngModel)]="docName"-->
+            <input matInput type="text" id="docName"
                    formControlName="docName" placeholder="{{'Document Name' | translate}}">
           </mat-form-field>
         </div>
 
         <div>
           <mat-form-field>
-            <input matInput type="text" id="dateCreated" [ngModel]="dateCreated "
+            <!--<input matInput type="text" id="dateCreated" [ngModel]="dateCreated "-->
+            <input matInput type="text" id="dateCreated"
                    formControlName="dateCreated" placeholder="{{'Date Created' | translate}}">
           </mat-form-field>
         </div>
@@ -110,7 +114,7 @@
 
           <ng-container matColumnDef="signedAt">
             <mat-header-cell *matHeaderCellDef> {{'Signature Date' | translate}} </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.signedAt | date}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{ element.signedAt ? (element.signedAt.toDate() | date) : ' '}} </mat-cell>
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="orgUsersDocAckDisplayedColumns"></mat-header-row>
