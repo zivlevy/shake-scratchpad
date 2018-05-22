@@ -93,8 +93,6 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
   }
 
   treeDocClicked(ev) {
-    // TODO change here to show correct doc version
-    console.log(ev);
     if (ev.isPublish) {
       this.openDoc(ev.uid, 'p', '0');
     } else {

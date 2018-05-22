@@ -36,7 +36,16 @@ export class AlgoliaService {
     const index = client.initIndex(orgId);
     return new Promise <Array<AlgoliaDoc>>((resolve, reject) => {
       index.search({restrictSearchableAttributes: restrictSearchAttr, query: searchString, filters: filter })
-        .then(res => resolve(res.hits))
+        .then(res => {
+          const results = [];
+          res.hits.forEach(hit => {
+            const i = results.findIndex(rec => rec.docId === hit.docId && rec.docType === hit.docType);
+            if (i === -1) {
+              results.push(hit);
+            }
+          });
+          resolve(results);
+        })
         .catch(err => reject(err));
     });
   }

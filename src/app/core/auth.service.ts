@@ -51,9 +51,11 @@ export class AuthService {
 
     sendEmailVerification(user, homeRoute: string){
       const actionCodeSettings = {
-        url: environment.domain.name + '/' + homeRoute,
+        // url: environment.domain.name + '/' + homeRoute,
+        url: 'http://localhost:4200',
         handleCodeInApp: false
       };
+      console.log(actionCodeSettings);
       return user.sendEmailVerification(actionCodeSettings);
     }
 

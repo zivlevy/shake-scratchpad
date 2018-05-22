@@ -84,7 +84,6 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
           }
         }),
         switchMap((doc: SkDoc | null) => {
-          console.log(this.currentDocType);
           if (doc) {
             this.docName = doc.name;
             this.currentDoc = doc;
