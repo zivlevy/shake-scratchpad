@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import { AuthService } from '../../../core/auth.service';
 import {takeUntil} from 'rxjs/operators';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'sk-homepage',
@@ -13,6 +14,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   isAuthenticated: boolean;
   currentUser: any;
+  version: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -22,6 +24,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.version = environment.version;
+
     this.authService.getUser$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(authUser => {

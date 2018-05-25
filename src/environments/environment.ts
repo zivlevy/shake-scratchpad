@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
+  version: 'DEV',
   domain: {
     name: 'http://localhost:4200'
   },

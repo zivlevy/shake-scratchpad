@@ -11,7 +11,8 @@
     "e2e": "ng e2e",
     "host": "firebase deploy --only hosting",
     "rule": "firebase deploy --only firestore",
-    "func": "firebase deploy --only functions"
+    "func": "firebase deploy --only functions",
+    "build-prod": "npm version patch && node ./replace.build.js"
   },
   "private": true,
   "dependencies": {
