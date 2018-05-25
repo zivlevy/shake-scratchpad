@@ -89,6 +89,7 @@ export class OrgService {
       .snapshotChanges()
       .take(1)
       .do(org => {
+        console.log('Here ', org);
         if (org.payload.exists) {
           this.localCurrentOrg = orgId;
           this.currentOrg$.next(orgId);
