@@ -13,7 +13,7 @@
     "rule": "firebase deploy --only firestore",
     "func": "firebase deploy --only functions",
     "build-prod": "npm version patch && node ./replace.build.js && ng build --configuration=production --prod",
-    "test-prod": "npm version patch && node ./replace.test.js && ng build --configuration=test --prod"
+    "build-test": "npm version patch && node ./replace.test.js && ng build --configuration=test --prod"
   },
   "private": true,
   "dependencies": {
