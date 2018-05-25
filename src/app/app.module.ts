@@ -49,7 +49,6 @@ import {AngularFireStorageModule} from 'angularfire2/storage';
     FroalaViewModule.forRoot(),
     NgxSpinnerModule,
     BrowserAnimationsModule,
-    environment.production ? ServiceWorkerModule.register('/ngsw-worker.js') : [],
     BsDropdownModule.forRoot(),
     BrowserModule,
     MaterialModule,
@@ -82,7 +81,6 @@ import {AngularFireStorageModule} from 'angularfire2/storage';
     DocumentModule,
     OrganizationModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })    // <==== allways last !
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
