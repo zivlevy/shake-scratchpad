@@ -35,8 +35,8 @@ export class AlgoliaService {
     const client = algoliasearch(this.algoliaAppId, orgSearchKey);
     const index = client.initIndex(orgId);
     return new Promise <Array<AlgoliaDoc>>((resolve, reject) => {
-      const query0 = index.search({restrictSearchableAttributes: restrictSearchAttr, query: searchString, filters: filter })
-      const query1 = index.search({restrictSearchableAttributes: restrictSearchAttr, query: 'ה' + searchString, filters: filter })
+      const query0 = index.search({restrictSearchableAttributes: restrictSearchAttr, query: searchString, filters: filter });
+      const query1 = index.search({restrictSearchableAttributes: restrictSearchAttr, query: 'ה' + searchString, filters: filter });
         Promise.all([query0, query1])
         .then((res: any) => {
           console.log(res);
