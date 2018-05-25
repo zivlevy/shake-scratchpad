@@ -35,19 +35,25 @@ export class AlgoliaService {
     const client = algoliasearch(this.algoliaAppId, orgSearchKey);
     const index = client.initIndex(orgId);
     return new Promise <Array<AlgoliaDoc>>((resolve, reject) => {
-      index.search({restrictSearchableAttributes: restrictSearchAttr, query: searchString, filters: filter })
-        .then(res => {
+      const query0 = index.search({restrictSearchableAttributes: restrictSearchAttr, query: searchString, filters: filter })
+      const query1 = index.search({restrictSearchableAttributes: restrictSearchAttr, query: 'ה' + searchString, filters: filter })
+        Promise.all([query0, query1])
+        .then((res: any) => {
+          console.log(res);
           const results = [];
-          res.hits.forEach(hit => {
-            const i = results.findIndex(rec => rec.docId === hit.docId && rec.docType === hit.docType);
-            if (i === -1) {
-              results.push(hit);
-            } else {
-              if (hit.docType === 'v' && results[i].version !== hit.version) {
+          res.forEach(specificRes => {
+            specificRes.hits.forEach(hit => {
+              const i = results.findIndex(rec => rec.docId === hit.docId && rec.docType === hit.docType);
+              if (i === -1) {
                 results.push(hit);
+              } else {
+                if (hit.docType === 'v' && results[i].version !== hit.version) {
+                  results.push(hit);
+                }
               }
-            }
+            });
           });
+
           resolve(results);
         })
         .catch(err => reject(err));
