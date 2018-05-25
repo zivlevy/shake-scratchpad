@@ -146,6 +146,8 @@
   "Require All": "דרישת חתימה מכולם",
   "Require None": "ביטול כל דרישות החתימה",
   "Read & Sign items Management": "ניהול פריטי קרא וחתום",
+  "Could not save document": "תקלה בשמירת המסמך",
+  "Document Saved": "המסמך נשמר",
 
   "Users Roles":"משתמשים ותפקידים",
 

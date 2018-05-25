@@ -478,6 +478,7 @@ export class OrgService {
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
     return docsRef.valueChanges().take(1).toPromise()
       .then(res => {
+        console.log(res);
         // if (res.name !== editVersion.name) { this.editDocNameInTree(uid, editVersion.name); }
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
         const nameObj = res.publishVersion ? {} : {name: editVersion.name};

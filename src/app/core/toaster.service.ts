@@ -43,7 +43,7 @@ export class ToasterService {
       this.snackBar.open(res, null, {
           duration,
           direction: this.direction,
-          panelClass: ['toastErrorw']
+          panelClass: ['toastError']
         }
       );
     });
