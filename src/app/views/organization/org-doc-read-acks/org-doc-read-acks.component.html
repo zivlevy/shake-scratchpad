@@ -28,7 +28,7 @@
 
       <ng-container matColumnDef="date Created">
         <mat-header-cell *matHeaderCellDef [innerHTML]="'Date Created' | translate"></mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.dateCreated | date}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.dateCreated.toDate() | date}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="isActive">

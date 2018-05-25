@@ -74,6 +74,7 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy, AfterViewI
       }, ''],
     });
 
+
     this.orgService.getCurrentOrg$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(orgId => {
@@ -89,6 +90,8 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy, AfterViewI
               .subscribe(docAck => {
                 if (docAck) {
                   this.currentDocAck = docAck;
+                  this.docAckName = this.currentDocAck.name;
+
                   this.docAckEditable = docAck.actualSignatures === 0;
 
                   this.loadData();
@@ -118,7 +121,7 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy, AfterViewI
     this.docAckForm.controls['actualSignatures'].setValue(this.currentDocAck.actualSignatures);
     this.docAckForm.controls['docName'].setValue(this.currentDocAck.docName);
 
-    this.dateCreated = datePipe.transform(this.currentDocAck.dateCreated, 'MMM dd,yyyy');
+    this.dateCreated = datePipe.transform(this.currentDocAck.dateCreated.toDate(), 'MMM dd,yyyy');
     this.docAckForm.controls['dateCreated'].setValue(this.dateCreated);
 
   }
