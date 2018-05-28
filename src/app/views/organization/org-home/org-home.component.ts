@@ -93,8 +93,13 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
   }
 
   treeDocClicked(ev) {
+    console.log(ev);
     if (ev.isPublish) {
-      this.openDoc(ev.uid, 'p', '0');
+      if (ev.isEditDifferent) {
+        console.log('ask');
+      } else {
+        this.openDoc(ev.uid, 'p', '0');
+      }
     } else {
       this.openDoc(ev.uid, 'e', '0');
     }

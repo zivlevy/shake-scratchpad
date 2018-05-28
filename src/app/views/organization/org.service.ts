@@ -725,11 +725,13 @@ export class OrgService {
       );
   }
 
+// TODO move to rxjs 6
   getOrgTreeByUser$(): Observable<any> {
     return combineLatest(this.getOrgUser$(), this.getOrgTreeFromJson$())
       .map(res => {
         const user: any = res[0];
         const tree = res [1];
+        if (!user) { return of(null); }
         if (user && user.roles.editor) {
           return tree;
         } else {

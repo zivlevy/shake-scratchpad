@@ -127,7 +127,6 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
   saveDocument() {
     this.isSearch = false;
     const docData = this.editor.getDoc( true);
-    console.log(docData.plainText);
     if (this.currentDoc && this.currentDoc.uid) {
       this.orgService.saveDoc(this.currentDoc.uid, docData)
         .then((res) => {

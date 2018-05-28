@@ -22,6 +22,7 @@ export class SkDoc {
   version?: number;
   language?: string ;
   isPublish?: boolean;
+  isEditDifferent?: boolean;      // if the edit version is different from the published version
   isPublic?: boolean;
   editVersion?: SkDocData;
   publishVersion?: SkDocData;
