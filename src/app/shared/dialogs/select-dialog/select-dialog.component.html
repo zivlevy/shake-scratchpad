@@ -1,0 +1,9 @@
+<div [ngStyle]="{'direction': direction}">
+  <div mat-dialog-title >{{selectMessage | translate}}</div>
+  <div class="wrapper">
+    <div mat-dialog-actions class="pt-24" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="30px">
+      <button mat-raised-button class="mat-accent mr-16" (click)="dialogRef.close('edit')" [innerHTML]="'Edit Version' | translate"></button>
+      <button mat-raised-button class="mat-accent mr-16" (click)="dialogRef.close('publish')" [innerHTML]="'Publish Version' | translate"></button>
+    </div>
+  </div>
+</div>

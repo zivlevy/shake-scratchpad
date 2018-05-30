@@ -136,6 +136,7 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
       doc.name = node.data.name;
       doc.uid = node.data.docId;
       doc.isPublish = node.data.isPublish;
+      doc.isEditDirty = node.data.isEditDirty;
       this.selectedDoc.emit(doc);
     }
   }

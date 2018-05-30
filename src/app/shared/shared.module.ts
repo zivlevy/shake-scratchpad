@@ -19,6 +19,7 @@ import {ConfirmDialogComponent} from './dialogs/confirm-dialog/confirm-dialog.co
 import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.component';
 import { NotAuthenticatedComponent } from './not-authenticated/not-authenticated.component';
 import { ScreenTooSmallComponent } from './screen-too-small/screen-too-small.component';
+import { SelectDialogComponent } from './dialogs/select-dialog/select-dialog.component';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { ScreenTooSmallComponent } from './screen-too-small/screen-too-small.com
     ConfirmDialogComponent,
     InputDialogComponent,
     NotAuthenticatedComponent,
-    ScreenTooSmallComponent
+    ScreenTooSmallComponent,
+    SelectDialogComponent
   ],
   exports: [
     SpinnerComponent,
@@ -56,7 +58,8 @@ import { ScreenTooSmallComponent } from './screen-too-small/screen-too-small.com
   ],
   entryComponents: [
     ConfirmDialogComponent,
-    InputDialogComponent
+    InputDialogComponent,
+    SelectDialogComponent
   ]
 })
 

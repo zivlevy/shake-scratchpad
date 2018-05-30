@@ -22,8 +22,8 @@ export class SkDoc {
   version?: number;
   language?: string ;
   isPublish?: boolean;
-  isEditDifferent?: boolean;      // if the edit version is different from the published version
-  isPublic?: boolean;
+  isEditDirty?: boolean;      // if the edit version is different from the published version
+  // isPublic?: boolean;
   editVersion?: SkDocData;
   publishVersion?: SkDocData;
 
@@ -34,7 +34,6 @@ export class SkDoc {
 export enum SK_ITEM_TYPE {
   SK_ITEM_TYPE_INFO,
   SK_ITEM_TYPE_WARNING,
-  SK_ITEM_TYPE_ACTION
 }
 
 

@@ -8,6 +8,9 @@ import {LanguageService} from '../../../core/language.service';
 
 import {Org} from '../../../model/org';
 import {takeUntil} from 'rxjs/operators';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {SelectDialogComponent} from '../../../shared/dialogs/select-dialog/select-dialog.component';
+import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 @Component({
   selector: 'sk-org-home',
   templateUrl: './org-home.component.html',
@@ -25,10 +28,14 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
   sideOpen: boolean = true;
   sideMode: string = 'side';
 
+  selectDialogRef: MatDialogRef<SelectDialogComponent>;
+  confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
+
   constructor(private orgService: OrgService,
               private media: ObservableMedia,
               private route: ActivatedRoute,
               private router: Router,
+              private dialog: MatDialog,
               private lngService: LanguageService) { }
 
   ngOnInit() {
@@ -93,10 +100,21 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
   }
 
   treeDocClicked(ev) {
-    console.log(ev);
     if (ev.isPublish) {
-      if (ev.isEditDifferent) {
-        console.log('ask');
+        if (ev.isEditDirty) {
+        this.selectDialogRef = this.dialog.open(SelectDialogComponent, {
+          data: {
+            msg: 'Which Document to open ?'
+          }
+        });
+        this.selectDialogRef.afterClosed()
+          .subscribe(result => {
+            if (result === 'edit') {
+              this.openDoc(ev.uid, 'e', '0');
+            } else {
+              this.openDoc(ev.uid, 'p', '0');
+            }
+          });
       } else {
         this.openDoc(ev.uid, 'p', '0');
       }
