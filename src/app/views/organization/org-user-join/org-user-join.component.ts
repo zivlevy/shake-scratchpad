@@ -4,7 +4,7 @@ import {Subject} from 'rxjs';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AuthService} from '../../../core/auth.service';
 import {OrgUser} from '../../../model/org-user';
-import { combineLatest } from 'rxjs';
+import {combineLatest } from 'rxjs';
 import 'rxjs-compat';
 import {takeUntil} from 'rxjs/operators';
 
