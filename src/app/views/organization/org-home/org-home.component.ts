@@ -10,7 +10,8 @@ import {Org} from '../../../model/org';
 import {takeUntil} from 'rxjs/operators';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {SelectDialogComponent} from '../../../shared/dialogs/select-dialog/select-dialog.component';
-import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
+import {DocAck} from '../../../model/document';
+
 @Component({
   selector: 'sk-org-home',
   templateUrl: './org-home.component.html',
@@ -29,7 +30,7 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
   sideMode: string = 'side';
 
   selectDialogRef: MatDialogRef<SelectDialogComponent>;
-  confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
+  selectedTab = 0;
 
   constructor(private orgService: OrgService,
               private media: ObservableMedia,
@@ -43,6 +44,11 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
     this.orgService.getCurrentOrg$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(org => this.currentOrg = org);
+
+    this.orgService.getOrgUserDocAcks$()
+      .subscribe((res: DocAck[]) => {
+        this.selectedTab = res.length ? 1 : 0;
+      });
 
     // get current orgUser
     this.orgService.getOrgUser$()

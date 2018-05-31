@@ -17,22 +17,7 @@
 
       </button>
 
-      <mat-tab-group style="margin-left: 20px; margin-right: 20px">
-
-        <!-- Messages Tab -->
-        <mat-tab label="{{'Messages' | translate}}">
-          <!-- HEADER -->
-          <div>
-            <div fxLayout="row" fxLayoutAlign="start center">
-              <button mat-button fxHide.gt-sm (click)="sidenav.toggle()"
-                      matTooltip="{{'Documents Tree' | translate}}" matTooltipPosition="after">
-                <mat-icon>menu</mat-icon>
-              </button>
-              <h3 [innerHTML]="'Messages' | translate"></h3>
-            </div>
-          </div>
-          <sk-org-messages></sk-org-messages>
-        </mat-tab>
+      <mat-tab-group [selectedIndex]="selectedTab" style="margin-left: 20px; margin-right: 20px">
 
         <!-- Serach docs Tab -->
         <mat-tab label="{{'Search' | translate}}">
@@ -47,6 +32,21 @@
             </div>
           </div>
           <sk-org-search-doc></sk-org-search-doc>
+        </mat-tab>
+
+        <!-- Messages Tab -->
+        <mat-tab label="{{'Messages' | translate}}">
+          <!-- HEADER -->
+          <div>
+            <div fxLayout="row" fxLayoutAlign="start center">
+              <button mat-button fxHide.gt-sm (click)="sidenav.toggle()"
+                      matTooltip="{{'Documents Tree' | translate}}" matTooltipPosition="after">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <h3 [innerHTML]="'Messages' | translate"></h3>
+            </div>
+          </div>
+          <sk-org-messages></sk-org-messages>
         </mat-tab>
 
       </mat-tab-group>

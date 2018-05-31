@@ -874,7 +874,6 @@ export class OrgService {
           this.editOrgDocRecursion(item, index, array, docId, docData);
         });
         const treeJson = this.makeJsonTreeFromMemory(tree);
-        console.log(treeJson);
         this.saveOrgTree(treeJson)
           .catch(err => console.log(err));
       });
@@ -886,7 +885,6 @@ export class OrgService {
       treeNode.children.forEach((child, childIndex, childParent) => this.editOrgDocRecursion(child, childIndex, childParent, docId, docData));
     } else {
       if (treeNode.id === docId) {
-        console.log(docData);
         treeNode.name = docData.name;
         treeNode.isPublish = docData.isPublish;
         treeNode.isEditDirty = docData.isEditDirty;

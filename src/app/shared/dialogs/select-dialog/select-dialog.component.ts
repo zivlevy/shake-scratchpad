@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {LanguageService} from '../../../core/language.service';
 import {takeUntil} from 'rxjs/operators';
 
+// ToDo  - Make general - get the two options as parameters
 @Component({
   selector: 'sk-select-dialog',
   templateUrl: './select-dialog.component.html',
