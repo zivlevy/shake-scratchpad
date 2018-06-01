@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {SkDoc, SkDocData, SkItem, SkSection, SK_ITEM_TYPE} from '../../../model/document';
+import {SkItem, SkSection} from '../../../model/document';
 import {DocumentService} from '../document.service';
 
 @Component({
@@ -10,12 +10,12 @@ import {DocumentService} from '../document.service';
 export class DocViewerComponent implements OnInit, OnChanges {
   @Input() isRTL: boolean;
   @Input() isNumbering: boolean = true;
+  @Input() isDocMap: boolean = false;
   @Input() docJson: string;
   @Input() ident: number = 10;
   @Input() searchPhrase: string = '';
   @Input() isSearch: boolean = false;
   docList: Array<SkSection | SkItem>;
-
   constructor(private docService: DocumentService
   ) {
   }
@@ -27,6 +27,7 @@ export class DocViewerComponent implements OnInit, OnChanges {
 
     if (this.docJson) {
       this.docList = this.docService.SkTreeListFromJSON(this.docJson);
+      // this.docMap = this.docService.SkTreeMapFromJSON(this.docJson);
       this.doSearch();
       //
       // const temp  = this.docService.SKTasksList(this.docJson);

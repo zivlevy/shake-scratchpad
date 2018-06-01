@@ -31,6 +31,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   docVersionNumber: string = '';
   docName: string = '';
   isNumbering: boolean = true;
+  isDocMap = false;
   searchPhrase: string = '';
   isSearch: boolean = false;
   rtl: boolean = false;
@@ -116,6 +117,10 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
 
   toggleNumbering() {
     this.isNumbering = !this.isNumbering;
+  }
+
+  toggleMapView() {
+    this.isDocMap = !this.isDocMap;
   }
 
   toggleSectionView() {

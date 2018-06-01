@@ -39,6 +39,31 @@ export class DocumentService {
     return resultArray;
   }
 
+  // SkTreeMapFromJSON(docJson: string): Array<SkSection> {
+  //   const docObject = JSON.parse(docJson);
+  //   const docTree = new SkSection().deserialize(docObject);
+  //   const resultArry = [];
+  //   docTree.level = 0;
+  //   return this.makeTreeMap(docTree, resultArry, docTree, 0);
+  // }
+  //
+  // makeTreeMap(docTreeItem: SkSection, resultArray, parent: SkSection, index) {
+  //   if (docTreeItem instanceof SkSection) {
+  //     if (docTreeItem !== parent) {
+  //       docTreeItem.numbering = parent.numbering ? `${parent.numbering}.${index}` : index;
+  //       docTreeItem.level = parent.level + 1;
+  //     }
+  //     resultArray.push(docTreeItem);
+  //     index = 0;
+  //     docTreeItem.nodes.forEach((item) => {
+  //       if (item instanceof SkSection) {
+  //         index++;
+  //       }
+  //       this.makeTreeMap(item, resultArray, docTreeItem, index);
+  //     });
+  //   }
+  //   return resultArray;
+  // }
 
   // doc task list view
   SKTasksList(docJson: string): Array<any> {
