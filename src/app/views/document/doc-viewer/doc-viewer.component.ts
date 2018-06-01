@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {SkItem, SkSection} from '../../../model/document';
 import {DocumentService} from '../document.service';
 
@@ -15,24 +15,41 @@ export class DocViewerComponent implements OnInit, OnChanges {
   @Input() ident: number = 10;
   @Input() searchPhrase: string = '';
   @Input() isSearch: boolean = false;
+
+  @ViewChild('tree') tree;
+
   docList: Array<SkSection | SkItem>;
+  nodes;
+  options;
+
   constructor(private docService: DocumentService
   ) {
   }
 
   ngOnInit() {
+
+
   }
 
   ngOnChanges() {
 
+
     if (this.docJson) {
       this.docList = this.docService.SkTreeListFromJSON(this.docJson);
-      // this.docMap = this.docService.SkTreeMapFromJSON(this.docJson);
+      if (this.isDocMap) {
+        this.genDocMap();
+        setTimeout(() => {
+          this.tree.treeModel.expandAll();
+        }, 0);
+      }
       this.doSearch();
-      //
-      // const temp  = this.docService.SKTasksList(this.docJson);
-      // console.log(temp);
     }
+  }
+
+  genDocMap() {
+    this.nodes = this.docService.getMapTreeFromDocJson(this.docJson);
+
+    this.options = {};
   }
 
   doSearch() {

@@ -1,7 +1,7 @@
-<mat-drawer-container *ngIf="docJson" id="doc-wrapper" class="mat-elevation-z8" style="direction: ltr" >
+<mat-drawer-container *ngIf="docJson" id="doc-wrapper" autosize="true" class="mat-elevation-z8" style="direction: ltr" >
   <mat-drawer mode="side" [position]="isRTL ? 'end' : 'start'" [opened]="isDocMap" style="padding: 10px" [ngClass]="{'rtl-drawer': isRTL}">
     <div [ngClass]="{'set-rtl': isRTL}">
-      מפת המסמך ועוד כמה דברים
+      <tree-root #tree [nodes]="nodes" [options]="options"></tree-root>
     </div>
   </mat-drawer>
   <mat-drawer-content style="padding: 10px" >

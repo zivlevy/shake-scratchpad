@@ -39,32 +39,6 @@ export class DocumentService {
     return resultArray;
   }
 
-  // SkTreeMapFromJSON(docJson: string): Array<SkSection> {
-  //   const docObject = JSON.parse(docJson);
-  //   const docTree = new SkSection().deserialize(docObject);
-  //   const resultArry = [];
-  //   docTree.level = 0;
-  //   return this.makeTreeMap(docTree, resultArry, docTree, 0);
-  // }
-  //
-  // makeTreeMap(docTreeItem: SkSection, resultArray, parent: SkSection, index) {
-  //   if (docTreeItem instanceof SkSection) {
-  //     if (docTreeItem !== parent) {
-  //       docTreeItem.numbering = parent.numbering ? `${parent.numbering}.${index}` : index;
-  //       docTreeItem.level = parent.level + 1;
-  //     }
-  //     resultArray.push(docTreeItem);
-  //     index = 0;
-  //     docTreeItem.nodes.forEach((item) => {
-  //       if (item instanceof SkSection) {
-  //         index++;
-  //       }
-  //       this.makeTreeMap(item, resultArray, docTreeItem, index);
-  //     });
-  //   }
-  //   return resultArray;
-  // }
-
   // doc task list view
   SKTasksList(docJson: string): Array<any> {
     const docObject = JSON.parse(docJson);
@@ -107,5 +81,47 @@ export class DocumentService {
     }
     return results;
 
+  }
+
+  getMapTreeFromDocJson(docJson) {
+    const docObject = JSON.parse(docJson);
+    console.log(docObject);
+    const nodes = [];
+    this.makeMapTree(docObject, nodes);
+    return nodes;
+  }
+
+  makeMapTree(docObj, nodes) {
+    if (docObj.nodes) {
+      const childNodes = [];
+
+      docObj.nodes.forEach(node => {
+
+        this.makeMapTree(node, childNodes);
+      });
+      nodes.push({
+        name: this.stripHtml(docObj.data),
+        children: childNodes
+      });
+
+    } else {
+      return;
+    }
+  }
+
+  private stripHtml(str) {
+    // Remove some tags
+    str = str.replace(/<[^>]+>/gim, ' ');
+
+    // Remove BB code
+    str = str.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2 ');
+
+    // Remove other staff;
+    str = str.replace(/\&nbsp;/g, ' ');
+    str = str.replace(/\&quot;/g, ' ');
+    str = str.replace(/\&ndash;/g, ' ');
+    str = str.replace(/\&#39;/g, ' ');
+
+    return str;
   }
 }

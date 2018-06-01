@@ -328,14 +328,11 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onMoveNode(ev) {
-    console.log('move node');
     if (!this.allowEdit) { return; }
     this.saveTree();
   }
 
   onCopyNode(ev){
-    console.log('copy node');
-
     if (!this.allowEdit) { return; }
     this.saveTree();
   }
