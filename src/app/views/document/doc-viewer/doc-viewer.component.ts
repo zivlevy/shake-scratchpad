@@ -35,9 +35,10 @@ export class DocViewerComponent implements OnInit, OnChanges {
 
 
     if (this.docJson) {
-      this.docList = this.docService.SkTreeListFromJSON(this.docJson);
+      const docObject = JSON.parse(this.docJson);
+      this.docList = this.docService.SkTreeListFromJSON(docObject);
       if (this.isDocMap) {
-        this.genDocMap();
+        this.genDocMap(docObject);
         setTimeout(() => {
           this.tree.treeModel.expandAll();
         }, 0);
@@ -46,10 +47,10 @@ export class DocViewerComponent implements OnInit, OnChanges {
     }
   }
 
-  genDocMap() {
-    this.nodes = this.docService.getMapTreeFromDocJson(this.docJson);
+  genDocMap(docObject) {
+    this.nodes = this.docService.getMapTreeFromDocJson(docObject);
 
-    this.options = {};
+    this.options = {rtl: this.isRTL};
   }
 
   doSearch() {

@@ -95,14 +95,10 @@ export class OrgTreeViewComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         };
         this.nodes = orgTree;
-        // const firstRoot = this.tree.treeModel.roots[0];
         setTimeout(() => {
-          // this.tree.treeModel.expandAll();
-          // expand first level
           this.tree.treeModel.roots.forEach( root => {
             root.expand();
           });
-          // console.log(this.tree);
         }, 0);
       }, err => console.log(err));
 

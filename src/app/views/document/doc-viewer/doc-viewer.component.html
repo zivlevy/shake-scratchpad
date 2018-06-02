@@ -1,9 +1,18 @@
 <mat-drawer-container *ngIf="docJson" id="doc-wrapper" autosize="true" class="mat-elevation-z8" style="direction: ltr" >
-  <mat-drawer mode="side" [position]="isRTL ? 'end' : 'start'" [opened]="isDocMap" style="padding: 10px" [ngClass]="{'rtl-drawer': isRTL}">
+
+  <mat-drawer mode="side" [position]="isRTL ? 'end' : 'start'" [opened]="isDocMap" style="padding: 10px; max-width: 200px" [ngClass]="{'rtl-drawer': isRTL}">
     <div [ngClass]="{'set-rtl': isRTL}">
-      <tree-root #tree [nodes]="nodes" [options]="options"></tree-root>
+      <tree-root #tree [nodes]="nodes" [options]="options">
+        <!--<ng-template #treeNodeTemplate let-node let-index="index">-->
+          <!--<div fxLayout="row">-->
+            <!--<span *ngIf="node.data.children.length === 0" fxFlex="20px"><i class="fa fa-dot-circle-o"></i></span>-->
+            <!--<span  fxFlex="calc(100% - 20px">{{node.data.name}}</span>-->
+          <!--</div>-->
+        <!--</ng-template>-->
+      </tree-root>
     </div>
   </mat-drawer>
+
   <mat-drawer-content style="padding: 10px" >
     <div *ngFor="let item of docList" [ngClass]="{'set-rtl': isRTL}">
       <div fxLayout [ngClass]="{
@@ -21,6 +30,7 @@
       </div>
     </div>
   </mat-drawer-content>
+
 </mat-drawer-container>
 
 

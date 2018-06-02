@@ -9,8 +9,8 @@ export class DocumentService {
 
 
   // doc list view
-  SkTreeListFromJSON(docJson: string): Array<SkSection | SkItem> {
-    const docObject = JSON.parse(docJson);
+  SkTreeListFromJSON(docObject): Array<SkSection | SkItem> {
+    // const docObject = JSON.parse(docJson);
     const docTree = new SkSection().deserialize(docObject);
     const resultArry = [];
     docTree.level = 0;
@@ -83,8 +83,8 @@ export class DocumentService {
 
   }
 
-  getMapTreeFromDocJson(docJson) {
-    const docObject = JSON.parse(docJson);
+  getMapTreeFromDocJson(docObject) {
+    // const docObject = JSON.parse(docJson);
     console.log(docObject);
     const nodes = [];
     this.makeMapTree(docObject, nodes);
