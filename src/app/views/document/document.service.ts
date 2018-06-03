@@ -85,22 +85,32 @@ export class DocumentService {
 
   getMapTreeFromDocJson(docObject) {
     // const docObject = JSON.parse(docJson);
-    console.log(docObject);
+    const docTree = new SkSection().deserialize(docObject);
+
     const nodes = [];
-    this.makeMapTree(docObject, nodes);
+    docTree.level = 0;
+    this.makeMapTree(docTree, nodes, docTree, 0);
     return nodes;
   }
 
-  makeMapTree(docObj, nodes) {
-    if (docObj.nodes) {
+  makeMapTree(docTree, nodes, parent, index) {
+    if (docTree !== parent) {
+      docTree.numbering = parent.numbering ? `${parent.numbering}.${index}` : index;
+      docTree.level = parent.level + 1;
+    }
+
+    if (docTree.nodes) {
       const childNodes = [];
-
-      docObj.nodes.forEach(node => {
-
-        this.makeMapTree(node, childNodes);
+      index = 0;
+      docTree.nodes.forEach(node => {
+        if (node instanceof SkSection) {
+          index++;
+        }
+        this.makeMapTree(node, childNodes, docTree, index);
       });
       nodes.push({
-        name: this.stripHtml(docObj.data),
+        numbering: docTree.numbering,
+        name: this.stripHtml(docTree.data),
         children: childNodes
       });
 

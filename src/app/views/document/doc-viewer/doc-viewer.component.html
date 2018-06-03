@@ -3,12 +3,12 @@
   <mat-drawer mode="side" [position]="isRTL ? 'end' : 'start'" [opened]="isDocMap" style="padding: 10px; max-width: 200px" [ngClass]="{'rtl-drawer': isRTL}">
     <div [ngClass]="{'set-rtl': isRTL}">
       <tree-root #tree [nodes]="nodes" [options]="options">
-        <!--<ng-template #treeNodeTemplate let-node let-index="index">-->
-          <!--<div fxLayout="row">-->
+        <ng-template #treeNodeTemplate let-node let-index="index">
+          <div (click)="treeClicked($event, node)"  (contextmenu)="treeRightClick($event, node)" fxLayout="row">
             <!--<span *ngIf="node.data.children.length === 0" fxFlex="20px"><i class="fa fa-dot-circle-o"></i></span>-->
-            <!--<span  fxFlex="calc(100% - 20px">{{node.data.name}}</span>-->
-          <!--</div>-->
-        <!--</ng-template>-->
+            <span  fxFlex="calc(100% - 20px">{{node.data.numbering}}&nbsp;{{node.data.name}}</span>
+          </div>
+        </ng-template>
       </tree-root>
     </div>
   </mat-drawer>

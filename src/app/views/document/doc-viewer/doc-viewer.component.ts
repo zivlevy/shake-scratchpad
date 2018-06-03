@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {SkItem, SkSection} from '../../../model/document';
 import {DocumentService} from '../document.service';
+import {IActionMapping, TREE_ACTIONS} from "angular-tree-component";
 
 @Component({
   selector: 'sk-doc-viewer',
@@ -50,7 +51,40 @@ export class DocViewerComponent implements OnInit, OnChanges {
   genDocMap(docObject) {
     this.nodes = this.docService.getMapTreeFromDocJson(docObject);
 
-    this.options = {rtl: this.isRTL};
+    this.options = {
+      rtl: this.isRTL,
+      actionMapping: this.getTreeActionMapping(),
+
+    };
+  }
+  private getTreeActionMapping(): IActionMapping {
+    return {
+      keys: {
+        // [KEYS.RIGHT]: null,
+        // [KEYS.LEFT]: null,
+        // [KEYS.DOWN]: null,
+        // [KEYS.UP]: null,
+        // [KEYS.SPACE]: null,
+        // [KEYS.ENTER]: null
+      },
+      mouse: {
+        click: TREE_ACTIONS.TOGGLE_EXPANDED,
+        dblClick: null,
+        contextMenu: null,
+        expanderClick: TREE_ACTIONS.TOGGLE_EXPANDED,
+        checkboxClick: TREE_ACTIONS.TOGGLE_SELECTED,
+        drop: TREE_ACTIONS.MOVE_NODE
+      },
+    };
+  }
+
+  treeClicked(ev, node) {
+    console.log(node);
+
+  }
+
+  treeRightClick(ev, node) {
+    console.log(node);
   }
 
   doSearch() {
