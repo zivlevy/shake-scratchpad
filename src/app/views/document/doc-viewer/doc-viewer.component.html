@@ -1,4 +1,4 @@
-<mat-drawer-container *ngIf="docJson" id="doc-wrapper" autosize="true" class="mat-elevation-z8" style="direction: ltr" >
+<mat-drawer-container  *ngIf="docJson" id="doc-wrapper" autosize="false" class="mat-elevation-z8" style="direction: ltr" >
 
   <mat-drawer mode="side" [position]="isRTL ? 'end' : 'start'" [opened]="isDocMap" style="padding: 10px; max-width: 200px" [ngClass]="{'rtl-drawer': isRTL}">
     <div [ngClass]="{'set-rtl': isRTL}">
@@ -13,8 +13,8 @@
     </div>
   </mat-drawer>
 
-  <mat-drawer-content style="padding: 10px; height: 100%; overflow: scroll" >
-    <div style="height: 100%; overflow: scroll">
+  <mat-drawer-content >
+    <div>
       <div *ngFor="let item of docList" [ngClass]="{'set-rtl': isRTL}">
         <div fxLayout [ngClass]="{
 
@@ -35,5 +35,4 @@
   </mat-drawer-content>
 
 </mat-drawer-container>
-
 
