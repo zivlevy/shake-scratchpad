@@ -8,6 +8,10 @@ import {LanguageService} from '../../../core/language.service';
 
 import {Org} from '../../../model/org';
 import {takeUntil} from 'rxjs/operators';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {SelectDialogComponent} from '../../../shared/dialogs/select-dialog/select-dialog.component';
+import {DocAck} from '../../../model/document';
+
 @Component({
   selector: 'sk-org-home',
   templateUrl: './org-home.component.html',
@@ -25,10 +29,14 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
   sideOpen: boolean = true;
   sideMode: string = 'side';
 
+  selectDialogRef: MatDialogRef<SelectDialogComponent>;
+  selectedTab = 0;
+
   constructor(private orgService: OrgService,
               private media: ObservableMedia,
               private route: ActivatedRoute,
               private router: Router,
+              private dialog: MatDialog,
               private lngService: LanguageService) { }
 
   ngOnInit() {
@@ -36,6 +44,11 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
     this.orgService.getCurrentOrg$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(org => this.currentOrg = org);
+
+    this.orgService.getOrgUserDocAcks$()
+      .subscribe((res: DocAck[]) => {
+        this.selectedTab = res.length ? 1 : 0;
+      });
 
     // get current orgUser
     this.orgService.getOrgUser$()
@@ -94,7 +107,23 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
 
   treeDocClicked(ev) {
     if (ev.isPublish) {
-      this.openDoc(ev.uid, 'p', '0');
+        if (ev.isEditDirty) {
+        this.selectDialogRef = this.dialog.open(SelectDialogComponent, {
+          data: {
+            msg: 'Which Document to open ?'
+          }
+        });
+        this.selectDialogRef.afterClosed()
+          .subscribe(result => {
+            if (result === 'edit') {
+              this.openDoc(ev.uid, 'e', '0');
+            } else {
+              this.openDoc(ev.uid, 'p', '0');
+            }
+          });
+      } else {
+        this.openDoc(ev.uid, 'p', '0');
+      }
     } else {
       this.openDoc(ev.uid, 'e', '0');
     }

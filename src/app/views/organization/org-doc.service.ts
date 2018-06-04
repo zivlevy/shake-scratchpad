@@ -66,7 +66,7 @@ export class OrgDocService {
   // *************************************
   userDocAckSign(orgId: string, uid: string, docAckId: string): Promise<any> {
     const timestamp = this.firestoreService.timestamp;
-    return this.firestoreService.upsert(`org/${orgId}/userSignatures/${uid}`, {
+    return this.firestoreService.set(`org/${orgId}/userSignatures/${uid}`, {
       hasSigned: true,
       signedAt: timestamp,
       docAckId: docAckId

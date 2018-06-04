@@ -31,10 +31,8 @@ const getPartOfText = function(fullText: string, startChar: number) {
 }
 
 export const algoliaSaveDoc = function (orgId, algoliaDoc) {
-  console.log('algoliaSaveDoc', algoliaDoc.plainTextSize, algoliaDoc.docType);
   const index = client.initIndex(orgId);
   const numOfRecs = getNumberOfRecords(algoliaDoc.plainTextSize);
-  console.log(numOfRecs);
   if (numOfRecs === 1) {
     return index.saveObject(algoliaDoc);
   } else {

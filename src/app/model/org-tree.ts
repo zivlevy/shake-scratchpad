@@ -4,5 +4,6 @@ export interface OrgTreeNode {
   isDoc?: boolean;
   docId?: string; // in docs this is the same as id
   isPublish?: boolean;
+  isEditDirty?: boolean;
   children?: Array<OrgTreeNode> ;
 }

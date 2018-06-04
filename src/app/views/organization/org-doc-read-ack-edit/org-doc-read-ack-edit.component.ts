@@ -121,8 +121,11 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy, AfterViewI
     this.docAckForm.controls['actualSignatures'].setValue(this.currentDocAck.actualSignatures);
     this.docAckForm.controls['docName'].setValue(this.currentDocAck.docName);
 
-    this.dateCreated = datePipe.transform(this.currentDocAck.dateCreated.toDate(), 'MMM dd,yyyy');
-    this.docAckForm.controls['dateCreated'].setValue(this.dateCreated);
+    if (this.currentDocAck.dateCreated) {
+      this.dateCreated = datePipe.transform(this.currentDocAck.dateCreated.toDate(), 'MMM dd,yyyy');
+      this.docAckForm.controls['dateCreated'].setValue(this.dateCreated);
+    }
+
 
   }
 

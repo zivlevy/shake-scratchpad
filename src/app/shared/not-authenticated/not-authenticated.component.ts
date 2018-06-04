@@ -78,6 +78,7 @@ export class NotAuthenticatedComponent implements OnInit, OnDestroy {
   }
 
   reload() {
+    console.log(this.url);
     this.router.navigate([this.url])
       .catch(err => console.log(err));
     window.location.reload();

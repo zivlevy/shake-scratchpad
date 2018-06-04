@@ -475,14 +475,26 @@ export class OrgService {
   }
 
   saveDoc(uid: string, editVersion: SkDocData) {
+    console.log('save doc')
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
     return docsRef.valueChanges().take(1).toPromise()
       .then(res => {
+        console.log(res);
         // if (res.name !== editVersion.name) { this.editDocNameInTree(uid, editVersion.name); }
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
         const nameObj = res.publishVersion ? {} : {name: editVersion.name};
         editVersion.createdBy = this.currentSkUser.uid;
         editVersion = {...editVersion, createdAt: timestamp};
+
+        const objToSave = {
+          editVersion,
+          publishVersion: res.publishVersion,
+          isEditDirty: true,
+          name: res.name,
+          isPublish: res.isPublish
+        };
+        this.editDocInTree(uid, objToSave);
+
         return docsRef.update({...nameObj, editVersion});
       });
   }
@@ -500,6 +512,7 @@ export class OrgService {
         const objToSave = {
           editVersion,
           publishVersion: editVersion,
+          isEditDirty: false,
           name: editVersion.name,
           isPublish: true
         };
@@ -536,6 +549,7 @@ export class OrgService {
         const objToSave = {
           editVersion,
           publishVersion: editVersion,
+          isEditDirty: false,
           name: editVersion.name,
           isPublish: true
         };
@@ -588,7 +602,8 @@ export class OrgService {
 
   searchDocsByTerm(searchString: string, namesOnly: boolean, edited: boolean, published: boolean, version: boolean) {
     const orgPrivateData = this.orgPrivateData$.getValue();
-    return this.algoliaService.searchDocs(this.localCurrentOrg, orgPrivateData.searchKey, searchString, namesOnly, edited, published, version);
+    const orgPublicData = this.orgPublicData$.getValue();
+    return this.algoliaService.searchDocs(this.localCurrentOrg, orgPrivateData.searchKey, orgPublicData.language, searchString, namesOnly, edited, published, version);
   }
 
   deleteDoc(docId: string) {
@@ -686,6 +701,7 @@ export class OrgService {
       node.docId = treeNode.docId;
       node.isDoc = true;
       node.isPublish = treeNode.isPublish;
+      node.isEditDirty = treeNode.isEditDirty;
     } else {
       node.isDoc = false;
     }
@@ -723,28 +739,31 @@ export class OrgService {
       );
   }
 
-  // TODO move to rxjs 6
+// TODO move to rxjs 6
   getOrgTreeByUser$(): Observable<any> {
     return combineLatest(this.getOrgUser$(), this.getOrgTreeFromJson$())
       .map(res => {
         const user: any = res[0];
         const tree = res [1];
-        if (!user) { return of(null); }
-        if (user && user.roles.editor) {
-          return tree;
-        } else {
-          const publicTree = [];
-          if (tree) {
-            tree.forEach(treeNode => {
-              const node = this.makePublishTree(treeNode);
-              if (node) {
-                publicTree.push(node);
-              }
-            });
-          }
+        // if (!user) { return of(null); }
+        if (user) {
+          if (user.roles.editor) {
+            return tree;
+          } else {
+            const publicTree = [];
+            if (tree) {
+              tree.forEach(treeNode => {
+                const node = this.makePublishTree(treeNode);
+                if (node) {
+                  publicTree.push(node);
+                }
+              });
+            }
 
-          return publicTree;
+            return publicTree;
+          }
         }
+
       });
   }
 
@@ -868,6 +887,7 @@ export class OrgService {
       if (treeNode.id === docId) {
         treeNode.name = docData.name;
         treeNode.isPublish = docData.isPublish;
+        treeNode.isEditDirty = docData.isEditDirty;
         treeNode.isDoc = true;
       }
     }

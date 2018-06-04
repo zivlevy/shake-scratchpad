@@ -9,6 +9,7 @@ import {MatDialog, MatDialogRef} from '@angular/material';
 import {PublishDialogComponent} from '../dialogs/publish-dialog/publish-dialog.component';
 
 import {filter, takeUntil, switchMap} from 'rxjs/operators';
+import {ToasterService} from "../../../core/toaster.service";
 
 @Component({
   selector: 'sk-org-doc-edit',
@@ -45,7 +46,8 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private lngService: LanguageService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private toasterService: ToasterService) {
 
 
   }
@@ -127,10 +129,16 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
     const docData = this.editor.getDoc( true);
     if (this.currentDoc && this.currentDoc.uid) {
       this.orgService.saveDoc(this.currentDoc.uid, docData)
-        .then(() => {
+        .then((res) => {
+          console.log(res);
           // go to edit of new version
+          this.toasterService.toastInfo('Document Saved');
           this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, this.currentDoc.uid, 'e', 0, 'false', '**'])
             .then(() => this.isSaving = false);
+        })
+        .catch(err => {
+          this.toasterService.toastError('Could not save document');
+          console.log(err);
         });
     } else {
       this.isSaving = true;

@@ -199,7 +199,6 @@ export const newOrgRequest = functions.firestore
 
 export const onOrgDelete = functions.firestore.document('org/{orgId}').onDelete((data, context) => {
   const orgId = context.params.orgId;
-  console.log(orgId);
 
   return algoliaOrgDelete(orgId)
     .catch(err => console.log(err));

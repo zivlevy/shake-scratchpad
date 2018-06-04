@@ -122,25 +122,6 @@ export class SignupComponent implements OnInit, OnDestroy {
       this.router.navigate([this.homeRoute])
         .catch(err => console.log(err));
 
-      // let queryParams;
-      // if (this.returnRoute) {
-      //   if (this.requestEmail) {
-      //     queryParams = {
-      //       name: this.requestName,
-      //       mail: this.requestEmail
-      //     };
-      //     this.router.navigate([this.returnRoute], {queryParams: queryParams})
-      //       .catch(err => console.log(err));
-      //   } else {
-      //     this.router.navigate([this.returnRoute])
-      //       .catch(err => console.log(err));
-      //   }
-      // } else {
-      //   this.router.navigate([this.homeRoute])
-      //     .catch(err => console.log(err));
-      //   // window.location.reload();
-      // }
-
     }).catch(err => {
       this.toaster.toastError(err.message);
     });
@@ -157,25 +138,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.router.navigate([this.homeRoute + '/login'], {queryParams: queryParams})
         .catch(err => console.log(err));
 
-    // if (this.returnRoute) {
-    //   if (this.requestEmail) {
-    //     queryParams = {
-    //       returnUrl: this.returnRoute,
-    //       name: this.requestName,
-    //       mail: this.requestEmail
-    //     };
-    //   } else {
-    //     queryParams = {
-    //       returnUrl: this.returnRoute
-    //     };
-    //   }
-    //   this.router.navigate(['org/' + this.orgId + '/login'], {queryParams: queryParams})
-    //     .catch(err => console.log(err));
-    //
-    // } else {
-    //   this.router.navigate(['login'])
-    //     .catch(err => console.log(err));
-    // }
   }
 
   setLng(lng) {
