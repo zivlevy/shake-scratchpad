@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {SkItem, SkSection} from '../../../model/document';
 import {DocumentService} from '../document.service';
-import {IActionMapping, TREE_ACTIONS} from "angular-tree-component";
+import {IActionMapping, TREE_ACTIONS} from 'angular-tree-component';
 
 @Component({
   selector: 'sk-doc-viewer',
@@ -78,8 +78,11 @@ export class DocViewerComponent implements OnInit, OnChanges {
     };
   }
 
-  treeClicked(ev, node) {
-    console.log(node);
+   treeClicked (ev, node) {
+    const element = document.getElementById( node.data.numbering);
+    if ( element ) {
+      element.scrollIntoView(true);
+    }
 
   }
 
