@@ -9,8 +9,8 @@ export class DocumentService {
 
 
   // doc list view
-  SkTreeListFromJSON(docJson: string): Array<SkSection | SkItem> {
-    const docObject = JSON.parse(docJson);
+  SkTreeListFromJSON(docObject): Array<SkSection | SkItem> {
+    // const docObject = JSON.parse(docJson);
     const docTree = new SkSection().deserialize(docObject);
     const resultArry = [];
     docTree.level = 0;
@@ -38,7 +38,6 @@ export class DocumentService {
     }
     return resultArray;
   }
-
 
   // doc task list view
   SKTasksList(docJson: string): Array<any> {
@@ -82,5 +81,57 @@ export class DocumentService {
     }
     return results;
 
+  }
+
+  getMapTreeFromDocJson(docObject) {
+    // const docObject = JSON.parse(docJson);
+    const docTree = new SkSection().deserialize(docObject);
+
+    const nodes = [];
+    docTree.level = 0;
+    this.makeMapTree(docTree, nodes, docTree, 0);
+    return nodes;
+  }
+
+  makeMapTree(docTree, nodes, parent, index) {
+    if (docTree !== parent) {
+      docTree.numbering = parent.numbering ? `${parent.numbering}.${index}` : index;
+      docTree.level = parent.level + 1;
+    }
+
+    if (docTree.nodes) {
+      const childNodes = [];
+      index = 0;
+      docTree.nodes.forEach(node => {
+        if (node instanceof SkSection) {
+          index++;
+        }
+        this.makeMapTree(node, childNodes, docTree, index);
+      });
+      nodes.push({
+        numbering: docTree.numbering,
+        name: this.stripHtml(docTree.data),
+        children: childNodes
+      });
+
+    } else {
+      return;
+    }
+  }
+
+  private stripHtml(str) {
+    // Remove some tags
+    str = str.replace(/<[^>]+>/gim, ' ');
+
+    // Remove BB code
+    str = str.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2 ');
+
+    // Remove other staff;
+    str = str.replace(/\&nbsp;/g, ' ');
+    str = str.replace(/\&quot;/g, ' ');
+    str = str.replace(/\&ndash;/g, ' ');
+    str = str.replace(/\&#39;/g, ' ');
+
+    return str;
   }
 }

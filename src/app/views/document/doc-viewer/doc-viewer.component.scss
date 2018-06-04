@@ -4,9 +4,11 @@
 }
 
 #doc-wrapper {
+  height: 60%;
+  max-height: 60vh;
   max-width: 700px;
   margin: 20px auto;
-  padding: 10px;
+  //padding: 10px;
 }
 
 .set-rtl {
@@ -14,6 +16,10 @@
   direction: rtl;
 }
 
+.rtl-drawer {
+  right: 0!important;
+  left:auto!important;
+}
 .section {
   font-size: 18px;
   font-weight: bold;
@@ -33,7 +39,45 @@
   border-right: 8px solid red;
 
 }
-#ziv {
-  border: 1px solid red;
-  background-color: yellow;
+
+.node-content-wrapper, .tree-children {
+  position: relative;
 }
+
+.node-content-wrapper::before, .tree-children::after {
+  content: "";
+  position: absolute;
+}
+
+.node-content-wrapper::before {
+  border-bottom: 1px solid lightgrey;
+  border-left: 1px solid lightgrey;
+  height: 28px;
+  top: -17px;
+  width: 20px;
+  left: -28px;
+}
+
+.tree-node-level-1 > tree-node-wrapper > .node-wrapper > .node-content-wrapper::before {
+  display: none;
+}
+
+.tree-node-leaf > .node-wrapper > .node-content-wrapper::before {
+  width: 25px;
+}
+
+.tree-children::after {
+  border-left: 1px solid lightgrey;
+  height: 100%;
+  top: -15px;
+  left: -15px;
+}
+
+tree-node:last-child > .tree-node > .tree-children::after {
+  border-left: none;
+}
+
+.toggle-children {
+  z-index: 1;
+}
+
