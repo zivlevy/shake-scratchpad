@@ -14,14 +14,14 @@
 
   <mat-drawer-content id = "doc-view" >
       <div *ngFor="let item of docList" [ngClass]="{'set-rtl': isRTL}">
-        <div fxLayout [ngClass]="{
+        <div [id]="item.numbering" fxLayout [ngClass]="{
 
        'item-warning': item.type === 1,
        'section' : item.nodes,
        'section-rtl' : item.nodes && isRTL,
        'item' : !item.nodes}"
              [ngStyle]="{'margin-right': ((item.level - 1) < 0 ? 0 : (item.level - 1)) * ident + 'px' }">
-          <div [id]="item.numbering" *ngIf="item.numbering && isNumbering"
+          <div  *ngIf="item.numbering && isNumbering"
                [innerHTML]="'<p>' + item.numbering + ' &nbsp; </p>'"></div>
           <div [innerHTML]="item.data | safeHtml"></div>
       </div>
