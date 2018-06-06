@@ -1,6 +1,7 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {DocumentService} from '../document.service';
 import {SkItem, SkSection} from '../../../model/document';
+import {IActionMapping, TREE_ACTIONS} from 'angular-tree-component';
 
 @Component({
   selector: 'sk-task-viewer',
@@ -14,6 +15,10 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   @Input() docJson: string;
   @Input() ident: number = 10;
   @Input() currentTask: number = 0;
+  @Input() isDocMap: boolean = false;
+
+  @ViewChild('tree') tree;
+
 
   searchPhrase: string = '';
   isSearch: boolean = false;
@@ -22,6 +27,8 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   sectionList: Array<SkSection>;
   viewSection: Array<SkSection | SkItem>;
   docName: string = '';
+  nodes;
+  options;
   constructor(private docService: DocumentService
   ) { }
 
@@ -29,14 +36,21 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('Here');
     if (this.docJson) {
-      this.docName = JSON.parse(this.docJson).data;
+      const docObject = JSON.parse(this.docJson);
+      // this.docName = JSON.parse(this.docJson).data;
+      this.docName = docObject.data;
+
       this.sectionList  = this.docService.SKTasksList(this.docJson);
       this.doSearch();
       this.currentTask = 0;
       this.setViewSection();
-      console.log(this.sectionList);
+      if (this.isDocMap) {
+        this.genDocMap(docObject);
+        setTimeout(() => {
+          this.tree.treeModel.expandAll();
+        }, 0);
+      }
     }
   }
 
@@ -109,10 +123,66 @@ export class TaskViewerComponent implements OnInit, OnChanges {
     const task: any = this.sectionList[this.currentTask];
     this.viewSection = [];
     this.viewSection = [...task.parents, ...task.docs];
-    console.log(this.viewSection);
   }
 
   toggleSearch() {
     this.isSearch = !this.isSearch;
+  }
+
+  genDocMap(docObject) {
+    this.nodes = this.docService.getMapTreeFromDocJson(docObject);
+
+    this.options = {
+      rtl: this.isRTL,
+      actionMapping: this.getTreeActionMapping(),
+
+    };
+  }
+
+  private getTreeActionMapping(): IActionMapping {
+    return {
+      keys: {
+        // [KEYS.RIGHT]: null,
+        // [KEYS.LEFT]: null,
+        // [KEYS.DOWN]: null,
+        // [KEYS.UP]: null,
+        // [KEYS.SPACE]: null,
+        // [KEYS.ENTER]: null
+      },
+      mouse: {
+        click: TREE_ACTIONS.TOGGLE_EXPANDED,
+        dblClick: null,
+        contextMenu: null,
+        expanderClick: TREE_ACTIONS.TOGGLE_EXPANDED,
+        checkboxClick: TREE_ACTIONS.TOGGLE_SELECTED,
+        drop: TREE_ACTIONS.MOVE_NODE
+      },
+    };
+  }
+
+  treeClicked (ev, node) {
+    let taskNumToLocate = node.data.numbering.toString()
+    this.currentTask = this.getTaskNumber(taskNumToLocate);
+    while (this.currentTask < 0) {
+      taskNumToLocate = taskNumToLocate + '.1';
+      this.currentTask = this.getTaskNumber(taskNumToLocate);
+    }
+    this.setViewSection();
+  }
+
+  getTaskNumber(numbering: string) {
+    let task = 0;
+    for (const section of this.sectionList)  {
+      if (section.parents[section.parents.length - 1].numbering === numbering) {
+        return task;
+      } else {
+        task++;
+      }
+    }
+    return -1;
+  }
+
+  treeRightClick(ev, node) {
+    console.log(node);
   }
 }

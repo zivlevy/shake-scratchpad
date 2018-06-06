@@ -51,23 +51,40 @@
 
 </div>
 
-<div *ngIf="docJson" id="doc-wrapper" class="mat-elevation-z8" [ngClass]="{'set-rtl': isRTL}">
-  <div *ngFor="let item of viewSection">
-    <div fxLayout [ngClass]="{
+
+<mat-drawer-container *ngIf="docJson" id="doc-wrapper" autosize="true" class="mat-elevation-z8">
+  <mat-drawer mode="side" id = "doc-map" [position]="isRTL ? 'end' : 'start'" [opened]="isDocMap" [ngClass]="{'rtl-drawer': isRTL}">
+    <div [ngClass]="{'set-rtl': isRTL}">
+      <tree-root #tree [nodes]="nodes" [options]="options">
+        <ng-template #treeNodeTemplate let-node let-index="index">
+          <div (click)="treeClicked($event, node)"  (contextmenu)="treeRightClick($event, node)" fxLayout="row">
+            <span  fxFlex="calc(100% - 20px">{{node.data.numbering}}&nbsp;{{node.data.name}}</span>
+          </div>
+        </ng-template>
+      </tree-root>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content id="doc-view" class="mat-elevation-z8">
+    <div *ngIf="docJson"  [ngClass]="{'set-rtl': isRTL}">
+      <div *ngFor="let item of viewSection">
+        <div fxLayout [ngClass]="{
        'item-warning': item.type === 1,
        'section' : item.nodes,
        'section-rtl' : item.nodes && isRTL,
        'item' : !item.nodes}"
-         [ngStyle]="{'margin-right': ((item.level - 1) < 0 ? 0 : (item.level - 1)) * ident + 'px' }">
-      <div *ngIf="item.numbering && isNumbering"
-           [innerHTML]="'<p>' + item.numbering + ' &nbsp; </p>'"></div>
-      <div [innerHTML]="item.data | safeHtml">
+             [ngStyle]="{'margin-right': ((item.level - 1) < 0 ? 0 : (item.level - 1)) * ident + 'px' }">
+          <div *ngIf="item.numbering && isNumbering"
+               [innerHTML]="'<p>' + item.numbering + ' &nbsp; </p>'"></div>
+          <div [innerHTML]="item.data | safeHtml">
 
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </mat-drawer-content>
 
-</div>
+</mat-drawer-container>
+
 
 
 

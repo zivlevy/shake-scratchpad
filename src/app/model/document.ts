@@ -43,6 +43,7 @@ export class SkSection implements Serializable<SkSection> {
   data: string;
   numbering?: string;
   level?: number;
+  parents?: any;
   constructor (data?: string) {
     if (data) { this.data = data; }
   }
