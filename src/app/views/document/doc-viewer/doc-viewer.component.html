@@ -1,6 +1,6 @@
 <mat-drawer-container *ngIf="docJson" id="doc-wrapper" autosize="true" class="mat-elevation-z8">
 
-  <mat-drawer mode="side" id = "doc-map" [position]="isRTL ? 'end' : 'start'" [opened]="isDocMap" [ngClass]="{'rtl-drawer': isRTL}">
+  <mat-drawer #drawer [mode]="smallScreen ? 'over' : 'side'" id = "doc-map" [position]="isRTL ? 'end' : 'start'" [opened]="isDocMap" [ngClass]="{'rtl-drawer': isRTL}">
     <div [ngClass]="{'set-rtl': isRTL}">
       <tree-root #tree [nodes]="nodes" [options]="options">
         <ng-template #treeNodeTemplate let-node let-index="index">

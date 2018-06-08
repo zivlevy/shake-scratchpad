@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {DocumentService} from '../document.service';
 import {SkItem, SkSection} from '../../../model/document';
 import {IActionMapping, TREE_ACTIONS} from 'angular-tree-component';
+import {MediaService} from '../../../core/media.service';
 
 @Component({
   selector: 'sk-task-viewer',
@@ -18,6 +19,7 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   @Input() isDocMap: boolean = false;
 
   @ViewChild('tree') tree;
+  @ViewChild('drawer') drawer;
 
 
   searchPhrase: string = '';
@@ -29,10 +31,18 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   docName: string = '';
   nodes;
   options;
-  constructor(private docService: DocumentService
-  ) { }
+  smallScreen: boolean = false;
+
+  constructor(private docService: DocumentService,
+              private mediaService: MediaService) {
+
+  }
 
   ngOnInit() {
+    this.mediaService.getSmallScreen$()
+      .subscribe(isSmall => {
+        this.smallScreen = isSmall;
+      });
   }
 
   ngOnChanges() {
@@ -161,7 +171,10 @@ export class TaskViewerComponent implements OnInit, OnChanges {
   }
 
   treeClicked (ev, node) {
-    let taskNumToLocate = node.data.numbering.toString()
+    if (this.smallScreen) {
+      this.drawer.close();
+    }
+    let taskNumToLocate = node.data.numbering.toString();
     this.currentTask = this.getTaskNumber(taskNumToLocate);
     while (this.currentTask < 0) {
       taskNumToLocate = taskNumToLocate + '.1';
