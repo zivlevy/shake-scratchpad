@@ -4,12 +4,22 @@
 }
 
 #doc-wrapper {
-  height: 60vh;
-  overflow: scroll;
-  max-height: 100vh;
+  height: 80%;
+  max-height: 80vh;
   max-width: 700px;
   margin: 20px auto;
-  //padding: 10px;
+  direction: ltr;       // to enable hebrew support for drawer!
+}
+
+#doc-map {
+  padding: 10px;
+  max-width: 200px;
+}
+
+#doc-view {
+  padding: 10px;
+  height: 500px;
+  overflow: scroll;
 }
 
 .set-rtl {
