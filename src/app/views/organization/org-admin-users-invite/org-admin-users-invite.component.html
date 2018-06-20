@@ -53,6 +53,12 @@
           <mat-icon>mail</mat-icon>
         </button>
 
+        <button mat-raised-button class="btn-hover-accent buttons-row"
+                (click)="manualAdd()" [disabled]="!inviteForm.valid"
+                matTooltip="{{'Add user' | translate}}">
+          <mat-icon>person_add</mat-icon>
+        </button>
+
         <button *ngIf="advanced" mat-raised-button [disabled]="!inviteForm.valid"
                 (click)="addInviteToTable()" class="btn-hover-accent buttons-row"
                 matTooltip="{{'Add invite to list' | translate}}">

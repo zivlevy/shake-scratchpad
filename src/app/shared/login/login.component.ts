@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     // get current org
     this.orgService.getCurrentOrg$()
       .pipe(takeUntil(this.destroy$))

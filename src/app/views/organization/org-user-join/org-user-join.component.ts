@@ -71,10 +71,10 @@ export class OrgUserJoinComponent implements OnInit, OnDestroy {
         this.currentOrgUser = orgUser;
       });
 
+    // ToDo - deal with deprecated
     combineLatest(this.orgService.getCurrentOrg$(), this.authService.getUser$(), this.route.queryParams, this.orgService.getOrgUser$())
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        console.log(this.orgId, this.uid, this.queryParams, this.currentOrgUser);
         if (! this.orgId) {
           return;
         }

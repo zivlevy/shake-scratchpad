@@ -274,7 +274,6 @@ export class OrgService {
   // Cloud Function userAddOrg
   // *************************************
   addOrgToUser(orgId: string, uid: string) {
-    console.log('Here');
     return this.afs.collection('users').doc(uid).collection('orgs').doc(orgId).set({
       orgName: this.orgPublicData$.getValue().orgName
     });
@@ -364,7 +363,6 @@ export class OrgService {
       const emailLowerCase = email.toLowerCase();
       this.checkOrgUserByMail(orgId, emailLowerCase)
         .then(res => {
-          console.log(res);
           if (!res) {
             this.firestoreService.upsert(`org/${orgId}/invites/${emailLowerCase}`, {
               'displayName': displayName,

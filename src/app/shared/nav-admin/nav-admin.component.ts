@@ -24,7 +24,6 @@ export class NavAdminComponent implements OnInit, OnDestroy {
     this.lngService.getLanguadge$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(lng => {
-      console.log(lng);
       this.rtl = lng === 'he';
     });
 

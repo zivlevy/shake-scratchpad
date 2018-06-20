@@ -151,6 +151,21 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
       });
   }
 
+  manualAdd() {
+    const invite = new InviteRecord(this.displayName, this.email, this.isViewer, this.isEditor, this.isAdmin);
+    // TODO - set to this.inviteForm.reset() once the bug is fixed by google
+    this.resetForm(this.inviteForm);
+    this.inviteForm.controls['isViewer'].setValue(true);
+
+    this.sendInvite(invite)
+      .then(() => {
+        this.toaster.toastSuccess('Invitation Sent');
+      })
+      .catch(() => {
+        this.toaster.toastError('Invitation Rejected');
+      });
+  }
+
    resetForm(formGroup: FormGroup) {
     let control: AbstractControl = null;
     formGroup.reset();
