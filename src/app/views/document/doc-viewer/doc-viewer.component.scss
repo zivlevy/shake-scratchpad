@@ -5,8 +5,8 @@
 
 #doc-wrapper {
   height: calc(100vh - 140px);
-  //max-height: 80vh;
   overflow-y: scroll;
+  //max-height: 80vh;
   max-width: 700px;
   margin: 20px auto;
   direction: ltr;       // to enable hebrew support for drawer!
@@ -19,6 +19,7 @@
 
 #doc-view {
   padding: 10px;
+  //height: 500px;
   overflow: scroll;
 }
 
