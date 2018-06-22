@@ -1,7 +1,8 @@
-import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {SkItem, SkSection} from '../../../model/document';
 import {DocumentService} from '../document.service';
 import {IActionMapping, TREE_ACTIONS} from 'angular-tree-component';
+import {MediaService} from '../../../core/media.service';
 
 @Component({
   selector: 'sk-doc-viewer',
@@ -18,16 +19,23 @@ export class DocViewerComponent implements OnInit, OnChanges {
   @Input() isSearch: boolean = false;
 
   @ViewChild('tree') tree;
+  @ViewChild('drawer') drawer;
 
   docList: Array<SkSection | SkItem>;
   nodes;
   options;
+  smallScreen: boolean = false;
 
-  constructor(private docService: DocumentService
-  ) {
+  constructor(private docService: DocumentService,
+              private mediaService: MediaService) {
   }
 
   ngOnInit() {
+
+    this.mediaService.getSmallScreen$()
+      .subscribe(isSmall => {
+        this.smallScreen = isSmall;
+      });
 
 
   }
@@ -79,6 +87,9 @@ export class DocViewerComponent implements OnInit, OnChanges {
   }
 
    treeClicked (ev, node) {
+    if (this.smallScreen) {
+      this.drawer.close();
+    }
     const element = document.getElementById( node.data.numbering);
     if ( element ) {
       element.scrollIntoView(true);

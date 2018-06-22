@@ -172,29 +172,30 @@ export class AdminUsersManagementComponent implements OnInit, OnDestroy, AfterVi
   // Not implemented because can't delete user from FireBase Authentication list
   // *************
 
-  // userDeleted(user) {
-  //   const dialogRef = this.dialog.open(DeleteApproveComponent, {
-  //     data: {
-  //       'orgId': user.email,
-  //       'verifyPhrase': user.email
-  //     },
-  //     height: '400px',
-  //     width: '600px',
-  //   });
-  //
-  //   dialogRef.afterClosed()
-  //     .subscribe(res => {
-  //       if (res) {
-  //
-  //         // Delete the user
-  //         this.authService.getUserOrgs$(user.id)
-  //           .takeUntil(this.destroy$)
-  //           .subscribe(orgs => {
-  //
-  //           });
-  //       }
-  //     });
-  // }
+  userDeleted(user) {
+    console.log(user);
+    // const dialogRef = this.dialog.open(DeleteApproveComponent, {
+    //   data: {
+    //     'orgId': user.email,
+    //     'verifyPhrase': user.email
+    //   },
+    //   height: '400px',
+    //   width: '600px',
+    // });
+    //
+    // dialogRef.afterClosed()
+    //   .subscribe(res => {
+    //     if (res) {
+    //
+    //       // Delete the user
+    //       this.authService.getUserOrgs$(user.id)
+    //         .takeUntil(this.destroy$)
+    //         .subscribe(orgs => {
+    //
+    //         });
+    //     }
+    //   });
+  }
 
 
   ngOnDestroy() {

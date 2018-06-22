@@ -104,6 +104,10 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
 
   }
 
+  test() {
+    console.log('Test');
+  }
+
   ngOnDestroy() {
     // force unsubscribe
     this.destroy$.next(true);

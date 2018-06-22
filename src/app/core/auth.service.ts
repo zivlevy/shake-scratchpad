@@ -54,7 +54,6 @@ export class AuthService {
         url: environment.domain.name + '/' + homeRoute,
         handleCodeInApp: false
       };
-      console.log(actionCodeSettings);
       // return user.sendEmailVerification();
       return user.sendEmailVerification(actionCodeSettings);
     }
@@ -231,6 +230,7 @@ export class AuthService {
         .catch(err => console.log(err));
     });
   }
+
 
 
 }

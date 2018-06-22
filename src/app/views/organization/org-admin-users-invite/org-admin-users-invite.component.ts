@@ -136,7 +136,22 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
     return this.orgService.setOrgInvites(this.orgId, invite.displayName, invite.email, invite.isViewer, invite.isEditor, invite.isAdmin);
   }
 
-  manualSend() {
+  // manualSend() {
+  //   const invite = new InviteRecord(this.displayName, this.email, this.isViewer, this.isEditor, this.isAdmin);
+  //   // TODO - set to this.inviteForm.reset() once the bug is fixed by google
+  //   this.resetForm(this.inviteForm);
+  //   this.inviteForm.controls['isViewer'].setValue(true);
+  //
+  //   this.sendInvite(invite)
+  //     .then(() => {
+  //       this.toaster.toastSuccess('Invitation Sent');
+  //     })
+  //     .catch(() => {
+  //       this.toaster.toastError('Invitation Rejected');
+  //     });
+  // }
+
+  manualAdd() {
     const invite = new InviteRecord(this.displayName, this.email, this.isViewer, this.isEditor, this.isAdmin);
     // TODO - set to this.inviteForm.reset() once the bug is fixed by google
     this.resetForm(this.inviteForm);
@@ -144,7 +159,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
 
     this.sendInvite(invite)
       .then(() => {
-        this.toaster.toastSuccess('Invitation Sent');
+        this.toaster.toastSuccess('Invitation in Process');
       })
       .catch(() => {
         this.toaster.toastError('Invitation Rejected');
@@ -168,7 +183,7 @@ export class OrgAdminUsersInviteComponent implements OnInit, OnDestroy {
     }
     Promise.all(sendInvitesP)
       .then(() => {
-        this.toaster.toastSuccess('Invitations Sent');
+        this.toaster.toastSuccess('Invitations in Process');
         this.initInvites();
         this.dataSource.data = this.invites;
       });

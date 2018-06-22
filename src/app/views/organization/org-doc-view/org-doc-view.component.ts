@@ -36,6 +36,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   isSearch: boolean = false;
   rtl: boolean = false;
 
+
   confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   docAckId: string = null;
   isTaskView: boolean = false;

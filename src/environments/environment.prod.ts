@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  version: '0.4.3',
+  version: '0.4.8',
   domain: {
     name: 'https://shake.network'
     // name: 'https://shake-sb.firebaseapp.com'

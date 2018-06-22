@@ -4,7 +4,7 @@ import {
   algoliaInitIndex, algoliaGetSearchKey, algoliaSaveDoc, AlgoliaDoc, algoliaOrgDelete, algoliaDeleteVersionDoc,
   algoliaDeletePublishedDoc, algoliaDeleteEditedDoc
 } from "./algolia";
-import {sendOrgInvite} from "./sendgrid";
+import {sendOrgInvite, sendShakeInvite} from "./sendgrid";
 
 
 const saveEditDoc = function (orgId, docId, data) {
@@ -205,19 +205,74 @@ export const onOrgDelete = functions.firestore.document('org/{orgId}').onDelete(
 
 });
 
+// *************************************
+// Cloud Function userAddOrg
+// *************************************
+const addOrgToUser = (orgId: string, uid: string) => {
+  const db = admin.firestore();
+
+  return db.collection('org').doc(orgId).collection('publicData').doc('info').get()
+    .then(info => {
+      return db.collection('users').doc(uid).collection('orgs').doc(orgId).set({
+        orgName: info.data().orgName
+      });
+    })
+    .catch(err => console.log(err));
+}
+
+const createUserInitialData = (uid: string, email: string, displayName: string) => {
+  const db = admin.firestore();
+
+  return db.collection('users').doc(uid).set({
+    uid: uid,
+    email: email,
+    displayName: displayName
+  });
+}
+
 export const onOrgInviteCreate = functions.firestore.document('org/{orgId}/invites/{email}').onCreate((data, context) => {
   const orgId = context.params.orgId;
   const email = context.params.email;
+  const displayName =  data.data().displayName;
 
+  const auth = admin.auth();
   const db = admin.firestore();
+
   const orgPublicData = db.collection('org').doc(orgId).collection('publicData').doc('info').get();
   const orgInviteData = db.collection('org').doc(orgId).collection('invites').doc(email).get();
 
   return Promise.all([orgPublicData, orgInviteData])
     .then(res => {
-      return sendOrgInvite(orgId, res[0].data(), email, res[1].data())
+      return auth.getUserByEmail(email)
+        .then((user) => {
+          // User is already a SHAKE user
+          return addOrgToUser(orgId, user.uid)
+            .then(() => {
+              return sendOrgInvite(orgId, res[0].data(), email, res[1].data());
+            })
+        })
+        .catch(() => {
+          // User needs to be registered to SHAKE
+          return auth.createUser({
+            email: email,
+            password: 'shake2018',
+            emailVerified: true,
+            disabled: false
+          })
+            .then(user => {
+              return createUserInitialData(user.uid, email, displayName)
+                .then(() => {
+                  return addOrgToUser(orgId, user.uid)
+                    .then(() => {
+                      return sendShakeInvite(orgId, res[0].data(), email, res[1].data());
+                    })
+                })
+            })
+        })
     })
-    .catch(err => console.log(err));
+
+
+
 });
 
 // ToDo - turn into transaction
@@ -319,3 +374,25 @@ export const onDocAckUserRemove = functions.firestore.document(`org/{orgId}/docs
   });
 
 });
+
+export const updateRequiredSignatures = functions.https.onCall((data, context) => {
+  const orgId = data.orgId;
+  const docAckId = data.docAckId;
+  const delta = data.delta;
+
+  const db = admin.firestore();
+
+  const docAckRef = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId);
+
+  return db.runTransaction(transaction => {
+    return transaction.get(docAckRef)
+      .then(docAck => {
+        const requiredSignatures = docAck.data().requiredSignatures + delta;
+
+        transaction.update(docAckRef, {
+          requiredSignatures: requiredSignatures
+        });
+      });
+  });
+
+})

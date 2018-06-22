@@ -11,6 +11,7 @@ import {takeUntil} from 'rxjs/operators';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {SelectDialogComponent} from '../../../shared/dialogs/select-dialog/select-dialog.component';
 import {DocAck} from '../../../model/document';
+import {DocumentService} from "../../document/document.service";
 
 @Component({
   selector: 'sk-org-home',
@@ -33,6 +34,7 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
   selectedTab = 0;
 
   constructor(private orgService: OrgService,
+              private docService: DocumentService,
               private media: ObservableMedia,
               private route: ActivatedRoute,
               private router: Router,
@@ -103,6 +105,12 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
 
   newDoc() {
     this.router.navigate([`org/${this.currentOrg}/org-doc-edit`, '', 'n', 0, 'false', '**']);
+  }
+
+  getWordDoc(event) {
+    const inFile = event.target.files[0];
+    this.docService.importWordDoc(inFile);
+
   }
 
   treeDocClicked(ev) {

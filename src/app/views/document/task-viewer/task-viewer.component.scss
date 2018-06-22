@@ -4,9 +4,23 @@
 }
 
 #doc-wrapper {
+  height: calc(100vh - 140px);
+  overflow-y: scroll;
+  //max-height: 80vh;
   max-width: 700px;
   margin: 20px auto;
+  direction: ltr;       // to enable hebrew support for drawer!
+}
+
+#doc-map {
   padding: 10px;
+  max-width: 200px;
+}
+
+#doc-view {
+  padding: 10px;
+  //height: 500px;
+  overflow: scroll;
 }
 
 .set-rtl {
@@ -14,6 +28,10 @@
   direction: rtl;
 }
 
+.rtl-drawer {
+  right: 0!important;
+  left:auto!important;
+}
 .section {
   font-size: 18px;
   font-weight: bold;

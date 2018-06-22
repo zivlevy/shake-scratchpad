@@ -47,10 +47,16 @@
 
       <div fxLayout="row">
 
+        <!--<button mat-raised-button class="btn-hover-accent buttons-row"-->
+                <!--(click)="manualSend()" [disabled]="!inviteForm.valid"-->
+                <!--matTooltip="{{'Send Invitation' | translate}}">-->
+          <!--<mat-icon>mail</mat-icon>-->
+        <!--</button>-->
+
         <button mat-raised-button class="btn-hover-accent buttons-row"
-                (click)="manualSend()" [disabled]="!inviteForm.valid"
-                matTooltip="{{'Send Invitation' | translate}}">
-          <mat-icon>mail</mat-icon>
+                (click)="manualAdd()" [disabled]="!inviteForm.valid"
+                matTooltip="{{'Add user' | translate}}">
+          <mat-icon>person_add</mat-icon>
         </button>
 
         <button *ngIf="advanced" mat-raised-button [disabled]="!inviteForm.valid"
@@ -81,8 +87,8 @@
 
       <button mat-raised-button (click)="tableInvitesSend()"
               [disabled]="invites.length === 0" class="btn-hover-accent buttons-row"
-              matTooltip="{{'Send Table invitations' | translate}}">
-        <mat-icon>mail</mat-icon>
+              matTooltip="{{'Add Table Users' | translate}}">
+        <mat-icon>group_add</mat-icon>
       </button>
 
       <button mat-raised-button

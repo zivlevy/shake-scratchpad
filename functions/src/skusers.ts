@@ -12,7 +12,6 @@ export const deleteUser = functions
     return 0;
   });
 
-
 export const updateUserInfo = functions.firestore
   .document(`users/{uid}`).onUpdate((data, context) => {
     const uid = context.params.uid;

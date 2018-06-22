@@ -11,11 +11,16 @@
 
 
       <button *ngIf="currentOrgUser?.roles.editor" mat-fab class="btn-hover-accent"
-              matTooltip="{{'New Document' | translate}}" matTooltipPosition="after"
+              matTooltip="{{'New Document' | translate}}" matTooltipPosition="above"
               [ngClass]="{'add-doc-button': !rtl, 'add-doc-button-rtl': rtl}" (click)="newDoc()">
         <mat-icon>playlist_add</mat-icon>
-
       </button>
+      <button *ngIf="currentOrgUser?.roles.editor" mat-fab class="btn-hover-accent"
+              matTooltip="{{'Import Word Document' | translate}}" matTooltipPosition="above"
+              [ngClass]="{'add-word-button': !rtl, 'add-word-button-rtl': rtl}" (click)="FileSelect.click()">
+        <i class="fa fa-file-word-o fa-2x"></i>
+      </button>
+      <input hidden type="file" #FileSelect (change)="getWordDoc($event)">
 
       <mat-tab-group [selectedIndex]="selectedTab" style="margin-left: 20px; margin-right: 20px">
 

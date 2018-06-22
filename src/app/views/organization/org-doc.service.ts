@@ -62,7 +62,7 @@ export class OrgDocService {
   }
 
   // *************************************
-  // Cloud Function onOrgUserDocSignCreate
+    // Cloud Function onOrgUserDocSignCreate
   // *************************************
   userDocAckSign(orgId: string, uid: string, docAckId: string): Promise<any> {
     const timestamp = this.firestoreService.timestamp;
