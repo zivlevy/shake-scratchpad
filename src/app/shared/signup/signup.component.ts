@@ -113,10 +113,10 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   signup() {
-    this.authService.emailSignUp(this.email.value, this.password.value).then(user => {
-      this.authService.sendEmailVerification(user, this.homeRoute)
+    this.authService.emailSignUp(this.email.value, this.password.value).then((user) => {
+      this.authService.sendEmailVerification(user.user, this.homeRoute)
         .catch(err => console.log(err));
-      this.authService.createUserInitialData(user.uid, this.email.value , this.displayName.value, )
+      this.authService.createUserInitialData(user.user.uid, this.email.value , this.displayName.value, )
         .catch(err => console.log(err));
 
       this.router.navigate([this.homeRoute])
