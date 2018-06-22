@@ -374,3 +374,25 @@ export const onDocAckUserRemove = functions.firestore.document(`org/{orgId}/docs
   });
 
 });
+
+export const updateRequiredSignatures = functions.https.onCall((data, context) => {
+  const orgId = data.orgId;
+  const docAckId = data.docAckId;
+  const delta = data.delta;
+
+  const db = admin.firestore();
+
+  const docAckRef = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId);
+
+  return db.runTransaction(transaction => {
+    return transaction.get(docAckRef)
+      .then(docAck => {
+        const requiredSignatures = docAck.data().requiredSignatures + delta;
+
+        transaction.update(docAckRef, {
+          requiredSignatures: requiredSignatures
+        });
+      });
+  });
+
+})

@@ -14,12 +14,15 @@ import {DataPackageService} from './data-package.service';
 import {ToasterService} from './toaster.service';
 import {MediaService} from './media.service';
 import {EmailService} from './email.service';
+// import {AngularFireFunctionsModule} from 'angularfire2/functions';
 
 @NgModule({
   imports: [
     CommonModule,
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    // AngularFireFunctionsModule,
+
   ],
   providers: [
     AuthService,

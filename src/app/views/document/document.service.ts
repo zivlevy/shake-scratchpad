@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {SkDocData, SkItem, SkSection} from '../../model/document';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class DocumentService {
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
 
@@ -133,5 +134,20 @@ export class DocumentService {
     str = str.replace(/\&#39;/g, ' ');
 
     return str;
+  }
+
+  importWordDoc(inFile) {
+    const fileReader = new FileReader();
+
+    fileReader.readAsBinaryString(inFile);
+    fileReader.onload = () => {
+      console.log(fileReader.result);
+      this.http.post('http://kmrom.com/ShakeService/Services/v1/ParseDocx.aspx', {
+        body: fileReader.result
+      })
+        .subscribe(res => {
+          console.log(res);
+        });
+    };
   }
 }

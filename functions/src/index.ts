@@ -23,6 +23,7 @@ export const onOrgUserDocSignCreate = orgFunctions.onOrgUserDocSignCreate;
 export const onDocAckUserAdd = orgFunctions.onDocAckUserAdd;
 export const onDocAckUserRemove = orgFunctions.onDocAckUserRemove;
 export const onDocAckCreate = orgFunctions.onDocAckCreate;
+export const updateRequiredSignatures = orgFunctions.updateRequiredSignatures;
 
 // users
 export const deleteUser =  usersFunctions.deleteUser;

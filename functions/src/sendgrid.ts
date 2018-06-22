@@ -24,9 +24,10 @@ export const sendOrgInvite = function(orgId, orgPublicData, inviteEmail, inviteD
     substitutionWrappers: ['{{', '}}'],
     substitutions: {
       userName: inviteData.displayName,
+      userMail: inviteEmail,
       orgName: orgPublicData.orgName,
       homePageLink: 'http://' + domainName + '/org/' +  orgId,
-      inviteLink: 'http://' + domainName + '/org/' +  orgId + '/org-join?name=' + inviteData.displayName + '&mail=' + inviteEmail,
+      shakeHomeLink: domainName
     }
   };
 
@@ -61,8 +62,9 @@ export const sendShakeInvite = function(orgId, orgPublicData, inviteEmail, invit
     substitutions: {
       userName: inviteData.displayName,
       orgName: orgPublicData.orgName,
+      userMail: inviteEmail,
       homePageLink: 'http://' + domainName + '/org/' +  orgId,
-      inviteLink: 'http://' + domainName + '/org/' +  orgId + '/org-join?name=' + inviteData.displayName + '&mail=' + inviteEmail,
+      shakeHomeLink: domainName
     }
   };
 
