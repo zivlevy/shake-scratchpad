@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  version: '0.4.7',
+  version: '0.4.9',
   domain: {
     name: 'https://shakescratchpad.firebaseapp.com'
   },

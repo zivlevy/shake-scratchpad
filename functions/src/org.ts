@@ -4,7 +4,7 @@ import {
   algoliaInitIndex, algoliaGetSearchKey, algoliaSaveDoc, AlgoliaDoc, algoliaOrgDelete, algoliaDeleteVersionDoc,
   algoliaDeletePublishedDoc, algoliaDeleteEditedDoc
 } from "./algolia";
-import {sendOrgInvite} from "./sendgrid";
+import {sendOrgInvite, sendShakeInvite} from "./sendgrid";
 
 
 const saveEditDoc = function (orgId, docId, data) {
@@ -264,7 +264,7 @@ export const onOrgInviteCreate = functions.firestore.document('org/{orgId}/invit
                 .then(() => {
                   return addOrgToUser(orgId, user.uid)
                     .then(() => {
-                      return sendOrgInvite(orgId, res[0].data(), email, res[1].data());
+                      return sendShakeInvite(orgId, res[0].data(), email, res[1].data());
                     })
                 })
             })
