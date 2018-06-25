@@ -1,9 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ImageService} from '../core/image.service';
 import {Upload} from '../model/upload';
-import * as firebase from 'firebase/app';
 import {AuthService} from '../core/auth.service';
-import {Md5} from 'ts-md5/dist/md5';
 import { CropperSettings} from 'ng2-img-cropper';
 
 @Component({

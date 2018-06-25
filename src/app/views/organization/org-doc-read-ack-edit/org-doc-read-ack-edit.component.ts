@@ -133,9 +133,17 @@ export class OrgDocReadAckEditComponent implements OnInit, OnDestroy, AfterViewI
 
     if (event.checked) {
       this.orgDocService.addOrgUserReqDocAck(this.orgId, this.docAckId, this.currentDocAck.name, this.currentDocAck.docId, uid, userName)
+        .then(() => {
+          this.orgDocService.updateRequiredSignatures(this.orgId, this.docAckId, 1)
+            .catch(err => console.log(err));
+        })
         .catch(err => console.log(err));
     } else {
       this.orgDocService.removeOrgUserReqDocAck(this.orgId, this.docAckId, uid)
+        .then(() => {
+          this.orgDocService.updateRequiredSignatures(this.orgId, this.docAckId, -1)
+            .catch(err => console.log(err));
+        })
         .catch(err => console.log(err));
     }
   }

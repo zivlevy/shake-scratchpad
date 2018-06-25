@@ -3,11 +3,13 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {FirestoreService} from '../../core/firestore.service';
 import {Observable, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
+import {AngularFireFunctions} from 'angularfire2/functions';
 
 @Injectable()
 export class OrgDocService {
 
   constructor(private afs: AngularFirestore,
+              private aff: AngularFireFunctions,
               private firestoreService: FirestoreService,
               ) { }
 
@@ -72,6 +74,14 @@ export class OrgDocService {
       docAckId: docAckId
     });
 
+  }
+
+  updateRequiredSignatures(orgId: string, docAckId: string, delta: number) {
+    return this.aff.functions.httpsCallable('updateRequiredSignatures')({
+      orgId: orgId,
+      docAckId: docAckId,
+      delta: delta
+    });
   }
 
   // *************************************

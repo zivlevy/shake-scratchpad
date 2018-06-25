@@ -473,7 +473,7 @@ export class OrgService {
   }
 
   saveDoc(uid: string, editVersion: SkDocData) {
-    console.log('save doc')
+    console.log('save doc');
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
     return docsRef.valueChanges().take(1).toPromise()
       .then(res => {
@@ -930,30 +930,64 @@ export class OrgService {
 
   addReqDocAckToAll(orgId: string, docAckId: string, docAckName: string, docId: string): Promise<any> {
     const requestsToAdd: Array<any> = [];
-    return new Promise<any>((resolve) => {
+    const usersToAdd = [];
+    return new Promise<any>(() => {
 
       this.firestoreService.colWithIds$(`org/${orgId}/users`)
         .take(1)
         .subscribe(orgUsers => {
-          orgUsers.forEach(orgUser => {
-            this.afs.collection('org').doc(orgId).collection('docsAcks').doc(docAckId).collection('users').doc(orgUser.id)
-              .valueChanges()
-              .take(1)
-              .subscribe((docAck: any) => {
-                if (!docAck) {
-                  requestsToAdd.push(this.orgDocService.addOrgUserReqDocAck(orgId, docAckId, docAckName, docId, orgUser.id, orgUser.displayName));
+          this.afs.collection('org').doc(orgId).collection('docsAcks').doc(docAckId).collection('users').snapshotChanges()
+            .take(1)
+            .subscribe(docAckUsers => {
+              orgUsers.forEach(orgUser => {
+                if (!orgUser.isPending) {
+                  usersToAdd.push({
+                    id: orgUser.id,
+                    displayName: orgUser.displayName
+                  });
                 }
               });
-          });
-          Promise.all(requestsToAdd)
-            .then(resolve);
+              docAckUsers.forEach(docAckUser => {
+                const index = usersToAdd.findIndex(k => k.id === docAckUser.payload.doc.id);
+                usersToAdd.splice(index, 1);
+              });
+              console.log(usersToAdd);
+              usersToAdd.forEach(userToAdd => {
+                requestsToAdd.push(this.orgDocService.addOrgUserReqDocAck(orgId, docAckId, docAckName, docId, userToAdd.id, userToAdd.displayName));
+              });
+              return Promise.all(requestsToAdd)
+                .then(() => {
+                  console.log(requestsToAdd.length);
+                  return this.orgDocService.updateRequiredSignatures(orgId, docAckId, requestsToAdd.length);
+                });
+            });
         });
+
+      // this.firestoreService.colWithIds$(`org/${orgId}/users`)
+      //   .take(1)
+      //   .subscribe(orgUsers => {
+      //     orgUsers.forEach(orgUser => {
+      //       this.afs.collection('org').doc(orgId).collection('docsAcks').doc(docAckId).collection('users').doc(orgUser.id)
+      //         .valueChanges()
+      //         .take(1)
+      //         .subscribe((docAck: any) => {
+      //           if (!docAck) {
+      //             requestsToAdd.push(this.orgDocService.addOrgUserReqDocAck(orgId, docAckId, docAckName, docId, orgUser.id, orgUser.displayName));
+      //           }
+      //         });
+      //     });
+      //     return Promise.all(requestsToAdd)
+      //       .then(() => {
+      //         console.log(requestsToAdd.length);
+      //         return this.orgDocService.updateRequiredSignatures(orgId, docAckId, requestsToAdd.length);
+      //       });
+      //   });
     });
   }
 
   removeReqDocAckFromAll(orgId: string, docAckId: string): Promise<any> {
     const requestsToRemove: Array<any> = [];
-    return new Promise<any>((resolve) => {
+    return new Promise<any>(() => {
 
       this.firestoreService.colWithIds$(`org/${orgId}/docsAcks/${docAckId}/users`)
         .take(1)
@@ -963,8 +997,11 @@ export class OrgService {
               requestsToRemove.push(this.orgDocService.removeOrgUserReqDocAck(orgId, docAckId, docAckUser.id));
             }
           });
-          Promise.all(requestsToRemove)
-            .then(resolve);
+          return Promise.all(requestsToRemove)
+            .then(() => {
+              return this.orgDocService.updateRequiredSignatures(orgId, docAckId, -requestsToRemove.length);
+
+            });
         });
     });
   }

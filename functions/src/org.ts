@@ -327,26 +327,36 @@ export const onDocAckUserAdd = functions.firestore.document(`org/{orgId}/docsAck
 
   const db = admin.firestore();
 
-  const docAckRef = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId);
-  const userDocAckRef = db.collection('org').doc(orgId).collection('users').doc(uid).collection('docsAcks').doc(docAckId);
-
-  return db.runTransaction(transaction => {
-    return transaction.get(docAckRef)
-      .then(docAck => {
-        const docAckName = docAck.data().name;
-        const docId = docAck.data().docId;
-        const requiredSignatures = docAck.data().requiredSignatures + 1;
-
-        transaction.set(userDocAckRef, {
-          docAckName: docAckName,
-          docId: docId,
-        });
-
-        transaction.update(docAckRef, {
-          requiredSignatures: requiredSignatures
-        });
+  return db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId).get()
+    .then(docAck => {
+      const docAckName = docAck.data().name;
+      const docId = docAck.data().docId;
+      return db.collection('org').doc(orgId).collection('users').doc(uid).collection('docsAcks').doc(docAckId).set( {
+        docAckName: docAckName,
+        docId: docId
       });
-  });
+    });
+
+  // const docAckRef = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId);
+  // const userDocAckRef = db.collection('org').doc(orgId).collection('users').doc(uid).collection('docsAcks').doc(docAckId);
+  //
+  // return db.runTransaction(transaction => {
+  //   return transaction.get(docAckRef)
+  //     .then(docAck => {
+  //       const docAckName = docAck.data().name;
+  //       const docId = docAck.data().docId;
+  //       const requiredSignatures = docAck.data().requiredSignatures + 1;
+  //
+  //       transaction.set(userDocAckRef, {
+  //         docAckName: docAckName,
+  //         docId: docId,
+  //       });
+  //
+  //       transaction.update(docAckRef, {
+  //         requiredSignatures: requiredSignatures
+  //       });
+  //     });
+  // });
 
 });
 
@@ -357,21 +367,23 @@ export const onDocAckUserRemove = functions.firestore.document(`org/{orgId}/docs
 
   const db = admin.firestore();
 
-  const docAckRef = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId);
-  const userDocAckRef = db.collection('org').doc(orgId).collection('users').doc(uid).collection('docsAcks').doc(docAckId);
+  return db.collection('org').doc(orgId).collection('users').doc(uid).collection('docsAcks').doc(docAckId).delete();
 
-  return db.runTransaction(transaction => {
-    return transaction.get(docAckRef)
-      .then(docAck => {
-        const requiredSignatures = docAck.data().requiredSignatures - 1;
-
-        transaction.delete(userDocAckRef);
-
-        transaction.update(docAckRef, {
-          requiredSignatures: requiredSignatures
-        });
-      });
-  });
+  // const docAckRef = db.collection('org').doc(orgId).collection('docsAcks').doc(docAckId);
+  // const userDocAckRef = db.collection('org').doc(orgId).collection('users').doc(uid).collection('docsAcks').doc(docAckId);
+  //
+  // return db.runTransaction(transaction => {
+  //   return transaction.get(docAckRef)
+  //     .then(docAck => {
+  //       const requiredSignatures = docAck.data().requiredSignatures - 1;
+  //
+  //       transaction.delete(userDocAckRef);
+  //
+  //       transaction.update(docAckRef, {
+  //         requiredSignatures: requiredSignatures
+  //       });
+  //     });
+  // });
 
 });
 

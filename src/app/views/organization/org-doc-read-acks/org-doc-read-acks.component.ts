@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import {ToasterService} from '../../../core/toaster.service';
 import {takeUntil} from 'rxjs/operators';
+import {AngularFireFunctions} from 'angularfire2/functions';
 
 export interface OrgAcks {
   name: string;
@@ -102,10 +103,6 @@ export class OrgDocReadAcksComponent implements OnInit, OnDestroy {
   activeOnlyChanged(event) {
     this.readAcksDataSource.filter = event.checked.toString();
 
-  }
-
-  test() {
-    console.log('Test');
   }
 
   ngOnDestroy() {
