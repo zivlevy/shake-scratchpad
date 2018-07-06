@@ -7,7 +7,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {AuthService} from '../../core/auth.service';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {OrgUser} from '../../model/org-user';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import {DocAck, SkDoc, SkDocData} from '../../model/document';
 import {FirestoreService} from '../../core/firestore.service';
 import {ImageService} from '../../core/image.service';
@@ -464,6 +464,7 @@ export class OrgService {
       const timestamp = this.firestoreService.timestamp;
       editVersion.createdBy = this.currentSkUser.uid;
       editVersion.createdAt = timestamp;
+      console.log(editVersion);
       const objToSave: SkDoc = {editVersion: editVersion, name: editVersion.name, version: 0};
       docsRef.add(objToSave)
         .then(doc => this.addDocToTreeRoot(doc.id, objToSave))
@@ -951,37 +952,16 @@ export class OrgService {
                 const index = usersToAdd.findIndex(k => k.id === docAckUser.payload.doc.id);
                 usersToAdd.splice(index, 1);
               });
-              console.log(usersToAdd);
               usersToAdd.forEach(userToAdd => {
                 requestsToAdd.push(this.orgDocService.addOrgUserReqDocAck(orgId, docAckId, docAckName, docId, userToAdd.id, userToAdd.displayName));
               });
               return Promise.all(requestsToAdd)
                 .then(() => {
-                  console.log(requestsToAdd.length);
                   return this.orgDocService.updateRequiredSignatures(orgId, docAckId, requestsToAdd.length);
                 });
             });
         });
 
-      // this.firestoreService.colWithIds$(`org/${orgId}/users`)
-      //   .take(1)
-      //   .subscribe(orgUsers => {
-      //     orgUsers.forEach(orgUser => {
-      //       this.afs.collection('org').doc(orgId).collection('docsAcks').doc(docAckId).collection('users').doc(orgUser.id)
-      //         .valueChanges()
-      //         .take(1)
-      //         .subscribe((docAck: any) => {
-      //           if (!docAck) {
-      //             requestsToAdd.push(this.orgDocService.addOrgUserReqDocAck(orgId, docAckId, docAckName, docId, orgUser.id, orgUser.displayName));
-      //           }
-      //         });
-      //     });
-      //     return Promise.all(requestsToAdd)
-      //       .then(() => {
-      //         console.log(requestsToAdd.length);
-      //         return this.orgDocService.updateRequiredSignatures(orgId, docAckId, requestsToAdd.length);
-      //       });
-      //   });
     });
   }
 

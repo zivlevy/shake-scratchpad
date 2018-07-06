@@ -109,7 +109,15 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
 
   getWordDoc(event) {
     const inFile = event.target.files[0];
-    this.docService.importWordDoc(inFile);
+    this.docService.importWordDoc(inFile)
+      .subscribe(res => {
+        const name = inFile.name.toString().slice(0, -5);
+        const docToSave = {
+          data: JSON.stringify({data: name, ...res}),
+          name: name
+        }
+        this.orgService.addDoc(docToSave);
+    });
 
   }
 

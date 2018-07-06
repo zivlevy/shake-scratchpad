@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 import {Router} from '@angular/router';
 import {AuthService} from '../../core/auth.service';
-import {map} from "rxjs/operators";
+import {map} from 'rxjs/operators';
+import {AlgoliaService} from '../../core/algolia.service';
 
 @Injectable()
 export class HomeService {
@@ -10,10 +11,10 @@ export class HomeService {
 
   constructor(private afs: AngularFirestore,
               private router: Router,
+              private algoliaService: AlgoliaService,
               private authService: AuthService) {
     this.authService.getSkUser$().subscribe(user => {
       this.currentSkUser = user;
-      console.log(this.currentSkUser);
     });
   }
 
@@ -64,5 +65,9 @@ export class HomeService {
     return orgDoc.snapshotChanges().map(snap => {
       return snap.payload.exists;
     });
+  }
+
+  algoliaTest() {
+    return this.algoliaService.testAlgolia();
   }
 }

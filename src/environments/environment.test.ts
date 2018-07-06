@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  version: '0.4.9',
+  version: '0.4.10',
   domain: {
     name: 'https://shakescratchpad.firebaseapp.com'
   },
@@ -14,7 +14,8 @@ export const environment = {
 
   },
   algolia: {
-    appId: 'OH29RANN3N'
+    appId: 'OH29RANN3N',
+    searchKey: '36aee713e12b4f08ee8f1ba9c4bc6360'
 
   },
   froala: {

@@ -4,6 +4,7 @@ import {Subject} from 'rxjs';
 import { AuthService } from '../../../core/auth.service';
 import {takeUntil} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
+import {HomeService} from '../home.service';
 
 @Component({
   selector: 'sk-homepage',
@@ -18,6 +19,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
+              private homeService: HomeService,
               public authService: AuthService) {
 
 
@@ -40,6 +42,14 @@ export class HomepageComponent implements OnInit, OnDestroy {
 
   signup() {
     this.router.navigate([`/register`])
+      .catch(err => console.log(err));
+  }
+
+  appTest() {
+    this.homeService.algoliaTest()
+      .then(res => {
+        console.log('Algolia is Ok');
+      })
       .catch(err => console.log(err));
   }
 

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {SkDocData, SkItem, SkSection} from '../../model/document';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {ReplaySubject} from 'rxjs/index';
 
 @Injectable()
 export class DocumentService {
@@ -137,17 +138,24 @@ export class DocumentService {
   }
 
   importWordDoc(inFile) {
-    const fileReader = new FileReader();
+    const wordDoc: ReplaySubject<any> = new ReplaySubject(1);
 
-    fileReader.readAsBinaryString(inFile);
-    fileReader.onload = () => {
-      console.log(fileReader.result);
-      this.http.post('http://kmrom.com/ShakeService/Services/v1/ParseDocx.aspx', {
-        body: fileReader.result
+    const fileReader = new FileReader();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'text/plain',
       })
-        .subscribe(res => {
-          console.log(res);
-        });
     };
+
+    fileReader.readAsArrayBuffer(inFile);
+
+    fileReader.onload = () => {
+       this.http.post('http://kmrom.com/ShakeService/Services/v2/ParseDocx.aspx', fileReader.result)
+        .subscribe(res => {
+          wordDoc.next(res) ;
+        })
+    };
+
+    return wordDoc;
   }
 }

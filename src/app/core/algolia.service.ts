@@ -7,9 +7,11 @@ import {AlgoliaDoc} from '../model/algolia-doc';
 export class AlgoliaService {
 
   algoliaAppId: string;
+  algoliaSearchKey: string;
 
   constructor() {
     this.algoliaAppId = environment.algolia.appId;
+    this.algoliaSearchKey = environment.algolia.searchKey;
   }
 
   searchDocs(orgId: string, orgSearchKey: string, lang: string, searchString: string, namesOnly: boolean, edited: boolean, published: boolean, versions: boolean) {
@@ -69,6 +71,23 @@ export class AlgoliaService {
         })
         .catch(err => reject(err));
     });
+  }
+
+  testAlgolia() {
+    const client = algoliasearch(this.algoliaAppId, this.algoliaSearchKey);
+    const index = client.initIndex('_algoliaTestIndex');
+
+    return new Promise<boolean>((resolve, reject) => {
+      index.search('data')
+        .then(res => {
+          resolve(true);
+        })
+        .catch(err => {
+          reject(err);
+          console.log(err);
+        });
+    })
+
   }
 
 }

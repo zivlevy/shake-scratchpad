@@ -3,7 +3,8 @@
     <mat-toolbar color="primary">
 
       <a [routerLink]="['']"><img src="assets/img/shake-logo.png"></a>
-      <small> {{ version }} </small>
+      <span (dblclick)="appTest()"><small> {{ version }} </small></span>
+
       <span class="fill-remaining-space"></span>
 
       <button mat-button *ngIf="!currentUser" (click)="login()" [innerHTML]="'Login' | translate"></button>

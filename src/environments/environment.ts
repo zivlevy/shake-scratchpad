@@ -19,7 +19,8 @@ export const environment = {
 
   },
   algolia: {
-    appId: 'OH29RANN3N'
+    appId: 'OH29RANN3N',
+    searchKey: '36aee713e12b4f08ee8f1ba9c4bc6360'
   },
   froala: {
     key: 'BB7C5B3D4yB2G2B1A17A13A2A1C7E1F2lbzrC-21pB2yA-9mmtnv=='

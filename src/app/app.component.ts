@@ -3,7 +3,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {AuthService} from './core/auth.service';
 import {LanguageService} from './core/language.service';
 import { AngularFirestore } from 'angularfire2/firestore';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
