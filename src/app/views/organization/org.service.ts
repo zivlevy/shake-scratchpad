@@ -464,7 +464,6 @@ export class OrgService {
       const timestamp = this.firestoreService.timestamp;
       editVersion.createdBy = this.currentSkUser.uid;
       editVersion.createdAt = timestamp;
-      console.log(editVersion);
       const objToSave: SkDoc = {editVersion: editVersion, name: editVersion.name, version: 0};
       docsRef.add(objToSave)
         .then(doc => this.addDocToTreeRoot(doc.id, objToSave))
@@ -474,11 +473,10 @@ export class OrgService {
   }
 
   saveDoc(uid: string, editVersion: SkDocData) {
-    console.log('save doc');
+    console.log('save doc ', uid);
     const docsRef: AngularFirestoreDocument<any> = this.afs.doc<any>(`org/${this.localCurrentOrg}/docs/${uid}`);
     return docsRef.valueChanges().take(1).toPromise()
       .then(res => {
-        console.log(res);
         // if (res.name !== editVersion.name) { this.editDocNameInTree(uid, editVersion.name); }
         const timestamp = firebase.firestore.FieldValue.serverTimestamp();
         const nameObj = res.publishVersion ? {} : {name: editVersion.name};

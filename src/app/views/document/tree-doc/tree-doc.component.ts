@@ -15,6 +15,7 @@ import {SK_ITEM_TYPE, SkItem, SkSection, SkTreeNode} from '../../../model/docume
 import {v4} from 'uuid';
 import * as _ from 'lodash';
 import {environment} from '../../../../environments/environment';
+import {DocumentService} from '../document.service';
 
 @Component({
   selector: 'sk-tree-doc',
@@ -42,7 +43,8 @@ export class TreeDocComponent implements OnInit, OnChanges {
   tree_options: ITreeOptions;
   inEditorClick: boolean;
 
-  constructor(private zone: NgZone) {
+  constructor(private zone: NgZone,
+              private documentService: DocumentService) {
     // document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
   }
 
@@ -295,11 +297,12 @@ export class TreeDocComponent implements OnInit, OnChanges {
       }, 0);
     }
     // create saved representation of doc
-    const docToSave = this.makeTempDoc(this.nodes[0]);
+    // const docToSave = this.makeTempDoc(this.nodes[0]);
+    const docToSave = this.documentService.prepareDocToSave(this.nodes);
 
     // add doc name from root node
-    docToSave['name'] = this.stripHtml(this.nodes[0].data);
-    docToSave['plainTextSize'] = docToSave.plainText.length;
+    // docToSave['name'] = this.stripHtml(this.nodes[0].data);
+    // docToSave['plainTextSize'] = docToSave.plainText.length;
 
     return docToSave;
 

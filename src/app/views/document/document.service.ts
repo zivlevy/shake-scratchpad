@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {SkDocData, SkItem, SkSection} from '../../model/document';
+import {SK_ITEM_TYPE, SkDocData, SkItem, SkSection} from '../../model/document';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ReplaySubject} from 'rxjs/index';
 
@@ -121,21 +121,21 @@ export class DocumentService {
     }
   }
 
-  private stripHtml(str) {
-    // Remove some tags
-    str = str.replace(/<[^>]+>/gim, ' ');
-
-    // Remove BB code
-    str = str.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2 ');
-
-    // Remove other staff;
-    str = str.replace(/\&nbsp;/g, ' ');
-    str = str.replace(/\&quot;/g, ' ');
-    str = str.replace(/\&ndash;/g, ' ');
-    str = str.replace(/\&#39;/g, ' ');
-
-    return str;
-  }
+  // private stripHtml(str) {
+  //   // Remove some tags
+  //   str = str.replace(/<[^>]+>/gim, ' ');
+  //
+  //   // Remove BB code
+  //   str = str.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2 ');
+  //
+  //   // Remove other staff;
+  //   str = str.replace(/\&nbsp;/g, ' ');
+  //   str = str.replace(/\&quot;/g, ' ');
+  //   str = str.replace(/\&ndash;/g, ' ');
+  //   str = str.replace(/\&#39;/g, ' ');
+  //
+  //   return str;
+  // }
 
   importWordDoc(inFile) {
     const wordDoc: ReplaySubject<any> = new ReplaySubject(1);
@@ -153,9 +153,56 @@ export class DocumentService {
        this.http.post('http://kmrom.com/ShakeService/Services/v2/ParseDocx.aspx', fileReader.result)
         .subscribe(res => {
           wordDoc.next(res) ;
-        })
+        });
     };
 
     return wordDoc;
+  }
+
+  prepareDocToSave(nodes)  {
+    console.log(nodes);
+    const plainText = {plainText: ''};
+    const tree = this.treeNodeToSkSection(nodes[0], plainText);
+    return {
+      data: JSON.stringify(tree),
+      plainText: plainText.plainText,
+      name: this.stripHtml(nodes[0].data),
+      plainTextSize: plainText.plainText.length
+    };
+  }
+
+
+  private treeNodeToSkSection(treeNode, plainText: any): SkSection | SkItem {
+    if (treeNode.nodes) {
+      const section: SkSection = new SkSection();
+      plainText.plainText += ' ' + this.stripHtml(treeNode.data);
+      section.data = treeNode.data;
+      treeNode.nodes.forEach(node => {
+        section.nodes.push(this.treeNodeToSkSection(node, plainText));
+      });
+      return section;
+    } else {
+      const item: SkItem = new SkItem();
+      item.data = treeNode.data;
+      plainText.plainText += ' ' + this.stripHtml(treeNode.data);
+      item.type = treeNode.type ? treeNode.type : SK_ITEM_TYPE.SK_ITEM_TYPE_INFO;
+      return item;
+    }
+  }
+
+  stripHtml(str) {
+    // Remove some tags
+    str = str.replace(/<[^>]+>/gim, ' ');
+
+    // Remove BB code
+    str = str.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2 ');
+
+    // Remove other staff;
+    str = str.replace(/\&nbsp;/g, ' ');
+    str = str.replace(/\&quot;/g, ' ');
+    str = str.replace(/\&ndash;/g, ' ');
+    str = str.replace(/\&#39;/g, ' ');
+
+    return str;
   }
 }

@@ -11,7 +11,7 @@ import {takeUntil} from 'rxjs/operators';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {SelectDialogComponent} from '../../../shared/dialogs/select-dialog/select-dialog.component';
 import {DocAck} from '../../../model/document';
-import {DocumentService} from "../../document/document.service";
+import {DocumentService} from '../../document/document.service';
 
 @Component({
   selector: 'sk-org-home',
@@ -112,10 +112,7 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
     this.docService.importWordDoc(inFile)
       .subscribe(res => {
         const name = inFile.name.toString().slice(0, -5);
-        const docToSave = {
-          data: JSON.stringify({data: name, ...res}),
-          name: name
-        }
+        const docToSave = this.docService.prepareDocToSave([{data: name, nodes: res.nodes}]);
         this.orgService.addDoc(docToSave);
     });
 
