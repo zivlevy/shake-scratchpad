@@ -150,7 +150,7 @@ export class DocumentService {
     fileReader.readAsArrayBuffer(inFile);
 
     fileReader.onload = () => {
-       this.http.post('http://kmrom.com/ShakeService/Services/v2/ParseDocx.aspx', fileReader.result)
+       this.http.post('https://kmrom.com/ShakeService/Services/v2/ParseDocx.aspx', fileReader.result)
         .subscribe(res => {
           wordDoc.next(res) ;
         });
