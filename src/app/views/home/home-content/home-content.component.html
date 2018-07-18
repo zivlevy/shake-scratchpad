@@ -1,110 +1,322 @@
-<div class="py-5 text-center opaque-overlay" style="background-image: url('../../../../assets/homepage/img/bg-home.jpg');">
-  <div class="container py-5">
-    <div class="row">
-      <div class="col-md-12 text-white">
-        <h1 class="display-3 mb-4">Your Business Operating Procedures</h1>
-        <h1 class="display-3 mb-4">Smartly Delivered</h1>
-        <br>
-        <button mat-raised-button color="primary" [disabled]="!currentUser || !currentUser.emailVerified" (click)="addOrganization()">
-          Create new organization
-        </button>
-        <!--<a [class.disabled]="!currentUser || !currentUser.emailVerified " class="btn btn-lg btn-primary mx-1"-->
-           <!--(click)="addOrganization()">Create new organization</a>-->
-        <br>
-        <small *ngIf="!currentUser" class="text-white"> Login to enable button</small>
-        <small *ngIf="currentUser && !currentUser.emailVerified " class="text-white">Verify your account to enable button</small>
+<div class="home-page" fxLayout="column" fxLayoutAlign="start center" >
+
+  <mat-sidenav-container style="width: 100%">
+    <mat-sidenav-content>
+      <!--<div >-->
+        <!--<mat-toolbar class="top-bar">-->
+          <!--<button class="hamburger-button" mat-icon-button fxHide.gt-xs (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>-->
+
+          <!--<img src="../assets/home/ShakeLogoText-xs.png" ngClass.gt-xs="top-bar-icon" ngClass.xs="top-bar-icon-xsmall">-->
+        <!--</mat-toolbar>-->
+      <!--</div>-->
+
+      <div class="pre-header" fxHide.gt-xs>
+        <button class="hamburger-button" mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+
+        <div class="header-text header-text-xsmall">WITH ShaKE</div>
+        <div class="header-text header-text-xsmall">READING AND KNOWING</div>
+        <div class="header-bold-text header-bold-text-xsmall">TURNS SIMPLE</div>
       </div>
+
+    </mat-sidenav-content>
+
+    <mat-sidenav #sidenav class="sidenav" fxLayout="column" fxLayoutAlign="space-around center">
+      <div><a href="#why" (click)="sidenav.close()">why</a></div>
+      <div><a href="#what" (click)="sidenav.close()">what</a></div>
+      <div><a href="#whom" (click)="sidenav.close()">who</a></div>
+      <div><a href="#pricing" (click)="sidenav.close()">pricing</a></div>
+      <div><a href="#contact" (click)="sidenav.close()">contact us</a></div>
+    </mat-sidenav>
+  </mat-sidenav-container>
+
+
+  <div ngClass.gt-sm="header" ngClass.sm="header-small" ngClass.xs="header-xsmall" fxLayout="column"
+       fxLayoutAlign="start start" fxLayoutAlign.xs="start center">
+    <div class="header-links-row" fxHide.xs fxLayout="row" fxLayoutAlign="start center">
+      <div class="header-links" ngClass.gt-md="header-links-large" ngClass.md="header-links-medium"
+           ngClass.lt-md="header-links-small"><a href="#why">why</a></div>
+      <div class="header-links" ngClass.gt-md="header-links-large" ngClass.md="header-links-medium"
+           ngClass.lt-md="header-links-small"><a href="#what">what</a></div>
+      <div class="header-links" ngClass.gt-md="header-links-large" ngClass.md="header-links-medium"
+           ngClass.lt-md="header-links-small"><a href="#whom">who</a></div>
+      <div class="header-links" ngClass.gt-md="header-links-large" ngClass.md="header-links-medium"
+           ngClass.lt-md="header-links-small"><a href="#pricing">pricing</a></div>
+      <div class="header-links" ngClass.gt-md="header-links-large" ngClass.md="header-links-medium"
+           ngClass.lt-md="header-links-small"><a href="#contact">contact us</a></div>
     </div>
+
+    <div fxHide.xs>
+      <div class="header-text" ngClass.gt-md="header-text-large" ngClass.md="header-text-medium"
+           ngClass.sm="header-text-small">WITH ShaKE<br>READING AND KNOWING</div>
+      <div class="header-bold-text" ngClass.gt-md="header-bold-text-large" ngClass.md="header-bold-text-medium"
+           ngClass.sm="header-bold-text-small">TURNS SIMPLE</div>
+    </div>
+    <div>
+      <button ngClass.gt-md="header-button-large" ngClass.md="header-button-medium" ngClass.sm="header-button-small" ngClass.xs="header-button-xsmall"  mat-button>Start for free ></button>
+    </div>
+
   </div>
-</div>
-<div class="py-5 bg-light">
-  <div class="container">
-    <div class="row text-center">
-      <div class="col-md-12">
-        <h1 class="mb-4 text-primary">Benefits and features</h1>
-        <p class="lead">SHAKE is a unique way to finally organize your business ideas, So they are available to all employees, wherever they are
-          <br>
-        </p>
-        <div class="row text-left mt-5">
-          <div class="col-md-4 my-3">
-            <div class="row mb-3">
-              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-wrench"></i></div>
-              <div class="align-self-center col-10">
-                <h5 class="text-secondary"><b>Easy, modern management</b></h5>
-              </div>
-            </div>
-            <p>Replace your printed procedures and stickey notes.</p>
-            <p>Improves your organization performance as employees are better informed.</p>
+
+  <a name="why"></a>
+  <div class="why" fxLayout="column" fxLayoutAlign="start center">
+    <div class="title-row black" ngClass.gt-md="title-row-large" ngClass.md="title-row-medium"
+         ngClass.sm="title-row-small" ngClass.xs="title-row-xsmall">
+      <span class="title-header black" ngClass.gt-md="title-header-large" ngClass.md="title-header-medium"
+            ngClass.sm="title-header-small" ngClass.xs="title-header-xsmall">Why </span>
+      <span class="title-header blue" ngClass.gt-md="title-header-large" ngClass.md="title-header-medium"
+            ngClass.sm="title-header-small" ngClass.xs="title-header-xsmall">ShaKE?</span>
+    </div>
+
+    <div class="sub-title" ngClass.gt-md="sub-title-large" ngClass.md="sub-title-medium"
+         ngClass.sm="sub-title-small" ngClass.xs="sub-title-xsmall">
+      Does this sound familiar ?
+    </div>
+
+    <div  fxLayout="row">
+      <div class="why-boxes-pre" ngClass.gt-sm="why-side-boxes-large" ngClass.sm="why-side-boxes-small" ngClass.xs="why-side-boxes-xsmall">
+        <p> </p>
+      </div>
+      <div fxLayout="row" fxLayout.lt-md="column">
+        <div fxLayout="row">
+          <div class="why-boxes why-boxes-1st" fxLayout="column" fxLayoutAlign="space-around center"
+               ngClass.gt-md="why-boxes-large" ngClass.md="why-boxes-medium" ngClass.sm="why-boxes-small" ngClass.xs="why-boxes-xsmall" >
+            <div>You invest </div><div> time and effort </div><div> in training </div><div> new employees</div>
           </div>
-          <div class="col-md-4 my-3">
-            <div class="row mb-3">
-              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-anchor"></i></div>
-              <div class="align-self-center col-10">
-                <h5 class="text-secondary"><b>Pre loaded knowledge</b></h5>
-              </div>
-            </div>
-            <p>Your new SHAKE organization starts with an initial knowledge package, representing common best practices.</p>
+          <div class="why-boxes why-boxes-2nd" fxLayout="column" fxLayoutAlign="space-around center"
+               ngClass.gt-md="why-boxes-large" ngClass.md="why-boxes-medium" ngClass.sm="why-boxes-small" ngClass.xs="why-boxes-xsmall" >
+            <div> Employees </div><div> constantly ask </div><div> the same </div><div> questions </div>
           </div>
-          <div class="col-md-4 my-3">
-            <div class="row mb-3">
-              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-bolt"></i></div>
-              <div class="align-self-center col-10">
-                <h5 class="text-secondary"><b>Easy to use</b></h5>
-              </div>
-            </div>
-            <p>SHAKE makes it super easy to manage your knowledge, by providing intuitive creation and editing capabilities, with an excellent document viewer</p>
+        </div>
+        <div fxLayout="row">
+          <div class="why-boxes why-boxes-3rd" fxLayout="column" fxLayoutAlign="space-around center"
+               ngClass.gt-md="why-boxes-large" ngClass.md="why-boxes-medium" ngClass.sm="why-boxes-small" ngClass.xs="why-boxes-xsmall" >
+            <div> Customers </div><div> satisfaction suffers </div><div> due to </div><div> employees lack of </div><div> proffessionalism </div>
           </div>
-          <div class="col-md-4 my-3">
-            <div class="row mb-3">
-              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-align-center"></i></div>
-              <div class="align-self-center col-10">
-                <h5 class="text-secondary"><b>Structured data</b></h5>
-              </div>
-            </div>
-            <p>SHAKE documents are structured such that they are very easy to use</p>
-          </div>
-          <div class="col-md-4 my-3"></div>
-          <div class="col-md-4 my-3">
-            <div class="row mb-3">
-              <div class="text-center col-2"><i class="d-block mx-auto fa fa-3x fa-question-circle-o"></i></div>
-              <div class="align-self-center col-10">
-                <h5 class="text-secondary"><b>Need expert help ?</b></h5>
-              </div>
-            </div>
-            <p>If you want to take your knowledge management to an even highr level, our partners at ROM Knowledgeware are there for you</p>
+          <div class="why-boxes why-boxes-4th" fxLayout="column" fxLayoutAlign="space-around center"
+               ngClass.gt-md="why-boxes-large" ngClass.md="why-boxes-medium" ngClass.sm="why-boxes-small" ngClass.xs="why-boxes-xsmall" >
+            <div> If only you had </div><div> the time and </div><div> standard </div><div> to manage your </div><div> knowledge </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-<div class="py-5 text-center bg-testimonial gradient-overlay">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h1>Testimonials columns</h1>
-        <p class="lead">We grow together with the community</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4 p-4">
-        <img class="img-fluid d-block rounded-circle mx-auto" src="../../../../assets/homepage/img/testimonials-1.jpg">
-        <p class="my-4"><i>We tried SHAKE in our gas station. It solved an ever lasting problem of making every shift emplyee aware of company regulations&nbsp;</i></p>
-        <p><b>Alona</b>
-          <br>PAZ fuel, Raanana</p>
-      </div>
-      <div class="col-md-4 p-4">
-        <img class="img-fluid d-block rounded-circle mx-auto" src="../../../../assets/homepage/img/testimonials-2.jpg">
-        <p class="my-4"><i>Our waiting stuff is composed of students, with a very rapid change rate. SHAKE enabled us to get our procedures to each and every one of them, using media channels that are realy used.</i></p>
-        <p><b>Boris</b>
-          <br>Events place owner</p>
-      </div>
-      <div class="col-md-4 p-4">
-        <img class="img-fluid d-block rounded-circle mx-auto" src="../../../../assets/homepage/img/testimonials-3.jpg">
-        <p class="my-4"><i>A Senior persons home is always active, with a large nursing and aid stuff. SHAKE provided us with an easy way to get everyone up to date on patient care procedures.</i></p>
-        <p><b>Sima</b>
-          <br>Beit Gil Hazhav, Chief Nurse</p>
+
+      <div class="why-boxes-post" ngClass.gt-sm="why-side-boxes-large" ngClass.sm="why-side-boxes-small" ngClass.xs="why-side-boxes-xsmall">
+        <p> </p>
       </div>
     </div>
   </div>
-</div>
+
+  <img fxHide.xs ngClass.gt-md="shake-logo-large" ngClass.md="shake-logo-medium" ngClass.sm="shake-logo-small" src="../assets/home/shakeLogo.png">
+
+  <a name="what"></a>
+  <div class="what" fxLayout="column" fxLayoutAlign="start center">
+    <div class="title-row" ngClass.sm="title-row-small" ngClass.xs="title-row-xsmall">
+      <span class="title-header black" ngClass.gt-md="title-header-large" ngClass.md="title-header-medium"
+            ngClass.sm="title-header-small" ngClass.xs="title-header-xsmall">What is </span>
+      <span class="title-header blue" ngClass.gt-md="title-header-large" ngClass.md="title-header-medium"
+            ngClass.sm="title-header-small" ngClass.xs="title-header-xsmall">ShaKE?</span>
+      <img fxHide.gt-xs class="what-logo" src="../assets/home/shakeLogo-xs.png">
+    </div>
+    <div class="sub-title" ngClass.gt-md="sub-title-large" ngClass.md="sub-title-medium"
+         ngClass.sm="sub-title-small" ngClass.xs="sub-title-xsmall">
+      ShaKE is a unique way to organise business ideas,
+      procedures and updates so they are available to all employees
+      wherever they are and with what platform they use
+    </div>
+  </div>
+
+  <div ngClass.gt-md="properties-large" ngClass.md="properties-medium" ngClass.sm="properties-small"
+       fxLayout="row"  fxLayoutAlign="center start" fxLayoutGap.gt-md="100px"
+       fxLayout.sm = "column" fxLayoutAlign.sm="start center" fxLayoutGap.sm="40px"
+       ngClass.xs="properties-xsmall" fxLayout.xs="column" fxLayoutAlign.xs="start center">
+
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap.gt-md="100px">
+
+      <div ngClass.gt-md="property-large" ngClass.md="property-medium" ngClass.sm="property-small"
+           fxLayout="column" fxLayoutAlign="start center"
+           ngClass.xs="property-xsmall" fxLayout.xs="row" fxLayoutAlign.xs="space-around center">
+        <div ngClass.gt-md="icon-modern" ngClass.md="icon-modern-medium" ngClass.sm="icon-modern-small" ngClass.xs="icon-modern-xsmall"></div>
+        <div ngClass.gt-md="property-description-large" ngClass.md="property-description-medium"
+             ngClass.sm="property-description-small" ngClass.xs="property-description-xsmall" fxLayout="column">
+          <div class="properties-subtitle" ngClass.gt-md="properties-subtitle-large" ngClass.md="properties-subtitle-medium"
+               ngClass.sm="properties-subtitle-small"ngClass.xs="properties-subtitle-xsmall">
+            Easy, modern
+            management
+          </div>
+          <div class="properties-text" ngClass.gt-md="properties-text-large" ngClass.md="properties-text-medium"
+               ngClass.sm="properties-text-small"ngClass.xs="properties-text-xsmall">
+            Replace your printed
+            procedures and stickey
+            notes. Improve your
+            organization performance as
+            employees are better
+            informed.
+          </div>
+        </div>
+      </div>
+
+      <div ngClass.gt-md="property-large" ngClass.md="property-medium" ngClass.sm="property-small"
+           fxLayout="column" fxLayoutAlign="start center"
+           ngClass.xs="property-xsmall" fxLayout.xs="row" fxLayoutAlign.xs="space-around center">
+        <div ngClass.gt-md="icon-preload" ngClass.md="icon-preload-medium" ngClass.sm="icon-preload-small" ngClass.xs="icon-preload-xsmall"></div>
+        <div ngClass.gt-md="property-description-large" ngClass.md="property-description-medium"
+             ngClass.sm="property-description-small" ngClass.xs="property-description-xsmall" fxLayout="column">
+          <div class="properties-subtitle" ngClass.gt-md="properties-subtitle-large" ngClass.md="properties-subtitle-medium"
+               ngClass.sm="properties-subtitle-small"ngClass.xs="properties-subtitle-xsmall">
+            Pre loaded
+            knowledge
+          </div>
+          <div class="properties-text" ngClass.gt-md="properties-text-large" ngClass.md="properties-text-medium"
+               ngClass.sm="properties-text-small"ngClass.xs="properties-text-xsmall">
+            Your new ShaKE
+            organization starts with an
+            initial knowledge package,
+            representing common
+            best practices.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap.gt-md="100px">
+
+      <div ngClass.gt-md="property-large" ngClass.md="property-medium" ngClass.sm="property-small"
+           fxLayout="column" fxLayoutAlign="start center"
+           ngClass.xs="property-xsmall" fxLayout.xs="row" fxLayoutAlign.xs="space-around center">
+        <div ngClass.gt-md="icon-structured" ngClass.md="icon-structured-medium" ngClass.sm="icon-structured-small"
+             ngClass.xs="icon-structured-xsmall"></div>
+        <div ngClass.gt-md="property-description-large" ngClass.md="property-description-medium"
+             ngClass.sm="property-description-small" ngClass.xs="property-description-xsmall" fxLayout="column">
+          <div class="properties-subtitle" ngClass.gt-md="properties-subtitle-large" ngClass.md="properties-subtitle-medium"
+               ngClass.sm="properties-subtitle-small"ngClass.xs="properties-subtitle-xsmall">
+            Structured<br> data
+          </div>
+          <div class="properties-text" ngClass.gt-md="properties-text-large" ngClass.md="properties-text-medium"
+               ngClass.sm="properties-text-small"ngClass.xs="properties-text-xsmall">
+            ShaKE documents are
+            structured such that they
+            are very easy to use.
+          </div>
+        </div>
+      </div>
+
+      <div ngClass.gt-md="property-large" ngClass.md="property-medium" ngClass.sm="property-small"
+           fxLayout="column" fxLayoutAlign="start center"
+           ngClass.xs="property-xsmall" fxLayout.xs="row" fxLayoutAlign.xs="space-around center">
+        <div ngClass.gt-md="icon-easy"  ngClass.sm="icon-easy-small" ngClass.md="icon-easy-medium" ngClass.xs="icon-easy-xsmall"></div>
+        <div ngClass.gt-md="property-description-large" ngClass.md="property-description-medium"
+             ngClass.sm="property-description-small" ngClass.xs="property-description-xsmall" fxLayout="column">
+          <div class="properties-subtitle" ngClass.gt-md="properties-subtitle-large" ngClass.md="properties-subtitle-medium"
+               ngClass.sm="properties-subtitle-small"ngClass.xs="properties-subtitle-xsmall">
+            Easy <br>to use
+          </div>
+          <div class="properties-text" ngClass.gt-md="properties-text-large" ngClass.md="properties-text-medium"
+               ngClass.sm="properties-text-small"ngClass.xs="properties-text-xsmall">
+            ShaKE makes it super easy
+            to manage your knowledge,
+            by providing intuitive
+            creation and editing
+            capabilities, with an
+            excellent document viewer.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+  <a name="whom"></a>
+  <div ngClass.gt-xs="whom" ngClass.xs="whom-xsmall" fxLayout="column" fxLayoutAlign="start center">
+    <div>
+      <span class="title-header black" ngClass.gt-md="title-header-large" ngClass.md="title-header-medium" ngClass.sm="title-header-small" ngClass.xs="title-header-xsmall">For Whom Is </span>
+      <span class="title-header blue" ngClass.gt-md="title-header-large" ngClass.md="title-header-medium" ngClass.sm="title-header-small" ngClass.xs="title-header-xsmall">ShaKE?</span>
+    </div>
+
+    <div class="large-sub-titles" ngClass.gt-md="large-sub-titles-large" ngClass.md="large-sub-titles-medium"
+         ngClass.sm="large-sub-titles-small" ngClass.xs="large-sub-titles-xsmall">
+      ShaKE is the perfect solution for all of your organization's needs
+    </div>
+    <div class="sub-title" ngClass.gt-md="sub-title-large" ngClass.md="sub-title-medium"
+         ngClass.sm="sub-title-small" ngClass.xs="sub-title-xsmall">
+      Large institutions such as hospitals, factories
+      media organizations and small organizations
+      such as the neighborhood cafe, convenience stores
+      and more
+    </div>
+
+  </div>
+
+  <a name="pricing"></a>
+  <div class="pricing" ngClass.xs="pricing-xsmall" fxLayout="column" fxLayoutAlign="start center">
+    <div class="title-row" ngClass.xs="title-row-xsmall">
+      <span class="title-header black" ngClass.gt-md="title-header-large" ngClass.md="title-header-medium"
+            ngClass.sm="title-header-small" ngClass.xs="title-header-xsmall">Pricing </span>
+    </div>
+    <div class="pricing-1st" ngClass.gt-md="pricing-1st-large" ngClass.md="pricing-1st-medium" ngClass.sm="pricing-1st-small" ngClass.xs="pricing-1st-xsmall">
+      The software is in BETA
+    </div>
+    <div class="pricing-2nd" ngClass.gt-md="pricing-2nd-large" ngClass.md="pricing-2nd-medium" ngClass.sm="pricing-2nd-small" ngClass.xs="pricing-2nd-xsmall">
+      free for use for all joining in 2018!
+    </div>
+
+  </div>
+
+  <a name="contact"></a>
+  <div class="contact-us" fxLayout="column" fxLayoutAlign="start center">
+    <div ngClass.gt-xs="contact-upper-center" ngClass.xs="contact-upper-center-xsmall"
+         fxLayout="column" fxLayoutAlign="start center" fxLayout.xs="row" fxLayoutAlign.xs="start start">
+
+      <div ngClass.gt-xs="contact-upper" ngClass.xs="contact-upper-xsmall">
+        <div class="title-row" ngClass.md="title-row-medium" ngClass.sm="title-row-small" ngClass.xs="title-row-xsmall" fxHide.xs>
+          <span class="title-header black" ngClass.gt-md="title-header-large" ngClass.md="title-header-medium" ngClass.sm="title-header-small" >Contact </span>
+          <span class="title-header blue" ngClass.gt-md="title-header-large" ngClass.md="title-header-medium" ngClass.sm="title-header-small" >Us</span>
+        </div>
+      </div>
+
+      <div class="contact-center" ngClass.xs="contact-center-xsmall" fxLayout="column" fxLayoutAlign="start center">
+        <div class="title-row-xsmall" fxHide.gt-xs>
+          <span class="title-header title-header-xsmall black">Contact </span>
+          <span class="title-header title-header-xsmall blue">Us</span>
+        </div>
+
+        <div class="contact-mail" ngClass.gt-md="contact-mail-large" ngClass.md="contact-mail-medium"
+             ngClass.sm="contact-mail-small" ngClass.xs="contact-mail-xsmall">
+          Email: shake@shake.network
+        </div>
+
+        <button class="contact-button" ngClass.gt-md="contact-button-large" ngClass.md="contact-button-medium"
+                ngClass.sm="contact-button-small" ngClass.xs="contact-button-xsmall" mat-button>START FOR FREE</button>
+      </div>
+
+    </div>
+
+    <div ngClass.gt-xs="contact-lower" ngClass.xs="contact-lower-xsmall" fxLayout="row" fxLayoutAlign="start center">
+      <div class="contact-text" ngClass.gt-md="contact-text-large" ngClass.md="contact-text-medium"
+           ngClass.sm="contact-text-small" ngClass.xs="contact-text-xsmall">
+        Contact: <br>
+        Tel: 077-5020771<br>
+        Fax: 077-5020772 <br>
+        Email: shake@shake.network <br>
+        <br>
+        Or come visit: <br>
+        23 Bar Kochva, Bnei Braq, <br>
+        Israel
+      </div>
+
+
+      <div class="contact-logo" ngClass.gt-md="contact-logo-large" ngClass.md="contact-logo-medium"
+           ngClass.sm="contact-logo-small" ngClass.xs="contact-logo-xsmall" >
+        <img src="../assets/home/ShakeLogoText.png" style="width: 100%">
+      </div>
+
+      <div class="vl" ngClass.gt-md="vl-large" ngClass.md="vl-medium"
+           ngClass.sm="vl-small" ngClass.xs="vl-xsmall" >
+      </div>
+    </div>
+
+
+
+  </div>

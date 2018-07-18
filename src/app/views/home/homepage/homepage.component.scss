@@ -1,6 +1,9 @@
 
 .page-wrap {
   height: 100vh;
+  max-width: 1920px;
+  margin: auto;
+  //overflow: hidden;
 }
 
 h3, h4, h5 {

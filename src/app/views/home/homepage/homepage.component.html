@@ -1,23 +1,24 @@
 <div  class="page-wrap" fxLayout="column">
-  <div fxFlex="0 0 auto">
-    <mat-toolbar color="primary">
+    <div fxFlex="0 0 auto">
+      <mat-toolbar color="primary">
 
-      <a [routerLink]="['']"><img src="assets/img/shake-logo.png"></a>
-      <span (dblclick)="appTest()"><small> {{ version }} </small></span>
+        <a [routerLink]="['']"><img src="../assets/home/ShakeLogoText-xs.png"></a>
+        <span (dblclick)="appTest()"><small> {{ version }} </small></span>
 
-      <span class="fill-remaining-space"></span>
+        <span class="fill-remaining-space"></span>
 
-      <button mat-button *ngIf="!currentUser" (click)="login()" [innerHTML]="'Login' | translate"></button>
-      <button mat-button *ngIf="!currentUser" (click)="signup()" [innerHTML]="'Signup' | translate"></button>
+        <button mat-button *ngIf="!currentUser" (click)="login()" [innerHTML]="'Login' | translate"></button>
+        <button mat-button *ngIf="!currentUser" (click)="signup()" [innerHTML]="'Signup' | translate"></button>
 
-      <sk-nav-admin></sk-nav-admin>
-      <sk-nav-user></sk-nav-user>
-    </mat-toolbar>
-  </div>
+        <sk-nav-admin></sk-nav-admin>
+        <sk-nav-user></sk-nav-user>
+      </mat-toolbar>
+    </div>
 
-  <div fxFlex>
-    <router-outlet></router-outlet>
-  </div>
+    <div fxFlex>
+      <router-outlet></router-outlet>
+    </div>
+
 
 </div>
 
