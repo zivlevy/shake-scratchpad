@@ -11,13 +11,13 @@
       </mat-card-title>
     </mat-card-header>
 
-    <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly" fxLayout.gt-sm="row" >
+    <mat-card-content fxLayout="column" fxLayoutAlign="space-around" fxLayout.gt-sm="row" >
 
       <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'"
            fxLayout="column" fxLayoutAlign="center center">
 
         <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form"
-              fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutAlign.gt-sm="space-evenly start">
+              fxLayout="column" fxLayoutAlign="space-around center" fxLayoutAlign.gt-sm="space-aroundy start">
           <div>
             <mat-form-field>
               <input matInput type="email" id="email"

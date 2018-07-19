@@ -58,7 +58,7 @@
       <tree-root #tree [nodes]="nodes" [options]="options">
         <ng-template #treeNodeTemplate let-node let-index="index">
           <div (click)="treeClicked($event, node)"  (contextmenu)="treeRightClick($event, node)" fxLayout="row">
-            <span  fxFlex="calc(100% - 20px">{{node.data.numbering}}&nbsp;{{node.data.name}}</span>
+            <span  fxFlex="calc(100% - 20px)">{{node.data.numbering}}&nbsp;{{node.data.name}}</span>
           </div>
         </ng-template>
       </tree-root>
