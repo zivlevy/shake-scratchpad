@@ -9,6 +9,15 @@
           <!--<img src="../assets/home/ShakeLogoText-xs.png" ngClass.gt-xs="top-bar-icon" ngClass.xs="top-bar-icon-xsmall">-->
         <!--</mat-toolbar>-->
       <!--</div>-->
+      <!--<button mat-raised-button color="primary" [disabled]="!currentUser || !currentUser.emailVerified" (click)="addOrganization()">-->
+        <!--Create new organization-->
+      <!--</button>-->
+      <!--&lt;!&ndash;<a [class.disabled]="!currentUser || !currentUser.emailVerified " class="btn btn-lg btn-primary mx-1"&ndash;&gt;-->
+      <!--&lt;!&ndash;(click)="addOrganization()">Create new organization</a>&ndash;&gt;-->
+      <!--<br>-->
+      <!--<small *ngIf="!currentUser" class="text-white"> Login to enable button</small>-->
+      <!--<small *ngIf="currentUser && !currentUser.emailVerified " class="text-white">Verify your account to enable button</small>-->
+
 
       <div class="pre-header" fxHide.gt-xs>
         <button class="hamburger-button" mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
@@ -52,7 +61,11 @@
            ngClass.sm="header-bold-text-small">TURNS SIMPLE</div>
     </div>
     <div>
-      <button ngClass.gt-md="header-button-large" ngClass.md="header-button-medium" ngClass.sm="header-button-small" ngClass.xs="header-button-xsmall"  mat-button>Start for free ></button>
+      <button ngClass.gt-md="header-button-large" ngClass.md="header-button-medium" ngClass.sm="header-button-small"
+              ngClass.xs="header-button-xsmall"  mat-button
+              [disabled]="!currentUser || !currentUser.emailVerified" (click)="addOrganization()">Start for free ></button>
+      <small *ngIf="!currentUser" class="text-white"> Login to enable button</small>
+      <small *ngIf="currentUser && !currentUser.emailVerified " class="text-white">Verify your account to enable button</small>
     </div>
 
   </div>
@@ -138,12 +151,12 @@
         <div ngClass.gt-md="property-description-large" ngClass.md="property-description-medium"
              ngClass.sm="property-description-small" ngClass.xs="property-description-xsmall" fxLayout="column">
           <div class="properties-subtitle" ngClass.gt-md="properties-subtitle-large" ngClass.md="properties-subtitle-medium"
-               ngClass.sm="properties-subtitle-small"ngClass.xs="properties-subtitle-xsmall">
+               ngClass.sm="properties-subtitle-small" ngClass.xs="properties-subtitle-xsmall">
             Easy, modern
             management
           </div>
           <div class="properties-text" ngClass.gt-md="properties-text-large" ngClass.md="properties-text-medium"
-               ngClass.sm="properties-text-small"ngClass.xs="properties-text-xsmall">
+               ngClass.sm="properties-text-small" ngClass.xs="properties-text-xsmall">
             Replace your printed
             procedures and stickey
             notes. Improve your
@@ -161,12 +174,12 @@
         <div ngClass.gt-md="property-description-large" ngClass.md="property-description-medium"
              ngClass.sm="property-description-small" ngClass.xs="property-description-xsmall" fxLayout="column">
           <div class="properties-subtitle" ngClass.gt-md="properties-subtitle-large" ngClass.md="properties-subtitle-medium"
-               ngClass.sm="properties-subtitle-small"ngClass.xs="properties-subtitle-xsmall">
+               ngClass.sm="properties-subtitle-small" ngClass.xs="properties-subtitle-xsmall">
             Pre loaded
             knowledge
           </div>
           <div class="properties-text" ngClass.gt-md="properties-text-large" ngClass.md="properties-text-medium"
-               ngClass.sm="properties-text-small"ngClass.xs="properties-text-xsmall">
+               ngClass.sm="properties-text-small" ngClass.xs="properties-text-xsmall">
             Your new ShaKE
             organization starts with an
             initial knowledge package,
@@ -188,11 +201,11 @@
         <div ngClass.gt-md="property-description-large" ngClass.md="property-description-medium"
              ngClass.sm="property-description-small" ngClass.xs="property-description-xsmall" fxLayout="column">
           <div class="properties-subtitle" ngClass.gt-md="properties-subtitle-large" ngClass.md="properties-subtitle-medium"
-               ngClass.sm="properties-subtitle-small"ngClass.xs="properties-subtitle-xsmall">
+               ngClass.sm="properties-subtitle-small" ngClass.xs="properties-subtitle-xsmall">
             Structured<br> data
           </div>
           <div class="properties-text" ngClass.gt-md="properties-text-large" ngClass.md="properties-text-medium"
-               ngClass.sm="properties-text-small"ngClass.xs="properties-text-xsmall">
+               ngClass.sm="properties-text-small" ngClass.xs="properties-text-xsmall">
             ShaKE documents are
             structured such that they
             are very easy to use.
@@ -207,11 +220,11 @@
         <div ngClass.gt-md="property-description-large" ngClass.md="property-description-medium"
              ngClass.sm="property-description-small" ngClass.xs="property-description-xsmall" fxLayout="column">
           <div class="properties-subtitle" ngClass.gt-md="properties-subtitle-large" ngClass.md="properties-subtitle-medium"
-               ngClass.sm="properties-subtitle-small"ngClass.xs="properties-subtitle-xsmall">
+               ngClass.sm="properties-subtitle-small" ngClass.xs="properties-subtitle-xsmall">
             Easy <br>to use
           </div>
           <div class="properties-text" ngClass.gt-md="properties-text-large" ngClass.md="properties-text-medium"
-               ngClass.sm="properties-text-small"ngClass.xs="properties-text-xsmall">
+               ngClass.sm="properties-text-small" ngClass.xs="properties-text-xsmall">
             ShaKE makes it super easy
             to manage your knowledge,
             by providing intuitive
@@ -288,7 +301,8 @@
         </div>
 
         <button class="contact-button" ngClass.gt-md="contact-button-large" ngClass.md="contact-button-medium"
-                ngClass.sm="contact-button-small" ngClass.xs="contact-button-xsmall" mat-button>START FOR FREE</button>
+                ngClass.sm="contact-button-small" ngClass.xs="contact-button-xsmall" mat-button
+                [disabled]="!currentUser || !currentUser.emailVerified" (click)="addOrganization()">START FOR FREE</button>
       </div>
 
     </div>
