@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {SK_ITEM_TYPE, SkDocData, SkItem, SkSection} from '../../model/document';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {SK_ITEM_TYPE, SkItem, SkSection} from '../../model/document';
+import {HttpClient} from '@angular/common/http';
 import {ReplaySubject} from 'rxjs/index';
 
 @Injectable()
@@ -141,18 +141,22 @@ export class DocumentService {
     const wordDoc: ReplaySubject<any> = new ReplaySubject(1);
 
     const fileReader = new FileReader();
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'text/plain',
-      })
-    };
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type':  'text/plain',
+    //   })
+    // };
 
     fileReader.readAsArrayBuffer(inFile);
 
     fileReader.onload = () => {
        this.http.post('https://kmrom.com/ShakeService/Services/v2/ParseDocx.aspx', fileReader.result)
         .subscribe(res => {
+          console.log(res);
           wordDoc.next(res) ;
+        }, err => {
+          wordDoc.error(err);
+          console.log(err);
         });
     };
 
@@ -198,10 +202,10 @@ export class DocumentService {
     str = str.replace(/\[(\w+)[^\]]*](.*?)\[\/\1]/g, '$2 ');
 
     // Remove other staff;
-    str = str.replace(/\&nbsp;/g, ' ');
-    str = str.replace(/\&quot;/g, ' ');
-    str = str.replace(/\&ndash;/g, ' ');
-    str = str.replace(/\&#39;/g, ' ');
+    str = str.replace(/&nbsp;/g, ' ');
+    str = str.replace(/&quot;/g, ' ');
+    str = str.replace(/&ndash;/g, ' ');
+    str = str.replace(/&#39;/g, ' ');
 
     return str;
   }

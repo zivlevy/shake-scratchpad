@@ -12,6 +12,7 @@ import {MatDialog, MatDialogRef} from '@angular/material';
 import {SelectDialogComponent} from '../../../shared/dialogs/select-dialog/select-dialog.component';
 import {DocAck} from '../../../model/document';
 import {DocumentService} from '../../document/document.service';
+import {ToasterService} from '../../../core/toaster.service';
 
 @Component({
   selector: 'sk-org-home',
@@ -39,6 +40,7 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private dialog: MatDialog,
+              private toasterService: ToasterService,
               private lngService: LanguageService) { }
 
   ngOnInit() {
@@ -109,12 +111,16 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
 
   getWordDoc(event) {
     const inFile = event.target.files[0];
+    this.toasterService.toastInfo('Document import started', 1000);
     this.docService.importWordDoc(inFile)
       .subscribe(res => {
+        this.toasterService.toastSuccess('Document import succeeded');
         const name = inFile.name.toString().slice(0, -5);
         const docToSave = this.docService.prepareDocToSave([{data: name, nodes: res.nodes}]);
         this.orgService.addDoc(docToSave);
-    });
+    }, err => {
+        this.toasterService.toastError('Document import failed');
+      });
 
   }
 

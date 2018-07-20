@@ -7,6 +7,8 @@
         <span *ngIf="!node.data.isDoc && node.isExpanded" fxFlex="20px"><i class="fa fa-folder-open-o"></i></span>
         <span *ngIf="!node.data.isDoc && !node.isExpanded" fxFlex="20px"><i class="fa fa-folder-o"></i></span>
 
+        <!--ToDo - test if OK-->
+        <!--was fxflex="calc(100% - 20px)"-->
         <span *ngIf="node.data.isDoc" style="width: calc(100% - 20px)">{{node.data.name}}</span>
         <span *ngIf="!node.data.isDoc" style="width: calc(100% - 20px)">{{node.data.name}}</span>
       </div>

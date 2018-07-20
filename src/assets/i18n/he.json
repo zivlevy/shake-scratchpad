@@ -87,6 +87,9 @@
   "Org Home": "========= Org Home =========",
   "New Document": "מסמך חדש",
   "Import Word Document": "יבוא מסמך ms-word",
+  "Document import started": "יבוא מסמך החל",
+  "Document import succeeded": "יבוא מסמך הצליח",
+  "Document import failed": "יבוא מסמך נכשל",
   "Documents Tree": "עץ מסמכים",
 
   "Org Admin Users component": "========= Org Admin User Component=========",
