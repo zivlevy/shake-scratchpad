@@ -59,7 +59,7 @@ export class OrgHomeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(user => this.currentOrgUser = user);
 
-    this.org.bannerUrl = 'assets/img/shake banner.png';
+    this.org.bannerUrl = '';
 
     // get org public data
     this.orgService.getOrgPublicData$()

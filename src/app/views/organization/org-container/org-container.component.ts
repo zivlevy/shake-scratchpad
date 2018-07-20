@@ -82,8 +82,8 @@ export class OrgContainerComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.org.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
-    this.org.bannerUrl = 'assets/img/shake banner.png';
+    this.org.logoUrl = '';
+    this.org.bannerUrl = '';
 
     // get org public data
     this.orgService.getOrgPublicData$()

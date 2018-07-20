@@ -86,7 +86,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
 
 
     // default logo
-    this.logoUrl = 'assets/img/shake-logo/logo_no_text.svg';
+    this.logoUrl = 'assets/logo/notext-big.png';
     this.bannerUrl = 'assets/img/shake banner.png';
     // get current org
     this.orgService.getOrgPublicData$()
