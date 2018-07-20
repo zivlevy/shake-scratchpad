@@ -1,11 +1,11 @@
 <div fxLayout="column" [ngClass]="'table-page-small'" [ngClass.gt-sm]="'table-page-big'">
 
-  <mat-card fxFlex="1 1 100%">
+  <mat-card>
 
     <h1 > {{ 'Read & Sign Edit' | translate}}</h1>
     <form [formGroup]="docAckForm">
 
-      <div class="first-row" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="center center" fxLayoutAlign.gt-xs="space-evenly">
+      <div class="first-row" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="center center" fxLayoutAlign.gt-xs="space-around">
         <div>
           <mat-form-field>
             <!--<input matInput type="text" id="name" [(ngModel)]="docAckName"-->

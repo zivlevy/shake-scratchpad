@@ -1,10 +1,10 @@
 <div fxLayout="column" [ngClass]="'table-page-small'" [ngClass.gt-sm]="'table-page-big'">
 
-  <mat-card fxFlex="1 1 100%">
+  <mat-card >
 
     <h1 > {{ 'Read & Sign items Management' | translate}}</h1>
 
-    <div class="top-row" fxLayout="row" fxLayoutAlign="space-evenly">
+    <div class="top-row" fxLayout="row" fxLayoutAlign="space-around">
       <button mat-raised-button (click)="addReadAck()"
               class="btn-hover-accent btn-responsive"
               matTooltip="{{'Add Read & Sign' | translate}}" matTooltipPosition="after">

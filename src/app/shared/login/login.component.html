@@ -17,7 +17,7 @@
            fxLayout="column" fxLayoutAlign="center center">
 
         <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form"
-              fxLayout="column" fxLayoutAlign="space-around center" fxLayoutAlign.gt-sm="space-aroundy start">
+              fxLayout="column" fxLayoutAlign="space-around center" fxLayoutAlign.gt-sm="space-around start">
           <div>
             <mat-form-field>
               <input matInput type="email" id="email"
@@ -47,7 +47,7 @@
 
 
       <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'"
-           fxLayout="column" fxLayoutAlign="space-evenly center">
+           fxLayout="column" fxLayoutAlign="space-around center">
 
         <img class="login-icon" src="assets/icons/icon-250.png"  fxHide.lt-sm>
 

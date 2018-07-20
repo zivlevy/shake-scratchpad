@@ -10,10 +10,10 @@
       </mat-card-title>
     </mat-card-header>
 
-    <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly" fxLayout.gt-sm="row" >
+    <mat-card-content fxLayout="column" fxLayoutAlign="space-around" fxLayout.gt-sm="row" >
 
       <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'"
-           fxLayout="column" fxLayoutAlign="space-evenly center">
+           fxLayout="column" fxLayoutAlign="space-around center">
 
         <!--Logo Display-->
         <div id="logo-view" *ngIf="!inLogoEdit" fxLayout="column"  fxLayoutAlign="center center">
@@ -24,7 +24,7 @@
         </div>
 
         <!--Logo Entry -->
-        <div id="logo-edit" *ngIf="inLogoEdit" fxLayout="column"  fxLayoutAlign="space-evenly center">
+        <div id="logo-edit" *ngIf="inLogoEdit" fxLayout="column"  fxLayoutAlign="space-around center">
           <div id="logo-cropper">
             <img-cropper [image]="logoData" [settings]="logoCropperSettings"></img-cropper>
           </div>
@@ -49,7 +49,7 @@
         </div>
 
         <!--Banner Edit-->
-        <div id="banner-edit" *ngIf="inBannerEdit" fxLayout="column"  fxLayoutAlign="space-evenly center">
+        <div id="banner-edit" *ngIf="inBannerEdit" fxLayout="column"  fxLayoutAlign="space-around center">
           <div id="banner-cropper">
             <img-cropper [image]="bannerData" [settings]="bannerCropperSettings"></img-cropper>
           </div>
@@ -71,7 +71,7 @@
       <div [ngClass]="'card-panel-small'" [ngClass.gt-sm]="'card-panel-big'">
 
         <form [formGroup]="orgManagementForm" id="org-admin-form"
-              fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutAlign.gt-sm="space-evenly start">
+              fxLayout="column" fxLayoutAlign="space-around center" fxLayoutAlign.gt-sm="space-around start">
           <div>
             <mat-form-field>
               <input matInput type="text" id="orgName" [(ngModel)]="orgName"
