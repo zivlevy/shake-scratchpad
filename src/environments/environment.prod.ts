@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  version: '0.4.8',
+  version: '0.5.0',
   domain: {
     name: 'https://shake.network'
     // name: 'https://shake-sb.firebaseapp.com'
@@ -14,7 +14,8 @@ export const environment = {
     messagingSenderId: '482709151534'
   },
   algolia: {
-    appId: '92TRHQM8TY'
+    appId: '92TRHQM8TY',
+    searchKey: 'f0fa6b855c897e0b12e314be6fd5c805'
 
   },
   froala: {

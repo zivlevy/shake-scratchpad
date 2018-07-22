@@ -56,7 +56,9 @@ export const userAddOrg = functions.firestore.document(`users/{uid}/orgs/{orgId}
                 },
                 displayName: user.data().displayName,
                 email: user.data().email,
-                photoURL: user.data().photoURL ? user.data().photoURL : ''
+                photoURL: user.data().photoURL ? user.data().photoURL : '',
+                dateJoined: new Date().toDateString()
+
             });
             return Promise.all([inviteRefDelete, orgUserSet])
               .catch(err => console.log(err));

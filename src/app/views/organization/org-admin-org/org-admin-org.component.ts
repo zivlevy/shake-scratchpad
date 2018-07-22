@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CropperSettings} from 'ng2-img-cropper';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LanguageService} from '../../../core/language.service';
 import {OrgService} from '../org.service';
 import {ImageService} from '../../../core/image.service';
@@ -38,8 +38,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder,
               private orgService: OrgService,
               private lngService: LanguageService,
-              private imageService: ImageService,
-              private router: Router) {
+              private imageService: ImageService) {
 
     this.logoCropperSettings = new CropperSettings();
     this.logoCropperSettings.width = 50;
@@ -62,6 +61,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
     this.logoData = {};
     this.bannerData = {};
     this.tempData = {};
+
   }
 
   ngOnInit() {
@@ -72,22 +72,24 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
       }, [
         Validators.required
       ]],
-      'orgName': ['', [
+      'orgName': [{
+        value: this.orgName
+      }, [
         Validators.required
       ]],
       'language': ['', [
         Validators.required
       ]],
-      'orgEmailControl': ['', [
+      'orgEmailControl': [{
+        value: this.orgEmail
+      }, [
         Validators.required,
         Validators.email
       ]]
     });
 
 
-    // default logo
-    this.logoUrl = 'assets/logo/notext-big.png';
-    this.bannerUrl = 'assets/img/shake banner.png';
+
     // get current org
     this.orgService.getOrgPublicData$()
       .pipe(takeUntil(this.destroy$))
@@ -100,12 +102,16 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
           this.orgHome = '/org/' + org.orgId;
           this.lang = org.language;
           this.orgManagementForm.controls['language'].setValue(this.lang);
+          this.orgManagementForm.controls['orgName'].setValue(this.orgName);
+          this.orgManagementForm.controls['orgEmailControl'].setValue(this.orgEmail);
+
           this.logoUrl = org.logoURL;
           this.bannerUrl = org.bannerURL;
         }}) ;
 
 
   }
+
   get orgEmailControl() {
     return this.orgManagementForm.get('orgEmailControl');
   }
@@ -141,6 +147,7 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
   }
 
   bannerSaveClicked() {
+    console.log('here');
     this.imageService.uploadOrgBanner(this.bannerData.image, this.orgId)
       .then((downloadUrl) => {
         this.inBannerEdit = false;
@@ -201,14 +208,14 @@ export class OrgAdminOrgComponent implements OnInit, OnDestroy {
   }
 
 
-  setLng(lng) {
-    this.lngService.setLanguadge(lng);
-    if (lng === 'en') {
-      this.orgManagementForm.controls['language'].setValue('English');
-    } else {
-      this.orgManagementForm.controls['language'].setValue('Hebrew');
-    }
-  }
+  // setLng(lng) {
+  //   this.lngService.setLanguadge(lng);
+  //   if (lng === 'en') {
+  //     this.orgManagementForm.controls['language'].setValue('English');
+  //   } else {
+  //     this.orgManagementForm.controls['language'].setValue('Hebrew');
+  //   }
+  // }
 
   ngOnDestroy() {
     // force unsubscribe

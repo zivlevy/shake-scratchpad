@@ -13,5 +13,6 @@ export interface OrgUser {
     displayName?: string;
     photoURL?: string;
     roles?: OrgRoles;
+    dateJoined: string;
 }
 

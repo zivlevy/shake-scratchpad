@@ -133,7 +133,8 @@ export class OrgService {
       roles: {}, // must be empty object for permission
       displayName: user.displayName,
       email: user.email,
-      photoURL: user.photoURL ? user.photoURL : ''
+      photoURL: user.photoURL ? user.photoURL : '',
+      dateJoined: new Date().toDateString()
     };
     const orgUserRef = this.afs.doc(`org/${this.currentOrg$.getValue()}/users/${user.uid}`).set(data);
     return Promise.all([userOrgRef, orgUserRef]);

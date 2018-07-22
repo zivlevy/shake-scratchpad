@@ -5,7 +5,7 @@ import {CropperSettings} from 'ng2-img-cropper';
 import {ImageService} from '../../core/image.service';
 import {ToasterService} from '../../core/toaster.service';
 import {takeUntil} from 'rxjs/operators';
-import {EmailService} from "../../core/email.service";
+import {EmailService} from '../../core/email.service';
 
 
 @Component({
@@ -113,7 +113,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   uploadSingle() {
-    console.log(this.data, this.data.image);
     this.imageService.uploadUserImg(this.data.image, this.currentSkUser.uid)
       .then(() => {
         this.isEditImage = false;

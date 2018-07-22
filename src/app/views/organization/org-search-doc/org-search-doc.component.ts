@@ -41,7 +41,11 @@ export class OrgSearchDocComponent implements OnInit, OnDestroy {
     // get current org
     this.orgService.getCurrentOrg$()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(org => this.currentOrg = org);
+      .subscribe(org => {
+        this.currentOrg = org;
+        this.searchTerm = '';
+        this.documents = [];
+      });
 
     // get current orgUser
     this.orgService.getOrgUser$()

@@ -29,11 +29,15 @@ export class ImageService {
     return new Promise((resolve, reject) => {
       const storageRef = this.fb.storage().ref();
       storageRef.child(`${this.usersImagePath}/${userId}`)
-        .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
-        console.log(snapshot);
-        this.authService.updateUserProfile( this.currentAuthUser.uid, null,  snapshot.downloadURL).then(() => {
-          resolve();
-        });
+        .putString(img, 'data_url', {contentType: 'image/png'}).then(() => {
+        storageRef.child(`${this.usersImagePath}/${userId}`).getDownloadURL()
+          .then(url => {
+            this.authService.updateUserProfile( this.currentAuthUser.uid, null,  url).then(() => {
+              resolve();
+            });
+          });
+
+
       }).catch(err => reject(err));
     });
   }
@@ -42,9 +46,11 @@ export class ImageService {
     return new Promise<string>((resolve, reject) => {
       const storageRef = this.fb.storage().ref();
       storageRef.child(`${this.orgImagePath}/${orgId}logo.png`)
-        .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
-        console.log(snapshot.downloadURL);
-        resolve(snapshot.downloadURL);
+        .putString(img, 'data_url', {contentType: 'image/png'}).then(() => {
+        storageRef.child(`${this.orgImagePath}/${orgId}logo.png`).getDownloadURL()
+          .then(url => {
+            resolve(url);
+          });
       }).catch(err => reject(err));
     });
   }
@@ -77,9 +83,11 @@ export class ImageService {
     return new Promise<string>((resolve, reject) => {
       const storageRef = this.fb.storage().ref();
       storageRef.child(`${this.orgImagePath}/${orgId}banner.png`)
-        .putString(img, 'data_url', {contentType: 'image/png'}).then((snapshot) => {
-        console.log(snapshot.downloadURL);
-        resolve(snapshot.downloadURL);
+        .putString(img, 'data_url', {contentType: 'image/png'}).then(() => {
+        storageRef.child(`${this.orgImagePath}/${orgId}banner.png`).getDownloadURL()
+          .then(url => {
+            resolve(url);
+          });
       }).catch(err => reject(err));
     });
   }

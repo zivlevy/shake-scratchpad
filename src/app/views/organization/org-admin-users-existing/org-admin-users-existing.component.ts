@@ -8,6 +8,7 @@ import {OrgUser} from '../../../model/org-user';
 import {ConfirmDialogComponent} from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import {ToasterService} from '../../../core/toaster.service';
 import {takeUntil} from 'rxjs/operators';
+import {InfoDialogComponent} from '../../../shared/dialogs/info-dialog/info-dialog.component';
 
 @Component({
   selector: 'sk-org-admin-users-existing',
@@ -17,6 +18,7 @@ import {takeUntil} from 'rxjs/operators';
 export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
 
   confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
+  infoDialogRef: MatDialogRef<InfoDialogComponent>;
 
   currentUser: OrgUser;
   orgId: string;
@@ -155,8 +157,19 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
             });
         }
       });
+  }
 
-
+  userInfo(element) {
+    console.log(element);
+    this.infoDialogRef = this.dialog.open(InfoDialogComponent, {
+      data: {
+        header: element.displayName,
+        lines: [
+          'Email: ' + element.email,
+          'date joined: ' + element.dateJoined
+        ]
+      }
+    });
   }
 
 

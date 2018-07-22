@@ -20,6 +20,7 @@ import { InputDialogComponent } from './dialogs/input-dialog/input-dialog.compon
 import { NotAuthenticatedComponent } from './not-authenticated/not-authenticated.component';
 import { ScreenTooSmallComponent } from './screen-too-small/screen-too-small.component';
 import { SelectDialogComponent } from './dialogs/select-dialog/select-dialog.component';
+import { InfoDialogComponent } from './dialogs/info-dialog/info-dialog.component';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import { SelectDialogComponent } from './dialogs/select-dialog/select-dialog.com
     InputDialogComponent,
     NotAuthenticatedComponent,
     ScreenTooSmallComponent,
-    SelectDialogComponent
+    SelectDialogComponent,
+    InfoDialogComponent
   ],
   exports: [
     SpinnerComponent,
@@ -54,12 +56,14 @@ import { SelectDialogComponent } from './dialogs/select-dialog/select-dialog.com
     NavUserComponent,
     NavAdminComponent,
     CheckboxComponent,
-    DeleteApproveComponent
+    DeleteApproveComponent,
+    InfoDialogComponent
   ],
   entryComponents: [
     ConfirmDialogComponent,
     InputDialogComponent,
-    SelectDialogComponent
+    SelectDialogComponent,
+    InfoDialogComponent
   ]
 })
 

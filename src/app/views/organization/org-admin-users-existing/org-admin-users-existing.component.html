@@ -13,14 +13,14 @@
     </ng-container>
 
     <ng-container matColumnDef="photo">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> {{'Photo' | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let element"> <img *ngIf="element.photoURL"
                                                 class="user-img rounded-circle img-fluid" [src]="element.photoURL" alt=""> </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="displayName">
       <mat-header-cell *matHeaderCellDef>  {{'Display Name' | translate}}</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.displayName}} </mat-cell>
+      <mat-cell *matCellDef="let element" > {{element.displayName}}  </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="isAdmin">
@@ -28,7 +28,7 @@
       <mat-cell *matCellDef="let element">
         <mat-checkbox [checked]="element.roles.admin"
                       [disabled]="currentUser && currentUser.uid === element.uid || element.roles.admin && !element.roles.editor && !element.roles.viewer && !element.isPending"
-                      (change) = "isAdminClicked(element.id, $event)" >
+                      (change) = "isAdminClicked(element.id, $event)">
 
         </mat-checkbox>
       </mat-cell>
@@ -61,9 +61,14 @@
       <mat-header-cell *matHeaderCellDef> {{'Actions' | translate}}</mat-header-cell>
       <mat-cell  *matCellDef="let element" style="overflow: visible">
         <button mat-raised-button class="btn-hover-warn"
-                matTooltip="{{'User Delete' | translate}}" matTooltipPosition="after"
+                matTooltip="{{'User Delete' | translate}}" matTooltipPosition="above"
                 (click)="userDeleted(element.id)">
           <i class="fa fa-trash"></i>
+        </button>
+        <button mat-raised-button class="btn-hover-accent"
+                matTooltip="{{'User Info' | translate}}" matTooltipPosition="above"
+                (click)="userInfo(element)">
+          <i class="fa fa-info"></i>
         </button>
       </mat-cell>
     </ng-container>
