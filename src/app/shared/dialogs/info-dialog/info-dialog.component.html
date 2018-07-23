@@ -1,0 +1,11 @@
+<div [ngStyle]="{'direction': direction}">
+  <div mat-dialog-title >{{infoHeader | translate}}</div>
+  <div class="wrapper">
+    <ul *ngFor="let line of infoLines">
+      <li> {{ line }} </li>
+    </ul>
+    <div mat-dialog-actions class="pt-24" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="30px">
+      <button mat-raised-button class="mat-accent mr-16" (click)="dialogRef.close(true)" [innerHTML]="'Ok' | translate"></button>
+    </div>
+  </div>
+</div>

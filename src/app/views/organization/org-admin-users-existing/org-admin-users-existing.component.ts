@@ -160,7 +160,6 @@ export class OrgAdminUsersExistingComponent implements OnInit, OnDestroy {
   }
 
   userInfo(element) {
-    console.log(element);
     this.infoDialogRef = this.dialog.open(InfoDialogComponent, {
       data: {
         header: element.displayName,
