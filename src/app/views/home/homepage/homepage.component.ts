@@ -5,6 +5,8 @@ import { AuthService } from '../../../core/auth.service';
 import {takeUntil} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
 import {HomeService} from '../home.service';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {InfoDialogComponent} from '../../../shared/dialogs/info-dialog/info-dialog.component';
 
 @Component({
   selector: 'sk-homepage',
@@ -17,9 +19,12 @@ export class HomepageComponent implements OnInit, OnDestroy {
   currentUser: any;
   version: string;
 
+  infoDialogRef: MatDialogRef<InfoDialogComponent>;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private homeService: HomeService,
+              private dialog: MatDialog,
               public authService: AuthService) {
 
 
@@ -46,9 +51,26 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   appTest() {
-    this.homeService.algoliaTest()
+
+
+    const algoliaTest = this.homeService.algoliaTest();
+    const lines = [];
+
+    Promise.all([algoliaTest])
       .then(res => {
-        console.log('Algolia is Ok');
+        console.log(res);
+        if (res[0]) {
+          lines.push('Algolia is Ok');
+        } else {
+          lines.push('Algolia com problem');
+        }
+        // console.log(res, 'Algolia is Ok');
+        this.infoDialogRef = this.dialog.open(InfoDialogComponent, {
+          data: {
+            header: 'API Test',
+            lines: lines
+          }
+        });
       })
       .catch(err => console.log(err));
   }

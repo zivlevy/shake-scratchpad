@@ -14,6 +14,11 @@
         <mat-icon>edit</mat-icon>
       </button>
 
+      <!-- Print BUTTON-->
+      <button mat-button class="rightside-buttons mat-icon-button" (click)="printDoc()"
+              matTooltip="{{'Print Doc' | translate}}" matTooltipPosition="above">
+        <mat-icon>print</mat-icon>
+      </button>
 
       <!-- Signature Required -->
       <button *ngIf="docAckId" mat-button class="rightside-buttons mat-icon-button" (click)="signDocument()"
@@ -76,7 +81,7 @@
   </div>
 
   <!-- DOC VIEWER-->
-  <sk-doc-viewer *ngIf="!isTaskView" [isSearch]="isSearch" [searchPhrase]="searchPhrase" [docJson]="currentEditData?.data"
+  <sk-doc-viewer id="doc-body" *ngIf="!isTaskView" [isSearch]="isSearch" [searchPhrase]="searchPhrase" [docJson]="currentEditData?.data"
                  [isRTL]="rtl" [isNumbering]="isNumbering" [isDocMap]="isDocMap">
   </sk-doc-viewer>
   <sk-task-viewer *ngIf="isTaskView" [docJson]="currentEditData?.data" [isRTL]="rtl" [isNumbering]="isNumbering" [isDocMap]="isDocMap"></sk-task-viewer>

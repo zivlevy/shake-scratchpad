@@ -77,16 +77,16 @@ export class AlgoliaService {
     const client = algoliasearch(this.algoliaAppId, this.algoliaSearchKey);
     const index = client.initIndex('_algoliaTestIndex');
 
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<boolean>((resolve) => {
       index.search('data')
         .then(res => {
           resolve(true);
         })
         .catch(err => {
-          reject(err);
+          resolve(false);
           console.log(err);
         });
-    })
+    });
 
   }
 

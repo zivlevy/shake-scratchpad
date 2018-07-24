@@ -1,4 +1,9 @@
 @import "../../../../app/core/scss/shake";
+
+ul {
+  list-style: none;
+}
+
 .mat-dialog-title {
 
   background-color: $sk-primary-light;
