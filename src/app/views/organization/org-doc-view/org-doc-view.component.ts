@@ -135,11 +135,12 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
           <title>Print tab</title>
           <style>`);
     if (this.rtl) {
-      popupWin.document.write('* {direction: rtl}');
+      popupWin.document.write('* {direction: rtl; margin-right: 10px; margin-left:10px}');
     } else {
       popupWin.document.write('* {direction: ltr}');
     }
     popupWin.document.write(`
+          .section {  font-size: 18px; font-weight: bold;}
           .item-warning {color: red}
           </style>
         </head>
