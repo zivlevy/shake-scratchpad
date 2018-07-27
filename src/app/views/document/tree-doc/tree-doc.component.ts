@@ -297,12 +297,8 @@ export class TreeDocComponent implements OnInit, OnChanges {
       }, 0);
     }
     // create saved representation of doc
-    // const docToSave = this.makeTempDoc(this.nodes[0]);
     const docToSave = this.documentService.prepareDocToSave(this.nodes);
 
-    // add doc name from root node
-    // docToSave['name'] = this.stripHtml(this.nodes[0].data);
-    // docToSave['plainTextSize'] = docToSave.plainText.length;
 
     return docToSave;
 

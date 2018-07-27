@@ -39,7 +39,7 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
 
   confirmDialogRef: MatDialogRef<ConfirmDialogComponent>;
   docAckId: string = null;
-  isTaskView: boolean = false;
+  isSectionView: boolean = false;
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
               private orgService: OrgService,
@@ -152,8 +152,8 @@ export class OrgDocViewComponent implements OnInit, OnDestroy {
   }
 
   toggleSectionView() {
-    this.isTaskView = !this.isTaskView;
-    if (this.isTaskView) {
+    this.isSectionView = !this.isSectionView;
+    if (this.isSectionView) {
       this.isSearch = false;
       this.searchPhrase = '';
     }

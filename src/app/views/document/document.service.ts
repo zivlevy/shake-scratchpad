@@ -180,20 +180,27 @@ export class DocumentService {
     if (treeNode.nodes) {
       const section: SkSection = new SkSection();
       plainText.plainText += ' ' + this.stripHtml(treeNode.data);
-      section.data = treeNode.data;
+      section.data = this.arrangeHtml(treeNode.data);
       treeNode.nodes.forEach(node => {
         section.nodes.push(this.treeNodeToSkSection(node, plainText));
       });
       return section;
     } else {
       const item: SkItem = new SkItem();
-      item.data = treeNode.data;
+      item.data = this.arrangeHtml(treeNode.data);
       plainText.plainText += ' ' + this.stripHtml(treeNode.data);
       item.type = treeNode.type ? treeNode.type : SK_ITEM_TYPE.SK_ITEM_TYPE_INFO;
       return item;
     }
   }
 
+  arrangeHtml(str) {
+    str = str.replace(/&quot;/g, '" ');
+
+    return str;
+  }
+
+  // strip HTML to create plainText
   stripHtml(str) {
     // Remove some tags
     str = str.replace(/<[^>]+>/gim, ' ');

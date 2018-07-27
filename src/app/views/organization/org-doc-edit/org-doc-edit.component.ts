@@ -9,7 +9,7 @@ import {MatDialog, MatDialogRef} from '@angular/material';
 import {PublishDialogComponent} from '../dialogs/publish-dialog/publish-dialog.component';
 
 import {filter, takeUntil, switchMap} from 'rxjs/operators';
-import {ToasterService} from "../../../core/toaster.service";
+import {ToasterService} from '../../../core/toaster.service';
 
 @Component({
   selector: 'sk-org-doc-edit',
@@ -54,7 +54,7 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    // direcrtion
+    // direction
     this.lngService.getDirection$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(dir => this.rtl = (dir === 'rtl'));
@@ -157,7 +157,8 @@ export class OrgDocEditComponent implements OnInit, OnDestroy {
 
   publishDocument() {
     this.isSearch = false;
-    const docData = this.editor.getDoc(true);
+    const docData = this.editor.getDoc(true)
+    console.log(docData);
     if (this.currentDoc && this.currentDoc.uid) {
       this.publishDialogRef = this.dialog.open(PublishDialogComponent);
 
